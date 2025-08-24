@@ -239,3 +239,135 @@ body {
 * {
   transition: colors 200ms ease-in-out;
 }
+
+/* Custom animations */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+  100% {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  100% {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+/* Enhanced dropdown animations */
+.dropdown-open {
+  animation: slideDown 0.5s ease-in-out forwards;
+}
+
+.dropdown-closed {
+  animation: slideUp 0.3s ease-in-out forwards;
+}
+
+/* Ensure smooth grid row transitions */
+.grid-transition {
+  transition: grid-template-rows 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  display: grid;
+}
+
+.grid-transition[data-state="open"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.grid-transition[data-state="closed"] {
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+
+/* Custom grid row utilities for smooth collapsing */
+.grid-rows-0 {
+  grid-template-rows: 0fr;
+}
+
+.grid-rows-1 {
+  grid-template-rows: 1fr;
+}
+
+/* Smooth transition for expandable content */
+.expandable {
+  display: grid;
+  transition: grid-template-rows 400ms cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  will-change: grid-template-rows, opacity;
+}
+
+.expandable.expanded {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.expandable.collapsed {
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+
+/* Content wrapper for grid animations */
+.expandable-content {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Button hover animations */
+.section-button {
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, background-color;
+}
+
+.section-button:hover {
+  transform: translateY(-1px);
+}
+
+.item-button {
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, background-color;
+}
+
+.item-button:hover {
+  transform: translateY(-0.5px);
+}
+
+/* Enhanced fade-in animation for "You're All Caught Up!" text */
+@keyframes smoothFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-smooth-fade-in {
+  animation: smoothFadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}

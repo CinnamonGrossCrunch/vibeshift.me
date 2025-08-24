@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Lottie from 'lottie-react';
 import animationData from '../../public/Gross-Haas-Click.json';
 
@@ -10,12 +10,9 @@ type Payload = { sourceUrl: string; title?: string; sections: Section[] };
 
 export default function NewsletterWidget({ data }: { data: Payload }) {
   const [open, setOpen] = useState<Record<string, boolean>>({});
-  const [visited, setVisited] = useState<Set<number>>(new Set());
   const [itemVisited, setItemVisited] = useState<Set<string>>(new Set());
   const [itemOpen, setItemOpen] = useState<Record<string, boolean>>({});
-
-  // Calculate progress metrics
-  const unopenedSectionsCount = data.sections.filter((_, index) => !visited.has(index)).length;
+  const [showCaughtUpText, setShowCaughtUpText] = useState(false);
 
   // Function to split items by <strong> tags to create subsections
   const createSubsections = (items: Item[]) => {
@@ -134,6 +131,22 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     
     return visitedSubsections === totalSubsections;
   };
+
+  // Calculate progress metrics - only count sections as "read" when ALL subsections are visited
+  const unopenedSectionsCount = data.sections.filter((_, index) => !allItemsInSectionVisited(index)).length;
+
+  // Handle the "You're All Caught Up!" text delay
+  useEffect(() => {
+    if (unopenedSectionsCount === 0) {
+      const timer = setTimeout(() => {
+        setShowCaughtUpText(true);
+      }, 2000); // Start fade-in at 2 seconds
+      
+      return () => clearTimeout(timer);
+    } else {
+      setShowCaughtUpText(false);
+    }
+  }, [unopenedSectionsCount]);
 
     // Smart bulleting function with enhanced HTML hierarchy
   const addSmartBullets = (html: string) => {
@@ -388,7 +401,6 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
             <div className="text-right">
               {unopenedSectionsCount === 0 ? (
                 <div className="text-center">
-                  <div className="text-xs urbanist-medium whitespace-nowrap" style={{ color: 'white' }}>You&apos;re All<br />Caught Up!</div>
                <div className="text-xl sm:text-2xl urbanist-bold" style={{ color: 'var(--berkeley-gold)' }}>
                     <Lottie 
                       animationData={animationData}
@@ -397,6 +409,17 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                       className="w-12 h-12 sm:w-16 sm:h-16 mx-auto"
                     />
                   </div>
+                  {showCaughtUpText && (
+                    <div 
+                      className="text-xs urbanist-medium whitespace-nowrap animate-smooth-fade-in" 
+                      style={{ 
+                        color: 'white'
+                      }}
+                    >
+                      You&apos;re All<br />Caught Up!
+                    </div>
+                  )}
+               
                 </div>
               ) : (
                 <div className=" rounded-xl sm:rounded-2xl p-1.5 sm:p-2 shadow-lg bg-gradient-to-b from-gray-900/50 to-gray-900/10 text-center" style={{ borderColor: 'var(--berkeley-gold)', boxShadow: '0 -2px 20px 2px rgba(255, 255, 255, 0.2)' }}>
@@ -428,9 +451,6 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
             <div key={id} className={`border-b border-slate-200 dark:border-slate-700 ${idx === data.sections.length - 1 ? 'border-b-0 rounded-b-2xl overflow-hidden' : ''}`}>
               <button
                 onClick={() => {
-                  if (!visited.has(idx)) {
-                    setVisited(new Set([...visited, idx]));
-                  }
                   // Auto-collapse: close all other sections
                   const newOpen: Record<string, boolean> = {};
                   if (!isOpen) {
@@ -440,7 +460,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                   // Also close all item dropdowns when switching sections
                   setItemOpen({});
                 }}
-                className={`w-full text-left px-6 py-4 bg-gradient-to-r from-slate-50 to-blue-50 hover:from-blue-50 hover:to-amber-50 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 transition-all duration-300 ease-in-out flex items-center justify-between group transform hover:scale-[1.01] ${idx === data.sections.length - 1 && !isOpen ? 'rounded-b-2xl' : ''}`}
+                className={`section-button w-full text-left px-6 py-4 bg-gradient-to-r from-slate-50 to-blue-50 hover:from-blue-50 hover:to-amber-50 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 transition-all duration-300 ease-in-out flex items-center justify-between group ${idx === data.sections.length - 1 && !isOpen ? 'rounded-b-2xl' : ''}`}
               >
                 <div className="flex items-center space-x-3">
                   {allItemsInSectionVisited(idx) ? (
@@ -467,24 +487,25 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                        
                       </span>
                     ) : (
-                      <span className="bg-blue-900 dark:bg-blue-900 shadow-sm px-2 py-1 rounded-full urbanist-medium" style={{ color: 'var(--berkeley-gold)', boxShadow: '0 1px 3px 0 rgba(251, 181, 21, 0.4)' }}>
+                        <span
+                        className="px-2 py-1 rounded-full urbanist-medium"
+                        style={{ backgroundColor: 'var(--berkeley-blue)', color: 'var(--berkeley-gold)' }}
+                        >
                         {sectionTotalCount - sectionVisitedCount}/{sectionTotalCount} unread
-                      </span>
+                        </span>
                     )}
                   </div>
                 </div>
               </button>
               
               <div 
-                className={`grid transition-all duration-500 ease-in-out ${
-                  isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                className={`expandable ${
+                  isOpen ? 'expanded' : 'collapsed'
                 }`}
               >
-                <div className="overflow-hidden">
+                <div className="expandable-content">
                   <div className={`border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 ${idx === data.sections.length - 1 ? 'rounded-b-2xl' : ''}`}>
-                    <div className={`px-8 py-4 space-y-3 transition-all duration-500 ease-in-out transform ${
-                      isOpen ? 'translate-y-0 scale-100' : '-translate-y-4 scale-95'
-                    } ${idx === data.sections.length - 1 ? 'pb-6' : ''}`}>
+                    <div className={`px-8 py-4 space-y-3 ${idx === data.sections.length - 1 ? 'pb-6' : ''}`}>
                       {createSubsections(sec.items).map((subsection, j) => {
                         const itemKey = `${idx}-${j}`;
                         const itemId = `${id}-item-${j}`;
@@ -508,7 +529,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                                   }
                                   setItemOpen(newItemOpen);
                                 }}
-                                className="w-full text-left px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-600/50 transition-all duration-300 ease-in-out flex items-center justify-between group rounded-lg transform hover:scale-[1.01]"
+                                className="item-button w-full text-left px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-600/50 transition-all duration-300 ease-in-out flex items-center justify-between group rounded-lg"
                               >
                                 <div className="flex items-center space-x-3">
                                   {/* Pulsing yellow/green indicator only */}
@@ -540,15 +561,13 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                               </button>
                               
                               <div 
-                                className={`grid transition-all duration-500 ease-in-out ${
-                                  isItemOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                                className={`expandable ${
+                                  isItemOpen ? 'expanded' : 'collapsed'
                                 }`}
                               >
-                                <div className="overflow-hidden">
+                                <div className="expandable-content">
                                   <div className="border-t border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 rounded-b-lg">
-                                    <div className={`px-6 py-4 cursor-pointer transition-all duration-500 ease-in-out transform ${
-                                      isItemOpen ? 'translate-y-0 scale-100' : '-translate-y-2 scale-95'
-                                    }`}
+                                    <div className="px-6 py-4 cursor-pointer"
                                       onClick={() => {
                                         if (!isItemVisited) {
                                           setItemVisited(new Set([...itemVisited, itemKey]));
