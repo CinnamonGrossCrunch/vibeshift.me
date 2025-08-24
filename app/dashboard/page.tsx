@@ -1,4 +1,6 @@
+import { Suspense } from 'react';
 import NewsletterWidget from '../components/NewsletterWidget';
+import Link from 'next/link';
 
 type NewsletterData = {
   sourceUrl: string;
@@ -60,12 +62,12 @@ export default async function DashboardPage() {
             </div>
             <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Unable to Load Newsletter</h1>
             <p className="text-red-600 dark:text-red-400 mb-6">Failed to load the latest newsletter data.</p>
-            <a 
+            <Link 
               href="/" 
               className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-900 to-blue-800 text-white font-semibold rounded-xl hover:from-blue-800 hover:to-blue-700 transition-all duration-200"
             >
               ← Back to Home
-            </a>
+            </Link>
           </div>
         </main>
       </div>
@@ -84,12 +86,12 @@ export default async function DashboardPage() {
               </div>
               <span className="text-xl font-semibold text-slate-900 dark:text-white">Newsletter Dashboard</span>
             </div>
-            <a 
+            <Link 
               href="/" 
               className="text-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
               ← Back to Home
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -15,8 +15,6 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
   const [itemOpen, setItemOpen] = useState<Record<string, boolean>>({});
 
   // Calculate progress metrics
-  const totalItems = data.sections.reduce((sum, section) => sum + section.items.length, 0);
-  const visitedItemsCount = itemVisited.size;
   const unopenedSectionsCount = data.sections.filter((_, index) => !visited.has(index)).length;
 
   // Function to split items by <strong> tags to create subsections
@@ -156,7 +154,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     const listPattern = /(<ul>[\s\S]*?<\/ul>|<ol>[\s\S]*?<\/ol>)/g;
     const parts = processedHtml.split(listPattern);
     
-    let processedParts: string[] = [];
+    const processedParts: string[] = [];
     
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i];
@@ -208,7 +206,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     // Handle unordered lists with enhanced styling
     processedHtml = processedHtml.replace(/<ul>([\s\S]*?)<\/ul>/g, (match, content) => {
       // More aggressive empty list item filtering
-      let filteredContent = content
+      const filteredContent = content
         .replace(/<li[^>]*>\s*<\/li>/g, '') // Remove completely empty <li></li> tags
         .replace(/<li[^>]*>(\s|&nbsp;|&\w+;|\?)*<\/li>/gi, '') // Remove <li> with only whitespace/entities
         .replace(/<li[^>]*>[\u00A0\u2000-\u200B\u2028\u2029\u3000\uFEFF\u202F\?\s]*<\/li>/g, ''); // Remove Unicode spaces
@@ -274,7 +272,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     // Handle ordered lists
     processedHtml = processedHtml.replace(/<ol>([\s\S]*?)<\/ol>/g, (match, content) => {
       // More aggressive empty list item filtering for ordered lists
-      let filteredContent = content
+      const filteredContent = content
         .replace(/<li[^>]*>\s*<\/li>/g, '') // Remove completely empty <li></li> tags
         .replace(/<li[^>]*>(\s|&nbsp;|&\w+;|\?)*<\/li>/gi, '') // Remove <li> with only whitespace/entities
         .replace(/<li[^>]*>[\u00A0\u2000-\u200B\u2028\u2029\u3000\uFEFF\u202F\?\s]*<\/li>/g, ''); // Remove Unicode spaces
