@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import NewsletterWidget from '../components/NewsletterWidget';
 import Link from 'next/link';
 

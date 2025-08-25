@@ -12,7 +12,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
   const [itemVisited, setItemVisited] = useState<Set<string>>(new Set());
   const [itemOpen, setItemOpen] = useState<Record<string, boolean>>({});
   const [showCaughtUpText, setShowCaughtUpText] = useState(false);
-  const [animationData, setAnimationData] = useState<any>(null);
+  const [animationData, setAnimationData] = useState<object | null>(null);
 
   // Load animation data dynamically
   useEffect(() => {
