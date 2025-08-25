@@ -225,7 +225,8 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
   // Calculate progress metrics - only count sections as "read" when ALL subsections are visited
   const unopenedSectionsCount = data.sections.filter((_, index) => !allItemsInSectionVisited(index)).length;
 
-  // Function to mark all subsections as read (for testing)
+  // Functions to mark all subsections as read/unread (for testing)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const markAllAsRead = () => {
     const allItemKeys = new Set<string>();
     
@@ -240,7 +241,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     setItemVisited(allItemKeys);
   };
 
-  // Function to mark all subsections as unread and reset all states (for testing)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const markAllAsUnread = () => {
     console.log('Marking all items as unread and resetting states');
     setItemVisited(new Set());
@@ -263,7 +264,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
         triggerCascadeAnimation();
       }, 2000);
     }
-  }, [unopenedSectionsCount, cascadeComplete]);
+  }, [unopenedSectionsCount, cascadeComplete, data.sections.length, triggerCascadeAnimation]);
 
   // Handle the "You're All Caught Up!" text delay - now triggered by cascade completion
   useEffect(() => {

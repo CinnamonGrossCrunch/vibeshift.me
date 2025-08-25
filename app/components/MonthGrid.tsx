@@ -130,7 +130,7 @@ export default function MonthGrid({ events, currentMonth, onEventClick }: Props)
             </div>
             <div className="flex-1 flex flex-col gap-px">
               {dayEvents.length > 0 ? (
-                dayEvents.map((ev, index) => {
+                dayEvents.map((ev) => {
                   const { courseName, assignment } = parseEventTitle(ev.title);
                   const courseColor = getCourseColor(ev.title);
                   

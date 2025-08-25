@@ -1,6 +1,14 @@
-import { format } from 'date-fns';
 import { getUpcomingEvents } from '@/lib/calendar';
 import CalendarTabs from './CalendarTabs';
+
+type CalendarEvent = {
+  id?: string;
+  title: string;
+  start: string;
+  end?: string;
+  location?: string;
+  description?: string;
+};
 
 type Props = {
   title?: string;
@@ -13,7 +21,7 @@ export default async function CalendarWidget({
   daysAhead = 30,
   max = 10,
 }: Props) {
-  let events: any[] = [];
+  let events: CalendarEvent[] = [];
   let error: string | null = null;
 
   try {

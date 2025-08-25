@@ -27,8 +27,7 @@ function resolveIcsUrl() {
 
 export async function getUpcomingEvents(
   daysAhead = 30,
-  limit = 150,
-  tz?: string
+  limit = 150
 ): Promise<CalendarEvent[]> {
   const icsUrl = resolveIcsUrl();
 
@@ -61,11 +60,11 @@ export async function getUpcomingEvents(
       (!!v.start && start.getHours() === 0 && start.getMinutes() === 0 && (!end || (end.getHours() === 0 && end.getMinutes() === 0)));
 
     // Helper function to safely extract string values from potentially complex objects
-    const safeStringExtract = (value: any): string | undefined => {
+    const safeStringExtract = (value: unknown): string | undefined => {
       if (!value) return undefined;
       if (typeof value === 'string') return value;
-      if (typeof value === 'object' && value.val && typeof value.val === 'string') return value.val;
-      if (typeof value === 'object' && value.toString && typeof value.toString === 'function') {
+      if (typeof value === 'object' && value && 'val' in value && typeof value.val === 'string') return value.val;
+      if (typeof value === 'object' && value && 'toString' in value && typeof value.toString === 'function') {
         const str = value.toString();
         return str !== '[object Object]' ? str : undefined;
       }

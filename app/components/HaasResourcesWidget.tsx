@@ -1,5 +1,6 @@
 import { getHaasResourcesData } from '../../lib/resources';
 import HaasResourcesTabs from './HaasResourcesTabs';
+import type { HaasResourcesData } from '../../lib/resources';
 
 type Props = {
   title?: string;
@@ -8,7 +9,7 @@ type Props = {
 export default async function HaasResourcesWidget({
   title = 'Haas Resources',
 }: Props) {
-  let resourcesData: any = null;
+  let resourcesData: HaasResourcesData | null = null;
   let error: string | null = null;
 
   try {
@@ -34,7 +35,7 @@ export default async function HaasResourcesWidget({
           </div>
         </>
       ) : (
-        <HaasResourcesTabs resourcesData={resourcesData} title={title} />
+        resourcesData && <HaasResourcesTabs resourcesData={resourcesData} title={title} />
       )}
     </section>
   );

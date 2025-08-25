@@ -65,14 +65,14 @@ export default function EventDetailModal({ event, onClose }: Props) {
   };
 
   // Function to safely convert any value to string for rendering
-  const safeStringify = (value: any): string => {
+  const safeStringify = (value: unknown): string => {
     if (value === null || value === undefined) return '';
     if (typeof value === 'string') return value;
     if (typeof value === 'number' || typeof value === 'boolean') return String(value);
     if (typeof value === 'object') {
       // For objects, try to extract meaningful text or stringify
-      if (value.val && typeof value.val === 'string') return value.val;
-      if (value.toString && typeof value.toString === 'function') {
+      if (value && typeof value === 'object' && 'val' in value && typeof value.val === 'string') return value.val;
+      if (value && typeof value === 'object' && 'toString' in value && typeof value.toString === 'function') {
         const str = value.toString();
         if (str !== '[object Object]') return str;
       }
@@ -82,7 +82,7 @@ export default function EventDetailModal({ event, onClose }: Props) {
   };
 
   // Function to parse URLs from text and make them clickable
-  const renderTextWithLinks = (text: any) => {
+  const renderTextWithLinks = (text: unknown) => {
     const safeText = safeStringify(text);
     if (!safeText) return null;
     
