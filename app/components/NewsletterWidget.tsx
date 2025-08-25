@@ -494,7 +494,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
               <p className="text-blue-100 text-xs sm:text-sm urbanist-medium mb-1 truncate">{data.title}</p>
             )}
               <a
-              className="text-gray-800 dark:text-gray-600 text-xs urbanist-regular transition-colors block mb-2 whitespace-nowrap"
+              className="text-gray-800 dark:text-gray-600 text-xs urbanist-regular transition-colors block mb-1 whitespace-nowrap"
               onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'var(--berkeley-gold)'}
               onMouseLeave={(e) => (e.target as HTMLElement).style.color = ''}
               href={data.sourceUrl}
@@ -504,6 +504,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
               View original Newsletter
             </a>
             
+            {/* 
             <button
               onClick={markAllAsRead}
               className="text-blue-600 dark:text-blue-400 text-xs urbanist-medium transition-colors block mb-2 whitespace-nowrap hover:text-blue-800 dark:hover:text-blue-300 underline"
@@ -521,6 +522,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
             >
               🔄 Mark All as Unread (Reset)
             </button>
+            */}
           </div>
 
           <div className="flex flex-col items-end flex-shrink-0">
@@ -582,7 +584,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
           const sectionTotalCount = createSubsections(sec.items).length;
           
           return (
-            <div key={id} className={`border-b border-slate-200 dark:border-slate-700 ${idx === data.sections.length - 1 ? 'border-b-0 rounded-b-2xl overflow-hidden' : ''}`}>
+            <div key={id} className={`border-b border-slate-200 dark:border-slate-700 ${idx === data.sections.length - 1 ? 'border-b-0' : ''}`}>
               <button
                 onClick={() => {
                   // Auto-collapse: close all other sections
@@ -594,7 +596,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                   // Also close all item dropdowns when switching sections
                   setItemOpen({});
                 }}
-                className={`section-button w-full text-left px-5 py-2 bg-gradient-to-r from-slate-50 to-blue-50 hover:from-blue-50 hover:to-amber-50 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 transition-all duration-300 ease-in-out flex items-center justify-between group ${idx === data.sections.length - 1 && !isOpen ? 'rounded-b-2xl' : ''}`}
+                className={`section-button w-full text-left px-5 py-2 bg-gradient-to-r from-slate-50 to-blue-50 hover:from-blue-50 hover:to-amber-50 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 transition-all duration-300 ease-in-out flex items-center justify-between group`}
               >
                 <div className="flex items-center space-x-3">
                   {allItemsInSectionVisited(idx) ? (
@@ -644,7 +646,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
               >
                 <div className="expandable-content">
                   <div className={`border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 ${idx === data.sections.length - 1 ? 'rounded-b-2xl' : ''}`}>
-                    <div className={`px-8 py-4 space-y-3 ${idx === data.sections.length - 1 ? 'pb-6' : ''}`}>
+                    <div className={`px-8 py-4 space-y-3 ${idx === data.sections.length - 1 ? 'pb-6 rounded-b-2xl' : ''}`}>
                       {createSubsections(sec.items).map((subsection, j) => {
                         const itemKey = `${idx}-${j}`;
                         const itemId = `${id}-item-${j}`;
@@ -762,6 +764,22 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
             </p>
           </div>
         )}
+        
+        {/* Copyright Footer */}
+        <div className="border-t border-slate-200 dark:border-slate-700 py-4 px-6 rounded-b-2xl relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>
+          {/* Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
+            style={{ backgroundImage: "url('/bear blue 2.jpg')" }}
+          ></div>
+          
+          {/* Content Overlay */}
+          <div className="relative z-10 text-center">
+            <p className="text-xs italic text-slate-400 dark:text-slate-500 urbanist-regular">
+              Bear Necessities Newsletter Content | Copyright © 2025 Evening & Weekend MBA
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
