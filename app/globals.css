@@ -48,6 +48,24 @@ body {
 
 /* National Park font utility classes */
 .national-park-light {
+  font-family: "NationalPark-Light", sans-serif !important;
+  font-weight: 300 !important;
+}
+
+/* Custom scale utilities */
+.scale-100 {
+  transform: scale(1) !important;
+}
+
+.scale-120 {
+  transform: scale(1.2) !important;
+}
+
+.duration-250 {
+  transition-duration: 250ms !important;
+}
+
+.national-park-light {
   font-family: "National Park", sans-serif !important;
   font-optical-sizing: auto !important;
   font-weight: 200 !important;

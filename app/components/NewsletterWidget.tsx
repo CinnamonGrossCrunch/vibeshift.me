@@ -13,6 +13,11 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
   const [itemOpen, setItemOpen] = useState<Record<string, boolean>>({});
   const [showCaughtUpText, setShowCaughtUpText] = useState(false);
   const [animationData, setAnimationData] = useState<object | null>(null);
+  
+  // New states for cascade animation
+  const [sectionScaleStates, setSectionScaleStates] = useState<Record<number, boolean>>({});
+  const [cascadeComplete, setCascadeComplete] = useState(false);
+  const [triggerTopLevelAnimation, setTriggerTopLevelAnimation] = useState(false);
 
   // Load animation data dynamically
   useEffect(() => {
@@ -124,6 +129,61 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
   };
 
   // Check if all items in a section have been visited
+  // Trigger cascade animation sequence when a section completes
+  const triggerCascadeAnimation = () => {
+    if (cascadeComplete) return; // Prevent multiple triggers
+    
+    console.log('Cascade animation triggered!');
+    
+    // Get all completed sections
+    const completedSections: number[] = [];
+    data.sections.forEach((_, index) => {
+      const section = data.sections[index];
+      const totalSubsections = createSubsections(section.items).length;
+      let visitedSubsections = 0;
+      createSubsections(section.items).forEach((_, subIdx) => {
+        if (itemVisited.has(`${index}-${subIdx}`)) {
+          visitedSubsections++;
+        }
+      });
+      if (visitedSubsections === totalSubsections) {
+        completedSections.push(index);
+      }
+    });
+    
+    console.log('Completed sections:', completedSections);
+    
+    // Start cascade from bottom section (highest index) to top
+    const sortedSections = [...completedSections].sort((a, b) => b - a);
+    
+    sortedSections.forEach((sectionIndex, cascadeIndex) => {
+      setTimeout(() => {
+        console.log(`Scaling section ${sectionIndex} at cascade index ${cascadeIndex}`);
+        setSectionScaleStates(prev => ({
+          ...prev,
+          [sectionIndex]: true
+        }));
+        
+        // After 400ms, scale back down
+        setTimeout(() => {
+          setSectionScaleStates(prev => ({
+            ...prev,
+            [sectionIndex]: false
+          }));
+        }, 400);
+        
+        // If this is the last section in cascade, trigger top-level animation
+        if (cascadeIndex === sortedSections.length - 1) {
+          setTimeout(() => {
+            console.log('Cascade complete, triggering top-level animation');
+            setCascadeComplete(true);
+            setTriggerTopLevelAnimation(true);
+          }, 400); // After scale-down completes
+        }
+      }, cascadeIndex * 100); // 100ms delay between sections
+    });
+  };
+
   const allItemsInSectionVisited = (sectionIndex: number) => {
     const section = data.sections[sectionIndex];
     // Count actual subsections for this section
@@ -137,24 +197,66 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
       }
     });
     
-    return visitedSubsections === totalSubsections;
+    const allVisited = visitedSubsections === totalSubsections;
+    
+    return allVisited;
   };
 
   // Calculate progress metrics - only count sections as "read" when ALL subsections are visited
   const unopenedSectionsCount = data.sections.filter((_, index) => !allItemsInSectionVisited(index)).length;
 
-  // Handle the "You're All Caught Up!" text delay
+  // Function to mark all subsections as read (for testing)
+  const markAllAsRead = () => {
+    const allItemKeys = new Set<string>();
+    
+    data.sections.forEach((section, sectionIndex) => {
+      const subsections = createSubsections(section.items);
+      subsections.forEach((_, subIndex) => {
+        allItemKeys.add(`${sectionIndex}-${subIndex}`);
+      });
+    });
+    
+    console.log('Marking all items as read:', allItemKeys);
+    setItemVisited(allItemKeys);
+  };
+
+  // Function to mark all subsections as unread and reset all states (for testing)
+  const markAllAsUnread = () => {
+    console.log('Marking all items as unread and resetting states');
+    setItemVisited(new Set());
+    setItemOpen({});
+    setOpen({});
+    setSectionScaleStates({});
+    setCascadeComplete(false);
+    setTriggerTopLevelAnimation(false);
+    setShowCaughtUpText(false);
+  };
+
+  // Trigger cascade animation when ALL sections are completed
   useEffect(() => {
-    if (unopenedSectionsCount === 0) {
+    console.log('Checking for cascade trigger, unopened sections:', unopenedSectionsCount, 'cascade complete:', cascadeComplete);
+    if (unopenedSectionsCount === 0 && !cascadeComplete && data.sections.length > 0) {
+      console.log('All sections complete, starting 2-second delay before cascade');
+      // Add 2-second delay before starting cascade
+      setTimeout(() => {
+        console.log('2-second delay complete, triggering cascade');
+        triggerCascadeAnimation();
+      }, 2000);
+    }
+  }, [unopenedSectionsCount, cascadeComplete]);
+
+  // Handle the "You're All Caught Up!" text delay - now triggered by cascade completion
+  useEffect(() => {
+    if (triggerTopLevelAnimation && unopenedSectionsCount === 0) {
       const timer = setTimeout(() => {
         setShowCaughtUpText(true);
-      }, 2000); // Start fade-in at 2 seconds
+      }, 500); // Shorter delay after cascade completes
       
       return () => clearTimeout(timer);
     } else {
       setShowCaughtUpText(false);
     }
-  }, [unopenedSectionsCount]);
+  }, [triggerTopLevelAnimation, unopenedSectionsCount]);
 
     // Smart bulleting function with enhanced HTML hierarchy
   const addSmartBullets = (html: string) => {
@@ -201,7 +303,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
         } else if (textContent) {
           // Regular text content - preserve as paragraph with line breaks
           const formattedText = textContent.replace(/\n/g, '<br>');
-          processedParts.push(`<p class="text-xs leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300 my-2">${formattedText}</p>`);
+          processedParts.push(`<p class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300 my-2">${formattedText}</p>`);
         }
       }
     }
@@ -266,7 +368,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
               <div class="w-2 h-2 rounded-full" style="background-color: var(--berkeley-gold);"></div>
             </div>
             <div class="flex-1">
-              <span class="text-xs leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300">${mainText}</span>
+              <span class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300">${mainText}</span>
               <div class="ml-4 mt-2">
                 ${nestedList}
               </div>
@@ -278,7 +380,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
               <div class="w-2 h-2 rounded-full" style="background-color: var(--berkeley-gold);"></div>
             </div>
             <div class="flex-1">
-              <span class="text-xs leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300">${liContent.trim()}</span>
+              <span class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300">${liContent.trim()}</span>
             </div>
           </div>`;
         }
@@ -328,7 +430,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
             </div>
           </div>
           <div class="flex-1">
-            <span class="text-xs leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300">${liContent.trim()}</span>
+            <span class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300">${liContent.trim()}</span>
           </div>
         </div>`;
       }).join('');
@@ -350,8 +452,8 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     // Handle paragraphs without vertical indicators
     processedHtml = processedHtml.replace(/<p>([^<]+)<\/p>/g, (match, content) => {
       if (content.trim().length === 0) return ''; // Remove empty paragraphs entirely
-      if (content.length < 20) return `<p class="text-xs leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300 my-2">${content}</p>`;
-      return `<p class="text-xs leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300 my-3">${content}</p>`;
+      if (content.length < 20) return `<p class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300 my-2">${content}</p>`;
+      return `<p class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300 my-3">${content}</p>`;
     });
 
     // Handle remaining elements
@@ -401,6 +503,24 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
             >
               View original Newsletter
             </a>
+            
+            <button
+              onClick={markAllAsRead}
+              className="text-blue-600 dark:text-blue-400 text-xs urbanist-medium transition-colors block mb-2 whitespace-nowrap hover:text-blue-800 dark:hover:text-blue-300 underline"
+              onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'var(--berkeley-gold)'}
+              onMouseLeave={(e) => (e.target as HTMLElement).style.color = ''}
+            >
+              🧪 Mark All as Read (Test)
+            </button>
+            
+            <button
+              onClick={markAllAsUnread}
+              className="text-orange-600 dark:text-orange-400 text-xs urbanist-medium transition-colors block mb-2 whitespace-nowrap hover:text-orange-800 dark:hover:text-orange-300 underline"
+              onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'var(--berkeley-gold)'}
+              onMouseLeave={(e) => (e.target as HTMLElement).style.color = ''}
+            >
+              🔄 Mark All as Unread (Reset)
+            </button>
           </div>
 
           <div className="flex flex-col items-end flex-shrink-0">
@@ -410,7 +530,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
               {unopenedSectionsCount === 0 ? (
                 <div className="text-center">
                <div className="text-xl sm:text-2xl urbanist-bold" style={{ color: 'var(--berkeley-gold)' }}>
-                    {animationData ? (
+                    {animationData && triggerTopLevelAnimation ? (
                       <Lottie 
                         animationData={animationData}
                         loop={false}
@@ -474,7 +594,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                   // Also close all item dropdowns when switching sections
                   setItemOpen({});
                 }}
-                className={`section-button w-full text-left px-6 py-4 bg-gradient-to-r from-slate-50 to-blue-50 hover:from-blue-50 hover:to-amber-50 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 transition-all duration-300 ease-in-out flex items-center justify-between group ${idx === data.sections.length - 1 && !isOpen ? 'rounded-b-2xl' : ''}`}
+                className={`section-button w-full text-left px-5 py-2 bg-gradient-to-r from-slate-50 to-blue-50 hover:from-blue-50 hover:to-amber-50 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 transition-all duration-300 ease-in-out flex items-center justify-between group ${idx === data.sections.length - 1 && !isOpen ? 'rounded-b-2xl' : ''}`}
               >
                 <div className="flex items-center space-x-3">
                   {allItemsInSectionVisited(idx) ? (
@@ -488,29 +608,30 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                     {sec.sectionTitle}
                   </h3>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <div className="text-xs text-slate-500 dark:text-slate-400">
+                <div className="flex items-center justify-center">
+                  <div className="text-xs text-slate-500 dark:text-slate-400 flex items-center justify-center">
                     {sectionVisitedCount === sectionTotalCount ? (
-                      <span className="text-green-600 dark:text-green-400 font-medium flex items-center">
+                      <div className="w-20 h-8 rounded-lg flex items-center justify-center">
                         {animationData ? (
-                          <Lottie 
-                            animationData={animationData}
-                            loop={false}
-                            autoplay={true}
-                            className="w-10 h- mr-3"
-                          />
+                          <div 
+                            className={`transition-transform duration-[1000ms] ease-in-out ${sectionScaleStates[idx] ? 'scale-[1.5]' : 'scale-100'} flex items-center justify-center`}
+                          >
+                            <Lottie 
+                              animationData={animationData}
+                              loop={false}
+                              autoplay={true}
+                              className="w-8 h-8"
+                            />
+                          </div>
                         ) : (
-                          <span className="text-lg mr-3">✓</span>
+                          <span className="text-lg text-green-600 dark:text-green-400">✓</span>
                         )}
-                       
-                      </span>
+                      </div>
                     ) : (
-                        <span
-                        className="px-2 py-1 rounded-full urbanist-medium"
-                        style={{ backgroundColor: 'var(--berkeley-blue)', color: 'var(--berkeley-gold)' }}
-                        >
-                        {sectionTotalCount - sectionVisitedCount}/{sectionTotalCount} unread
-                        </span>
+                      <div className="w-20 h-8 rounded-lg flex items-center justify-center urbanist-medium text-xs "
+                           style={{ backgroundColor: 'var(--berkeley-blue)', color: 'var(--berkeley-gold)' }}>
+                        {sectionTotalCount - sectionVisitedCount}/{sectionTotalCount} Unread
+                      </div>
                     )}
                   </div>
                 </div>
@@ -596,20 +717,20 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                                       <div>
                                         <div
                                           className="prose prose-slate dark:prose-invert prose-sm max-w-none space-y-1 urbanist-regular
-                                            [&>h1]:text-sm [&>h1]:urbanist-bold [&>h1]:text-slate-900 [&>h1]:dark:text-white [&>h1]:mb-3 [&>h1]:mt-2
+                                            [&>h1]:text-base [&>h1]:urbanist-bold [&>h1]:text-slate-900 [&>h1]:dark:text-white [&>h1]:mb-3 [&>h1]:mt-2
                                             [&>h2]:text-sm [&>h2]:urbanist-semibold [&>h2]:text-slate-800 [&>h2]:dark:text-slate-100 [&>h2]:mb-2 [&>h2]:mt-2
-                                            [&>h3]:text-xs [&>h3]:urbanist-medium [&>h3]:text-slate-700 [&>h3]:dark:text-slate-200 [&>h3]:mb-2 [&>h3]:mt-1
-                                            [&>h4]:text-xs [&>h4]:urbanist-medium [&>h4]:text-slate-600 [&>h4]:dark:text-slate-300 [&>h4]:mb-1
+                                            [&>h3]:text-sm [&>h3]:urbanist-medium [&>h3]:text-slate-700 [&>h3]:dark:text-slate-200 [&>h3]:mb-2 [&>h3]:mt-1
+                                            [&>h4]:text-sm [&>h4]:urbanist-medium [&>h4]:text-slate-600 [&>h4]:dark:text-slate-300 [&>h4]:mb-1
                                             [&>h5]:text-xs [&>h5]:urbanist-regular [&>h5]:text-slate-600 [&>h5]:dark:text-slate-400 [&>h5]:mb-1
                                             [&>h6]:text-xs [&>h6]:urbanist-regular [&>h6]:text-slate-500 [&>h6]:dark:text-slate-500 [&>h6]:mb-1
-                                            [&>p]:text-xs [&>p]:leading-relaxed [&>p]:urbanist-regular [&>p]:text-slate-700 [&>p]:dark:text-slate-300 [&>p]:mb-2
-                                            [&>ul]:text-xs [&>ul]:space-y-1 [&>ul]:ml-4 [&>ul]:my-2 [&>ul]:urbanist-regular
-                                            [&>ol]:text-xs [&>ol]:space-y-1 [&>ol]:ml-4 [&>ol]:my-2 [&>ol]:urbanist-regular
-                                            [&>li]:text-xs [&>li]:urbanist-regular [&>li]:text-slate-700 [&>li]:dark:text-slate-300
-                                            [&>blockquote]:text-xs [&>blockquote]:urbanist-italic [&>blockquote]:border-l-2 [&>blockquote]:border-slate-300 [&>blockquote]:pl-3 [&>blockquote]:text-slate-600
+                                            [&>p]:text-sm [&>p]:leading-relaxed [&>p]:urbanist-regular [&>p]:text-slate-700 [&>p]:dark:text-slate-300 [&>p]:mb-2
+                                            [&>ul]:text-sm [&>ul]:space-y-1 [&>ul]:ml-4 [&>ul]:my-2 [&>ul]:urbanist-regular
+                                            [&>ol]:text-sm [&>ol]:space-y-1 [&>ol]:ml-4 [&>ol]:my-2 [&>ol]:urbanist-regular
+                                            [&>li]:text-sm [&>li]:urbanist-regular [&>li]:text-slate-700 [&>li]:dark:text-slate-300
+                                            [&>blockquote]:text-sm [&>blockquote]:urbanist-italic [&>blockquote]:border-l-2 [&>blockquote]:border-slate-300 [&>blockquote]:pl-3 [&>blockquote]:text-slate-600
                                             [&>strong]:urbanist-semibold [&>strong]:text-slate-900 [&>strong]:dark:text-white
                                             [&>em]:urbanist-italic [&>em]:text-slate-600 [&>em]:dark:text-slate-400
-                                            [&>code]:text-xs [&>code]:bg-slate-100 [&>code]:dark:bg-slate-800 [&>code]:px-1 [&>code]:rounded [&>code]:urbanist-regular
+                                            [&>code]:text-sm [&>code]:bg-slate-100 [&>code]:dark:bg-slate-800 [&>code]:px-1 [&>code]:rounded [&>code]:urbanist-regular
                                             [&_a]:text-amber-600 [&_a]:dark:text-amber-400 [&_a]:!text-amber-600 [&_a]:dark:!text-amber-400 [&_a]:no-underline [&_a]:hover:underline [&_a]:transition-colors"
                                           dangerouslySetInnerHTML={{ __html: addSmartBullets(subsection.content) }}
                                         />
