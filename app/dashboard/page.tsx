@@ -1,5 +1,6 @@
 import NewsletterWidget from '../components/NewsletterWidget';
 import Link from 'next/link';
+import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
 
 type NewsletterData = {
   sourceUrl: string;
@@ -11,33 +12,65 @@ type NewsletterData = {
 };
 
 async function loadData(): Promise<NewsletterData> {
-  // For server-side rendering, use the appropriate base URL
-  let baseUrl = '';
-  
-  if (process.env.VERCEL_URL) {
-    baseUrl = `https://${process.env.VERCEL_URL}`;
-  } else if (process.env.NODE_ENV === 'development') {
-    baseUrl = 'http://localhost:3000';
-  } else {
-    baseUrl = 'http://localhost:3000';
+  try {
+    console.log('Dashboard: Starting direct newsletter data fetch');
+    // Call scraping functions directly instead of making API call
+    // This avoids the base URL issue entirely and is more efficient
+    const latestUrl = await getLatestNewsletterUrl();
+    console.log('Dashboard: Latest URL found:', latestUrl);
+    const data = await scrapeNewsletter(latestUrl);
+    console.log('Dashboard: Newsletter data scraped successfully');
+    return data;
+  } catch (error) {
+    console.error('Dashboard: Direct fetch failed, trying API fallback:', error);
+    
+    // Fallback to API call with proper base URL construction
+    try {
+      let baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+      
+      if (!baseUrl) {
+        if (process.env.VERCEL_URL) {
+          baseUrl = `https://${process.env.VERCEL_URL}`;
+        } else if (process.env.NODE_ENV === 'development') {
+          baseUrl = 'http://localhost:3000';
+        } else {
+          throw new Error('No base URL configured for production');
+        }
+      }
+      
+      console.log('Dashboard: Using API fallback with base URL:', baseUrl);
+      const res = await fetch(`${baseUrl}/api/newsletter`, {
+        cache: 'no-store',
+      });
+      
+      if (!res.ok) {
+        throw new Error(`API call failed: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      console.log('Dashboard: API fallback successful');
+      return data;
+    } catch (apiError) {
+      console.error('Dashboard: API fallback also failed:', apiError);
+      throw new Error('Failed to load newsletter data from both direct and API methods');
+    }
   }
-  
-  const res = await fetch(`${baseUrl}/api/newsletter`, {
-    cache: 'no-store',
-  });
-  
-  if (!res.ok) {
-    throw new Error(`Failed to load newsletter: ${res.status}`);
-  }
-  return res.json();
 }
 
 export default async function DashboardPage() {
   let data: NewsletterData | null = null;
+  let errorMessage = '';
+  
   try {
     data = await loadData();
-  } catch {
-    // Fallback UI
+  } catch (error) {
+    console.error('Dashboard Page: Failed to load data:', error);
+    errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    // Continue to render fallback UI
+  }
+
+  // If no data, show fallback UI
+  if (!data) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-amber-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
         {/* Header */}
@@ -60,7 +93,14 @@ export default async function DashboardPage() {
               <span className="text-2xl">⚠️</span>
             </div>
             <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Unable to Load Newsletter</h1>
-            <p className="text-red-600 dark:text-red-400 mb-6">Failed to load the latest newsletter data.</p>
+            <p className="text-red-600 dark:text-red-400 mb-6">
+              Failed to load the latest newsletter data.
+              {errorMessage && (
+                <span className="block text-sm mt-2 text-red-500 dark:text-red-400">
+                  Error: {errorMessage}
+                </span>
+              )}
+            </p>
             <Link 
               href="/" 
               className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-900 to-blue-800 text-white font-semibold rounded-xl hover:from-blue-800 hover:to-blue-700 transition-all duration-200"
