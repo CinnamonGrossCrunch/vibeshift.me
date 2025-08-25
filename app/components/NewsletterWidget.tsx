@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Lottie from 'lottie-react';
-import animationData from '../../public/Gross-Haas-Click.json';
 
 type Item = { title: string; html: string };
 type Section = { sectionTitle: string; items: Item[] };
@@ -13,6 +12,15 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
   const [itemVisited, setItemVisited] = useState<Set<string>>(new Set());
   const [itemOpen, setItemOpen] = useState<Record<string, boolean>>({});
   const [showCaughtUpText, setShowCaughtUpText] = useState(false);
+  const [animationData, setAnimationData] = useState<any>(null);
+
+  // Load animation data dynamically
+  useEffect(() => {
+    fetch('/Gross-Haas-Click.json')
+      .then(response => response.json())
+      .then(data => setAnimationData(data))
+      .catch(error => console.error('Failed to load animation:', error));
+  }, []);
 
   // Function to split items by <strong> tags to create subsections
   const createSubsections = (items: Item[]) => {
@@ -402,12 +410,18 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
               {unopenedSectionsCount === 0 ? (
                 <div className="text-center">
                <div className="text-xl sm:text-2xl urbanist-bold" style={{ color: 'var(--berkeley-gold)' }}>
-                    <Lottie 
-                      animationData={animationData}
-                      loop={false}
-                      autoplay={true}
-                      className="w-12 h-12 sm:w-16 sm:h-16 mx-auto"
-                    />
+                    {animationData ? (
+                      <Lottie 
+                        animationData={animationData}
+                        loop={false}
+                        autoplay={true}
+                        className="w-12 h-12 sm:w-16 sm:h-16 mx-auto"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto flex items-center justify-center">
+                        <span className="text-2xl">✓</span>
+                      </div>
+                    )}
                   </div>
                   {showCaughtUpText && (
                     <div 
@@ -478,12 +492,16 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                   <div className="text-xs text-slate-500 dark:text-slate-400">
                     {sectionVisitedCount === sectionTotalCount ? (
                       <span className="text-green-600 dark:text-green-400 font-medium flex items-center">
-                        <Lottie 
-                          animationData={animationData}
-                          loop={false}
-                          autoplay={true}
-                          className="w-10 h- mr-3"
-                        />
+                        {animationData ? (
+                          <Lottie 
+                            animationData={animationData}
+                            loop={false}
+                            autoplay={true}
+                            className="w-10 h- mr-3"
+                          />
+                        ) : (
+                          <span className="text-lg mr-3">✓</span>
+                        )}
                        
                       </span>
                     ) : (

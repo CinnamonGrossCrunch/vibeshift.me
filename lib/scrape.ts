@@ -63,10 +63,34 @@ export interface NewsletterPayload {
 
 // Fetch helpers
 async function fetchText(url: string): Promise<string> {
-  // Node 18+ has fetch globally; fallback is ok if node-fetch installed
-  const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-  if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
-  return await res.text();
+  try {
+    console.log('Fetching URL:', url);
+    // Node 18+ has fetch globally; fallback is ok if node-fetch installed
+    const res = await fetch(url, { 
+      headers: { 
+        'User-Agent': 'Mozilla/5.0 (NewsletterWidget Bot) AppleWebKit/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Accept-Encoding': 'gzip, deflate',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1'
+      }
+    });
+    
+    if (!res.ok) {
+      console.error(`HTTP ${res.status} for ${url}`);
+      const errorText = await res.text().catch(() => 'Unable to read error response');
+      throw new Error(`HTTP ${res.status} for ${url}: ${errorText}`);
+    }
+    
+    const text = await res.text();
+    console.log(`Successfully fetched ${text.length} characters from ${url}`);
+    return text;
+  } catch (error) {
+    console.error('Fetch error for', url, ':', error);
+    throw error;
+  }
 }
 
 export async function getLatestNewsletterUrl(): Promise<string> {
