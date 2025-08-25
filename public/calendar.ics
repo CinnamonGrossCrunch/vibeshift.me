@@ -1,0 +1,1298 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:icalendar-ruby
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Matt Gross Calendar (Canvas)
+X-WR-CALDESC:Calendar events for the user\, Matt Gross
+BEGIN:VEVENT
+DTSTAMP:20250731T225700Z
+UID:event-assignment-override-324379
+DTSTART:20250806T010000Z
+DTEND:20250806T010000Z
+CLASS:PUBLIC
+DESCRIPTION:Please complete this brief [survey] (https://berkeley.qualtric
+ s.com/jfe/form/SV_56nz7y3HmczpklU)[ (Links to an external site.) (Links 
+ to an external site.)] (https://berkeley.qualtrics.com/jfe/form/SV_0xlfSWD
+ 5zPtkjaJ) by 6pm on August 5th (Blue) and August 6th (Gold)\n\nThanks for 
+ answering these questions with care.  Exactly how and why they are import
+ ant\, you will learn in class.  For now\, please read carefully and respo
+ nd to each question.  \n\nOnce you complete the survey\, please come bac
+ k to this screen and type the word "completed" into the assignment box and
+  Submit. 
+SEQUENCE:0
+SUMMARY:Pre-course Survey (EWMBA 205 LEC 01A (In Person)) [EWMBA 205-LEC-01
+ A & 02A FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1545386&month=08&year=2025#assignment_8916937
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p><span>Please complete&nbsp\;</span><span>this brief <a cla
+ ss="inline_disabled" href="https://berkeley.qualtrics.com/jfe/form/SV_56nz
+ 7y3HmczpklU" target="_blank">survey</a></span><a class="external" href="ht
+ tps://berkeley.qualtrics.com/jfe/form/SV_0xlfSWD5zPtkjaJ" target="_blank">
+ <span><span class="screenreader-only">&nbsp\;(Links to an external site.)<
+ /span></span><span class="screenreader-only">&nbsp\;(Links to an external 
+ site.)</span></a><span> by 6pm on August 5<sup>th </sup>(Blue) and August 
+ 6<sup>th </sup>(Gold) </span></p>\n<p>Thanks for answering these questions
+  with care.&nbsp\; Exactly how and why they are important\, you will learn
+  in class.&nbsp\; For now\, please read carefully and respond to each ques
+ tion.&nbsp\;<span>&nbsp\;</span></p>\n<p><span>Once you complete the surve
+ y\, please come back to this screen and type the word "completed" into the
+  assignment box and Submit.&nbsp\;</span></p><script src="https://instruct
+ ure-uploads.s3.amazonaws.com/account_10720000000090242/attachments/8930444
+ 1/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250812T055000Z
+UID:event-assignment-override-324381
+DTSTART:20250807T010000Z
+DTEND:20250807T010000Z
+CLASS:PUBLIC
+DESCRIPTION:Case: Johnsonville Sausage Co.\nYou have been consulted by Ralp
+ h Stayer to make recommendations on what to do about the Palmer request. Y
+ our recommendation (including the three points below) should be in the for
+ m of a memo to Ralph. It should be one page maximum (single-spaced\, 12-po
+ int font\, Times New Roman\, and 1-inch margins).\n\nAs a facilitator\, yo
+ u’ll use the preparation of this memo to help kick off and guide your gr
+ oup’s discussion. You won’t need to present your memo in full\, but it
+  should give you a clear point of view and framing to engage your teammate
+ s. Please remember: if you haven’t done the readings or submitted your m
+ emo\, you won’t be equipped to lead your group and you’ll be letting y
+ our team down.\n\nRalph wants to see the following in your memo:\n\n1. A c
+ lear and succinct understanding of the key challenge(s) he faces in the si
+ tuation\, supported by case facts/observations.\n\n2. The pros/cons of var
+ ious alternatives available and guidance on how the decision should be mad
+ e.\n\n3. A strong rationale for your recommended action\, based upon (1) a
+ nd (2) above. \n\nTo support your thinking\, you should also reflect on t
+ he following questions as you prepare:\n\n*\n\nHas Ralph made the transiti
+ on from entrepreneurial to professional management?\n\n*\n\nWhat forces le
+ d to that transition?\n\n*\n\nWhat options does he have now?\n\n*\n\nHow d
+ oes a leader know when it’s time to make this kind of shift?\n\n \n\nSu
+ bmission Details:\n\n*\n\nDue: On bCourses by 6:00 PM on the day of class\
+ n\n*\n\nFormat: Type directly into the submission box\n\n*\n\nGrading: You
+  will receive a grade out of 5 points based on the quality and effort demo
+ nstrated in your memo. See rubric posted below.\n\nGood luck and have fun!
+SEQUENCE:0
+SUMMARY:Class 1 - Group Facilitators Johnsonville Case Memo (EWMBA 205 LEC 
+ 01A (In Person)) [EWMBA 205-LEC-01A & 02A FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1545386&month=08&year=2025#assignment_8916929
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p><strong>Case: Johnsonville Sausage Co.</strong><br>You hav
+ e been consulted by Ralph Stayer to make recommendations on what to do abo
+ ut the Palmer request. Your recommendation (including the three points bel
+ ow) should be in the form of a memo to Ralph. It should be one page maximu
+ m (single-spaced\, 12-point font\, Times New Roman\, and 1-inch margins).<
+ /p>\n<p>As a facilitator\, you’ll use the preparation of this memo to he
+ lp kick off and guide your group’s discussion. You won’t need to prese
+ nt your memo in full\, but it should give you a clear point of view and fr
+ aming to engage your teammates. Please remember: if you haven’t done the
+  readings or submitted your memo\, you won’t be equipped to lead your gr
+ oup and you’ll be letting your team down.</p>\n<p><strong>Ralph wants to
+  see the following in your memo:</strong></p>\n<p><strong>1</strong>. A cl
+ ear and succinct understanding of the key challenge(s) he faces in the sit
+ uation\, supported by case facts/observations.</p>\n<p><strong>2</strong>.
+  The pros/cons of various alternatives available and guidance on how the d
+ ecision should be made.</p>\n<p><strong>3</strong>. A strong rationale for
+  your recommended action\, based upon (1) and (2) above.&nbsp\;</p>\n<p da
+ ta-start="1326" data-end="1418">To support your thinking\, you should also
+  reflect on the following questions as you prepare:</p>\n<ul data-start="1
+ 419" data-end="1638">\n<li data-start="1419" data-end="1499">\n<p data-sta
+ rt="1421" data-end="1499">Has Ralph made the transition from entrepreneuri
+ al to professional management?</p>\n</li>\n<li data-start="1500" data-end=
+ "1537">\n<p data-start="1502" data-end="1537">What forces led to that tran
+ sition?</p>\n</li>\n<li data-start="1538" data-end="1570">\n<p data-start=
+ "1540" data-end="1570">What options does he have now?</p>\n</li>\n<li data
+ -start="1571" data-end="1638">\n<p data-start="1573" data-end="1638">How d
+ oes a leader know when it’s time to make this kind of shift?</p>\n</li>\
+ n</ul>\n<p>&nbsp\;</p>\n<p data-start="1977" data-end="2002"><strong data-
+ start="1977" data-end="2000">Submission Details:</strong></p>\n<ul data-st
+ art="2003" data-end="2331">\n<li data-start="2003" data-end="2071">\n<p da
+ ta-start="2005" data-end="2071"><strong data-start="2005" data-end="2013">
+ Due:</strong> On bCourses by<strong> </strong>6:00 PM on the day of class<
+ /p>\n</li>\n<li data-start="2072" data-end="2144">\n<p data-start="2074" d
+ ata-end="2144"><strong data-start="2074" data-end="2085">Format:</strong> 
+ Type directly into the submission box</p>\n</li>\n<li data-start="2145" da
+ ta-end="2290">\n<p data-start="2147" data-end="2290"><strong data-start="2
+ 147" data-end="2159">Grading:</strong> You will receive a grade out of <st
+ rong data-start="2192" data-end="2204">5 points</strong> based on the qual
+ ity and effort demonstrated in your memo. See rubric posted below.</p>\n</
+ li>\n</ul>\n<p data-start="2333" data-end="2356">Good luck and have fun!</
+ p><script src="https://instructure-uploads.s3.amazonaws.com/account_107200
+ 00000090242/attachments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250821T163800Z
+UID:event-assignment-override-324595
+DTSTART;VALUE=DATE;VALUE=DATE:20250808
+CLASS:PUBLIC
+DESCRIPTION:The Collaborative Plans are designed to support your team in de
+ veloping a shared understanding of how you will work together and how you 
+ will cultivate a collaborative team climate that will support each other's
+  development.\n\nMilestones:\n\n* Access & Copy: [Collaborative Planning T
+ emplate] (https://docs.google.com/document/d/1O6p6HoxX-hpzLsnWoEdzwqCkDLmp
+ DABlh2IbXewHXvs/edit?usp=sharing)\n\n* Share: Collaborative Plan with all 
+ team members\n\n* Organize Team Meeting: Identify a time after your first 
+ set of classes to meet with your team to align on all of your agreements.
+  \n\n* Complete Collaborative Plan: fill in all three sections (Goal Alig
+ nment (A&B)\, Knowledge Coordination\, Collaborative Climate) based on you
+ r agreements from the WE | Launch workshops & follow-up meeting.\n\n* Uplo
+ ad: Collaborative Plan to bCourse by the deadline for your cohort\n\nNote:
+  you can copy and paste the photo from the Value Map with your agreed-upon
+  norms and practices from WE | Launch\n\nUpload Instructions\n\n* Upload P
+ lan Under the Assignment Tab\n\n* 1 Plan Per Team\n\n* File Name Conventio
+ n = Team Number_Collaborative Plan (i.e. 405_Collaborative Plan)\n\nNOTE
+ :  The Team Collaborative Plan is for your reference. During the Teams@Ha
+ as Check-In Workshop #1\, your team will have time to update and pivot on 
+ your plan based on what you learn about the nature of your work and each o
+ ther as you work together. More to follow on this in the weeks to come. 
+SEQUENCE:0
+SUMMARY:Teams@Haas Collaborative Plan Submission (EWMBA Blue) [Teams@Haas 2
+ 025]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1546457&month=08&year=2025#assignment_8930027
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p><span>The Collaborative Plans are designed to support your
+  team in developing a shared understanding of how you will work together a
+ nd how you will cultivate a collaborative team climate that will support e
+ ach other's development.</span></p>\n<hr>\n<p><strong>Milestones:</strong>
+ </p>\n<ul>\n<li><strong>Access &amp\; Copy:</strong> <a class="inline_disa
+ bled" href="https://docs.google.com/document/d/1O6p6HoxX-hpzLsnWoEdzwqCkDL
+ mpDABlh2IbXewHXvs/edit?usp=sharing" target="_blank">Collaborative Planning
+  Template</a></li>\n<li><strong>Share:</strong> Collaborative Plan with al
+ l team members</li>\n<li><strong>Organize Team Meeting</strong>: Identify 
+ a time after your first set of classes to meet with your team to align on 
+ all of your agreements.&nbsp\;</li>\n<li><strong>Complete Collaborative Pl
+ an: </strong>fill in all three sections (Goal Alignment (A&amp\;B)\, Knowl
+ edge Coordination\, Collaborative Climate) based on your agreements from t
+ he WE | Launch workshops &amp\; follow-up meeting.</li>\n<li><strong>Uploa
+ d:</strong> Collaborative Plan to bCourse by the deadline for your cohort<
+ /li>\n</ul>\n<p><strong>Note:</strong> you can copy and paste the photo fr
+ om the Value Map with your agreed-upon norms and practices from WE | Launc
+ h</p>\n<hr>\n<p><strong>Upload Instructions</strong></p>\n<ul>\n<li aria-l
+ evel="1"><span>Upload Plan Under the Assignment Tab</span></li>\n<li aria-
+ level="1"><span>1 Plan Per Team</span></li>\n<li aria-level="1"><span>File
+  Name Convention =&nbsp\;</span><i><span>Team Number_Collaborative Plan</s
+ pan></i><span>&nbsp\;(i.e. 405_Collaborative Plan)</span></li>\n</ul>\n<p>
+ <strong>NOTE:</strong><span>&nbsp\; The Team Collaborative Plan is for you
+ r reference. During the Teams@Haas Check-In Workshop #1\, your team will h
+ ave time to update and pivot on your plan based on what you learn about th
+ e nature of your work and each other as you work together. More to follow 
+ on this in the weeks to come.&nbsp\;</span></p><script src="https://instru
+ cture-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304
+ 441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250812T002900Z
+UID:event-assignment-8909110
+DTSTART;VALUE=DATE;VALUE=DATE:20250810
+CLASS:PUBLIC
+DESCRIPTION:Much of the work of business takes place in teams. To enhance y
+ our experience with teams and with your classmates\, you will be asked to 
+ write a short memo analyzing a company’s cost structure and pricing poli
+ cies. The details about this team assignment can be found below. You have 
+ to work on this assignment with the study group you have been assigned to.
+ \n\nOnly one member per study group has to upload the PDF with the team's 
+ pricing project to bCourses. For more detailed instructions\, read the fol
+ lowing page:\n\n[Pricing Project Directions] (https://bcourses.berkeley.ed
+ u/courses/1544880/pages/team-assignment-corporate-memo-instructions)\n\nAs
+  the first checkpoint\, your team will need to submit the name of the comp
+ any and one introductory paragraph about what the company does. You should
+  seek for approval on the name of the company in advance -- I want to make
+  sure that there is no more than one team working on each company.\n\nNote
+  that this assignment (i.e.\, the first checkpoint) is not graded. However
+ \, you are expected to submit the assignment on time. Failing to deliver w
+ ill result in a 10-point deduction from the final assignment grade.
+SEQUENCE:0
+SUMMARY:Team Assignment: Corporate Memo (Part 1)  [EWMBA 201A-LEC-01A & 02A
+  FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1544880&month=08&year=2025#assignment_8909110
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p>Much of the work of business takes place in teams. To enha
+ nce your experience with teams and with your classmates\, you will be aske
+ d to write a short memo analyzing a company’s cost structure and pricing
+  policies. The details about this team assignment can be found below. You 
+ have to work on this assignment with the study group you have been assigne
+ d to.</p>\n<p>Only one member per study group has to upload the PDF with t
+ he team's pricing project to bCourses. For more detailed instructions\, re
+ ad the following page:</p>\n<p><a title="Team Assignment Corporate Memo In
+ structions" href="https://bcourses.berkeley.edu/courses/1544880/pages/team
+ -assignment-corporate-memo-instructions" data-course-type="wikiPages" data
+ -published="true" data-api-endpoint="https://bcourses.berkeley.edu/api/v1/
+ courses/1544880/pages/team-assignment-corporate-memo-instructions" data-ap
+ i-returntype="Page">Pricing Project Directions</a></p>\n<p><strong>As the 
+ first checkpoint\, your team will need to submit the name of the company a
+ nd one introductory paragraph about what the company does. You should seek
+  for approval on the name of the company in advance -- I want to make sure
+  that there is no more than one team working on each company.</strong></p>
+ \n<p>Note that this assignment (i.e.\, the first checkpoint) is not graded
+ . However\, you are expected to submit the assignment on time. Failing to 
+ deliver will result in a 10-point deduction from the final assignment grad
+ e.</p><script src="https://instructure-uploads.s3.amazonaws.com/account_10
+ 720000000090242/attachments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250820T200700Z
+UID:event-assignment-override-324383
+DTSTART:20250814T010000Z
+DTEND:20250814T010000Z
+CLASS:PUBLIC
+DESCRIPTION:Case: Cirque du Soleil\n\nGuy Laliberte\, Cirque's CEO\, has co
+ nsulted you to advise him on how to navigate the company’s future growth
+ . Your recommendation (including points 1-3 from below) should be in the f
+ orm of a memo to Guy. It should be one page maximum (single-spaced\, 12-p
+ oint font\, Times New Roman\, and 1-inch margins).\n\nAs a facilitator\, y
+ ou’ll use the preparation of this memo to help kick off and guide your g
+ roup’s discussion. You won’t need to present your memo in full\, but i
+ t should give you a clear point of view and framing to engage your teammat
+ es. Please remember: if you haven’t done the readings or submitted your 
+ memo\, you won’t be equipped to lead your group and you’ll be letting 
+ your team down.\n\nGuy wants to see the following in your memo:\n\n1. A cl
+ ear and succinct understanding of the key challenge(s) he faces in the sit
+ uation. Your support of the challenges should include case facts/observati
+ ons.\n\n2. The pros/cons of various alternatives available for planning fo
+ r the future. \n\n3. A strong rationale for your recommended action\, bas
+ ed upon (1) and (2) above. \n\nTo support your thinking\, consider the fo
+ llowing questions as you prepare:\n\n*\n\nWhat are the artists’ greatest
+  sources of motivation for their work?\n\n*\n\nHow does Cirque keep staff 
+ motivated when the spotlight is on the performers?\n\n*\n\nReflect on your
+  own experiences working in organizations where you were either “staff
+ ” or “star.”\n\n*\n\nWhat lessons might Cirque learn from an investm
+ ent bank? A tech company like Nvidia? A research laboratory?\n\nSubmission
+  Details:\n\n*\n\n* Due: On bCourses by 6:00 PM on the day of class\n\n*\n
+ \nFormat: Type directly into the submission box\n\n*\n\nGrading: You will 
+ receive a grade out of 5 points based on the quality and effort demonstrat
+ ed in your memo. See rubric posted below.\n\nGood luck and have fun!\n\n 
+SEQUENCE:0
+SUMMARY:Class 2 - Group Facilitators Cirque Case Memo (EWMBA 205 LEC 01A (I
+ n Person)) [EWMBA 205-LEC-01A & 02A FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1545386&month=08&year=2025#assignment_8916930
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p><strong>Case: Cirque du Soleil</strong></p>\n<p>Guy Lalibe
+ rte\, Cirque's CEO\, has consulted you to advise him on how to navigate th
+ e company’s future growth. Your recommendation (including points 1-3 fro
+ m below) should be in the form of a memo to Guy.&nbsp\;It should be one pa
+ ge maximum (single-spaced\, 12-point font\, Times New Roman\, and 1-inch m
+ argins).</p>\n<p data-start="591" data-end="981">As a facilitator\, you’
+ ll use the preparation of this memo to help kick off and guide your group
+ ’s discussion. You won’t need to present your memo in full\, but it sh
+ ould give you a clear point of view and framing to engage your teammates. 
+ Please remember: if you haven’t done the readings or submitted your memo
+ \, you won’t be equipped to lead your group and you’ll be letting your
+  team down.</p>\n<p><strong>Guy wants to see the following in your memo:</
+ strong></p>\n<p><strong>1</strong>. A clear and succinct understanding of 
+ the key challenge(s) he faces in the situation. Your support of the challe
+ nges should include case facts/observations.</p>\n<p><strong>2</strong>. T
+ he pros/cons of various alternatives available for planning for the future
+ .&nbsp\;</p>\n<p><strong>3</strong>. A strong rationale for your recommend
+ ed action\, based upon (1) and (2) above.&nbsp\;<br><br></p>\n<p data-star
+ t="1422" data-end="1500">To support your thinking\, consider the following
+  questions as you prepare:</p>\n<ul data-start="1502" data-end="1870">\n<l
+ i data-start="1502" data-end="1574">\n<p data-start="1504" data-end="1574"
+ >What are the artists’ greatest sources of motivation for their work?</p
+ >\n</li>\n<li data-start="1575" data-end="1656">\n<p data-start="1577" dat
+ a-end="1656">How does Cirque keep staff motivated when the spotlight is on
+  the performers?</p>\n</li>\n<li data-start="1657" data-end="1758">\n<p da
+ ta-start="1659" data-end="1758">Reflect on your own experiences working in
+  organizations where you were either “staff” or “star.”</p>\n</li>
+ \n<li data-start="1759" data-end="1870">\n<p data-start="1761" data-end="1
+ 870">What lessons might Cirque learn from an investment bank? A tech compa
+ ny like Nvidia? A research laboratory?</p>\n</li>\n</ul>\n<p data-start="1
+ 978" data-end="2003"><strong data-start="1978" data-end="2001">Submission 
+ Details:</strong></p>\n<ul>\n<li style="list-style-type: none\;">\n<ul dat
+ a-start="2003" data-end="2331">\n<li><strong data-start="2005" data-end="2
+ 013">Due:</strong> On bCourses by<strong> </strong>6:00 PM on the day of c
+ lass</li>\n<li data-start="2003" data-end="2071">\n<p data-start="2005" da
+ ta-end="2071"><strong data-start="2074" data-end="2085">Format:</strong> T
+ ype directly into the submission box</p>\n</li>\n<li data-start="2003" dat
+ a-end="2071">\n<p data-start="2005" data-end="2071"><strong data-start="21
+ 48" data-end="2160">Grading:</strong> You will receive a grade out of <str
+ ong data-start="2193" data-end="2205">5 points</strong> based on the quali
+ ty and effort demonstrated in your memo. See rubric posted below.</p>\n</l
+ i>\n</ul>\n</li>\n</ul>\n<p>Good luck and have fun!</p>\n<p>&nbsp\;</p><sc
+ ript src="https://instructure-uploads.s3.amazonaws.com/account_10720000000
+ 090242/attachments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250816T223900Z
+UID:event-assignment-8909106
+DTSTART;VALUE=DATE;VALUE=DATE:20250817
+CLASS:PUBLIC
+DESCRIPTION:Please submit the problem set below. Upload a PDF file with you
+ r responses inside the red boxes into Gradescope below.\n\nIf you find tha
+ t the Gradescope integration is not showing up\, please try opening this p
+ age in the Chrome web browser.\n\n[Problem Set 1.pdf] (https://bcourses.be
+ rkeley.edu/courses/1544880/files/91794952/download?wrap=1)
+SEQUENCE:0
+SUMMARY:Problem Set 1 [EWMBA 201A-LEC-01A & 02A FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1544880&month=08&year=2025#assignment_8909106
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p>Please submit the problem set below. Upload a PDF file wit
+ h your responses inside the red boxes into Gradescope below.</p>\n<p>If yo
+ u find that the Gradescope integration is not showing up\, please try open
+ ing this page in the Chrome web browser.</p>\n<p><a class="instructure_fil
+ e_link instructure_scribd_file auto_open" title="Problem Set 1.pdf" href="
+ https://bcourses.berkeley.edu/courses/1544880/files/91794952/download?wrap
+ =1" data-api-endpoint="https://bcourses.berkeley.edu/api/v1/courses/154488
+ 0/files/91794952" data-api-returntype="File">Problem Set 1.pdf</a></p><scr
+ ipt src="https://instructure-uploads.s3.amazonaws.com/account_107200000000
+ 90242/attachments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250812T230800Z
+UID:event-assignment-override-324389
+DTSTART:20250821T010000Z
+DTEND:20250821T010000Z
+CLASS:PUBLIC
+DESCRIPTION:Case: Managing Diversity and Inclusion at Yelp\n\nYou have been
+  consulted by Rachel Williams\, Head of Diversity and Inclusion at Yelp\, 
+ to provide a recommendation on how she should move forward in designing Ye
+ lp’s first company-wide DEI strategy. Your recommendation (including the
+  three points below) should be in the form of a memo to Rachel. It should 
+ be one page maximum (single-spaced\, 12-point font\, Times New Roman\, and
+  1-inch margins).\n\nAs a facilitator\, you’ll use this memo to help kic
+ k off and guide your group’s discussion. You don’t need to present the
+  full memo\, but it should help you frame the central challenge and open u
+ p conversation. Please remember: if you haven’t done the readings or sub
+ mitted your memo\, you won’t be equipped to lead your group and you’ll
+  be letting your team down.\n\nRachel wants to see the following in your m
+ emo:\n\n*\n\nA clear and succinct understanding of the core challenge(s) f
+ acing Yelp when it comes to building a more diverse and inclusive workforc
+ e.\n\n*\n\nThe pros and cons of various strategies Rachel could propose to
+  Yelp leadership.\n\n*\n\nA strong rationale for your recommendation\, bas
+ ed on (1) and (2)\, as well as insights from the case and readings.\n\nTo 
+ support your thinking\, consider the following guiding questions:\n\n*\n\n
+ Why isn’t there more diversity among engineers at Yelp and in tech compa
+ nies more broadly?\n\n*\n\nWhere in the hiring funnel might bias be showin
+ g up (e.g.\, sourcing\, selection\, socialization)?\n\n*\n\nHow should Yel
+ p evaluate whether its inclusion strategies are working over time?\n\n*\n\
+ nHow would you advise Yelp to communicate its DEI goals in the current pol
+ itical climate?\n\nSubmission Details:\n\n*\n\n* Due: On bCourses by 6:00 
+ PM on the day of class\n\n*\n\nFormat: Type directly into the submission b
+ ox\n\n*\n\nGrading: You will receive a grade out of 5 points based on the 
+ quality and effort demonstrated in your memo. See rubric posted below.\n\n
+ Good luck and have fun!
+SEQUENCE:0
+SUMMARY:Class 3 - Group Facilitators Yelp Case Memo (EWMBA 205 LEC 01A (In 
+ Person)) [EWMBA 205-LEC-01A & 02A FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1545386&month=08&year=2025#assignment_8929081
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p data-start="273" data-end="323"><strong data-start="273" d
+ ata-end="323">Case: Managing Diversity and Inclusion at Yelp</strong></p>\
+ n<p data-start="325" data-end="730">You have been consulted by Rachel Will
+ iams\, Head of Diversity and Inclusion at Yelp\, to provide a recommendati
+ on on how she should move forward in designing Yelp’s first company-wide
+  DEI strategy. Your recommendation (including the three points below) shou
+ ld be in the form of a memo to Rachel. It should be one page maximum (sing
+ le-spaced\, 12-point font\, Times New Roman\, and 1-inch margins).</p>\n<p
+  data-start="732" data-end="1093">As a facilitator\, you’ll use this mem
+ o to help kick off and guide your group’s discussion. You don’t need t
+ o present the full memo\, but it should help you frame the central challen
+ ge and open up conversation. Please remember: if you haven’t done the re
+ adings or submitted your memo\, you won’t be equipped to lead your group
+  and you’ll be letting your team down.</p>\n<p data-start="1095" data-en
+ d="1146"><strong data-start="1095" data-end="1146">Rachel wants to see the
+  following in your memo:</strong></p>\n<ol data-start="1148" data-end="149
+ 5">\n<li data-start="1148" data-end="1290">\n<p data-start="1151" data-end
+ ="1290">A clear and succinct understanding of the core challenge(s) facing
+  Yelp when it comes to building a more diverse and inclusive workforce.</p
+ >\n</li>\n<li data-start="1291" data-end="1376">\n<p data-start="1294" dat
+ a-end="1376">The pros and cons of various strategies Rachel could propose 
+ to Yelp leadership.</p>\n</li>\n<li data-start="1377" data-end="1495">\n<p
+  data-start="1380" data-end="1495">A strong rationale for your recommendat
+ ion\, based on (1) and (2)\, as well as insights from the case and reading
+ s.</p>\n</li>\n</ol>\n<p data-start="1497" data-end="1568">To support your
+  thinking\, consider the following guiding questions:</p>\n<ul data-start=
+ "1569" data-end="2104">\n<li data-start="1569" data-end="1663">\n<p data-s
+ tart="1571" data-end="1663">Why isn’t there more diversity among enginee
+ rs at Yelp and in tech companies more broadly?</p>\n</li>\n<li data-start=
+ "1664" data-end="1760">\n<p data-start="1666" data-end="1760">Where in the
+  hiring funnel might bias be showing up (e.g.\, sourcing\, selection\, soc
+ ialization)?</p>\n</li>\n<li data-start="1929" data-end="2013">\n<p data-s
+ tart="1931" data-end="2013">How should Yelp evaluate whether its inclusion
+  strategies are working over time?</p>\n</li>\n<li data-start="2014" data-
+ end="2104">\n<p data-start="2016" data-end="2104">How would you advise Yel
+ p to communicate its DEI goals in the current political climate?</p>\n</li
+ >\n</ul>\n<p data-start="2238" data-end="2263"><strong data-start="2238" d
+ ata-end="2261">Submission Details:</strong></p>\n<ul data-start="2264" dat
+ a-end="2551">\n<li data-start="2264" data-end="2332">\n<ul data-start="200
+ 3" data-end="2331">\n<li><strong data-start="2005" data-end="2013">Due:</s
+ trong> On bCourses by<strong> </strong>6:00 PM on the day of class</li>\n<
+ li data-start="2003" data-end="2071">\n<p data-start="2005" data-end="2071
+ "><strong data-start="2074" data-end="2085">Format:</strong> Type directly
+  into the submission box</p>\n</li>\n<li data-start="2003" data-end="2071"
+ >\n<p data-start="2005" data-end="2071"><strong data-start="2408" data-end
+ ="2420">Grading:</strong> You will receive a grade out of <strong data-sta
+ rt="2453" data-end="2465">5 points</strong> based on the quality and effor
+ t demonstrated in your memo. See rubric posted below.</p>\n</li>\n</ul>\n<
+ /li>\n</ul>\n<p data-start="2553" data-end="2576">Good luck and have fun!<
+ /p><script src="https://instructure-uploads.s3.amazonaws.com/account_10720
+ 000000090242/attachments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250819T053700Z
+UID:event-assignment-8932705
+DTSTART:20250823T050000Z
+DTEND:20250823T050000Z
+CLASS:PUBLIC
+DESCRIPTION:Please answer the questions in this [form] (https://bcourses.be
+ rkeley.edu/courses/1545386/files/91874239?wrap=1) in the space below.\n\nT
+ his form is meant to provide a high-level overview of your proposed projec
+ t. At this stage\, it’s fine to keep things broad\, the goal is simply t
+ o get your team started.\n\nI especially encourage you to reach out to me 
+ (by email or in office hours) later in the project for example\, when you 
+ are:\n\n*\n\nStrategizing how to approach and structure your leader interv
+ iew\n\n*\n\nMaking sense of the insights from that interview\n\n*\n\nPlann
+ ing or analyzing the additional data you collect in Part 2\n\nThat’s whe
+ n our conversations will be most useful to your team.
+SEQUENCE:0
+SUMMARY:Topic Proposal Form  [EWMBA 205-LEC-01A & 02A FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1545386&month=08&year=2025#assignment_8932705
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p data-start="150" data-end="226">Please answer the question
+ s in this <a class="instructure_file_link instructure_scribd_file inline_d
+ isabled" title="proposal_form generic.docx" href="https://bcourses.berkele
+ y.edu/courses/1545386/files/91874239?wrap=1" target="_blank" data-api-endp
+ oint="https://bcourses.berkeley.edu/api/v1/courses/1545386/files/91874239"
+  data-api-returntype="File">form</a> in the space below.</p>\n<p data-star
+ t="228" data-end="400">This form is meant to provide a high-level overview
+  of your proposed project. At this stage\, it’s fine to keep things broa
+ d\, the goal is simply to get your team started.</p>\n<p data-start="402" 
+ data-end="533">I especially encourage you to reach out to me (by email or 
+ in office hours) later in the project for example\, when you are:</p>\n<ul
+  data-start="534" data-end="723">\n<li data-start="534" data-end="602">\n<
+ p data-start="536" data-end="602">Strategizing how to approach and structu
+ re your leader interview</p>\n</li>\n<li data-start="603" data-end="655">\
+ n<p data-start="605" data-end="655">Making sense of the insights from that
+  interview</p>\n</li>\n<li data-start="656" data-end="723">\n<p data-start
+ ="658" data-end="723">Planning or analyzing the additional data you collec
+ t in Part 2</p>\n</li>\n</ul>\n<p data-start="725" data-end="790">That’s
+  when our conversations will be most useful to your team.</p><script src="
+ https://instructure-uploads.s3.amazonaws.com/account_10720000000090242/att
+ achments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250825T050800Z
+UID:event-assignment-8909111
+DTSTART;VALUE=DATE;VALUE=DATE:20250824
+CLASS:PUBLIC
+DESCRIPTION:Much of the work of business takes place in teams. To enhance y
+ our experience with teams and with your classmates\, you will be asked to 
+ write a short memo analyzing a company’s cost structure and pricing poli
+ cies. The details about this team assignment can be found below. You have 
+ to work on this assignment with the study group you have been assigned to.
+ \n\nOnly one member per study group has to upload the PDF with the team's 
+ pricing project to bCourses. For more detailed instructions\, read the fol
+ lowing page:\n\n[Pricing Project Directions] (https://bcourses.berkeley.ed
+ u/courses/1544880/pages/team-assignment-corporate-memo-instructions)\n\nAs
+  the second checkpoint\, your team should expand on what you have so far\,
+  adding the qualitative assessments about demand and cost structure.\n\nNo
+ te that this assignment (i.e.\, second checkpoint) is not graded. However\
+ , you are expected to submit the assignment on time. Failing to deliver wi
+ ll result in a 10-point deduction from the final assignment grade.
+SEQUENCE:0
+SUMMARY:Team Assignment: Corporate Memo (Part 2) [EWMBA 201A-LEC-01A & 02A 
+ FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1544880&month=08&year=2025#assignment_8909111
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p>Much of the work of business takes place in teams. To enha
+ nce your experience with teams and with your classmates\, you will be aske
+ d to write a short memo analyzing a company’s cost structure and pricing
+  policies. The details about this team assignment can be found below. You 
+ have to work on this assignment with the study group you have been assigne
+ d to.</p>\n<p>Only one member per study group has to upload the PDF with t
+ he team's pricing project to bCourses. For more detailed instructions\, re
+ ad the following page:</p>\n<p><a title="Team Assignment Corporate Memo In
+ structions" href="https://bcourses.berkeley.edu/courses/1544880/pages/team
+ -assignment-corporate-memo-instructions" data-course-type="wikiPages" data
+ -published="true" data-api-endpoint="https://bcourses.berkeley.edu/api/v1/
+ courses/1544880/pages/team-assignment-corporate-memo-instructions" data-ap
+ i-returntype="Page">Pricing Project Directions</a></p>\n<p><strong>As the 
+ second checkpoint\, your team should expand on what you have so far\, addi
+ ng the qualitative assessments about demand and cost structure.</strong></
+ p>\n<p>Note that this assignment (i.e.\, second checkpoint) is not graded.
+  However\, you are expected to submit the assignment on time. Failing to d
+ eliver will result in a 10-point deduction from the final assignment grade
+ .</p><script src="https://instructure-uploads.s3.amazonaws.com/account_107
+ 20000000090242/attachments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250807T015100Z
+UID:event-assignment-8916935
+DTSTART:20250905T050000Z
+DTEND:20250905T050000Z
+CLASS:PUBLIC
+DESCRIPTION:Your team's task is to create a profile of a leader\, analyzing
+  their strengths and weaknesses. Conduct an interview with your team’s c
+ hoice of a leader (any level\, any type) and at least one person who repor
+ ts to that leader\, and to use as many other methods as you can\, to learn
+  about that person. Your final product will be a maximum of 1800 words (ad
+ hering to 1.5 spacing\, 12-point Times New Roman font\, and 1-inch margins
+ ). \n\n \n\nThe report should cover three key aspects: 1)What makes your
+  chosen interviewee a leader\, 2) an assessment of their strengths and wea
+ knesses\, and 3) constructive advice to help improve their situation. \n\
+ n \n\nThe goal of this assignment is to deepen your understanding of cour
+ se concepts by exploring leadership in practical settings. It also offers 
+ an opportunity to practice delivering honest and constructive feedback. In
+ tegrate relevant course concepts from lectures and readings\, and feel fre
+ e to supplement your analysis with high-quality external research. Creativ
+ ity is encouraged in the style and presentation of your report\, including
+  the use of pictures and engaging headings. When selecting a leader to int
+ erview\, be prepared to justify what makes this person a leader (i.e.\, Ar
+ e they a leader through position and/or hierarchy? Are they a beloved and 
+ respected member of their community?).\n\n \n\nAs MBA students\, I challe
+ nge you to rethink your perceptions of leadership. While you all possess l
+ eadership qualities worthy of being interviewed\, you must all be willing 
+ to grow and change as leaders\, especially as your rank\, positions\, or m
+ anagerial responsibilities continue to evolve. One significant way to achi
+ eve this growth is by learning from and critically analyzing other leaders
+ ' experiences.\n\n \n\nPlease read the [full assignment details] (https:/
+ /docs.google.com/document/d/1FZloXH8r04sYvPSFiwXLmO8KW8nLCyWbfuOUU69kakQ/e
+ dit) and review the [rubric] (https://bcourses.berkeley.edu/courses/154538
+ 6/files/92116296?wrap=1).
+SEQUENCE:0
+SUMMARY:Part 1 - Interview Report  [EWMBA 205-LEC-01A & 02A FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1545386&month=09&year=2025#assignment_8916935
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p><span>Your team's task is to create a profile of a leader\
+ , analyzing their strengths and weaknesses. Conduct an interview with your
+  team’s choice of a leader (any level\, any type) and at least one perso
+ n who reports to that leader\, and to use as many other methods as you can
+ \, to learn about that person. Your final product will be a maximum of 180
+ 0 words (adhering to 1.5 spacing\, 12-point Times New Roman font\, and 1-i
+ nch margins).&nbsp\;</span></p>\n<p>&nbsp\;</p>\n<p><span>The report shoul
+ d cover three key aspects: 1)What makes your chosen interviewee a leader\,
+  2) an assessment of their strengths and weaknesses\, and 3) constructive 
+ advice to help improve their situation.&nbsp\;</span></p>\n<p>&nbsp\;</p>\
+ n<p><span>The goal of this assignment is to deepen your understanding of c
+ ourse concepts by exploring leadership in practical settings. It also offe
+ rs an opportunity to practice delivering honest and constructive feedback.
+  Integrate relevant course concepts from lectures and readings\, and feel 
+ free to supplement your analysis with high-quality external research. Crea
+ tivity is encouraged in the style and presentation of your report\, includ
+ ing the use of pictures and engaging headings. When selecting a leader to 
+ interview\, be prepared to justify what makes this person a leader (i.e.\,
+  Are they a leader through position and/or hierarchy? Are they a beloved a
+ nd respected member of their community?).</span></p>\n<p>&nbsp\;</p>\n<p><
+ span>As MBA students\, I challenge you to rethink your perceptions of lead
+ ership. While you all possess leadership qualities worthy of being intervi
+ ewed\, you must all be willing to grow and change as leaders\, especially 
+ as your rank\, positions\, or managerial responsibilities continue to evol
+ ve. One significant way to achieve this growth is by learning from and cri
+ tically analyzing other leaders' experiences.</span></p>\n<p>&nbsp\;</p>\n
+ <p><span>Please read the <a class="inline_disabled" href="https://docs.goo
+ gle.com/document/d/1FZloXH8r04sYvPSFiwXLmO8KW8nLCyWbfuOUU69kakQ/edit" targ
+ et="_blank">full assignment details</a> and review the <a class="instructu
+ re_file_link instructure_scribd_file inline_disabled" title="Interview_rub
+ ric 25.pdf" href="https://bcourses.berkeley.edu/courses/1545386/files/9211
+ 6296?wrap=1" target="_blank" data-api-endpoint="https://bcourses.berkeley.
+ edu/api/v1/courses/1545386/files/92116296" data-api-returntype="File">rubr
+ ic</a>.</span></p><script src="https://instructure-uploads.s3.amazonaws.co
+ m/account_10720000000090242/attachments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250718T084800Z
+UID:event-assignment-8909107
+DTSTART;VALUE=DATE;VALUE=DATE:20250907
+CLASS:PUBLIC
+DESCRIPTION:Please submit the problem set below. Upload a PDF file with you
+ r responses inside the red boxes. Excel file for one of the problems is [h
+ ere] (https://bcourses.berkeley.edu/courses/1544880/files/91794905/downloa
+ d?wrap=1).\n\n[Problem Set 2.pdf] (https://bcourses.berkeley.edu/courses/1
+ 544880/files/91794923/download?wrap=1)
+SEQUENCE:0
+SUMMARY:Problem Set 2 [EWMBA 201A-LEC-01A & 02A FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1544880&month=09&year=2025#assignment_8909107
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p>Please submit the problem set below. Upload a PDF file wit
+ h your responses inside the red boxes. Excel file for one of the problems 
+ is <a class="instructure_file_link instructure_scribd_file" title="Problem
+  Set 2 Data.xlsx" href="https://bcourses.berkeley.edu/courses/1544880/file
+ s/91794905/download?wrap=1" data-api-endpoint="https://bcourses.berkeley.e
+ du/api/v1/courses/1544880/files/91794905" data-api-returntype="File">here<
+ /a>.</p>\n<p><a class="instructure_file_link instructure_scribd_file" titl
+ e="Problem Set 2.pdf" href="https://bcourses.berkeley.edu/courses/1544880/
+ files/91794923/download?wrap=1" data-api-endpoint="https://bcourses.berkel
+ ey.edu/api/v1/courses/1544880/files/91794923" data-api-returntype="File">P
+ roblem Set 2.pdf</a></p><script src="https://instructure-uploads.s3.amazon
+ aws.com/account_10720000000090242/attachments/89304441/dp_app.js"></script
+ >
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250731T214100Z
+UID:event-assignment-8916927
+DTSTART;VALUE=DATE;VALUE=DATE:20250908
+CLASS:PUBLIC
+SEQUENCE:0
+SUMMARY:Midterm [EWMBA 205-LEC-01A & 02A FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1545386&month=09&year=2025#assignment_8916927
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250812T231100Z
+UID:event-assignment-override-324385
+DTSTART:20250911T010000Z
+DTEND:20250911T010000Z
+CLASS:PUBLIC
+DESCRIPTION:Case: MediSys Corp.: The IntensCare Product Development Team\n\
+ nYou have been consulted by Valerie Merz\, the marketing manager responsib
+ le for the success of the IntensCare product\, to help her overcome the pr
+ oblems facing the team. Consider an action plan that Merz can follow\, one
+  that thoughtfully considers the costs and benefits of your proposed appro
+ ach.Your recommendation (including points 1-3 from below) should be in the
+  form of a memo to Merz.  It should be one page maximum (single-spaced\, 
+ 12-point font\, Times New Roman\, and 1-inch margins).\n\nAs a facilitator
+ \, you’ll use the preparation of this memo to help kick off and guide yo
+ ur group’s discussion. You won’t need to present your memo in full\, b
+ ut it should give you a clear point of view and framing to engage your tea
+ mmates. Please remember: if you haven’t done the readings or submitted y
+ our memo\, you won’t be equipped to lead your group and you’ll be lett
+ ing your team down.\n\nValerie wants to see the following in your memo:\n\
+ n1. A clear and succinct understanding of the key challenge(s) he faces i
+ n the situation. Your support of the challenges should include case facts/
+ observations.\n\n2. The pros/cons of various alternatives available for a
+ ddressing the challenge.\n\n3. A strong rationale for your recommended ac
+ tion\, based upon (1) and (2) above.\n\nTo support your thinking\, conside
+ r the following questions:\n\n*\n\nWhat factors are contributing to the te
+ nsions and dysfunctions on the IntensCare team?\n\n*\n\nHow do organizatio
+ nal design choices (functional roles\, reporting lines\, evaluation system
+ s) shape team dynamics?\n\n*\n\nHow could Valerie influence others without
+  formal authority?\n\n*\n\nHave you ever been on a team like this—where 
+ power and responsibility were unclear? What worked or didn’t?\n\nSubmiss
+ ion Details:\n\n* Due: On bCourses by 6:00 PM on the day of class\n\n*\n\n
+ Format: Type directly into the submission box\n\n*\n\nGrading: You will re
+ ceive a grade out of 5 points based on the quality and effort demonstrated
+  in your memo. See rubric posted below.\n\nGood luck and have fun!
+SEQUENCE:0
+SUMMARY:Class 6 - Group Facilitators MediSys Case Memo (EWMBA 205 LEC 01A (
+ In Person)) [EWMBA 205-LEC-01A & 02A FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1545386&month=09&year=2025#assignment_8916931
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p><strong>Case: MediSys Corp.: The IntensCare Product Develo
+ pment Team</strong></p>\n<p>You have been consulted by Valerie Merz\, the 
+ marketing manager responsible for the success of the IntensCare product\, 
+ to help her overcome the problems facing the team. Consider an action plan
+  that Merz can follow\, one that thoughtfully considers the costs and bene
+ fits of your proposed approach.Your recommendation (including points 1-3 f
+ rom below) should be in the form of a memo to Merz. &nbsp\;It should be on
+ e page maximum (single-spaced\, 12-point font\, Times New Roman\, and 1-in
+ ch margins).</p>\n<p>As a facilitator\, you’ll use the preparation of th
+ is memo to help kick off and guide your group’s discussion. You won’t 
+ need to present your memo in full\, but it should give you a clear point o
+ f view and framing to engage your teammates. Please remember: if you haven
+ ’t done the readings or submitted your memo\, you won’t be equipped to
+  lead your group and you’ll be letting your team down.</p>\n<p><strong>V
+ alerie wants to see the following in your memo:</strong></p>\n<p><strong>1
+ .</strong><span>&nbsp\;</span>A clear and succinct understanding of the ke
+ y challenge(s) he faces in the situation. Your support of the challenges s
+ hould include case facts/observations.</p>\n<p><strong>2.</strong><span>&n
+ bsp\;</span>The pros/cons of various alternatives available for addressing
+  the challenge.</p>\n<p><strong>3.</strong><span>&nbsp\;</span>A strong ra
+ tionale for your recommended action\, based upon (1) and (2) above.</p>\n<
+ p data-start="1486" data-end="1545">To support your thinking\, consider th
+ e following questions:</p>\n<ul data-start="1547" data-end="2082">\n<li da
+ ta-start="1547" data-end="1635">\n<p data-start="1549" data-end="1635">Wha
+ t factors are contributing to the tensions and dysfunctions on the IntensC
+ are team?</p>\n</li>\n<li data-start="1636" data-end="1751">\n<p data-star
+ t="1638" data-end="1751">How do organizational design choices (functional 
+ roles\, reporting lines\, evaluation systems) shape team dynamics?</p>\n</
+ li>\n<li data-start="1801" data-end="1863">\n<p data-start="1803" data-end
+ ="1863">How could Valerie influence others without formal authority?</p>\n
+ </li>\n<li data-start="1974" data-end="2082">\n<p data-start="1976" data-e
+ nd="2082">Have you ever been on a team like this—where power and respons
+ ibility were unclear? What worked or didn’t?</p>\n</li>\n</ul>\n<p data-
+ start="1977" data-end="2002"><strong data-start="1977" data-end="2000">Sub
+ mission Details:</strong></p>\n<ul data-start="2003" data-end="2331">\n<li
+ ><strong data-start="2005" data-end="2013">Due:</strong> On bCourses by<st
+ rong> </strong>6:00 PM on the day of class</li>\n<li data-start="2003" dat
+ a-end="2071">\n<p data-start="2005" data-end="2071"><strong data-start="20
+ 74" data-end="2085">Format:</strong> Type directly into the submission box
+ </p>\n</li>\n<li data-start="2145" data-end="2290">\n<p data-start="2147" 
+ data-end="2290"><strong data-start="2147" data-end="2159">Grading:</strong
+ > You will receive a grade out of 5 points based on the quality and effort
+  demonstrated in your memo. See rubric posted below.</p>\n</li>\n</ul>\n<p
+  data-start="2333" data-end="2356">Good luck and have fun!</p><script src=
+ "https://instructure-uploads.s3.amazonaws.com/account_10720000000090242/at
+ tachments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250718T084800Z
+UID:event-assignment-8909108
+DTSTART;VALUE=DATE;VALUE=DATE:20250921
+CLASS:PUBLIC
+DESCRIPTION:Please submit the problem set below. Upload a PDF file with you
+ r responses inside the red boxes. [Problem Set 3.pdf] (https://bcourses.be
+ rkeley.edu/courses/1544880/files/91794949?wrap=1) and [Excel Dataset for Q
+ 1] (https://bcourses.berkeley.edu/courses/1544880/files?preview=89578249)
+SEQUENCE:0
+SUMMARY:Problem Set 3 [EWMBA 201A-LEC-01A & 02A FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1544880&month=09&year=2025#assignment_8909108
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p><span>Please submit the problem set below. Upload a PDF fi
+ le with your responses inside the red boxes. <a id="89584672" class="instr
+ ucture_file_link instructure_scribd_file inline_disabled" href="https://bc
+ ourses.berkeley.edu/courses/1544880/files/91794949?wrap=1" target="_blank"
+  data-canvas-previewable="true" data-api-endpoint="https://bcourses.berkel
+ ey.edu/api/v1/courses/1544880/files/91794949" data-api-returntype="File">P
+ roblem Set 3.pdf</a> and <a class="inline_disabled" title="Link" href="htt
+ ps://bcourses.berkeley.edu/courses/1544880/files?preview=89578249" target=
+ "_blank">Excel Dataset for Q1</a></span></p><script src="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304441
+ /dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250812T231200Z
+UID:event-assignment-override-324387
+DTSTART:20250925T010000Z
+DTEND:20250925T010000Z
+CLASS:PUBLIC
+DESCRIPTION:Case: Iggy's Bread of the World\n\nYou are a board member/trust
+ ed advisor making recommendations to the Ivanovics regarding both McRae's 
+ proposal and the problems unfolding that the Ivanovics need to deal with t
+ o continue to be successful. Your recommendation (including points 1-3 bel
+ ow) should be in the form of a memo to Iggy + Ludmilla.  It should be one
+  page maximum (single-spaced\, 12-point font\, Times New Roman\, and 1-inc
+ h margins).\n\nAs a facilitator\, you’ll use the preparation of this mem
+ o to help kick off and guide your group’s discussion. You won’t need t
+ o present your memo in full\, but it should give you a clear point of view
+  and framing to engage your teammates. Please remember: if you haven’t d
+ one the readings or submitted your memo\, you won’t be equipped to lead 
+ your group and you’ll be letting your team down.\n\nIggy + Ludmilla want
+  to see the following in your memo:\n\n1. A clear and succinct understandi
+ ng of the key challenges they face in the situation. Your support of the c
+ hallenges should include case facts/observations.\n\n2. The pros/cons of v
+ arious alternatives available for addressing the challenges.\n\n3. A stro
+ ng rationale for your recommended action\, based upon (1) and (2) above. 
+ Not only should your recommendation be supported based upon the facts of t
+ he case and your expert knowledge (the “why”)\, but also your recommen
+ dation should include the “who\, what\, when\, and how”.\n\nTo support
+  your thinking\, reflect on these questions:\n\n*\n\nWhat values have the 
+ Ivanovics instilled in Iggy’s culture\, and how have they used direct\, 
+ indirect\, and symbolic influence to shape it?\n\n*\n\nWhat’s at stake i
+ n their current conflict with McRae? What’s driving the breakdown?\n\n*\
+ n\nWhat’s your assessment of McRae’s role? Could the situation be repa
+ ired\, or should they move on? If so\, what’s next?\n\nSubmission Detail
+ s:\n\n* Due: On bCourses by 6:00 PM on the day of class\n\n*\n\nFormat: Ty
+ pe directly into the submission box\n\n*\n\nGrading: You will receive a gr
+ ade out of 5 points based on the quality and effort demonstrated in your m
+ emo. See rubric posted below.\n\nGood luck and have fun baking up a plan! 
+ 🥖
+SEQUENCE:0
+SUMMARY:Class 8 - Group Facilitators Iggy's Case Memo (EWMBA 205 LEC 01A (I
+ n Person)) [EWMBA 205-LEC-01A & 02A FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1545386&month=09&year=2025#assignment_8916932
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p><strong>Case: Iggy's Bread of the World</strong></p>\n<p>Y
+ ou are a board member/trusted advisor making recommendations to the Ivanov
+ ics regarding both McRae's proposal and the problems unfolding that the Iv
+ anovics need to deal with to continue to be successful. Your recommendatio
+ n (including points 1-3 below) should be in the form of a memo to Iggy + L
+ udmilla. &nbsp\;It should be one page maximum (single-spaced\, 12-point fo
+ nt\, Times New Roman\, and 1-inch margins).</p>\n<p>As a facilitator\, you
+ ’ll use the preparation of this memo to help kick off and guide your gro
+ up’s discussion. You won’t need to present your memo in full\, but it 
+ should give you a clear point of view and framing to engage your teammates
+ . Please remember: if you haven’t done the readings or submitted your me
+ mo\, you won’t be equipped to lead your group and you’ll be letting yo
+ ur team down.</p>\n<div class="page" title="Page 1">\n<div class="layoutAr
+ ea">\n<div class="column">\n<p><strong>Iggy + Ludmilla want to see the fol
+ lowing in your memo:</strong></p>\n<p><span>1. A clear and succinct unders
+ tanding of the key challenges they face in the situation. Your support of 
+ the challenges should include case facts/observations.</span></p>\n<p><spa
+ n>2. The pros/cons of various alternatives available for addressing the ch
+ allenges.<br><br></span><span>3.&nbsp\;</span><span>A strong rationale for
+  your recommended action\, based upon (1) and (2) above.&nbsp\;</span><spa
+ n>Not only should your recommendation be supported based upon the facts of
+  the case and your expert knowledge (the “why”)\, but also your recomm
+ endation should include the “who\, what\, when\, and how”.</span></p>\
+ n<p data-start="1346" data-end="1403">To support your thinking\, reflect o
+ n these questions:</p>\n<ul data-start="1405" data-end="1982">\n<li data-s
+ tart="1405" data-end="1543">\n<p data-start="1407" data-end="1543">What va
+ lues have the Ivanovics instilled in Iggy’s culture\, and how have they 
+ used direct\, indirect\, and symbolic influence to shape it?</p>\n</li>\n<
+ li data-start="1544" data-end="1629">\n<p data-start="1546" data-end="1629
+ ">What’s at stake in their current conflict with McRae? What’s driving
+  the breakdown?</p>\n</li>\n<li data-start="1736" data-end="1854">\n<p dat
+ a-start="1738" data-end="1854">What’s your assessment of McRae’s role?
+  Could the situation be repaired\, or should they move on? If so\, what’
+ s next?</p>\n</li>\n</ul>\n</div>\n</div>\n</div>\n<p data-start="1977" da
+ ta-end="2002"><strong data-start="1977" data-end="2000">Submission Details
+ :</strong></p>\n<ul data-start="2003" data-end="2331">\n<li><strong data-s
+ tart="2005" data-end="2013">Due:</strong> On bCourses by<strong> </strong>
+ 6:00 PM on the day of class</li>\n<li data-start="2003" data-end="2071">\n
+ <p data-start="2005" data-end="2071"><strong data-start="2074" data-end="2
+ 085">Format:</strong> Type directly into the submission box</p>\n</li>\n</
+ ul>\n<ul data-start="2003" data-end="2331">\n<li data-start="2145" data-en
+ d="2290">\n<p data-start="2147" data-end="2290"><strong data-start="2147" 
+ data-end="2159">Grading:</strong> You will receive a grade out of 5 points
+  based on the quality and effort demonstrated in your memo. See rubric pos
+ ted below.</p>\n</li>\n</ul>\n<p>Good luck and have fun baking up a plan! 
+ 🥖</p><script src="https://instructure-uploads.s3.amazonaws.com/account_
+ 10720000000090242/attachments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250814T010000Z
+UID:event-assignment-override-324599
+DTSTART:20250925T023000Z
+DTEND:20250925T023000Z
+CLASS:PUBLIC
+DESCRIPTION:A critical component of effective teamwork is reflexivity (Sc
+ hippers et al.\, 2003).  Reflexivity is a group's ability to collectively
+  reflect upon team objectives\, strategies\, and processes and to adapt th
+ em accordingly. This is our primary goal for the Teams@Haas Team Check-i
+ n Workshop. \n\nYour teams will have the opportunity to engage in this pr
+ actice during the Teams@Haas Team Check-In facilitated by a Teams@Haas Exe
+ cutive Coaching Team.  The goal of these workshops is to provide you and 
+ your team with a new set of tools and to also support you in facilitating 
+ a conversation for your team to step back and reflect on what is working w
+ ell and where you might make adaptations for improved effectiveness.\n\nPr
+ ior to the Team Check-In Workshop\, please:\n\n* Check Your Team's Worksho
+ p Time (no Berkeley time) & Location\n\n* Review your Team Collaborative P
+ lan \n\n* Watch: [HIT Team Check-In Plenary Video] (https://bcourses.ber
+ keley.edu/courses/1535656/pages/video-team-check-in)\n\nParticipation Grad
+ e: Attendance for this session is part of your Leading People participatio
+ n grade.  
+SEQUENCE:0
+SUMMARY:Teams@Haas Check-In  Workshop #1 (Executive Coach) (EWMBA Blue) [Te
+ ams@Haas 2025]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1546457&month=09&year=2025#assignment_8930023
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p><span>A critical component of effective teamwork is<strong
+ ><i>&nbsp\;reflexivity&nbsp\;</i></strong>(Schippers et al.\, 2003).&nbsp\
+ ; Reflexivity is a group's ability to collectively reflect upon team objec
+ tives\, strategies\, and processes and to adapt them accordingly. This is 
+ our primary goal for the&nbsp\;<strong>Teams@Haas&nbsp\;</strong><strong>T
+ eam Check-in Workshop</strong>.&nbsp\;</span></p>\n<p><span>Your teams wil
+ l have the opportunity to engage in this practice during the </span><stron
+ g>Teams@Haas Team Check-In</strong><span> facilitated by a </span><strong>
+ Teams@Haas Executive Coaching Team</strong><span>.&nbsp\; The goal of thes
+ e workshops is to provide you and your team with a new set of tools and to
+  also support you in facilitating a conversation for your team to step bac
+ k and reflect on what is working well and where you might make adaptations
+  for improved effectiveness.</span></p>\n<hr>\n<p><span><strong>Prior to t
+ he Team Check-In Workshop\, please:</strong></span></p>\n<ul>\n<li>Check Y
+ our Team's Workshop Time (no Berkeley time) &amp\; Location</li>\n<li>Revi
+ ew your Team Collaborative Plan<span>&nbsp\;</span></li>\n<li><span>Watch:
+ &nbsp\;<a title="VIDEO: TEAM CHECK-IN" href="https://bcourses.berkeley.edu
+ /courses/1535656/pages/video-team-check-in" data-course-type="wikiPages" d
+ ata-published="true" data-api-endpoint="https://bcourses.berkeley.edu/api/
+ v1/courses/1535656/pages/video-team-check-in" data-api-returntype="Page">H
+ IT Team Check-In Plenary Video</a></span></li>\n</ul>\n<p><span><strong>Pa
+ rticipation Grade:</strong> Attendance for this session is part of your Le
+ ading People participation grade.&nbsp\;&nbsp\;</span></p><script src="htt
+ ps://instructure-uploads.s3.amazonaws.com/account_10720000000090242/attach
+ ments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250718T084900Z
+UID:event-assignment-8909109
+DTSTART;VALUE=DATE;VALUE=DATE:20251003
+CLASS:PUBLIC
+DESCRIPTION:Much of the work of business takes place in teams. To enhance y
+ our experience with teams and with your classmates\, you will be asked to 
+ write a short memo analyzing a company’s cost structure and pricing poli
+ cies. The details about this team assignment can be found below. You have 
+ to work on this assignment with the study group you have been assigned to.
+ \n\nOnly one member per study group has to upload the PDF with the team's 
+ pricing project to bCourses. For more detailed instructions\, read the fol
+ lowing page:\n\n[Pricing Project Directions] (https://bcourses.berkeley.ed
+ u/courses/1544880/pages/team-assignment-corporate-memo-instructions)\n\nNo
+ te that this is your final submission and will be graded. Make sure you su
+ bmitted the latest version of your group project. 
+SEQUENCE:0
+SUMMARY:Team Assignment: Corporate Memo (Final Submission) [EWMBA 201A-LEC-
+ 01A & 02A FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1544880&month=10&year=2025#assignment_8909109
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p>Much of the work of business takes place in teams. To enha
+ nce your experience with teams and with your classmates\, you will be aske
+ d to write a short memo analyzing a company’s cost structure and pricing
+  policies. The details about this team assignment can be found below. You 
+ have to work on this assignment with the study group you have been assigne
+ d to.</p>\n<p>Only one member per study group has to upload the PDF with t
+ he team's pricing project to bCourses. For more detailed instructions\, re
+ ad the following page:</p>\n<p><a title="Team Assignment Corporate Memo In
+ structions" href="https://bcourses.berkeley.edu/courses/1544880/pages/team
+ -assignment-corporate-memo-instructions" data-course-type="wikiPages" data
+ -published="true" data-api-endpoint="https://bcourses.berkeley.edu/api/v1/
+ courses/1544880/pages/team-assignment-corporate-memo-instructions" data-ap
+ i-returntype="Page">Pricing Project Directions</a></p>\n<p><strong>Note th
+ at this is your final submission and will be graded. Make sure you submitt
+ ed the latest version of your group project.&nbsp\;</strong></p><script sr
+ c="https://instructure-uploads.s3.amazonaws.com/account_10720000000090242/
+ attachments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250807T015200Z
+UID:event-assignment-8916936
+DTSTART:20251008T050000Z
+DTEND:20251008T050000Z
+CLASS:PUBLIC
+DESCRIPTION:***Note: To upload your video\, you will need to use Panopto. [
+ Follow these instructions.] (https://docs.google.com/document/d/1V9NSjoUGF
+ zMiTAVrjp5cRP64f7EkPVbxOQTjp2wobAw/edit?usp=sharing)\n\nThe true value of 
+ this class lies in the practical application of its lessons. This assignme
+ nt is designed to bridge the gap between theoretical knowledge and real-wo
+ rld challenges in organizations. Working collaboratively within your Teams
+ @Haas groups\, you will undertake a team research project focused on a man
+ agerial-related topic within an organization of your choice. The primary o
+ bjective of this project is to study the chosen organization and propose v
+ iable improvements to its current situation.\n\nAfter researching the orga
+ nization\, your team will identify a key people-focused challenge area for
+  the organization (i.e. employee morale\, team design\, diversity\, equity
+  and inclusion\, etc.)\, analyze the symptoms of this situation\, and delv
+ e into the underlying causal factors influencing these symptoms.  Based o
+ n the material covered in class\, your team will generate recommendations 
+ for an intervention aimed at addressing the identified challenge. You are 
+ encouraged to choose an organization where a member of the group plays a m
+ anagement role or has a strong connection to someone with organizational d
+ ecision-making power.\n\nYour team must submit a [proposal form] (https://
+ bcourses.berkeley.edu/courses/1545386/assignments/8916938) by 8/22 at 10pm
+ . Additionally\, I encourage you to reach out via email or schedule office
+  hours to discuss your chosen organization in advance. This will allow for
+  valuable feedback and guidance to ensure your project's success.\n\nThe f
+ inal deliverable will be an engaging and persuasive pre-recorded presentat
+ ion\, lasting 10 to 14 minutes. Your presentation should be accompanied by
+  a well-structured slide deck and recorded using Zoom (or an alternative t
+ echnology). Adopt a consultant-style approach where you present the findin
+ gs and recommendations while supporting the client to wrestle with the pro
+ s and cons of making a commitment to take action. \n\nTo ensure the effec
+ tiveness of your presentation\, present your identified problem with clari
+ ty and precision. Articulate your message and recommendations in a compell
+ ing and concise manner\, inspiring confidence in your proposed solutions. 
+ Back up your analysis of the problem with relevant evidence from the organ
+ izational environment\, demonstrating the depth of your research and under
+ standing. Moreover\, elaborate on what you see are the first critical step
+ s for the client to take to put your ideas into action. Your presentation 
+ should be professional\, engaging\, and informative.\n\nPart 2: Presentati
+ on: due 10/7 at 10pm \n\n* Detailed assignment instructions (including FA
+ Qs): [Organizational consulting presentation] (https://docs.google.com/doc
+ ument/d/1Ou7ir4AYrctTmZaVR9gMkm736KzuOs9tPsEm0GRisLA/edit)\n\n* [Rubric ] 
+ (https://bcourses.berkeley.edu/courses/1545386/files/92116382?wrap=1)\n\n
+  \n\n***Yes! You can (and I even encourage) choose an organization that s
+ omeone in the group works for. Especially an organization where this type 
+ of consulting would be beneficial and could even be implemented. 
+SEQUENCE:0
+SUMMARY:Part 2- Presentation [EWMBA 205-LEC-01A & 02A FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1545386&month=10&year=2025#assignment_8916936
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p>***Note: To upload your video\, you will need to use Panop
+ to. <a class="inline_disabled" title="Link" href="https://docs.google.com/
+ document/d/1V9NSjoUGFzMiTAVrjp5cRP64f7EkPVbxOQTjp2wobAw/edit?usp=sharing" 
+ target="_blank">Follow these instructions.</a></p>\n<p><span>The true valu
+ e of this class lies in the practical application of its lessons. This ass
+ ignment is designed to bridge the gap between theoretical knowledge and re
+ al-world challenges in organizations. Working collaboratively within your 
+ Teams@Haas groups\, you will undertake a team research project focused on 
+ a managerial-related topic within an organization of your choice. The prim
+ ary objective of this project is to study the chosen organization and prop
+ ose viable improvements to its current situation.</span></p>\n<p><span>Aft
+ er researching the organization\, your team will identify a key people-foc
+ used challenge area for the organization (i.e. employee morale\, team desi
+ gn\, diversity\, equity and inclusion\, etc.)\, analyze the symptoms of th
+ is situation\, and delve into the underlying causal factors influencing th
+ ese symptoms.&nbsp\; Based on the material covered in class\, your team wi
+ ll generate recommendations for an intervention aimed at addressing the id
+ entified challenge. You are encouraged to choose an organization where a m
+ ember of the group plays a management role or has a strong connection to s
+ omeone with organizational decision-making power.</span></p>\n<p><span>You
+ r team must submit a <a title="Team Proposal Form _Upload Here" href="http
+ s://bcourses.berkeley.edu/courses/1545386/assignments/8916938" data-api-en
+ dpoint="https://bcourses.berkeley.edu/api/v1/courses/1545386/assignments/8
+ 916938" data-api-returntype="Assignment">proposal form</a> by </span><span
+ >8/22 at 10pm</span><span>. Additionally\, I encourage you to reach out vi
+ a email or schedule office hours to discuss your chosen organization in ad
+ vance. This will allow for valuable feedback and guidance to ensure your p
+ roject's success.</span></p>\n<p><span>The final deliverable will be an en
+ gaging and persuasive pre-recorded presentation\, lasting 10 to 14 minutes
+ . Your presentation should be accompanied by a well-structured slide deck 
+ and recorded using Zoom (or an alternative technology). Adopt a consultant
+ -style approach where you present the findings and recommendations while s
+ upporting the client to wrestle with the pros and cons of making a commitm
+ ent to take action.&nbsp\;</span></p>\n<p><span>To ensure the effectivenes
+ s of your presentation\, present your identified problem with clarity and 
+ precision. Articulate your message and recommendations in a compelling and
+  concise manner\, inspiring confidence in your proposed solutions. Back up
+  your analysis of the problem with relevant evidence from the organization
+ al environment\, demonstrating the depth of your research and understandin
+ g. Moreover\, elaborate on what you see are the first critical steps for t
+ he client to take to put your ideas into action. Your presentation should 
+ be professional\, engaging\, and informative.</span></p>\n<p><span>Part 2:
+  Presentation: due 10/7 at 10pm</span><span>&nbsp\;</span></p>\n<ul>\n<li>
+ Detailed assignment instructions (including FAQs): <a class="inline_disabl
+ ed" href="https://docs.google.com/document/d/1Ou7ir4AYrctTmZaVR9gMkm736Kzu
+ Os9tPsEm0GRisLA/edit" target="_blank">Organizational consulting presentati
+ on</a></li>\n<li><a class="instructure_file_link instructure_scribd_file i
+ nline_disabled" title="org_consulting_rubric Fall 25.pdf" href="https://bc
+ ourses.berkeley.edu/courses/1545386/files/92116382?wrap=1" target="_blank"
+  data-api-endpoint="https://bcourses.berkeley.edu/api/v1/courses/1545386/f
+ iles/92116382" data-api-returntype="File">Rubric </a></li>\n</ul>\n<p>&nbs
+ p\;</p>\n<p>***Yes! You can (and I even encourage) choose an organization 
+ that someone in the group works for. Especially an organization where this
+  type of consulting would be beneficial and could even be implemented.&nbs
+ p\;</p><script src="https://instructure-uploads.s3.amazonaws.com/account_1
+ 0720000000090242/attachments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250719T031100Z
+UID:event-calendar-event-2893258
+DTSTART:20251008T065900Z
+DTEND:20251008T065900Z
+CLASS:PUBLIC
+DESCRIPTION:<Check with Prof. Portnoy>\n[Go to the FeedbackFruits activity 
+ in the course] (https://bcourses.berkeley.edu/courses/1545386/assignments/
+ 8929559)
+LOCATION:
+SEQUENCE:0
+SUMMARY:Give feedback - Consulting Project - Peer Evaluation [EWMBA 205-LEC
+ -01A & 02A FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1545386&month=10&year=2025#calendar_event_2893258
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css">&lt\;Check with Prof. Portnoy&gt\;\n\n\n<br>\n<a href="https:
+ //bcourses.berkeley.edu/courses/1545386/assignments/8929559" data-api-endp
+ oint="https://bcourses.berkeley.edu/api/v1/courses/1545386/assignments/892
+ 9559" data-api-returntype="Assignment">Go to the FeedbackFruits activity i
+ n the course</a><script src="https://instructure-uploads.s3.amazonaws.com/
+ account_10720000000090242/attachments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250719T031300Z
+UID:event-calendar-event-2893259
+DTSTART:20251008T065900Z
+DTEND:20251008T065900Z
+CLASS:PUBLIC
+DESCRIPTION:<Check with Prof. Portnoy>\n[Go to the FeedbackFruits activity 
+ in the course] (https://bcourses.berkeley.edu/courses/1545386/assignments/
+ 8929559)
+LOCATION:
+SEQUENCE:0
+SUMMARY:Give feedback as group - Consulting Project - Peer Evaluation [EWMB
+ A 205-LEC-01A & 02A FA25]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1545386&month=10&year=2025#calendar_event_2893259
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css">&lt\;Check with Prof. Portnoy&gt\;\n\n\n<br>\n<a href="https:
+ //bcourses.berkeley.edu/courses/1545386/assignments/8929559" data-api-endp
+ oint="https://bcourses.berkeley.edu/api/v1/courses/1545386/assignments/892
+ 9559" data-api-returntype="Assignment">Go to the FeedbackFruits activity i
+ n the course</a><script src="https://instructure-uploads.s3.amazonaws.com/
+ account_10720000000090242/attachments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250814T010000Z
+UID:event-assignment-override-324607
+DTSTART;VALUE=DATE;VALUE=DATE:20251024
+CLASS:PUBLIC
+DESCRIPTION:A critical component of effective teamwork is reflexivity (Sc
+ hippers et al.\, 2003).  Reflexivity is a group's ability to collectively
+  reflect upon team objectives\, strategies\, and processes and to adapt th
+ em accordingly. \n\nAll academic teams are asked to complete a Self-Facil
+ itated Team Check-In Workshop as they launch Fall B.  During this worksho
+ p\, you will develop a Team Collaborative Map and ratify joint agreements 
+ to support your team in its next stage of development. \n\nPlease identif
+ y one team member who will serve as the facilitator for this workshop and 
+ who will be responsible for uploading a photo of the Collaborative Map fro
+ m the team's self-facilitated check-in. \n\nTEAM CHECK-IN #2 WORKSHOP SEL
+ F-FACILITATED LOGISTICS :\n\nTiming: Schedule a team meeting and allow a 
+ minimum of 75 minutes (90 minutes preferred) to complete the process and r
+ atify one or more joint agreements. \n\nFacilitation: Select one team me
+ mber to serve as the facilitator. This person will be responsible for 1) p
+ reparing in advance by reviewing the process and objectives for each stage
+  and pulling up the top three agreements from Check-In #1\, 2) guiding the
+  team through the entire workshop\, 3) ensuring communication during the w
+ orkshop is balanced (i.e.\, everyone has an opportunity to share and liste
+ n)\, 4) supporting the team in reaching 1-3 joint agreements in support of
+  your team’s continued development and 5) uploading a photo of the Colla
+ borative Map to bCourse by 10/24.  \n\nSupplies:\n\n* For an in-person c
+ heck-in\, teams will need a large whiteboard or easel pad\, sticky notes\,
+  and markers. Kits with the needed supplies will be available in the MBA L
+ ounge. Please return the kits to the lounge after using them so other tea
+ ms can use them. \n\n* For a virtual check-in\, teams can use the Zoom wh
+ iteboard function to create a collaborative map to support your brainstorm
+ ing & discussion. \n\nResources:\n\n* [Check-In Video:] (https://bcourses
+ .berkeley.edu/courses/1546457/pages/video-team-check-in) Refresher on the
+  purpose of a Team Check-In.\n\n* [Self-Facilitated Check-In Deck:] (https
+ ://bcourses.berkeley.edu/courses/1546457/files/92053866?wrap=1) Provides 
+ detailed facilitation instructions\n\n* [Note:] (https://bcourses.berkeley
+ .edu/courses/1546457/files/92053931?wrap=1) An Overview of Giving and Rec
+ eiving Reflective Feedback in Teams\n\nSubmission\n\n* Photo of Collaborat
+ ive Map with Team Agreements (1/team)
+SEQUENCE:0
+SUMMARY:Teams@Haas Check-In Workshop #2 (Self-Facilitated) (EWMBA Blue) [Te
+ ams@Haas 2025]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1546457&month=10&year=2025#assignment_8930026
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p><span>A critical component of effective teamwork is<strong
+ ><i>&nbsp\;reflexivity&nbsp\;</i></strong>(Schippers et al.\, 2003).&nbsp\
+ ; Reflexivity is a group's ability to collectively reflect upon team objec
+ tives\, strategies\, and processes and to adapt them accordingly.&nbsp\;</
+ span></p>\n<p><span>All academic teams are asked to complete a Self-Facili
+ tated Team Check-In Workshop as they launch Fall B.&nbsp\; During this wor
+ kshop\, you will develop a Team Collaborative Map and ratify joint agreeme
+ nts to support your team in its next stage of development.&nbsp\;</span></
+ p>\n<p><span> Please identify one team member who will serve as the facili
+ tator for this workshop and who will be responsible for uploading a photo 
+ of the Collaborative Map from the team's self-facilitated check-in.&nbsp\;
+ </span></p>\n<hr>\n<p><strong>TEAM CHECK-IN #2 WORKSHOP SELF-FACILITATED L
+ OGISTICS :</strong></p>\n<p><strong>Timing:<span>&nbsp\;</span></strong><s
+ pan>Schedule a team meeting and allow a minimum of 75 minutes (90 minutes 
+ preferred) to complete the process and ratify one or more joint agreements
+ .&nbsp\;</span></p>\n<p><strong>Facilitation:<span>&nbsp\;</span></strong>
+ <span>Select one team member to serve as the facilitator. This person will
+  be responsible for 1) preparing in advance by reviewing the process and o
+ bjectives for each stage and pulling up the top three agreements from Chec
+ k-In #1\, 2) guiding the team through the entire workshop\, 3) ensuring co
+ mmunication during the workshop is balanced (i.e.\, everyone has an opport
+ unity to share and listen)\, 4) supporting the team in reaching 1-3 joint 
+ agreements in support of your team’s continued development and 5) upload
+ ing a photo of the Collaborative Map to bCourse by 10/24.&nbsp\;&nbsp\;</s
+ pan></p>\n<p><strong>Supplies:</strong></p>\n<ul>\n<li>For an in-person ch
+ eck-in\, teams will need a large whiteboard or easel pad\, sticky notes\, 
+ and markers. Kits with the needed supplies will be available in the MBA Lo
+ unge. Please<span>&nbsp\;return the kits to the lounge after using them so
+  other teams can use them.&nbsp\;</span></li>\n<li><span>For a virtual che
+ ck-in\, teams can use the Zoom whiteboard function to create a collaborati
+ ve map to support your brainstorming &amp\; discussion.&nbsp\;</span></li>
+ \n</ul>\n<p><strong>Resources:</strong></p>\n<ul>\n<li aria-level="1"><a t
+ itle="VIDEO: TEAM CHECK-IN" href="https://bcourses.berkeley.edu/courses/15
+ 46457/pages/video-team-check-in" data-course-type="wikiPages" data-publish
+ ed="true" data-api-endpoint="https://bcourses.berkeley.edu/api/v1/courses/
+ 1546457/pages/video-team-check-in" data-api-returntype="Page"><strong>Chec
+ k-In Video</strong><span>:</span></a><span>&nbsp\;Refresher on the purpose
+  of a Team Check-In.</span></li>\n<li aria-level="1"><span class="instruct
+ ure_file_holder link_holder instructure_file_link_holder ally-file-link-ho
+ lder"><a class="inline_disabled preview_in_overlay" title="SELF-FACILITATE
+ D CHECK-IN #2 TOOLKIT.pdf" href="https://bcourses.berkeley.edu/courses/154
+ 6457/files/92053866?wrap=1" target="_blank" data-api-endpoint="https://bco
+ urses.berkeley.edu/api/v1/courses/1546457/files/92053866" data-api-returnt
+ ype="File" data-id="91763439"><strong>Self-Facilitated Check-In Deck:</str
+ ong></a></span><span>&nbsp\;Provides detailed facilitation instructions</s
+ pan></li>\n<li aria-level="1"><strong><span class="instructure_file_holder
+  link_holder instructure_file_link_holder ally-file-link-holder"><a class=
+ "inline_disabled preview_in_overlay" title="Note: Giving and Receiving Ref
+ lective Feedback in Teams (Pearce\, B.M.)" href="https://bcourses.berkeley
+ .edu/courses/1546457/files/92053931?wrap=1" target="_blank" data-api-endpo
+ int="https://bcourses.berkeley.edu/api/v1/courses/1546457/files/92053931" 
+ data-api-returntype="File" data-id="91545243">Note:</a></span><span>&nbsp\
+ ;</span></strong><span>An Overview of Giving and Receiving Reflective Feed
+ back in Teams</span></li>\n</ul>\n<p><strong>Submission</strong></p>\n<ul>
+ \n<li><span>Photo of Collaborative Map with Team Agreements (1/team)</span
+ ></li>\n</ul><script src="https://instructure-uploads.s3.amazonaws.com/acc
+ ount_10720000000090242/attachments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250728T010000Z
+UID:event-assignment-override-324614
+DTSTART;VALUE=DATE;VALUE=DATE:20260206
+CLASS:PUBLIC
+DESCRIPTION:At the end of your academic team journey\, your team will be as
+ ked to self-facilitate a Team Debrief Workshop. \n\nPlease identify one m
+ ember of the team who is responsible for submitting a photo of your Team J
+ ourney Map and providing a reflection of your team journey based on one of
+  the prompts outlined below that emerged in your discussions—no more tha
+ n one paragraph required.  \n\nPlease select one of the prompts below 
+ and share your reflections:\n\n* Please share one way your team developed 
+ either intentionally or unintentionally during your team journey\, and wha
+ t actions team members took to support this development? \n\n* Please sha
+ re the conditions or actions that lead to a team's low point.  Was your t
+ eam able to pivot and move out of this zone?  If so\, what actions did th
+ e team take?   If not\, why do you think this was the case?\n\n* What we
+ re some of the benefits and challenges of working with a team of people fr
+ om different disciplines\, lived experiences\, and cultures?  How did thi
+ s contribute to the leadership development of the team members?\n\nDEBRIEF
+  KIT:\n\n* [Video] (https://bcourses.berkeley.edu/courses/1546457/pages/vi
+ deo-team-debrief)Links to an external site. to provide an overview of the
+  goals of the Team Debrief\n\n* [] (https://prod.ally.ac/static/ally-icon-
+ indicator-low-circle.b7cd3e0c1511a1080fd322790193604f.svg)[Deck] (https://
+ bcourses.berkeley.edu/courses/1546457/files/92053932?wrap=1) to take you 
+ through the process\n\n* Supplies are available in the MBA lounge or draw
+  your journey map using the zoom whiteboard function to support the conver
+ sation.\n\nSUBMISSION:\n\n* Identify one team member who will submit a pho
+ to of your team journey map and joint reflections.\n\n 
+SEQUENCE:0
+SUMMARY:Teams@Haas Team Debrief (Self-Faciltiated) (EWMBA Blue) [Teams@Haas
+  2025]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1546457&month=02&year=2026#assignment_8930028
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p><strong>At the end of your academic team journey\, your te
+ am will be asked to self-facilitate a Team Debrief Workshop.&nbsp\; </stro
+ ng></p>\n<p><span>Please identify one member of the team who is responsibl
+ e for submitting a photo of your Team Journey Map and providing a reflecti
+ on of your team journey based on one of the prompts outlined below that em
+ erged in your discussions—<em>no more than one paragraph required</em>.&
+ nbsp\;&nbsp\;</span></p>\n<p>Please select<span>&nbsp\;</span><strong>one<
+ /strong><span>&nbsp\;</span>of the prompts below and share your reflection
+ s:</p>\n<ul>\n<li>Please share one way your team developed either intentio
+ nally or unintentionally during your team journey\, and what actions team 
+ members took to support this development?&nbsp\;</li>\n<li>Please share th
+ e conditions or actions that lead to a team's low point.&nbsp\; Was your t
+ eam able to pivot and move out of this zone?&nbsp\; If so\, what actions d
+ id the team take?&nbsp\; &nbsp\;If not\, why do you think this was the cas
+ e?</li>\n<li>What were some of the benefits and challenges of working with
+  a team of people from different disciplines\, lived experiences\, and cul
+ tures?&nbsp\; How did this contribute to the leadership development of the
+  team members?</li>\n</ul>\n<hr>\n<p><strong><span style="font-family: inh
+ erit\;">DEBRIEF KIT:</span></strong></p>\n<ul>\n<li><a title="VIDEO: TEAM 
+ DEBRIEF" href="https://bcourses.berkeley.edu/courses/1546457/pages/video-t
+ eam-debrief" data-course-type="wikiPages" data-published="true" data-api-e
+ ndpoint="https://bcourses.berkeley.edu/api/v1/courses/1546457/pages/video-
+ team-debrief" data-api-returntype="Page"><span><strong>Video</strong></spa
+ n></a><span class="external_link_icon" role="presentation"><span class="sc
+ reenreader-only">Links to an external site.</span></span><span>&nbsp\;to p
+ rovide an overview of the goals of the Team Debrief</span></li>\n<li><span
+ ><span class="instructure_file_holder link_holder instructure_file_link_ho
+ lder ally-file-link-holder"><img class="ally-accessibility-score-indicator
+ -image" src="https://prod.ally.ac/static/ally-icon-indicator-low-circle.b7
+ cd3e0c1511a1080fd322790193604f.svg" alt="" loading="lazy"><a class="inline
+ _disabled preview_in_overlay" title="TEAM DEBRIEF WORKSHOP KIT.pdf" href="
+ https://bcourses.berkeley.edu/courses/1546457/files/92053932?wrap=1" targe
+ t="_blank" data-api-endpoint="https://bcourses.berkeley.edu/api/v1/courses
+ /1546457/files/92053932" data-api-returntype="File" data-id="91545322"><st
+ rong>Deck</strong></a></span>&nbsp\;to take you through the process</span>
+ </li>\n<li><span><strong>Supplies are&nbsp\;</strong>available in the MBA 
+ lounge or draw your journey map using the zoom whiteboard function to supp
+ ort the conversation.</span></li>\n</ul>\n<p><strong>SUBMISSION:</strong><
+ /p>\n<ul>\n<li><span>Identify one team member who will submit a photo of y
+ our team journey map and joint reflections.</span></li>\n</ul>\n<p>&nbsp\;
+ </p><script src="https://instructure-uploads.s3.amazonaws.com/account_1072
+ 0000000090242/attachments/89304441/dp_app.js"></script>
+END:VEVENT
+END:VCALENDAR

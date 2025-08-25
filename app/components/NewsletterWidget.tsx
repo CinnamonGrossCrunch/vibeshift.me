@@ -8,7 +8,14 @@ type Section = { sectionTitle: string; items: Item[] };
 type Payload = { sourceUrl: string; title?: string; sections: Section[] };
 
 export default function NewsletterWidget({ data }: { data: Payload }) {
-  const [open, setOpen] = useState<Record<string, boolean>>({});
+  // Initialize all sections as open by default
+  const [open, setOpen] = useState<Record<string, boolean>>(() => {
+    const initialOpen: Record<string, boolean> = {};
+    data.sections.forEach((_, idx) => {
+      initialOpen[`${idx}-${data.sections[idx].sectionTitle}`] = false;
+    });
+    return initialOpen;
+  });
   const [itemVisited, setItemVisited] = useState<Set<string>>(new Set());
   const [itemOpen, setItemOpen] = useState<Record<string, boolean>>({});
   const [showCaughtUpText, setShowCaughtUpText] = useState(false);
@@ -26,6 +33,19 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
       .then(data => setAnimationData(data))
       .catch(error => console.error('Failed to load animation:', error));
   }, []);
+
+  // Initialize all subsections as open by default
+  useEffect(() => {
+    const initialItemOpen: Record<string, boolean> = {};
+    data.sections.forEach((section, sectionIdx) => {
+      const subsections = createSubsections(section.items);
+      subsections.forEach((_, subIdx) => {
+        const itemId = `${sectionIdx}-${section.sectionTitle}-item-${subIdx}`;
+        initialItemOpen[itemId] = false;
+      });
+    });
+    setItemOpen(initialItemOpen);
+  }, [data.sections]);
 
   // Function to split items by <strong> tags to create subsections
   const createSubsections = (items: Item[]) => {
@@ -472,29 +492,29 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
   return (
     <div className="max-w-4xl mx-auto dark">
       {/* Header */}
-      <div className="rounded-t-3xl p-3 sm:p-4 md:p-6 text-white relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>
+      <div className="rounded-t-3xl pt-3 sm:pt-4 md:pt-6 px-3 sm:px-4 md:px-6 pb-2 sm:pb-3 md:pb-4 text-white relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>
         {/* Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
-          style={{ backgroundImage: "url('/bear blue 2.jpg')" }}
+          
         ></div>
         
         {/* Content Overlay */}
-        <div className="relative z-10">
+        <div className="relative z-10 select-none">
           <div className="flex items-start justify-between gap-2 sm:gap-4">
           <div className="flex-1 min-w-0">
             <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-3 mb-1 sm:mb-2">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl urbanist-black whitespace-nowrap truncate">
+              <h2 className="text-2xl sm:text-xl md:text-2xl lg:text-3xl urbanist-black whitespace-nowrap truncate">
                 <span style={{ color: 'white' }}>Bear</span>
                 <span className="ml-2" style={{ color: 'var(--berkeley-gold)' }}>Necessities</span>
               </h2>
             </div>
             
             {data.title && (
-              <p className="text-blue-100 text-xs sm:text-sm urbanist-medium mb-1 truncate">{data.title}</p>
+              <p className="text-blue-100 text-xs sm:text-sm lg:text-xs urbanist-medium mb-1 truncate">{data.title}</p>
             )}
               <a
-              className="text-gray-800 dark:text-gray-600 text-xs urbanist-regular transition-colors block mb-1 whitespace-nowrap"
+              className="text-gray-800 dark:text-gray-600 text-xs urbanist-regular transition-colors inline-block mb-0 whitespace-nowrap select-text"
               onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'var(--berkeley-gold)'}
               onMouseLeave={(e) => (e.target as HTMLElement).style.color = ''}
               href={data.sourceUrl}

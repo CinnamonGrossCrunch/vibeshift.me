@@ -1,9 +1,14 @@
 @import "tailwindcss";
+@import "./berkeley-colors.css";
 
 :root {
-  /* Berkeley Colors */
+  /* Berkeley Colors - Extended Palette */
   --berkeley-blue: #003262;
   --berkeley-gold: #FDB515;
+  --berkeley-blue-light: #3B7EA1;
+  --berkeley-blue-dark: #002244;
+  --berkeley-gold-light: #FFD34E;
+  --berkeley-gold-dark: #D4941E;
   --accent-blue: #2D637F;
   
   /* Light theme */
