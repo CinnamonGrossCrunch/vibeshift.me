@@ -1,4 +1,5 @@
 import NewsletterWidget from '../components/NewsletterWidget';
+import HaasResourcesWidget from '../components/HaasResourcesWidget';
 import Link from 'next/link';
 import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
 
@@ -140,7 +141,10 @@ export default async function DashboardPage() {
           
         </div>
         
-        <NewsletterWidget data={data} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <NewsletterWidget data={data} />
+          <HaasResourcesWidget />
+        </div>
       </main>
     </div>
   );

@@ -24,7 +24,7 @@ async function getNewsletterData() {
   }
 }
 
-export default async function Home() {
+export default async function HomeExperimental() {
   const newsletterData = await getNewsletterData();
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-amber-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative">
@@ -48,7 +48,7 @@ export default async function Home() {
                   className="h-8 w-auto object-cover"
                 />
               </div>
-              <span className="text-xl font-semibold text-slate-900 dark:text-white">OskiHub</span>
+              <span className="text-xl font-semibold text-slate-900 dark:text-white">OskiHub (Experimental)</span>
             </div>
           </div>
         </div>
@@ -59,10 +59,10 @@ export default async function Home() {
         {/* Dashboard Header */}
         <div className="mb-4">
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
-            HAAS MBA Dashboard
+            HAAS MBA Dashboard - Experimental
           </h1>
           <p className="text-sm text-slate-600 dark:text-slate-300">
-            Your centralized hub for MBA resources and updates
+            Your centralized hub for MBA resources and updates (experimental version)
           </p>
         </div>
 

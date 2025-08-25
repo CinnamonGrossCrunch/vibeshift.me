@@ -1,26 +1,21 @@
-import { format } from 'date-fns';
-import { getUpcomingEvents } from '@/lib/calendar';
-import CalendarTabs from './CalendarTabs';
+import { getHaasResourcesData } from '../../lib/resources';
+import HaasResourcesTabs from './HaasResourcesTabs';
 
 type Props = {
   title?: string;
-  daysAhead?: number;
-  max?: number;
 };
 
-export default async function CalendarWidget({
-  title = 'Upcoming Assignments',
-  daysAhead = 30,
-  max = 10,
+export default async function HaasResourcesWidget({
+  title = 'Haas Resources',
 }: Props) {
-  let events: any[] = [];
+  let resourcesData: any = null;
   let error: string | null = null;
 
   try {
-    events = await getUpcomingEvents(daysAhead, max);
+    resourcesData = await getHaasResourcesData();
   } catch (err) {
-    console.error('Calendar widget error:', err);
-    error = err instanceof Error ? err.message : 'Failed to load calendar events';
+    console.error('Haas Resources widget error:', err);
+    error = err instanceof Error ? err.message : 'Failed to load resources';
   }
 
   return (
@@ -32,14 +27,14 @@ export default async function CalendarWidget({
           </header>
           <div className="text-center py-4">
             <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
-              <span className="text-lg">📅</span>
+              <span className="text-lg">📚</span>
             </div>
-            <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">Calendar Unavailable</p>
+            <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">Resources Unavailable</p>
             <p className="text-xs text-slate-500 dark:text-slate-500">{error}</p>
           </div>
         </>
       ) : (
-        <CalendarTabs events={events} title={title} />
+        <HaasResourcesTabs resourcesData={resourcesData} title={title} />
       )}
     </section>
   );
