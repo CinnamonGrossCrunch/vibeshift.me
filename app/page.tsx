@@ -4,6 +4,9 @@ import NewsletterWidget from "./components/NewsletterWidget";
 import CalendarWidget from "./components/CalendarWidget";
 import HaasResourcesWidget from "./components/HaasResourcesWidget";
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 async function getNewsletterData() {
   try {
     const baseUrl = process.env.VERCEL_URL 

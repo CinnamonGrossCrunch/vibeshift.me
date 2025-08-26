@@ -1,5 +1,7 @@
 import ical from 'node-ical';
 import { addDays, isAfter, isBefore } from 'date-fns';
+import fs from 'fs';
+import path from 'path';
 
 export type CalendarEvent = {
   uid?: string;
@@ -12,29 +14,36 @@ export type CalendarEvent = {
   description?: string;
 };
 
-function resolveIcsUrl() {
-  // Prefer secure env var in Vercel
-  if (process.env.CALENDAR_ICS_URL) return process.env.CALENDAR_ICS_URL;
-  
-  // Fallback to a static file you can place in /public
-  // For server-side fetch, we need an absolute URL
+async function getIcsData(): Promise<string> {
+  // Try to read from local file first (for development)
+  if (process.env.NODE_ENV === 'development') {
+    try {
+      const filePath = path.join(process.cwd(), 'public', 'calendar.ics');
+      if (fs.existsSync(filePath)) {
+        return fs.readFileSync(filePath, 'utf-8');
+      }
+    } catch (error) {
+      console.warn('Could not read local calendar file:', error);
+    }
+  }
+
+  // Fallback to fetch approach
   const baseUrl = process.env.VERCEL_URL 
     ? `https://${process.env.VERCEL_URL}` 
     : 'http://localhost:3000';
   
-  return `${baseUrl}/calendar.ics`;
+  const icsUrl = process.env.CALENDAR_ICS_URL || `${baseUrl}/calendar.ics`;
+  
+  const res = await fetch(icsUrl);
+  if (!res.ok) throw new Error(`Failed to fetch ICS (${res.status}) from ${icsUrl}`);
+  return res.text();
 }
 
 export async function getUpcomingEvents(
   daysAhead = 30,
   limit = 150
 ): Promise<CalendarEvent[]> {
-  const icsUrl = resolveIcsUrl();
-
-  // Server-side fetch (no CORS issues)
-  const res = await fetch(icsUrl, { cache: 'no-store' });
-  if (!res.ok) throw new Error(`Failed to fetch ICS (${res.status}) from ${icsUrl}`);
-  const text = await res.text();
+  const text = await getIcsData();
 
   const data = ical.sync.parseICS(text);
   const now = new Date();

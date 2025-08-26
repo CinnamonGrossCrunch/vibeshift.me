@@ -2,6 +2,9 @@ import HaasResourcesWidget from '../components/HaasResourcesWidget';
 import CalendarWidget from '../components/CalendarWidget';
 import Link from 'next/link';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export default function ResourcesPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-amber-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
