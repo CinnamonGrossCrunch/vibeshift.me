@@ -13,10 +13,6 @@ export type HaasResourcesData = {
   categories: {
     [key: string]: ResourceCategory;
   };
-  computerCenter?: {
-    name: string;
-    items: ResourceItem[];
-  };
 };
 
 // Static data extracted from the HTML - this can be updated as needed
@@ -25,7 +21,7 @@ export async function getHaasResourcesData(): Promise<HaasResourcesData> {
     categories: {
       housekeeping: {
         name: 'Housekeeping',
-        icon: '🏠',
+        icon: '',
         items: [
           {
             text: 'EWMBAA Suggestion Box',
@@ -58,7 +54,7 @@ export async function getHaasResourcesData(): Promise<HaasResourcesData> {
       },
       haasResources: {
         name: 'Haas Resources',
-        icon: '🎓',
+        icon: '',
         items: [
           {
             text: 'DEIJB Calendar',
@@ -100,7 +96,7 @@ export async function getHaasResourcesData(): Promise<HaasResourcesData> {
       },
       ucBerkeley: {
         name: 'UC Berkeley Resources',
-        icon: '🐻',
+        icon: '',
         items: [
           {
             text: 'CalCentral – update your official mailing address, check grades, etc',
@@ -118,7 +114,7 @@ export async function getHaasResourcesData(): Promise<HaasResourcesData> {
       },
       safety: {
         name: 'Safety and Security Numbers',
-        icon: '🚨',
+        icon: '',
         items: [
           {
             text: 'Haas Campus Security Officer (CSO) 510-292-7800'
@@ -147,7 +143,7 @@ export async function getHaasResourcesData(): Promise<HaasResourcesData> {
       },
       technology: {
         name: 'Technology',
-        icon: '💻',
+        icon: '',
         items: [
           {
             text: 'Campus VPN',
@@ -162,30 +158,31 @@ export async function getHaasResourcesData(): Promise<HaasResourcesData> {
             url: 'https://haas.berkeley.edu/brand-toolkit/toolkit/email-signatures/'
           }
         ]
+      },
+      computerCenter: {
+        name: 'Computer Center',
+        icon: '',
+        items: [
+          {
+            text: 'The Computer Center is permanently closed.'
+          },
+          {
+            text: 'Self-service instructions on their website. You can schedule a Student Tech Support Zoom Drop In Appointment as well.',
+            url: 'https://haas.berkeley.edu/technology-solutions/tech-resources/service-changes/'
+          },
+          {
+            text: 'Schedule a Student Tech Support Zoom Drop In Appointment',
+            url: 'https://calendar.google.com/calendar/selfsched?sstoken=UURPSVd5d0xKRi1tfGRlZmF1bHR8ZmQzYzMxMDQzYjFiZTQyYTRjZTZkMTM1MzhlN2ZlNDI'
+          },
+          {
+            text: 'Print stations are available in Chou Hall, 3rd and 5th floors. Use the online WebPrint portal to send documents to those printers.',
+            url: 'https://haas.berkeley.edu/technology-solutions/how-do-i/printing/#webprint'
+          },
+          {
+            text: 'The Bloomberg Terminals have moved to the Library and FactSet can be accessed online.'
+          }
+        ]
       }
-    },
-    computerCenter: {
-      name: 'Computer Center',
-      items: [
-        {
-          text: 'The Computer Center is permanently closed.'
-        },
-        {
-          text: 'Self-service instructions on their website. You can schedule a Student Tech Support Zoom Drop In Appointment as well.',
-          url: 'https://haas.berkeley.edu/technology-solutions/tech-resources/service-changes/'
-        },
-        {
-          text: 'Schedule a Student Tech Support Zoom Drop In Appointment',
-          url: 'https://calendar.google.com/calendar/selfsched?sstoken=UURPSVd5d0xKRi1tfGRlZmF1bHR8ZmQzYzMxMDQzYjFiZTQyYTRjZTZkMTM1MzhlN2ZlNDI'
-        },
-        {
-          text: 'Print stations are available in Chou Hall, 3rd and 5th floors. Use the online WebPrint portal to send documents to those printers.',
-          url: 'https://haas.berkeley.edu/technology-solutions/how-do-i/printing/#webprint'
-        },
-        {
-          text: 'The Bloomberg Terminals have moved to the Library and FactSet can be accessed online.'
-        }
-      ]
     }
   };
 }

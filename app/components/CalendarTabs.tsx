@@ -142,7 +142,9 @@ export default function CalendarTabs({ events, title }: Props) {
           </ul>
         )
       ) : (
-        <MonthGrid events={events} currentMonth={currentMonth} onEventClick={handleEventClick} />
+        <div className="-mx-5 -mb-5">
+          <MonthGrid events={events} currentMonth={currentMonth} onEventClick={handleEventClick} />
+        </div>
       )}
 
       {/* Event Detail Modal */}

@@ -1,6 +1,17 @@
 @import "tailwindcss";
 @import "./berkeley-colors.css";
 
+/* Force dark mode globally - safety net */
+html {
+  background-color: #0f172a !important;
+  color-scheme: dark !important;
+}
+
+body {
+  background-color: #0f172a !important;
+  color: #f1f5f9 !important;
+}
+
 :root {
   /* Berkeley Colors - Extended Palette */
   --berkeley-blue: #003262;
@@ -11,16 +22,17 @@
   --berkeley-gold-dark: #D4941E;
   --accent-blue: #2D637F;
   
-  /* Light theme */
-  --background: #ffffff;
-  --foreground: #1a1a1a;
-  --surface: #f8f9fa;
-  --surface-hover: #e9ecef;
-  --border: #e2e8f0;
-  --text-secondary: #64748b;
+  /* Force dark theme variables */
+  --background: #0f172a;
+  --foreground: #f1f5f9;
+  --surface: #1e293b;
+  --surface-hover: #334155;
+  --border: #475569;
+  --text-secondary: #cbd5e1;
   --text-muted: #94a3b8;
 }
 
+/* Remove the media query preference and force dark mode
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0f172a;
@@ -31,7 +43,7 @@
     --text-secondary: #cbd5e1;
     --text-muted: #94a3b8;
   }
-}
+} */
 
 body {
   background: var(--background);

@@ -96,14 +96,15 @@ export default async function Home() {
             <CalendarWidget title="Upcoming Assignments" daysAhead={45} max={150} />
           </div>
 
-          {/* Newsletter Widget - Right third column */}
-          <div className="sm:col-span-2 lg:col-span-1">
+          {/* Newsletter and Haas Resources - Stacked tightly in third column */}
+          <div className="sm:col-span-2 lg:col-span-1 space-y-2">
+            {/* Newsletter Widget */}
             {newsletterData ? (
-              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
+              <div className="rounded-t-lg shadow-lg  overflow-hidden">
                 <NewsletterWidget data={newsletterData} />
               </div>
             ) : (
-              <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-6 rounded-lg border border-slate-200 dark:border-slate-700 text-center">
+              <div className="backdrop-blur-sm p-6 rounded-t-lg border border-slate-200 dark:border-slate-700 border-b-0 text-center">
                 <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
                   <span className="text-lg">📭</span>
                 </div>
@@ -119,12 +120,12 @@ export default async function Home() {
                 </Link>
               </div>
             )}
-          </div>
-        </div>
 
-        {/* Haas Resources Widget - Full width below newsletter */}
-        <div className="mt-4">
-          <HaasResourcesWidget />
+            {/* Haas Resources Widget - Stacked directly below */}
+            <div className="rounded-b-lg shadow-lg  overflow-hidden">
+              <HaasResourcesWidget />
+            </div>
+          </div>
         </div>
 
         {/* Additional Widgets Grid */}

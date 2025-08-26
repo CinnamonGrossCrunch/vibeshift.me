@@ -113,10 +113,10 @@ export default function EventDetailModal({ event, onClose }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm [&>div]:relative [&>div]:border-blue-500/30 [&>div]:shadow-[0_0_0_1px_rgba(59,130,246,0.4),0_0_18px_4px_rgba(59,130,246,0.25)] [&>div]:transition-shadow">
       <div
         ref={modalRef}
-        className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-lg w-full max-h-[80vh] overflow-hidden border border-slate-200 dark:border-slate-700"
+        className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-lg w-full max-h-[60vh] overflow-hidden border border-slate-200 dark:border-slate-700"
       >
         {/* Header */}
         <div className="flex items-start justify-between p-6 border-b border-slate-200 dark:border-slate-700">

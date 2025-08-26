@@ -625,7 +625,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                   ) : (
                     <div className="w-3 h-3 rounded-full border-2 border-yellow-300 shadow-lg animate-pulse mr-2" style={{ backgroundColor: 'var(--berkeley-gold)', boxShadow: '0 10px 15px -3px rgba(251, 181, 21, 0.4)' }}></div>
                   )}
-                  <h3 className="text-lg urbanist-semibold text-slate-900 dark:text-white transition-colors group-hover:transition-colors" 
+                  <h3 className="text-sm urbanist-semibold text-slate-900 dark:text-white transition-colors group-hover:transition-colors" 
                       onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'var(--berkeley-gold)'}
                       onMouseLeave={(e) => (e.target as HTMLElement).style.color = ''}>
                     {sec.sectionTitle}

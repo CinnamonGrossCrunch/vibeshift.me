@@ -32,7 +32,7 @@ export default async function CalendarWidget({
   }
 
   return (
-    <section className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-glass">
+    <section className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-glass overflow-hidden">
       {error ? (
         <>
           <header className="flex items-center justify-between mb-4">

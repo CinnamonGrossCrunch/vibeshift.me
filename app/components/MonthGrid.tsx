@@ -22,9 +22,9 @@ export default function MonthGrid({ events, currentMonth, onEventClick }: Props)
   }, [currentMonth]);
 
   return (
-    <div className="space-y-4">
-      {/* Calendar Grid */}
-      <div className="grid grid-cols-7 gap-px rounded-lg overflow-hidden bg-white/10 dark:bg-slate-700/10 border border-white/15 dark:border-slate-600/15">
+    <div>
+      {/* Calendar Grid - Full width, no spacing */}
+      <div className="grid grid-cols-7 gap-px bg-white/10 dark:bg-slate-700/10 border border-white/15 dark:border-slate-600/15">
       {/* Weekday headers */}
       {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map((d) => (
         <div key={d} className="bg-white/5 dark:bg-slate-600/5 text-xs text-center py-0.5 font-medium uppercase tracking-wide text-slate-700 dark:text-slate-300">

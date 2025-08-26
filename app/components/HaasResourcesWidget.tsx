@@ -20,13 +20,13 @@ export default async function HaasResourcesWidget({
   }
 
   return (
-    <section className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-glass">
+    <section className="rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-glass">
       {error ? (
         <>
-          <header className="flex items-center justify-between mb-4">
-            <h3 className="text-base font-semibold text-slate-900 dark:text-white">{title}</h3>
+          <header className="flex items-center justify-between mb-4 p-5">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{title}</h3>
           </header>
-          <div className="text-center py-4">
+          <div className="text-center py-4 ">
             <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
               <span className="text-lg">📚</span>
             </div>
