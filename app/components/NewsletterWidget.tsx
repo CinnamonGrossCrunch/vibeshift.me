@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Lottie from 'lottie-react';
 
 type Item = { title: string; html: string };
@@ -150,7 +150,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
 
   // Check if all items in a section have been visited
   // Trigger cascade animation sequence when a section completes
-  const triggerCascadeAnimation = () => {
+  const triggerCascadeAnimation = useCallback(() => {
     if (cascadeComplete) return; // Prevent multiple triggers
     
     console.log('Cascade animation triggered!');
@@ -202,7 +202,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
         }
       }, cascadeIndex * 100); // 100ms delay between sections
     });
-  };
+  }, [cascadeComplete, data.sections, itemVisited, setSectionScaleStates, setCascadeComplete, setTriggerTopLevelAnimation]);
 
   const allItemsInSectionVisited = (sectionIndex: number) => {
     const section = data.sections[sectionIndex];
