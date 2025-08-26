@@ -3,28 +3,39 @@ import Image from "next/image";
 import NewsletterWidget from "./components/NewsletterWidget";
 import CalendarWidget from "./components/CalendarWidget";
 import HaasResourcesWidget from "./components/HaasResourcesWidget";
+import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
 async function getNewsletterData() {
   try {
-    const baseUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}` 
-      : 'http://localhost:3000';
-    
-    const response = await fetch(`${baseUrl}/api/newsletter`, {
-      cache: 'no-store', // Always fetch fresh data
-    });
-    
-    if (!response.ok) {
-      throw new Error('Failed to fetch newsletter data');
-    }
-    
-    return await response.json();
+    console.log('Starting direct newsletter data fetch');
+    const latest = await getLatestNewsletterUrl();
+    console.log('Latest URL found:', latest);
+    const data = await scrapeNewsletter(latest);
+    console.log('Newsletter data scraped successfully');
+    return data;
   } catch (error) {
     console.error('Error fetching newsletter data:', error);
-    return null;
+    // Fallback to API route if direct method fails
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL 
+        || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
+      
+      const response = await fetch(`${baseUrl}/api/newsletter`, {
+        next: { revalidate: 3600 }, // Cache for 1 hour like the API route
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch newsletter data from API');
+      }
+      
+      return await response.json();
+    } catch (apiError) {
+      console.error('API fallback also failed:', apiError);
+      return null;
+    }
   }
 }
 

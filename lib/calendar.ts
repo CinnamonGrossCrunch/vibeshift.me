@@ -15,24 +15,34 @@ export type CalendarEvent = {
 };
 
 async function getIcsData(): Promise<string> {
-  // Try to read from local file first (for development)
-  if (process.env.NODE_ENV === 'development') {
+  // If external ICS URL is provided, use it
+  if (process.env.CALENDAR_ICS_URL) {
     try {
-      const filePath = path.join(process.cwd(), 'public', 'calendar.ics');
-      if (fs.existsSync(filePath)) {
-        return fs.readFileSync(filePath, 'utf-8');
-      }
+      const res = await fetch(process.env.CALENDAR_ICS_URL);
+      if (!res.ok) throw new Error(`Failed to fetch ICS (${res.status}) from ${process.env.CALENDAR_ICS_URL}`);
+      return res.text();
     } catch (error) {
-      console.warn('Could not read local calendar file:', error);
+      console.warn('Failed to fetch external calendar, falling back to local file:', error);
     }
   }
 
-  // Fallback to fetch approach
-  const baseUrl = process.env.VERCEL_URL 
-    ? `https://${process.env.VERCEL_URL}` 
-    : 'http://localhost:3000';
+  // Read from local file directly (works in Node runtime)
+  try {
+    const filePath = path.join(process.cwd(), 'public', 'calendar.ics');
+    if (fs.existsSync(filePath)) {
+      console.log('Reading calendar from local file:', filePath);
+      return fs.readFileSync(filePath, 'utf-8');
+    }
+  } catch (error) {
+    console.warn('Could not read local calendar file:', error);
+  }
+
+  // Final fallback to HTTP fetch (if file doesn't exist and no external URL)
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL 
+    || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
   
-  const icsUrl = process.env.CALENDAR_ICS_URL || `${baseUrl}/calendar.ics`;
+  const icsUrl = `${baseUrl}/calendar.ics`;
+  console.log('Fallback: fetching calendar from URL:', icsUrl);
   
   const res = await fetch(icsUrl);
   if (!res.ok) throw new Error(`Failed to fetch ICS (${res.status}) from ${icsUrl}`);

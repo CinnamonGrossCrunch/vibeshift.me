@@ -25,7 +25,9 @@ export default async function CalendarWidget({
   let error: string | null = null;
 
   try {
+    console.log('CalendarWidget: Starting to fetch events');
     events = await getUpcomingEvents(daysAhead, max);
+    console.log(`CalendarWidget: Successfully loaded ${events.length} events`);
   } catch (err) {
     console.error('Calendar widget error:', err);
     error = err instanceof Error ? err.message : 'Failed to load calendar events';
