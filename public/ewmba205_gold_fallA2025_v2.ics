@@ -1,0 +1,180 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//VibeShift//EWMBA205//EN
+CALSCALE:GREGORIAN
+X-WR-CALNAME:EWMBA 205 Leading People (Gold) — Fall A 2025
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+X-LIC-LOCATION:America/Los_Angeles
+BEGIN:DAYLIGHT
+TZNAME:PDT
+TZOFFSETFROM:-0800
+TZOFFSETTO:-0700
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZNAME:PST
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0800
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:23e1ee26-64ca-483f-9e13-d93f6acf7373@vibeshift.me
+DTSTAMP:20250827T065044Z
+SUMMARY:Leading People – Class 1 – Introduction: The Science and Practice of Managing People (Gold)
+DTSTART;TZID=America/Los_Angeles:20250807T180000
+DTEND;TZID=America/Los_Angeles:20250807T213000
+LOCATION:Chou Hall Room N470
+DESCRIPTION:Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy
+  (mailto:rportnoy@berkeley.edu)\nGSI: Aish Venketeswaran (mailto:aish_venk
+ @berkeley.edu)\nReadings & materials on bCourses.\nCohort: Gold
+END:VEVENT
+BEGIN:VEVENT
+UID:42e494b3-c5bc-46a1-89e3-1ec604ab8b58@vibeshift.me
+DTSTAMP:20250827T065044Z
+SUMMARY:Leading People – Class 2 – Motivation + Meaning in the Workplace (Gold)
+DTSTART;TZID=America/Los_Angeles:20250814T180000
+DTEND;TZID=America/Los_Angeles:20250814T213000
+LOCATION:Chou Hall Room N470
+DESCRIPTION:Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy
+  (mailto:rportnoy@berkeley.edu)\nGSI: Aish Venketeswaran (mailto:aish_venk
+ @berkeley.edu)\nReadings & materials on bCourses.\nCohort: Gold
+END:VEVENT
+BEGIN:VEVENT
+UID:3fbfe9c7-4ac9-47ac-bc75-72200074cd06@vibeshift.me
+DTSTAMP:20250827T065044Z
+SUMMARY:Leading People – Class 3 – How to be an Inclusive Leader (Gold)
+DTSTART;TZID=America/Los_Angeles:20250821T180000
+DTEND;TZID=America/Los_Angeles:20250821T213000
+LOCATION:Chou Hall Room N470
+DESCRIPTION:Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy
+  (mailto:rportnoy@berkeley.edu)\nGSI: Aish Venketeswaran (mailto:aish_venk
+ @berkeley.edu)\nReadings & materials on bCourses.\nCohort: Gold
+END:VEVENT
+BEGIN:VEVENT
+UID:2b6fc82e-1949-46d3-9004-da1f517b0221@vibeshift.me
+DTSTAMP:20250827T065044Z
+SUMMARY:Leading People – Class 4 – Improving Performance (Part 1) (Gold)
+DTSTART;TZID=America/Los_Angeles:20250828T180000
+DTEND;TZID=America/Los_Angeles:20250828T213000
+LOCATION:Chou Hall Room N470
+DESCRIPTION:Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy
+  (mailto:rportnoy@berkeley.edu)\nGSI: Aish Venketeswaran (mailto:aish_venk
+ @berkeley.edu)\nReadings & materials on bCourses.\nCohort: Gold
+END:VEVENT
+BEGIN:VEVENT
+UID:aca58390-f9e1-4996-ab84-efe3498efcf5@vibeshift.me
+DTSTAMP:20250827T065044Z
+SUMMARY:Leading People – Class 5 – Improving Performance (Part 2) (Gold)
+DTSTART;TZID=America/Los_Angeles:20250904T180000
+DTEND;TZID=America/Los_Angeles:20250904T213000
+LOCATION:Chou Hall Room N470
+DESCRIPTION:Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy
+  (mailto:rportnoy@berkeley.edu)\nGSI: Aish Venketeswaran (mailto:aish_venk
+ @berkeley.edu)\nReadings & materials on bCourses.\nCohort: Gold
+END:VEVENT
+BEGIN:VEVENT
+UID:b3f7e83b-e75b-4ab3-8b95-704fa4fc6527@vibeshift.me
+DTSTAMP:20250827T065044Z
+SUMMARY:Leading People – Class 6 – Leading High‑Impact Teams (Gold)
+DTSTART;TZID=America/Los_Angeles:20250911T180000
+DTEND;TZID=America/Los_Angeles:20250911T213000
+LOCATION:Chou Hall Room N470
+DESCRIPTION:Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy
+  (mailto:rportnoy@berkeley.edu)\nGSI: Aish Venketeswaran (mailto:aish_venk
+ @berkeley.edu)\nReadings & materials on bCourses.\nCohort: Gold
+END:VEVENT
+BEGIN:VEVENT
+UID:9004edc0-6317-4969-9ea8-092694084c45@vibeshift.me
+DTSTAMP:20250827T065044Z
+SUMMARY:Leading People – Class 7 – “Culture Eats Strategy for Breakfast” (Gold)
+DTSTART;TZID=America/Los_Angeles:20250918T180000
+DTEND;TZID=America/Los_Angeles:20250918T213000
+LOCATION:Chou Hall Room N470
+DESCRIPTION:Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy
+  (mailto:rportnoy@berkeley.edu)\nGSI: Aish Venketeswaran (mailto:aish_venk
+ @berkeley.edu)\nReadings & materials on bCourses.\nCohort: Gold
+END:VEVENT
+BEGIN:VEVENT
+UID:1261b171-6005-4485-975b-fd364a0e24df@vibeshift.me
+DTSTAMP:20250827T065044Z
+SUMMARY:Leading People – Class 8 – “Culture Eats Strategy for Breakfast” (Part Two) (Gold)
+DTSTART;TZID=America/Los_Angeles:20250925T180000
+DTEND;TZID=America/Los_Angeles:20250925T213000
+LOCATION:Chou Hall Room N470
+DESCRIPTION:Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy
+  (mailto:rportnoy@berkeley.edu)\nGSI: Aish Venketeswaran (mailto:aish_venk
+ @berkeley.edu)\nReadings & materials on bCourses.\nCohort: Gold
+END:VEVENT
+BEGIN:VEVENT
+UID:b2f8763d-1642-4213-8507-99284e2f6a07@vibeshift.me
+DTSTAMP:20250827T065044Z
+SUMMARY:Leading People – Class 9 – Organizational Change + Transition Management (Gold)
+DTSTART;TZID=America/Los_Angeles:20251002T180000
+DTEND;TZID=America/Los_Angeles:20251002T213000
+LOCATION:Chou Hall Room N470
+DESCRIPTION:Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy
+  (mailto:rportnoy@berkeley.edu)\nGSI: Aish Venketeswaran (mailto:aish_venk
+ @berkeley.edu)\nReadings & materials on bCourses.\nCohort: Gold
+END:VEVENT
+BEGIN:VEVENT
+UID:ed1ad769-0878-40ea-af18-4553cb48d038@vibeshift.me
+DTSTAMP:20250827T065044Z
+SUMMARY:Teams@Haas Collaborative Plan – DUE
+DTSTART;TZID=America/Los_Angeles:20250808T235900
+DTEND;TZID=America/Los_Angeles:20250809T000500
+LOCATION:bCourses
+DESCRIPTION:Submit on the Teams@Haas bCourses site.
+END:VEVENT
+BEGIN:VEVENT
+UID:7631d22e-d571-4770-a981-478859d15906@vibeshift.me
+DTSTAMP:20250827T065044Z
+SUMMARY:Consulting Project: Proposal Form – DUE
+DTSTART;TZID=America/Los_Angeles:20250822T220000
+DTEND;TZID=America/Los_Angeles:20250822T220500
+LOCATION:bCourses
+DESCRIPTION:Submit proposal form on bCourses.
+END:VEVENT
+BEGIN:VEVENT
+UID:a8cd5330-46e2-4ea6-9df9-558f324b14a3@vibeshift.me
+DTSTAMP:20250827T065044Z
+SUMMARY:Consulting Project: Part 1 – Interview Report – DUE
+DTSTART;TZID=America/Los_Angeles:20250904T220000
+DTEND;TZID=America/Los_Angeles:20250904T220500
+LOCATION:bCourses
+DESCRIPTION:Submit Part 1 (Interview Report) on bCourses.
+END:VEVENT
+BEGIN:VEVENT
+UID:a792439b-db0a-403f-8d00-4d1649bbc43d@vibeshift.me
+DTSTAMP:20250827T065044Z
+SUMMARY:Midterm Quiz Window (online)
+DTSTART;TZID=America/Los_Angeles:20250905T000100
+DTEND;TZID=America/Los_Angeles:20250908T235900
+LOCATION:Online
+DESCRIPTION:Open-book online midterm. Window opens 12:01am Fri 9/5 and clos
+ es 11:59pm Mon 9/8. You will have 1 hour once you start.
+END:VEVENT
+BEGIN:VEVENT
+UID:72e426ee-2586-438f-8922-987d2c64664e@vibeshift.me
+DTSTAMP:20250827T065044Z
+SUMMARY:Consulting Project: Part 2 – Presentation – DUE
+DTSTART;TZID=America/Los_Angeles:20251007T220000
+DTEND;TZID=America/Los_Angeles:20251007T220500
+LOCATION:bCourses
+DESCRIPTION:Submit pre-recorded presentation (10–14 min) with slides on bCo
+ urses.
+END:VEVENT
+BEGIN:VEVENT
+UID:96517cea-3c9b-46a1-9448-85f2db9ce554@vibeshift.me
+DTSTAMP:20250827T065044Z
+SUMMARY:Teams@Haas Check-In Workshop (During Class)
+DTSTART;TZID=America/Los_Angeles:20250925T193000
+DTEND;TZID=America/Los_Angeles:20250925T213000
+LOCATION:Chou Hall N500
+DESCRIPTION:Occurs during class. Teams@Haas workshop check-in for Gold coho
+ rt.
+END:VEVENT
+END:VCALENDAR

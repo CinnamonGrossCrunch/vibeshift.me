@@ -1,0 +1,172 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//VibeShift//EWMBA201A//EN
+CALSCALE:GREGORIAN
+X-WR-CALNAME:EWMBA 201A Microeconomics (Blue) — Fall 2025
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+X-LIC-LOCATION:America/Los_Angeles
+BEGIN:DAYLIGHT
+TZNAME:PDT
+TZOFFSETFROM:-0800
+TZOFFSETTO:-0700
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZNAME:PST
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0800
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:cab7d66a-ca60-40f3-88fb-587d356d5957@vibeshift.me
+DTSTAMP:20250827T075452Z
+SUMMARY:Microeconomics – Week 1: Principles of Economics
+DTSTART;TZID=America/Los_Angeles:20250728T180000
+DTEND;TZID=America/Los_Angeles:20250728T213000
+DESCRIPTION:EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P
+ T). Break 7:30–8:15 PM.
+END:VEVENT
+BEGIN:VEVENT
+UID:6bd80244-6a8b-4cc3-91cf-e78c88a18ac2@vibeshift.me
+DTSTAMP:20250827T075452Z
+SUMMARY:Microeconomics – Week 2: Demand Analysis I
+DTSTART;TZID=America/Los_Angeles:20250804T180000
+DTEND;TZID=America/Los_Angeles:20250804T213000
+DESCRIPTION:EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P
+ T). Break 7:30–8:15 PM.
+END:VEVENT
+BEGIN:VEVENT
+UID:eafd8e0d-8587-4c5b-af30-3f520f7c6788@vibeshift.me
+DTSTAMP:20250827T075452Z
+SUMMARY:Microeconomics – Week 3: Demand Analysis II
+DTSTART;TZID=America/Los_Angeles:20250811T180000
+DTEND;TZID=America/Los_Angeles:20250811T213000
+DESCRIPTION:EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P
+ T). Break 7:30–8:15 PM.
+END:VEVENT
+BEGIN:VEVENT
+UID:d3233092-6eb6-466d-8b37-d54e29e40984@vibeshift.me
+DTSTAMP:20250827T075452Z
+SUMMARY:Microeconomics – Week 4: Complex Pricing & Auctions
+DTSTART;TZID=America/Los_Angeles:20250818T180000
+DTEND;TZID=America/Los_Angeles:20250818T213000
+DESCRIPTION:EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P
+ T). Break 7:30–8:15 PM.
+END:VEVENT
+BEGIN:VEVENT
+UID:c176da0c-0493-4479-aad5-44adddfbdb01@vibeshift.me
+DTSTAMP:20250827T075452Z
+SUMMARY:Microeconomics – Week 5: Production & Costs
+DTSTART;TZID=America/Los_Angeles:20250825T180000
+DTEND;TZID=America/Los_Angeles:20250825T213000
+DESCRIPTION:EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P
+ T). Break 7:30–8:15 PM.
+END:VEVENT
+BEGIN:VEVENT
+UID:b2fff1e5-999c-4566-9c66-42ec6412f712@vibeshift.me
+DTSTAMP:20250827T075452Z
+SUMMARY:Microeconomics – Week 6 (combined): Competitive Markets & Regulation
+DTSTART;TZID=America/Los_Angeles:20250902T180000
+DTEND;TZID=America/Los_Angeles:20250902T213000
+DESCRIPTION:EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P
+ T). Break 7:30–8:15 PM.
+END:VEVENT
+BEGIN:VEVENT
+UID:5c9feca6-0ba9-4794-9d43-bda7ec274661@vibeshift.me
+DTSTAMP:20250827T075452Z
+SUMMARY:Microeconomics – Week 7: Markets with Price Searchers
+DTSTART;TZID=America/Los_Angeles:20250908T180000
+DTEND;TZID=America/Los_Angeles:20250908T213000
+DESCRIPTION:EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P
+ T). Break 7:30–8:15 PM.
+END:VEVENT
+BEGIN:VEVENT
+UID:0d524371-3a36-459d-8499-aa541d55b9b0@vibeshift.me
+DTSTAMP:20250827T075452Z
+SUMMARY:Microeconomics – Week 8: Oligopoly & Game Theory
+DTSTART;TZID=America/Los_Angeles:20250915T180000
+DTEND;TZID=America/Los_Angeles:20250915T213000
+DESCRIPTION:EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P
+ T). Break 7:30–8:15 PM.
+END:VEVENT
+BEGIN:VEVENT
+UID:f1f762de-f3c7-4167-8dad-d186818d0c1b@vibeshift.me
+DTSTAMP:20250827T075452Z
+SUMMARY:Microeconomics – Week 9: Asymmetric Information & Review of Course Themes
+DTSTART;TZID=America/Los_Angeles:20250922T180000
+DTEND;TZID=America/Los_Angeles:20250922T213000
+DESCRIPTION:EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P
+ T). Break 7:30–8:15 PM.
+END:VEVENT
+BEGIN:VEVENT
+UID:58cab76b-990f-4c6b-88ce-668cf29e96c6@vibeshift.me
+DTSTAMP:20250827T075452Z
+SUMMARY:Team Assignment check-in #1 — DUE
+DTSTART;TZID=America/Los_Angeles:20250810T235900
+DTEND;TZID=America/Los_Angeles:20250811T000400
+LOCATION:bCourses
+DESCRIPTION:Time not specified\; set to 11:59 PM per course norms.
+END:VEVENT
+BEGIN:VEVENT
+UID:abc21f85-774c-423f-842e-db6bcce9612f@vibeshift.me
+DTSTAMP:20250827T075452Z
+SUMMARY:Problem Set #1 — DUE
+DTSTART;TZID=America/Los_Angeles:20250817T235900
+DTEND;TZID=America/Los_Angeles:20250818T000400
+LOCATION:bCourses
+DESCRIPTION:Per syllabus\, problem sets are due at 11:59 PM on the due date
+ .
+END:VEVENT
+BEGIN:VEVENT
+UID:7060152a-8a3b-4f12-9c81-cf9e59a555d1@vibeshift.me
+DTSTAMP:20250827T075452Z
+SUMMARY:Team Assignment check-in #2 — DUE
+DTSTART;TZID=America/Los_Angeles:20250824T235900
+DTEND;TZID=America/Los_Angeles:20250825T000400
+LOCATION:bCourses
+DESCRIPTION:Time not specified\; set to 11:59 PM.
+END:VEVENT
+BEGIN:VEVENT
+UID:02b9b7bf-6eff-4f37-abcd-9444ee67ac89@vibeshift.me
+DTSTAMP:20250827T075452Z
+SUMMARY:Problem Set #2 — DUE
+DTSTART;TZID=America/Los_Angeles:20250907T235900
+DTEND;TZID=America/Los_Angeles:20250908T000400
+LOCATION:bCourses
+DESCRIPTION:Per syllabus\, problem sets are due at 11:59 PM on the due date
+ .
+END:VEVENT
+BEGIN:VEVENT
+UID:cf4e0ee7-840d-4272-9b3f-c3306827f239@vibeshift.me
+DTSTAMP:20250827T075452Z
+SUMMARY:Problem Set #3 — DUE
+DTSTART;TZID=America/Los_Angeles:20250921T235900
+DTEND;TZID=America/Los_Angeles:20250922T000400
+LOCATION:bCourses
+DESCRIPTION:Per syllabus\, problem sets are due at 11:59 PM on the due date
+ .
+END:VEVENT
+BEGIN:VEVENT
+UID:f5233b20-201b-49cd-b8dd-9c2405586a36@vibeshift.me
+DTSTAMP:20250827T075452Z
+SUMMARY:Team Assignment Final — DUE
+DTSTART;TZID=America/Los_Angeles:20251003T235900
+DTEND;TZID=America/Los_Angeles:20251004T000400
+LOCATION:bCourses
+DESCRIPTION:Final team assignment due Friday Oct 3\; set to 11:59 PM.
+END:VEVENT
+BEGIN:VEVENT
+UID:87eaeae2-8f1a-40e8-b981-b6342c53e237@vibeshift.me
+DTSTAMP:20250827T075452Z
+SUMMARY:Final Exam (in-class)
+DTSTART;TZID=America/Los_Angeles:20250929T180000
+DTEND;TZID=America/Los_Angeles:20250929T213000
+LOCATION:In class (TBD)
+DESCRIPTION:In-person exam during regular class time. See syllabus for allo
+ wed materials.
+END:VEVENT
+END:VCALENDAR

@@ -15,6 +15,7 @@ export default function CalendarTabs({ events, title }: Props) {
   const [view, setView] = useState<'list' | 'grid'>('grid');
   const [currentMonth, setCurrentMonth] = useState(new Date(2025, 7, 1)); // August 2025
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
+  const [showGreekTheater, setShowGreekTheater] = useState(true);
 
   const goToPreviousMonth = () => {
     setCurrentMonth(prev => subMonths(prev, 1));
@@ -41,28 +42,44 @@ export default function CalendarTabs({ events, title }: Props) {
       <header className="flex items-center justify-between mb-4">
         <h3 className="text-base font-semibold text-slate-900 dark:text-white">{title}</h3>
         
-        {/* View Tabs - centered */}
-        <div className="flex gap-2">
+        <div className="flex items-center gap-3">
+          {/* Greek Theater Toggle */}
           <button
-            onClick={() => setView('list')}
-            className={`px-3 py-1 rounded-lg text-xs transition-colors ${
-              view === 'list' 
-                ? 'bg-berkeley-blue text-white border border-berkeley-blue shadow-sm' 
-                : 'text-berkeley-blue dark:text-berkeley-blue-light hover:text-berkeley-blue-dark dark:hover:text-berkeley-gold hover:bg-berkeley-blue/10 dark:hover:bg-berkeley-blue-light/10'
+            onClick={() => setShowGreekTheater(!showGreekTheater)}
+            className={`p-1.5 rounded-md text-xs transition-colors ${
+              showGreekTheater
+                ? 'bg-slate-600 text-white'
+                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700'
             }`}
+            title={showGreekTheater ? 'Hide Greek Theater events' : 'Show Greek Theater events'}
+            aria-label={showGreekTheater ? 'Hide Greek Theater events' : 'Show Greek Theater events'}
           >
-            List
+            🎭
           </button>
-          <button
-            onClick={() => setView('grid')}
-            className={`px-3 py-1 rounded-lg text-xs transition-colors ${
-              view === 'grid' 
-                ? 'bg-berkeley-blue text-white border border-berkeley-blue shadow-sm' 
-                : 'text-berkeley-blue dark:text-berkeley-blue-light hover:text-berkeley-blue-dark dark:hover:text-berkeley-gold hover:bg-berkeley-blue/10 dark:hover:bg-berkeley-blue-light/10'
-            }`}
-          >
-            Calendar
-          </button>
+
+          {/* View Tabs */}
+          <div className="flex gap-1">
+            <button
+              onClick={() => setView('grid')}
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                view === 'grid' 
+                  ? 'bg-slate-600 text-white' 
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+              }`}
+            >
+              📅 Calendar
+            </button>
+            <button
+              onClick={() => setView('list')}
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                view === 'list' 
+                  ? 'bg-slate-600 text-white' 
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+              }`}
+            >
+              List
+            </button>
+          </div>
         </div>
         
         {/* Month Navigation - only show for grid view */}
@@ -143,7 +160,7 @@ export default function CalendarTabs({ events, title }: Props) {
         )
       ) : (
         <div className="-mx-5 -mb-5">
-          <MonthGrid events={events} currentMonth={currentMonth} onEventClick={handleEventClick} />
+          <MonthGrid events={events} currentMonth={currentMonth} onEventClick={handleEventClick} showGreekTheater={showGreekTheater} />
         </div>
       )}
 

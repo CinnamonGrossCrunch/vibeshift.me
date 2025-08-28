@@ -6,10 +6,11 @@ import type { CalendarEvent } from '@/lib/calendar';
 
 type Props = {
   event: CalendarEvent | null;
+  originalEvent?: CalendarEvent | null; // Rich content from original calendar.ics when matched
   onClose: () => void;
 };
 
-export default function EventDetailModal({ event, onClose }: Props) {
+export default function EventDetailModal({ event, originalEvent, onClose }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   // Close modal on escape key
@@ -51,11 +52,14 @@ export default function EventDetailModal({ event, onClose }: Props) {
 
   if (!event) return null;
 
-  const start = new Date(event.start);
-  const end = event.end ? new Date(event.end) : undefined;
+  // Use original event content if available, otherwise use cohort event
+  const displayEvent = originalEvent || event;
+  
+  const start = new Date(displayEvent.start);
+  const end = displayEvent.end ? new Date(displayEvent.end) : undefined;
 
   const formatDateTime = () => {
-    if (event.allDay) {
+    if (displayEvent.allDay) {
       return format(start, 'EEEE, MMMM d, yyyy');
     } else {
       return end
@@ -122,11 +126,21 @@ export default function EventDetailModal({ event, onClose }: Props) {
         <div className="flex items-start justify-between p-6 border-b border-slate-200 dark:border-slate-700">
           <div className="flex-1 pr-4">
             <h2 className="text-lg font-semibold text-slate-900 dark:text-white leading-tight">
-              {safeStringify(event.title)}
+              {safeStringify(displayEvent.title)}
             </h2>
             <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
               {formatDateTime()}
             </p>
+            {/* Show indicator when displaying rich content from original calendar */}
+            {originalEvent && originalEvent !== event && (
+              <p className="text-xs text-berkeley-blue dark:text-berkeley-blue-light mt-1 flex items-center gap-1">
+                <span className="text-sm">✨</span>
+                {originalEvent.title.includes('Week ') ? 
+                  'Generated course content' : 
+                  'Enhanced details from original calendar'
+                }
+              </p>
+            )}
           </div>
           <button
             onClick={onClose}
@@ -142,46 +156,46 @@ export default function EventDetailModal({ event, onClose }: Props) {
         {/* Content */}
         <div className="p-6 overflow-y-auto max-h-[60vh] space-y-4">
           {/* Location */}
-          {event.location && (
+          {displayEvent.location && (
             <div>
               <h3 className="text-sm font-medium text-slate-900 dark:text-white mb-1">Location</h3>
               <p className="text-sm text-slate-600 dark:text-slate-400 flex items-start gap-1">
                 <span className="text-base">📍</span>
-                {safeStringify(event.location)}
+                {safeStringify(displayEvent.location)}
               </p>
             </div>
           )}
 
           {/* Event URL */}
-          {event.url && (
+          {displayEvent.url && (
             <div>
               <h3 className="text-sm font-medium text-slate-900 dark:text-white mb-1">Event Link</h3>
               <a
-                href={safeStringify(event.url)}
+                href={safeStringify(displayEvent.url)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-berkeley-blue dark:text-berkeley-blue-light hover:text-berkeley-blue-dark dark:hover:text-berkeley-gold underline break-all"
               >
-                {safeStringify(event.url)}
+                {safeStringify(displayEvent.url)}
               </a>
             </div>
           )}
 
           {/* Description */}
-          {event.description && (
+          {displayEvent.description && (
             <div>
               <h3 className="text-sm font-medium text-slate-900 dark:text-white mb-2">Description</h3>
               <div className="text-sm text-slate-600 dark:text-slate-400 whitespace-pre-wrap leading-relaxed">
-                {renderTextWithLinks(event.description)}
+                {renderTextWithLinks(displayEvent.description)}
               </div>
             </div>
           )}
 
           {/* Event UID for debugging if needed */}
-          {event.uid && (
+          {displayEvent.uid && (
             <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
               <p className="text-xs text-slate-500 dark:text-slate-500">
-                Event ID: {event.uid}
+                Event ID: {displayEvent.uid}
               </p>
             </div>
           )}
@@ -189,9 +203,9 @@ export default function EventDetailModal({ event, onClose }: Props) {
 
         {/* Footer with action buttons */}
         <div className="flex gap-2 p-6 border-t border-slate-200 dark:border-slate-700">
-          {event.url && (
+          {displayEvent.url && (
             <a
-              href={event.url}
+              href={displayEvent.url}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 bg-berkeley-blue hover:bg-berkeley-blue-dark text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors text-center"

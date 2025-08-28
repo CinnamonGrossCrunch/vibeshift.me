@@ -1,5 +1,5 @@
 import HaasResourcesWidget from '../components/HaasResourcesWidget';
-import CalendarWidget from '../components/CalendarWidget';
+import CohortCalendarWidget from '../components/CohortCalendarWidget';
 import Link from 'next/link';
 
 // Force dynamic rendering
@@ -44,8 +44,8 @@ export default function ResourcesPage() {
           {/* Haas Resources Widget */}
           <HaasResourcesWidget />
           
-          {/* Calendar Widget */}
-          <CalendarWidget title="Upcoming Assignments" daysAhead={30} max={10} />
+          {/* Cohort Calendar Widget */}
+          <CohortCalendarWidget title="Cohort Calendar" daysAhead={30} max={10} />
         </div>
 
         {/* Additional Information */}

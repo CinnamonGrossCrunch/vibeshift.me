@@ -1,7 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import NewsletterWidget from "./components/NewsletterWidget";
-import CalendarWidget from "./components/CalendarWidget";
+import CohortCalendarWidget from "./components/CohortCalendarWidget";
 import HaasResourcesWidget from "./components/HaasResourcesWidget";
 import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
 
@@ -57,13 +56,7 @@ export default async function Home() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center">
-                <Image 
-                  src="/bear blue 2.jpg" 
-                  alt="Bear" 
-                  width={32}
-                  height={32}
-                  className="h-8 w-auto object-cover"
-                />
+                
               </div>
               <span className="text-xl font-semibold text-slate-900 dark:text-white">OskiHub</span>
             </div>
@@ -105,9 +98,9 @@ export default async function Home() {
 
         {/* Widget Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {/* Calendar Widget - First two columns */}
+          {/* Cohort Calendar Widget - First two columns */}
           <div className="sm:col-span-2 lg:col-span-2">
-            <CalendarWidget title="Upcoming Assignments" daysAhead={45} max={150} />
+            <CohortCalendarWidget title="Cohort Calendar" daysAhead={45} max={150} />
           </div>
 
           {/* Newsletter and Haas Resources - Stacked tightly in third column */}

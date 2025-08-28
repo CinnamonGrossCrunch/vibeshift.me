@@ -12,6 +12,11 @@ export type CalendarEvent = {
   url?: string;
   allDay?: boolean;
   description?: string;
+  cohort?: 'blue' | 'gold';
+  source?: string; // ICS filename for determining course type
+  organizer?: string; // Event organizer
+  status?: string; // CONFIRMED, TENTATIVE, CANCELLED
+  categories?: string[]; // Event categories
 };
 
 async function getIcsData(): Promise<string> {

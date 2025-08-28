@@ -4,6 +4,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Newsletter Widget",
   description: "Smart newsletter dashboard with Mailchimp integration",
+  icons: {
+    icon: "/bear fav.ico",
+  },
 };
 
 export default function RootLayout({

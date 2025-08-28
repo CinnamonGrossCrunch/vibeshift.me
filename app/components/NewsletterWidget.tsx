@@ -787,7 +787,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
         )}
         
         {/* Copyright Footer */}
-        <div className="border-t border-slate-200 dark:border-slate-700 py-4 px-6 rounded-b-2xl relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>
+        <div className="border-t border-slate-200 dark:border-slate-700 py-2 px-4 rounded-b-2xl relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>
           {/* Background Image */}
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
@@ -796,8 +796,8 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
           
           {/* Content Overlay */}
           <div className="relative z-10 text-center">
-            <p className="text-xs italic text-slate-400 dark:text-slate-500 urbanist-regular">
-              Bear Necessities Newsletter Content | Copyright © 2025 Evening & Weekend MBA
+            <p className="text-xs py-0italic text-slate-400 dark:text-slate-500 urbanist-regular mx-auto select-none">
+              Bear Necessities | Copyright © 2025 Evening & Weekend MBA
             </p>
           </div>
         </div>
