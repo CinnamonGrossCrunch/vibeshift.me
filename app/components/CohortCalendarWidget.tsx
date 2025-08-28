@@ -42,9 +42,10 @@ export default async function CohortCalendarWidget({
               <p>Expected ICS files in /public/:</p>
               <ul className="mt-2 space-y-1">
                 <li>• ewmba201a_micro_blue_fall2025.ics</li>
-                <li>• ewmba205_blue_fallA2025_v2.ics</li>
+                <li>• ewmba_leadingpeople_blue_fall2025.ics</li>
                 <li>• ewmba201a_micro_gold_fall2025.ics</li>
-                <li>• ewmba205_gold_fallA2025_v2.ics</li>
+                <li>• ewmba_leadingpeople_gold_fall2025.ics</li>
+                <li>• calendar.ics (for rich content matching)</li>
               </ul>
             </div>
           </div>

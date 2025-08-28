@@ -128,19 +128,11 @@ export default function EventDetailModal({ event, originalEvent, onClose }: Prop
             <h2 className="text-lg font-semibold text-slate-900 dark:text-white leading-tight">
               {safeStringify(displayEvent.title)}
             </h2>
-            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+            <p className="text-sm text-slate-600 dark:text-slate-200 mt-1">
               {formatDateTime()}
             </p>
             {/* Show indicator when displaying rich content from original calendar */}
-            {originalEvent && originalEvent !== event && (
-              <p className="text-xs text-berkeley-blue dark:text-berkeley-blue-light mt-1 flex items-center gap-1">
-                <span className="text-sm">✨</span>
-                {originalEvent.title.includes('Week ') ? 
-                  'Generated course content' : 
-                  'Enhanced details from original calendar'
-                }
-              </p>
-            )}
+           
           </div>
           <button
             onClick={onClose}

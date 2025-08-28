@@ -53,17 +53,17 @@ export default function CohortCalendarTabs({ cohortEvents, title }: Props) {
     if (!cohortEvent.source) return null;
 
     const eventDate = new Date(cohortEvent.start);
-    const isCourse201 = cohortEvent.source.includes('201');
-    const isCourse205 = cohortEvent.source.includes('205');
+    const isCourse201 = cohortEvent.source.includes('201') || cohortEvent.source.includes('micro');
+    const isLeadingPeople = cohortEvent.source.includes('205') || cohortEvent.source.includes('leadingpeople');
     
-    if (!isCourse201 && !isCourse205) return null;
+    if (!isCourse201 && !isLeadingPeople) return null;
 
     // Course start dates
     const courseStartDates = {
       // MicroEconomics (201) start dates
       micro_blue: new Date(2025, 6, 28), // July 28, 2025 (Monday)
       micro_gold: new Date(2025, 6, 29), // July 29, 2025 (Tuesday)
-      // Leading People (205) start dates  
+      // Leading People start dates  
       leading_blue: new Date(2025, 7, 6), // August 6, 2025
       leading_gold: new Date(2025, 7, 7), // August 7, 2025
     };
@@ -95,7 +95,7 @@ export default function CohortCalendarTabs({ cohortEvents, title }: Props) {
       ? `${baseUrl}${weekNumber}`
       : `${baseUrl}week-${weekNumber}`;
 
-    const enhancedDescription = `Course content for ${courseTitle}, Week ${weekNumber}. This is supplementary course material available on bCourses.`;
+    const enhancedDescription = `For course content for ${courseTitle}, Week ${weekNumber}, please click Event Link. `;
 
     console.log(`Generated course content for ${cohortEvent.title}: ${enhancedTitle} -> ${courseUrl}`);
 
@@ -228,17 +228,109 @@ export default function CohortCalendarTabs({ cohortEvents, title }: Props) {
 
   return (
     <>
-      {/* Header with cohort tabs and controls */}
-      <header className="space-y-4 mb-4">
-        {/* Title and Greek Theater Toggle */}
-        <div className="flex items-center justify-between">
-          <h3 className="text-base font-semibold text-slate-900 dark:text-white">{title}</h3>
+      {/* Compact Header - All controls on one line */}
+      <header className="mb-4">
+        <div className="flex items-center justify-between gap-3 flex-wrap">
           
+          
+          {/* Cohort Tabs */}
+          <div 
+            role="tablist" 
+            className="flex bg-slate-100 dark:bg-slate-700 rounded-full p-1 flex-shrink-0"
+            aria-label="Select cohort"
+          >
+            <button
+              role="tab"
+              aria-selected={selectedCohort === 'blue'}
+              aria-controls="calendar-content"
+              onClick={() => handleCohortChange('blue')}
+              className={`px-2 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
+                selectedCohort === 'blue'
+                  ? 'bg-berkeley-gold text-berkeley-blue shadow-[0_0_0_2px_rgba(0,50,98,0.15)] ring-3 ring-blue-300/30 shadow-blue-500/40'
+                  : 'text-white hover:bg-berkeley-blue/10'
+              }`}
+              style={{
+                backgroundColor: selectedCohort === 'blue' ? '#00336275' : '#00000025',
+                color: selectedCohort === 'blue' ? '#ffffff' : '#4d81b3ff'
+              }}
+            >
+              Blue
+            </button>
+            <button
+              role="tab"
+              aria-selected={selectedCohort === 'gold'}
+              aria-controls="calendar-content"
+              onClick={() => handleCohortChange('gold')}
+              className={`relative px-2 py-1 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none
+                ${selectedCohort === 'gold'
+                  ? 'bg-berkeley-gold text-md font-medium text-berkeley-blue shadow-[0_0_0_2px_rgba(0,50,98,0.15)] ring-3 ring-white/60 shadow-yellow-500/40'
+                  : 'text-berkeley-gold hover:bg-berkeley-gold/10 focus-visible:ring-2 focus-visible:ring-yellow-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 dark:focus-visible:ring-offset-slate-700'
+                }`}
+              style={{
+                backgroundColor: selectedCohort === 'gold' ? '#FDB51595' : '#00000025',
+                color: selectedCohort === 'gold' ? '#003262' : '#FDB515'
+              }}
+            >
+              Gold
+            </button>
+          </div>
+
+          {/* Month Navigation (only show in grid view) */}
+          {view === 'grid' && (
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <button
+                onClick={goToPreviousMonth}
+                className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                aria-label="Previous month"
+              >
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <h4 className="text-sm font-semibold text-slate-900 dark:text-white min-w-0">
+                {format(currentMonth, 'MMM yyyy')}
+              </h4>
+              <button
+                onClick={goToNextMonth}
+                className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                aria-label="Next month"
+              >
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          )}
+
+          {/* View Toggle */}
+          <div className="flex bg-slate-100 dark:bg-slate-700 rounded-full p-1 flex-shrink-0">
+            <button
+              onClick={() => setView('grid')}
+              className={`px-2 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
+                view === 'grid'
+                  ? 'bg-white dark:bg-slate-600 text-slate-900 dark:text-white shadow-sm'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              Calendar
+            </button>
+            <button
+              onClick={() => setView('list')}
+              className={`px-2 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
+                view === 'list'
+                  ? 'bg-white dark:bg-slate-600 text-slate-900 dark:text-white shadow-sm'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              List
+            </button>
+          </div>
+
           {/* Greek Theater Toggle Button */}
-          <div className="relative group">
+          <div className="relative group flex-shrink-0">
             <button
               onClick={() => setShowGreekTheater(!showGreekTheater)}
-              className={`p-1.5 rounded-md transition-colors ${
+              className={`p-1 rounded-md transition-colors ${
                 showGreekTheater
                   ? 'bg-slate-600'
                   : 'hover:bg-slate-100 dark:hover:bg-slate-700'
@@ -248,8 +340,8 @@ export default function CohortCalendarTabs({ cohortEvents, title }: Props) {
               <Image 
                 src="/GRREK LOGO.png" 
                 alt="Greek Theater" 
-                width={16}
-                height={12}
+                width={14}
+                height={10}
                 className="object-contain"
               />
             </button>
@@ -260,104 +352,6 @@ export default function CohortCalendarTabs({ cohortEvents, title }: Props) {
             </div>
           </div>
         </div>
-
-        {/* Cohort Tabs */}
-        <div className="flex items-center justify-between">
-          <div 
-            role="tablist" 
-            className="flex bg-slate-100 dark:bg-slate-700 rounded-full p-1"
-            aria-label="Select cohort"
-          >
-            <button
-              role="tab"
-              aria-selected={selectedCohort === 'blue'}
-              aria-controls="calendar-content"
-              onClick={() => handleCohortChange('blue')}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
-                selectedCohort === 'blue'
-                  ? 'bg-berkeley-gold text-berkeley-blue shadow-[0_0_0_2px_rgba(0,50,98,0.15)] ring-3 ring-blue-300/30  shadow-blue-500/40'
-                  : 'text-white hover:bg-berkeley-blue/10'
-              }`}
-              style={{
-                backgroundColor: selectedCohort === 'blue' ? '#00336275' : '#00000025',
-                color: selectedCohort === 'blue' ? '#ffffff' : '#4d81b3ff'
-              }}
-            >
-              Blue Cohort
-            
-            </button>
-            <button
-              role="tab"
-              aria-selected={selectedCohort === 'gold'}
-              aria-controls="calendar-content"
-              onClick={() => handleCohortChange('gold')}
-              className={`relative px-3 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 focus:outline-none
-                ${selectedCohort === 'gold'
-                  ? 'bg-berkeley-gold text-md font-medium text-berkeley-blue shadow-[0_0_0_2px_rgba(0,50,98,0.15)] ring-3 ring-white/60  shadow-yellow-500/40'
-                  : 'text-berkeley-gold hover:bg-berkeley-gold/10 focus-visible:ring-2 focus-visible:ring-yellow-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 dark:focus-visible:ring-offset-slate-700'
-                }`}
-              style={{
-                backgroundColor: selectedCohort === 'gold' ? '#FDB51595' : '#00000025',
-                color: selectedCohort === 'gold' ? '#003262' : '#FDB515'
-              }}
-            >
-             
-                Gold Cohort
-
-            </button>
-          </div>
-
-          {/* View Toggle */}
-          <div className="flex bg-slate-100 dark:bg-slate-700 rounded-full p-1">
-            <button
-              onClick={() => setView('grid')}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
-                view === 'grid'
-                  ? 'bg-white dark:bg-slate-600 text-slate-900 dark:text-white shadow-sm'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
-            >
-               Calendar
-            </button>
-            <button
-              onClick={() => setView('list')}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
-                view === 'list'
-                  ? 'bg-white dark:bg-slate-600 text-slate-900 dark:text-white shadow-sm'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
-            >
-              List
-            </button>
-          </div>
-        </div>
-
-        {/* Month Navigation (only show in grid view) */}
-        {view === 'grid' && (
-          <div className="flex items-center justify-between">
-            <button
-              onClick={goToPreviousMonth}
-              className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
-              aria-label="Previous month"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <h4 className="text-lg font-semibold text-slate-900 dark:text-white">
-              {format(currentMonth, 'MMMM yyyy')}
-            </h4>
-            <button
-              onClick={goToNextMonth}
-              className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
-              aria-label="Next month"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
-        )}
       </header>
 
       {/* Calendar Content */}

@@ -29,11 +29,11 @@ export type CohortEvents = {
 const COHORT_FILES = {
   blue: [
     'ewmba201a_micro_blue_fall2025.ics',
-    'ewmba205_blue_fallA2025_v2.ics'
+    'ewmba_leadingpeople_blue_fall2025.ics'
   ],
   gold: [
     'ewmba201a_micro_gold_fall2025.ics', 
-    'ewmba205_gold_fallA2025_v2.ics'
+    'ewmba_leadingpeople_gold_fall2025.ics'
   ]
 };
 

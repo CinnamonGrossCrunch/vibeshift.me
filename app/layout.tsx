@@ -5,7 +5,13 @@ export const metadata: Metadata = {
   title: "Newsletter Widget",
   description: "Smart newsletter dashboard with Mailchimp integration",
   icons: {
-    icon: "/bear fav.ico",
+    icon: [
+      { url: "/bear fav.ico", sizes: "any", type: "image/x-icon" },
+      { url: "/bear fav.ico", sizes: "16x16", type: "image/x-icon" },
+      { url: "/bear fav.ico", sizes: "32x32", type: "image/x-icon" },
+    ],
+    shortcut: "/bear fav.ico",
+    apple: "/bear fav.ico",
   },
 };
 
