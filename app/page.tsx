@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import NewsletterWidget from "./components/NewsletterWidget";
 import CohortCalendarWidget from "./components/CohortCalendarWidget";
 import HaasResourcesWidget from "./components/HaasResourcesWidget";
@@ -74,9 +75,11 @@ export default async function Home() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="rounded-lg overflow-hidden flex items-center justify-center">
-                <img 
+                <Image 
                   src="/C OSKI.png" 
-                  alt="C OSKI Logo" 
+                  alt="C OSKI Logo"
+                  width={60}
+                  height={60}
                   className="w-15 h-15 object-contain"
                 />
               </div>

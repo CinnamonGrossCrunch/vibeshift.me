@@ -15,7 +15,7 @@ type Props = {
 type CohortType = 'blue' | 'gold';
 type ViewType = 'list' | 'grid';
 
-export default function CohortCalendarTabs({ cohortEvents, title }: Props) {
+export default function CohortCalendarTabs({ cohortEvents }: Props) {
   const [selectedCohort, setSelectedCohort] = useState<CohortType>('blue');
   const [view, setView] = useState<ViewType>('grid');
   const [currentMonth, setCurrentMonth] = useState(new Date(2025, 7, 1)); // August 2025

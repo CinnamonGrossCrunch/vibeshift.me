@@ -202,7 +202,7 @@ function parseIcsToEvents(icsText: string, cohort: 'blue' | 'gold', filename?: s
         }
       }
 
-      let event: CalendarEvent = {
+      const event: CalendarEvent = {
         uid: v.uid,
         title: summaryVal || 'Untitled',
         start: start.toISOString(),
@@ -283,7 +283,7 @@ async function fetchCohortEvents(cohort: 'blue' | 'gold'): Promise<CalendarEvent
           console.warn(`Attempting legacy file after error: ${legacyName}`);
           const legacyIcs = await fetchIcsData(legacyName);
           return parseIcsToEvents(legacyIcs, cohort, legacyName);
-        } catch (legacyErr) {
+        } catch {
           console.warn(`Legacy attempt also failed for ${legacyName}`);
         }
       }
@@ -307,7 +307,6 @@ async function fetchCohortEvents(cohort: 'blue' | 'gold'): Promise<CalendarEvent
   for (const ev of allEvents) {
     const key = `${ev.start.substring(0,10)}|${(ev.title || '').toLowerCase().trim()}`;
     const isTeamsSource = (ev.source || '').toLowerCase().includes('teams@haas');
-    const isTeamsTitle = /teams@haas/i.test(ev.title || '');
 
     const existing = dedupPrefMap.get(key);
     if (!existing) {
@@ -317,7 +316,6 @@ async function fetchCohortEvents(cohort: 'blue' | 'gold'): Promise<CalendarEvent
     }
 
     const existingIsTeamsSource = (existing.source || '').toLowerCase().includes('teams@haas');
-    const existingIsTeamsTitle = /teams@haas/i.test(existing.title || '');
 
     // If incoming is the authoritative teams source, always override
     if (isTeamsSource && !existingIsTeamsSource) {
@@ -335,7 +333,7 @@ async function fetchCohortEvents(cohort: 'blue' | 'gold'): Promise<CalendarEvent
       continue; // first wins
     }
   }
-  let output = Array.from(dedupPrefMap.values());
+  const output = Array.from(dedupPrefMap.values());
   if (output.length !== allEvents.length) {
     console.log(`De-duplicated ${allEvents.length - output.length} events (post Teams@Haas preference) for ${cohort}`);
   }
