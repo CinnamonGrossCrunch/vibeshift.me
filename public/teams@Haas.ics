@@ -1,0 +1,310 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:icalendar-ruby
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Matt Gross Calendar (Canvas)
+X-WR-CALDESC:Calendar events for the user\, Matt Gross
+BEGIN:VEVENT
+DTSTAMP:20250825T235700Z
+UID:event-assignment-override-324595
+DTSTART;VALUE=DATE;VALUE=DATE:20250808
+CLASS:PUBLIC
+DESCRIPTION:The Collaborative Plans are designed to support your team in de
+ veloping a shared understanding of how you will work together and how you 
+ will cultivate a collaborative team climate that will support each other's
+  development.\n\nMilestones:\n\n* Access & Copy: [Collaborative Planning T
+ emplate] (https://docs.google.com/document/d/1O6p6HoxX-hpzLsnWoEdzwqCkDLmp
+ DABlh2IbXewHXvs/edit?usp=sharing)\n\n* Share: Collaborative Plan with all 
+ team members\n\n* Organize Team Meeting: Identify a time after your first 
+ set of classes to meet with your team to align on all of your agreements.
+  \n\n* Complete Collaborative Plan: fill in all three sections (Goal Alig
+ nment (A&B)\, Knowledge Coordination\, Collaborative Climate) based on you
+ r agreements from the WE | Launch workshops & follow-up meeting.\n\n* Uplo
+ ad: Collaborative Plan to bCourse by the deadline for your cohort\n\nNote:
+  you can copy and paste the photo from the Value Map with your agreed-upon
+  norms and practices from WE | Launch\n\nUpload Instructions\n\n* Upload P
+ lan Under the Assignment Tab\n\n* 1 Plan Per Team\n\n* File Name Conventio
+ n = Team Number_Collaborative Plan (i.e. 405_Collaborative Plan)\n\nNOTE
+ :  The Team Collaborative Plan is for your reference. During the Teams@Ha
+ as Check-In Workshop #1\, your team will have time to update and pivot on 
+ your plan based on what you learn about the nature of your work and each o
+ ther as you work together. More to follow on this in the weeks to come. 
+SEQUENCE:0
+SUMMARY:Teams@Haas Collaborative Plan Submission (EWMBA Blue) [Teams@Haas 2
+ 025]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1546457&month=08&year=2025#assignment_8930027
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p><span>The Collaborative Plans are designed to support your
+  team in developing a shared understanding of how you will work together a
+ nd how you will cultivate a collaborative team climate that will support e
+ ach other's development.</span></p>\n<hr>\n<p><strong>Milestones:</strong>
+ </p>\n<ul>\n<li><strong>Access &amp\; Copy:</strong> <a class="inline_disa
+ bled" href="https://docs.google.com/document/d/1O6p6HoxX-hpzLsnWoEdzwqCkDL
+ mpDABlh2IbXewHXvs/edit?usp=sharing" target="_blank">Collaborative Planning
+  Template</a></li>\n<li><strong>Share:</strong> Collaborative Plan with al
+ l team members</li>\n<li><strong>Organize Team Meeting</strong>: Identify 
+ a time after your first set of classes to meet with your team to align on 
+ all of your agreements.&nbsp\;</li>\n<li><strong>Complete Collaborative Pl
+ an: </strong>fill in all three sections (Goal Alignment (A&amp\;B)\, Knowl
+ edge Coordination\, Collaborative Climate) based on your agreements from t
+ he WE | Launch workshops &amp\; follow-up meeting.</li>\n<li><strong>Uploa
+ d:</strong> Collaborative Plan to bCourse by the deadline for your cohort<
+ /li>\n</ul>\n<p><strong>Note:</strong> you can copy and paste the photo fr
+ om the Value Map with your agreed-upon norms and practices from WE | Launc
+ h</p>\n<hr>\n<p><strong>Upload Instructions</strong></p>\n<ul>\n<li aria-l
+ evel="1"><span>Upload Plan Under the Assignment Tab</span></li>\n<li aria-
+ level="1"><span>1 Plan Per Team</span></li>\n<li aria-level="1"><span>File
+  Name Convention =&nbsp\;</span><i><span>Team Number_Collaborative Plan</s
+ pan></i><span>&nbsp\;(i.e. 405_Collaborative Plan)</span></li>\n</ul>\n<p>
+ <strong>NOTE:</strong><span>&nbsp\; The Team Collaborative Plan is for you
+ r reference. During the Teams@Haas Check-In Workshop #1\, your team will h
+ ave time to update and pivot on your plan based on what you learn about th
+ e nature of your work and each other as you work together. More to follow 
+ on this in the weeks to come.&nbsp\;</span></p><script src="https://instru
+ cture-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304
+ 441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250825T235700Z
+UID:event-assignment-override-324599
+DTSTART:20250925T023000Z
+DTEND:20250925T023000Z
+CLASS:PUBLIC
+DESCRIPTION:A critical component of effective teamwork is reflexivity (Sc
+ hippers et al.\, 2003).  Reflexivity is a group's ability to collectively
+  reflect upon team objectives\, strategies\, and processes and to adapt th
+ em accordingly. This is our primary goal for the Teams@Haas Team Check-i
+ n Workshop. \n\nYour teams will have the opportunity to engage in this pr
+ actice during the Teams@Haas Team Check-In facilitated by a Teams@Haas Exe
+ cutive Coaching Team.  The goal of these workshops is to provide you and 
+ your team with a new set of tools and to also support you in facilitating 
+ a conversation for your team to step back and reflect on what is working w
+ ell and where you might make adaptations for improved effectiveness.\n\nPr
+ ior to the Team Check-In Workshop\, please:\n\n* Check Your Team's Worksho
+ p Time (no Berkeley time) & Location\n\n* Review your Team Collaborative P
+ lan \n\n* Watch: [HIT Team Check-In Plenary Video] (https://bcourses.ber
+ keley.edu/courses/1535656/pages/video-team-check-in)\n\nParticipation Grad
+ e: Attendance for this session is part of your Leading People participatio
+ n grade.  
+SEQUENCE:0
+SUMMARY:Teams@Haas Check-In  Workshop #1 (Executive Coach) (EWMBA Blue) [Te
+ ams@Haas 2025]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1546457&month=09&year=2025#assignment_8930023
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p><span>A critical component of effective teamwork is<strong
+ ><i>&nbsp\;reflexivity&nbsp\;</i></strong>(Schippers et al.\, 2003).&nbsp\
+ ; Reflexivity is a group's ability to collectively reflect upon team objec
+ tives\, strategies\, and processes and to adapt them accordingly. This is 
+ our primary goal for the&nbsp\;<strong>Teams@Haas&nbsp\;</strong><strong>T
+ eam Check-in Workshop</strong>.&nbsp\;</span></p>\n<p><span>Your teams wil
+ l have the opportunity to engage in this practice during the </span><stron
+ g>Teams@Haas Team Check-In</strong><span> facilitated by a </span><strong>
+ Teams@Haas Executive Coaching Team</strong><span>.&nbsp\; The goal of thes
+ e workshops is to provide you and your team with a new set of tools and to
+  also support you in facilitating a conversation for your team to step bac
+ k and reflect on what is working well and where you might make adaptations
+  for improved effectiveness.</span></p>\n<hr>\n<p><span><strong>Prior to t
+ he Team Check-In Workshop\, please:</strong></span></p>\n<ul>\n<li>Check Y
+ our Team's Workshop Time (no Berkeley time) &amp\; Location</li>\n<li>Revi
+ ew your Team Collaborative Plan<span>&nbsp\;</span></li>\n<li><span>Watch:
+ &nbsp\;<a title="VIDEO: TEAM CHECK-IN" href="https://bcourses.berkeley.edu
+ /courses/1535656/pages/video-team-check-in" data-course-type="wikiPages" d
+ ata-published="true" data-api-endpoint="https://bcourses.berkeley.edu/api/
+ v1/courses/1535656/pages/video-team-check-in" data-api-returntype="Page">H
+ IT Team Check-In Plenary Video</a></span></li>\n</ul>\n<p><span><strong>Pa
+ rticipation Grade:</strong> Attendance for this session is part of your Le
+ ading People participation grade.&nbsp\;&nbsp\;</span></p><script src="htt
+ ps://instructure-uploads.s3.amazonaws.com/account_10720000000090242/attach
+ ments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250825T235700Z
+UID:event-assignment-override-324607
+DTSTART;VALUE=DATE;VALUE=DATE:20251024
+CLASS:PUBLIC
+DESCRIPTION:A critical component of effective teamwork is reflexivity (Sc
+ hippers et al.\, 2003).  Reflexivity is a group's ability to collectively
+  reflect upon team objectives\, strategies\, and processes and to adapt th
+ em accordingly. \n\nAll academic teams are asked to complete a Self-Facil
+ itated Team Check-In Workshop as they launch Fall B.  During this worksho
+ p\, you will develop a Team Collaborative Map and ratify joint agreements 
+ to support your team in its next stage of development. \n\nPlease identif
+ y one team member who will serve as the facilitator for this workshop and 
+ who will be responsible for uploading a photo of the Collaborative Map fro
+ m the team's self-facilitated check-in. \n\nTEAM CHECK-IN #2 WORKSHOP SEL
+ F-FACILITATED LOGISTICS :\n\nTiming: Schedule a team meeting and allow a 
+ minimum of 75 minutes (90 minutes preferred) to complete the process and r
+ atify one or more joint agreements. \n\nFacilitation: Select one team me
+ mber to serve as the facilitator. This person will be responsible for 1) p
+ reparing in advance by reviewing the process and objectives for each stage
+  and pulling up the top three agreements from Check-In #1\, 2) guiding the
+  team through the entire workshop\, 3) ensuring communication during the w
+ orkshop is balanced (i.e.\, everyone has an opportunity to share and liste
+ n)\, 4) supporting the team in reaching 1-3 joint agreements in support of
+  your team’s continued development and 5) uploading a photo of the Colla
+ borative Map to bCourse by 10/24.  \n\nSupplies:\n\n* For an in-person c
+ heck-in\, teams will need a large whiteboard or easel pad\, sticky notes\,
+  and markers. Kits with the needed supplies will be available in the MBA L
+ ounge. Please return the kits to the lounge after using them so other tea
+ ms can use them. \n\n* For a virtual check-in\, teams can use the Zoom wh
+ iteboard function to create a collaborative map to support your brainstorm
+ ing & discussion. \n\nResources:\n\n* [Check-In Video:] (https://bcourses
+ .berkeley.edu/courses/1546457/pages/video-team-check-in) Refresher on the
+  purpose of a Team Check-In.\n\n* [Self-Facilitated Check-In Deck:] (https
+ ://bcourses.berkeley.edu/courses/1546457/files/92053866?wrap=1) Provides 
+ detailed facilitation instructions\n\n* [Note:] (https://bcourses.berkeley
+ .edu/courses/1546457/files/92053931?wrap=1) An Overview of Giving and Rec
+ eiving Reflective Feedback in Teams\n\nSubmission\n\n* Photo of Collaborat
+ ive Map with Team Agreements (1/team)
+SEQUENCE:0
+SUMMARY:Teams@Haas Check-In Workshop #2 (Self-Facilitated) (EWMBA Blue) [Te
+ ams@Haas 2025]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1546457&month=10&year=2025#assignment_8930026
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p><span>A critical component of effective teamwork is<strong
+ ><i>&nbsp\;reflexivity&nbsp\;</i></strong>(Schippers et al.\, 2003).&nbsp\
+ ; Reflexivity is a group's ability to collectively reflect upon team objec
+ tives\, strategies\, and processes and to adapt them accordingly.&nbsp\;</
+ span></p>\n<p><span>All academic teams are asked to complete a Self-Facili
+ tated Team Check-In Workshop as they launch Fall B.&nbsp\; During this wor
+ kshop\, you will develop a Team Collaborative Map and ratify joint agreeme
+ nts to support your team in its next stage of development.&nbsp\;</span></
+ p>\n<p><span> Please identify one team member who will serve as the facili
+ tator for this workshop and who will be responsible for uploading a photo 
+ of the Collaborative Map from the team's self-facilitated check-in.&nbsp\;
+ </span></p>\n<hr>\n<p><strong>TEAM CHECK-IN #2 WORKSHOP SELF-FACILITATED L
+ OGISTICS :</strong></p>\n<p><strong>Timing:<span>&nbsp\;</span></strong><s
+ pan>Schedule a team meeting and allow a minimum of 75 minutes (90 minutes 
+ preferred) to complete the process and ratify one or more joint agreements
+ .&nbsp\;</span></p>\n<p><strong>Facilitation:<span>&nbsp\;</span></strong>
+ <span>Select one team member to serve as the facilitator. This person will
+  be responsible for 1) preparing in advance by reviewing the process and o
+ bjectives for each stage and pulling up the top three agreements from Chec
+ k-In #1\, 2) guiding the team through the entire workshop\, 3) ensuring co
+ mmunication during the workshop is balanced (i.e.\, everyone has an opport
+ unity to share and listen)\, 4) supporting the team in reaching 1-3 joint 
+ agreements in support of your team’s continued development and 5) upload
+ ing a photo of the Collaborative Map to bCourse by 10/24.&nbsp\;&nbsp\;</s
+ pan></p>\n<p><strong>Supplies:</strong></p>\n<ul>\n<li>For an in-person ch
+ eck-in\, teams will need a large whiteboard or easel pad\, sticky notes\, 
+ and markers. Kits with the needed supplies will be available in the MBA Lo
+ unge. Please<span>&nbsp\;return the kits to the lounge after using them so
+  other teams can use them.&nbsp\;</span></li>\n<li><span>For a virtual che
+ ck-in\, teams can use the Zoom whiteboard function to create a collaborati
+ ve map to support your brainstorming &amp\; discussion.&nbsp\;</span></li>
+ \n</ul>\n<p><strong>Resources:</strong></p>\n<ul>\n<li aria-level="1"><a t
+ itle="VIDEO: TEAM CHECK-IN" href="https://bcourses.berkeley.edu/courses/15
+ 46457/pages/video-team-check-in" data-course-type="wikiPages" data-publish
+ ed="true" data-api-endpoint="https://bcourses.berkeley.edu/api/v1/courses/
+ 1546457/pages/video-team-check-in" data-api-returntype="Page"><strong>Chec
+ k-In Video</strong><span>:</span></a><span>&nbsp\;Refresher on the purpose
+  of a Team Check-In.</span></li>\n<li aria-level="1"><span class="instruct
+ ure_file_holder link_holder instructure_file_link_holder ally-file-link-ho
+ lder"><a class="inline_disabled preview_in_overlay" title="SELF-FACILITATE
+ D CHECK-IN #2 TOOLKIT.pdf" href="https://bcourses.berkeley.edu/courses/154
+ 6457/files/92053866?wrap=1" target="_blank" data-api-endpoint="https://bco
+ urses.berkeley.edu/api/v1/courses/1546457/files/92053866" data-api-returnt
+ ype="File" data-id="91763439"><strong>Self-Facilitated Check-In Deck:</str
+ ong></a></span><span>&nbsp\;Provides detailed facilitation instructions</s
+ pan></li>\n<li aria-level="1"><strong><span class="instructure_file_holder
+  link_holder instructure_file_link_holder ally-file-link-holder"><a class=
+ "inline_disabled preview_in_overlay" title="Note: Giving and Receiving Ref
+ lective Feedback in Teams (Pearce\, B.M.)" href="https://bcourses.berkeley
+ .edu/courses/1546457/files/92053931?wrap=1" target="_blank" data-api-endpo
+ int="https://bcourses.berkeley.edu/api/v1/courses/1546457/files/92053931" 
+ data-api-returntype="File" data-id="91545243">Note:</a></span><span>&nbsp\
+ ;</span></strong><span>An Overview of Giving and Receiving Reflective Feed
+ back in Teams</span></li>\n</ul>\n<p><strong>Submission</strong></p>\n<ul>
+ \n<li><span>Photo of Collaborative Map with Team Agreements (1/team)</span
+ ></li>\n</ul><script src="https://instructure-uploads.s3.amazonaws.com/acc
+ ount_10720000000090242/attachments/89304441/dp_app.js"></script>
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20250825T235700Z
+UID:event-assignment-override-324614
+DTSTART;VALUE=DATE;VALUE=DATE:20260206
+CLASS:PUBLIC
+DESCRIPTION:At the end of your academic team journey\, your team will be as
+ ked to self-facilitate a Team Debrief Workshop. \n\nPlease identify one m
+ ember of the team who is responsible for submitting a photo of your Team J
+ ourney Map and providing a reflection of your team journey based on one of
+  the prompts outlined below that emerged in your discussions—no more tha
+ n one paragraph required.  \n\nPlease select one of the prompts below 
+ and share your reflections:\n\n* Please share one way your team developed 
+ either intentionally or unintentionally during your team journey\, and wha
+ t actions team members took to support this development? \n\n* Please sha
+ re the conditions or actions that lead to a team's low point.  Was your t
+ eam able to pivot and move out of this zone?  If so\, what actions did th
+ e team take?   If not\, why do you think this was the case?\n\n* What we
+ re some of the benefits and challenges of working with a team of people fr
+ om different disciplines\, lived experiences\, and cultures?  How did thi
+ s contribute to the leadership development of the team members?\n\nDEBRIEF
+  KIT:\n\n* [Video] (https://bcourses.berkeley.edu/courses/1546457/pages/vi
+ deo-team-debrief)Links to an external site. to provide an overview of the
+  goals of the Team Debrief\n\n* [] (https://prod.ally.ac/static/ally-icon-
+ indicator-low-circle.b7cd3e0c1511a1080fd322790193604f.svg)[Deck] (https://
+ bcourses.berkeley.edu/courses/1546457/files/92053932?wrap=1) to take you 
+ through the process\n\n* Supplies are available in the MBA lounge or draw
+  your journey map using the zoom whiteboard function to support the conver
+ sation.\n\nSUBMISSION:\n\n* Identify one team member who will submit a pho
+ to of your team journey map and joint reflections.\n\n 
+SEQUENCE:0
+SUMMARY:Teams@Haas Team Debrief (Self-Faciltiated) (EWMBA Blue) [Teams@Haas
+  2025]
+URL;VALUE=URI:https://bcourses.berkeley.edu/calendar?include_contexts=cours
+ e_1546457&month=02&year=2026#assignment_8930028
+X-ALT-DESC;FMTTYPE=text/html:<link rel="stylesheet" href="https://instructu
+ re-uploads.s3.amazonaws.com/account_10720000000090242/attachments/89304442
+ /dp_app.css"><p><strong>At the end of your academic team journey\, your te
+ am will be asked to self-facilitate a Team Debrief Workshop.&nbsp\; </stro
+ ng></p>\n<p><span>Please identify one member of the team who is responsibl
+ e for submitting a photo of your Team Journey Map and providing a reflecti
+ on of your team journey based on one of the prompts outlined below that em
+ erged in your discussions—<em>no more than one paragraph required</em>.&
+ nbsp\;&nbsp\;</span></p>\n<p>Please select<span>&nbsp\;</span><strong>one<
+ /strong><span>&nbsp\;</span>of the prompts below and share your reflection
+ s:</p>\n<ul>\n<li>Please share one way your team developed either intentio
+ nally or unintentionally during your team journey\, and what actions team 
+ members took to support this development?&nbsp\;</li>\n<li>Please share th
+ e conditions or actions that lead to a team's low point.&nbsp\; Was your t
+ eam able to pivot and move out of this zone?&nbsp\; If so\, what actions d
+ id the team take?&nbsp\; &nbsp\;If not\, why do you think this was the cas
+ e?</li>\n<li>What were some of the benefits and challenges of working with
+  a team of people from different disciplines\, lived experiences\, and cul
+ tures?&nbsp\; How did this contribute to the leadership development of the
+  team members?</li>\n</ul>\n<hr>\n<p><strong><span style="font-family: inh
+ erit\;">DEBRIEF KIT:</span></strong></p>\n<ul>\n<li><a title="VIDEO: TEAM 
+ DEBRIEF" href="https://bcourses.berkeley.edu/courses/1546457/pages/video-t
+ eam-debrief" data-course-type="wikiPages" data-published="true" data-api-e
+ ndpoint="https://bcourses.berkeley.edu/api/v1/courses/1546457/pages/video-
+ team-debrief" data-api-returntype="Page"><span><strong>Video</strong></spa
+ n></a><span class="external_link_icon" role="presentation"><span class="sc
+ reenreader-only">Links to an external site.</span></span><span>&nbsp\;to p
+ rovide an overview of the goals of the Team Debrief</span></li>\n<li><span
+ ><span class="instructure_file_holder link_holder instructure_file_link_ho
+ lder ally-file-link-holder"><img class="ally-accessibility-score-indicator
+ -image" src="https://prod.ally.ac/static/ally-icon-indicator-low-circle.b7
+ cd3e0c1511a1080fd322790193604f.svg" alt="" loading="lazy"><a class="inline
+ _disabled preview_in_overlay" title="TEAM DEBRIEF WORKSHOP KIT.pdf" href="
+ https://bcourses.berkeley.edu/courses/1546457/files/92053932?wrap=1" targe
+ t="_blank" data-api-endpoint="https://bcourses.berkeley.edu/api/v1/courses
+ /1546457/files/92053932" data-api-returntype="File" data-id="91545322"><st
+ rong>Deck</strong></a></span>&nbsp\;to take you through the process</span>
+ </li>\n<li><span><strong>Supplies are&nbsp\;</strong>available in the MBA 
+ lounge or draw your journey map using the zoom whiteboard function to supp
+ ort the conversation.</span></li>\n</ul>\n<p><strong>SUBMISSION:</strong><
+ /p>\n<ul>\n<li><span>Identify one team member who will submit a photo of y
+ our team journey map and joint reflections.</span></li>\n</ul>\n<p>&nbsp\;
+ </p><script src="https://instructure-uploads.s3.amazonaws.com/account_1072
+ 0000000090242/attachments/89304441/dp_app.js"></script>
+END:VEVENT
+END:VCALENDAR
+
+END:VCALENDAR

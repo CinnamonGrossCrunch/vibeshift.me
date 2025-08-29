@@ -26,6 +26,8 @@ export default function CalendarTabs({ events, title }: Props) {
   };
 
   const handleEventClick = (event: CalendarEvent) => {
+    // Scroll to top of page first
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setSelectedEvent(event);
   };
 

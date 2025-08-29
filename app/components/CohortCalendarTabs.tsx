@@ -113,6 +113,11 @@ export default function CohortCalendarTabs({ cohortEvents, title }: Props) {
     cohortEvent: CalendarEvent,
     originalEvents: CalendarEvent[]
   ): CalendarEvent | null => {
+    // Always display Teams@Haas events as-is (no matching or generated content)
+    if (cohortEvent.source && cohortEvent.source.toLowerCase().includes('teams@haas')) {
+      return null; // explicitly no matching content
+    }
+
     if (!originalEvents.length) {
       // No original events available - try to generate course content
       return generateCourseContent(cohortEvent);
@@ -202,6 +207,17 @@ export default function CohortCalendarTabs({ cohortEvents, title }: Props) {
   };
 
   const handleEventClick = (event: CalendarEvent) => {
+    // Scroll to top of page first
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Teams@Haas: show raw event only
+    if (event.source && event.source.toLowerCase().includes('teams@haas')) {
+      setSelectedEvent(event);
+      setMatchedOriginalEvent(null);
+      console.log(`Teams@Haas event selected (no enrichment): ${event.title}`);
+      return;
+    }
+
     setSelectedEvent(event);
     
     // Try to find matching event from original calendar
@@ -229,11 +245,11 @@ export default function CohortCalendarTabs({ cohortEvents, title }: Props) {
   return (
     <>
       {/* Compact Header - All controls on one line */}
-      <header className="mb-4">
+      <header className="mb-4 relative overflow-visible">
         <div className="flex items-center justify-between gap-3 flex-wrap">
           
-          
-          {/* Cohort Tabs */}
+            
+            {/* Cohort Tabs */}
           <div 
             role="tablist" 
             className="flex bg-slate-100 dark:bg-slate-700 rounded-full p-1 flex-shrink-0"
@@ -268,7 +284,7 @@ export default function CohortCalendarTabs({ cohortEvents, title }: Props) {
                 }`}
               style={{
                 backgroundColor: selectedCohort === 'gold' ? '#FDB51595' : '#00000025',
-                color: selectedCohort === 'gold' ? '#003262' : '#FDB515'
+                color: selectedCohort === 'gold' ? '#000000' : '#FDB51575'
               }}
             >
               Gold
@@ -277,7 +293,7 @@ export default function CohortCalendarTabs({ cohortEvents, title }: Props) {
 
           {/* Month Navigation (only show in grid view) */}
           {view === 'grid' && (
-            <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="flex items-center gap-1 flex-shrink-0">
               <button
                 onClick={goToPreviousMonth}
                 className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
@@ -287,7 +303,7 @@ export default function CohortCalendarTabs({ cohortEvents, title }: Props) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
-              <h4 className="text-sm font-semibold text-slate-900 dark:text-white min-w-0">
+              <h4 className="text-sm font-semibold text-slate-900 dark:text-white px-10">
                 {format(currentMonth, 'MMM yyyy')}
               </h4>
               <button
@@ -301,8 +317,7 @@ export default function CohortCalendarTabs({ cohortEvents, title }: Props) {
               </button>
             </div>
           )}
-
-          {/* View Toggle */}
+          {/* View Toggle with Greek Theater Toggle */}
           <div className="flex bg-slate-100 dark:bg-slate-700 rounded-full p-1 flex-shrink-0">
             <button
               onClick={() => setView('grid')}
@@ -324,33 +339,35 @@ export default function CohortCalendarTabs({ cohortEvents, title }: Props) {
             >
               List
             </button>
-          </div>
-
-          {/* Greek Theater Toggle Button */}
-          <div className="relative group flex-shrink-0">
-            <button
-              onClick={() => setShowGreekTheater(!showGreekTheater)}
-              className={`p-1 rounded-md transition-colors ${
-                showGreekTheater
-                  ? 'bg-slate-600'
-                  : 'hover:bg-slate-100 dark:hover:bg-slate-700'
-              }`}
-              aria-label={showGreekTheater ? 'Hide Greek Theater events' : 'Show Greek Theater events'}
-            >
-              <Image 
-                src="/GRREK LOGO.png" 
-                alt="Greek Theater" 
-                width={14}
-                height={10}
-                className="object-contain"
-              />
-            </button>
             
-            {/* Floating tooltip */}
-            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
-              Show Greek Theater Event Dates
+            {/* Greek Theater Toggle Button inside pill */}
+            <div className="relative group">
+              <button
+                onClick={() => setShowGreekTheater(!showGreekTheater)}
+                className={`px-2 py-2 rounded-full transition-all duration-200 ${
+                  showGreekTheater
+                    ? ' hover:bg-white/80 dark:hover:bg-slate-600/80'
+                    : 'hover:bg-white/80 dark:hover:bg-slate-600/80'
+                }`}
+                aria-label={showGreekTheater ? 'Hide Greek Theater events' : 'Show Greek Theater events'}
+              >
+                <Image 
+                  src="/greeklogo.png" 
+                  alt="Greek Theater" 
+                  width={50}
+                  height={20}
+                  className="object-contain"
+                />
+              </button>
+              
+              {/* Floating tooltip */}
+              <div className="absolute  transform -translate-x-20 -translate-y-13 mb-2 px-2 py-1  text-red-400/50 text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[9999]">
+                Greek Theater Events
+              </div>
             </div>
           </div>
+
+       
         </div>
       </header>
 
@@ -408,7 +425,7 @@ export default function CohortCalendarTabs({ cohortEvents, title }: Props) {
             </ul>
           )
         ) : (
-          <div className="-mx-5 -mb-5">
+          <div className="-mx-5 -mb-5 overflow-hidden">
             <MonthGrid 
               events={currentEvents} 
               currentMonth={currentMonth} 

@@ -29,11 +29,13 @@ export type CohortEvents = {
 const COHORT_FILES = {
   blue: [
     'ewmba201a_micro_blue_fall2025.ics',
-    'ewmba_leadingpeople_blue_fall2025.ics'
+    'ewmba_leadingpeople_blue_fall2025.ics',
+    'teams@Haas.ics'
   ],
   gold: [
     'ewmba201a_micro_gold_fall2025.ics', 
-    'ewmba_leadingpeople_gold_fall2025.ics'
+    'ewmba_leadingpeople_gold_fall2025.ics',
+    'teams@Haas.ics'
   ]
 };
 
@@ -86,6 +88,12 @@ async function fetchIcsData(filename: string): Promise<string> {
     console.warn(`Could not read local ICS file ${filename}:`, error);
   }
 
+  // If we reach here, file wasn't found or was empty
+  // For leading people files we suppress throwing to allow fallback logic
+  if (/leadingpeople|205_/i.test(filename)) {
+    console.warn(`Could not fetch ICS data for ${filename} - returning empty string for fallback`);
+    return '';
+  }
   throw new Error(`Could not fetch ICS data for ${filename} - file not found or empty`);
 }
 
@@ -168,7 +176,17 @@ function parseIcsToEvents(icsText: string, cohort: 'blue' | 'gold', filename?: s
       const url = safeStringExtract(v.url, 'url');
       const organizer = safeStringExtract(v.organizer, 'organizer');
       const status = safeStringExtract(v.status, 'status');
-      
+      const summaryVal = safeStringExtract(v.summary);
+
+      // If parsing calendar.ics, leadingpeople, or 205 files, remove any Teams@Haas events (they come from dedicated teams@Haas.ics)
+      if (filename === 'calendar.ics' || (filename && (filename.includes('leadingpeople') || filename.includes('205')))) {
+        const combinedText = `${summaryVal || ''} ${description || ''}`;
+        if (/teams@haas/i.test(combinedText)) {
+          console.log(`Filtered Teams@Haas event from ${filename}: ${summaryVal}`);
+          continue; // skip adding this event
+        }
+      }
+
       // Extract categories if present
       interface ICalEventWithCategories {
         categories?: string | string[] | { [key: string]: unknown };
@@ -184,9 +202,9 @@ function parseIcsToEvents(icsText: string, cohort: 'blue' | 'gold', filename?: s
         }
       }
 
-      const event: CalendarEvent = {
+      let event: CalendarEvent = {
         uid: v.uid,
-        title: safeStringExtract(v.summary) || 'Untitled',
+        title: summaryVal || 'Untitled',
         start: start.toISOString(),
         end: end?.toISOString(),
         location,
@@ -199,6 +217,21 @@ function parseIcsToEvents(icsText: string, cohort: 'blue' | 'gold', filename?: s
         status,
         categories,
       };
+
+      // Sanitize Leading People related events: remove any 'team@haas' content
+      if (filename && (filename.includes('leadingpeople') || filename.includes('205_'))) {
+        if (event.description && /team@haas/i.test(event.description)) {
+          const cleaned = event.description.replace(/team@haas/ig, '').replace(/\n\s*\n/g, '\n').trim();
+          if (cleaned !== event.description) {
+            console.log(`Sanitized 'team@haas' from description in ${filename}`);
+            event.description = cleaned;
+          }
+        }
+        if (event.organizer && /team@haas/i.test(event.organizer)) {
+          console.log(`Removed organizer 'team@haas' in ${filename}`);
+          event.organizer = undefined;
+        }
+      }
 
       events.push(event);
     }
@@ -220,27 +253,95 @@ async function fetchCohortEvents(cohort: 'blue' | 'gold'): Promise<CalendarEvent
 
   console.log(`Fetching ${cohort} cohort events from ${files.length} files`);
 
-  // Fetch all files for this cohort in parallel
-  const fetchPromises = files.map(async (filename) => {
+  // Helper to attempt loading a single file with fallback
+  const loadFileWithFallback = async (filename: string): Promise<CalendarEvent[]> => {
     try {
       const icsText = await fetchIcsData(filename);
-      const events = parseIcsToEvents(icsText, cohort, filename);
+      let events = parseIcsToEvents(icsText, cohort, filename);
+      if (events.length === 0 && filename.includes('leadingpeople')) {
+        // Fallback to legacy 205 file naming if new file is empty
+        const legacyName = filename.replace('ewmba_leadingpeople', 'ewmba205').replace('leadingpeople_', '205_').replace('fall2025', 'fallA2025_v2');
+        console.warn(`No events parsed from ${filename}. Trying legacy fallback ${legacyName}`);
+        try {
+          const legacyIcs = await fetchIcsData(legacyName);
+            const legacyEvents = parseIcsToEvents(legacyIcs, cohort, legacyName);
+            if (legacyEvents.length > 0) {
+              console.log(`Loaded ${legacyEvents.length} fallback events from ${legacyName}`);
+              events = legacyEvents;
+            }
+        } catch (legacyErr) {
+          console.warn(`Fallback legacy file ${legacyName} also failed:`, legacyErr);
+        }
+      }
       return events;
     } catch (error) {
       console.error(`Failed to process ${filename} for ${cohort} cohort:`, error);
+      // If new naming failed, attempt legacy directly when relevant
+      if (filename.includes('leadingpeople')) {
+        const legacyName = filename.replace('ewmba_leadingpeople', 'ewmba205').replace('leadingpeople_', '205_').replace('fall2025', 'fallA2025_v2');
+        try {
+          console.warn(`Attempting legacy file after error: ${legacyName}`);
+          const legacyIcs = await fetchIcsData(legacyName);
+          return parseIcsToEvents(legacyIcs, cohort, legacyName);
+        } catch (legacyErr) {
+          console.warn(`Legacy attempt also failed for ${legacyName}`);
+        }
+      }
       return [];
     }
-  });
+  };
 
-  const results = await Promise.all(fetchPromises);
-  
+  // Fetch all files for this cohort in parallel
+  const results = await Promise.all(files.map(f => loadFileWithFallback(f)));
+
   // Merge all events
   for (const events of results) {
     allEvents.push(...events);
   }
 
-  console.log(`Total ${cohort} cohort events: ${allEvents.length}`);
-  return allEvents;
+  // Refined de-duplication:
+  //  - Single key per date+title
+  //  - Prefer events whose source is teams@Haas.ics over any other source
+  //  - If a non-teams event has Teams@Haas in title and a teams@Haas source version exists, drop the non-teams one
+  const dedupPrefMap = new Map<string, CalendarEvent>();
+  for (const ev of allEvents) {
+    const key = `${ev.start.substring(0,10)}|${(ev.title || '').toLowerCase().trim()}`;
+    const isTeamsSource = (ev.source || '').toLowerCase().includes('teams@haas');
+    const isTeamsTitle = /teams@haas/i.test(ev.title || '');
+
+    const existing = dedupPrefMap.get(key);
+    if (!existing) {
+      // Nothing stored yet
+      dedupPrefMap.set(key, ev);
+      continue;
+    }
+
+    const existingIsTeamsSource = (existing.source || '').toLowerCase().includes('teams@haas');
+    const existingIsTeamsTitle = /teams@haas/i.test(existing.title || '');
+
+    // If incoming is the authoritative teams source, always override
+    if (isTeamsSource && !existingIsTeamsSource) {
+      dedupPrefMap.set(key, ev);
+      continue;
+    }
+
+    // If existing is teams source, keep it and ignore other copies
+    if (existingIsTeamsSource && !isTeamsSource) {
+      continue;
+    }
+
+    // If neither is teams source but one has teams title, keep the one already there
+    if (!isTeamsSource && !existingIsTeamsSource) {
+      continue; // first wins
+    }
+  }
+  let output = Array.from(dedupPrefMap.values());
+  if (output.length !== allEvents.length) {
+    console.log(`De-duplicated ${allEvents.length - output.length} events (post Teams@Haas preference) for ${cohort}`);
+  }
+
+  console.log(`Total ${cohort} cohort events (after dedupe + Teams@Haas preference): ${output.length}`);
+  return output;
 }
 
 /**
@@ -382,10 +483,41 @@ export async function getCohortEvents(
       })
     ]);
 
+    // Helper to inject ALL future Teams@Haas events (next 1 year) regardless of horizon
+    const injectTeams = (filtered: CalendarEvent[], all: CalendarEvent[]): CalendarEvent[] => {
+      const now = new Date();
+      const oneYear = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate());
+      const existingKeys = new Set(filtered.map(ev => `${ev.start}|${(ev.title||'').toLowerCase()}`));
+      const additions: CalendarEvent[] = [];
+      for (const ev of all) {
+        if ((ev.source || '').toLowerCase().includes('teams@haas')) {
+          const startDate = new Date(ev.start);
+            if (startDate >= now && startDate <= oneYear) {
+              const key = `${ev.start}|${(ev.title||'').toLowerCase()}`;
+              if (!existingKeys.has(key)) {
+                existingKeys.add(key);
+                additions.push(ev);
+              }
+            }
+        }
+      }
+      if (additions.length) {
+        console.log(`Injected ${additions.length} future Teams@Haas events beyond horizon`);
+      }
+      // Merge and resort
+      const merged = [...filtered, ...additions];
+      merged.sort((a,b) => +new Date(a.start) - +new Date(b.start));
+      return merged;
+    };
+
     // Filter and sort events for each cohort
-    const filteredBlue = filterEventsByDateRange(blueEvents, daysAhead, limit);
-    const filteredGold = filterEventsByDateRange(goldEvents, daysAhead, limit);
+    let filteredBlue = filterEventsByDateRange(blueEvents, daysAhead, limit);
+    let filteredGold = filterEventsByDateRange(goldEvents, daysAhead, limit);
     const filteredOriginal = filterEventsByDateRange(originalEvents, daysAhead * 2, limit * 2); // Wider range for matching
+
+    // Ensure Teams@Haas future events (e.g., Oct, Feb) are present
+    filteredBlue = injectTeams(filteredBlue, blueEvents);
+    filteredGold = injectTeams(filteredGold, goldEvents);
 
     console.log(`Filtered events - Blue: ${filteredBlue.length}, Gold: ${filteredGold.length}, Original: ${filteredOriginal.length}`);
 

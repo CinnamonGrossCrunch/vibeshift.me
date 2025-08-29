@@ -44,19 +44,41 @@ export default async function Home() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-amber-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative">
       {/* Background Image */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
         style={{ backgroundImage: "url('/haas bkg.jpg')" }}
       ></div>
       
       {/* Content Overlay */}
       <div className="relative z-10">
         {/* Header */}
-        <div className="w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-700">
+        <div className="w-full sticky top-0 z-30 bg-white/40 dark:bg-slate-900/30 backdrop-blur-md supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-900/25 border-b border-white/50 dark:border-slate-700/60 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] relative overflow-hidden">
+          {/* SVG turbulence / glass distortion layer */}
+          <svg className="absolute -inset-px w-[120%] h-[140%] opacity-20 mix-blend-overlay pointer-events-none" aria-hidden="true">
+            <filter id="glassNoise">
+              <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="7" stitchTiles="stitch" />
+              <feComponentTransfer>
+          <feFuncA type="linear" slope="0.22" />
+              </feComponentTransfer>
+            </filter>
+            <rect width="100%" height="100%" filter="url(#glassNoise)" />
+          </svg>
+          {/* Subtle displacement shimmer */}
+          <svg className="absolute inset-0 w-0 h-0">
+            <filter id="glassDistort">
+              <feTurbulence type="turbulence" baseFrequency="0.012 0.018" numOctaves="2" seed="11" result="turb" />
+              <feDisplacementMap in="SourceGraphic" in2="turb" scale="8" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+          </svg>
+          <div className="pointer-events-none absolute inset-0" style={{ maskImage: 'radial-gradient(circle at 30% 25%, rgba(0,0,0,.7), transparent 70%)', WebkitMaskImage: 'radial-gradient(circle at 30% 25%, rgba(0,0,0,.7), transparent 70%)', filter: 'url(#glassDistort)' }} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center">
-                
+              <div className="rounded-lg overflow-hidden flex items-center justify-center">
+                <img 
+                  src="/C OSKI.png" 
+                  alt="C OSKI Logo" 
+                  className="w-15 h-15 object-contain"
+                />
               </div>
               <span className="text-xl font-semibold text-slate-900 dark:text-white">OskiHub</span>
             </div>

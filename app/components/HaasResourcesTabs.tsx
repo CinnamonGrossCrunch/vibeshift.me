@@ -90,10 +90,23 @@ export default function HaasResourcesTabs({ resourcesData, title }: Props) {
                               href={item.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="underline hover:opacity-80 transition-opacity"
+                              className="underline hover:opacity-80 transition-opacity flex items-center gap-1"
                               style={{ color: 'var(--berkeley-gold)' }}
                             >
                               {item.text}
+                              <svg 
+                                className="w-3 h-3 flex-shrink-0" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                viewBox="0 0 24 24"
+                              >
+                                <path 
+                                  strokeLinecap="round" 
+                                  strokeLinejoin="round" 
+                                  strokeWidth={2} 
+                                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" 
+                                />
+                              </svg>
                             </a>
                           ) : (
                             <span className="text-slate-700 dark:text-slate-300">{item.text}</span>

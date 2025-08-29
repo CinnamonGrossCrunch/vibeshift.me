@@ -26,11 +26,11 @@ export default function MonthGrid({ events, currentMonth, onEventClick, showGree
 
   return (
     <div>
-      {/* Calendar Grid - Full width, no spacing */}
+      {/* Remove any potential navigation wrapper */}
       <div className="grid grid-cols-7 gap-px bg-white/10 dark:bg-slate-700/10 border border-white/15 dark:border-slate-600/15">
       {/* Weekday headers */}
       {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map((d) => (
-        <div key={d} className="bg-white/5 dark:bg-slate-600/5 text-xs text-center py-0.5 font-medium uppercase tracking-wide text-slate-700 dark:text-slate-300">
+        <div key={d} className="bg-white/5 dark:bg-slate-600/5 text-xs text-center  font-light uppercase tracking-wide text-slate-700 dark:text-slate-300">
           {d}
         </div>
       ))}
@@ -159,15 +159,15 @@ export default function MonthGrid({ events, currentMonth, onEventClick, showGree
             key={day.toISOString()}
             className={`h-28 p-1 flex flex-col border-t border-white/5 dark:border-slate-600/5 overflow-hidden ${
               isSameMonth(day, currentMonth) ? 'bg-white/5 dark:bg-slate-700/5' : 'bg-transparent opacity-40'
-            } ${isToday ? 'ring-1 ring-yellow-400' : ''}`}
+            } ${isToday ? 'rounded-sm  ring-1 ring-yellow-400 '  : ''}`}
           >
             <div className={`text-xs font-medium mb-1 flex-shrink-0 flex items-center gap-1 ${
-              isToday ? 'text-yellow-400 font-bold' : 'text-slate-900 dark:text-white'
+              isToday ? 'text-yellow-500 font-bold' : 'text-slate-900 dark:text-white'
             }`}>
               {format(day, 'd')}
               {showGreekTheater && hasGreekEvent && (
                 <Image 
-                  src="/GRREK LOGO.png"
+                  src="/greeklogo.png"
                   alt="Greek Theater Event"
                   width={40}
                   height={24}
