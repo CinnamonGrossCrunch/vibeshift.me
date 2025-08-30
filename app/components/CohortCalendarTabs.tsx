@@ -22,6 +22,8 @@ export default function CohortCalendarTabs({ cohortEvents }: Props) {
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [matchedOriginalEvent, setMatchedOriginalEvent] = useState<CalendarEvent | null>(null);
   const [showGreekTheater, setShowGreekTheater] = useState(true);
+  const [showUCLaunch, setShowUCLaunch] = useState(true);
+  const [showCalBears, setShowCalBears] = useState(true);
 
   // Load cohort preference from localStorage on mount
   useEffect(() => {
@@ -317,8 +319,8 @@ export default function CohortCalendarTabs({ cohortEvents }: Props) {
               </button>
             </div>
           )}
-          {/* View Toggle with Greek Theater Toggle */}
-          <div className="flex bg-slate-100 dark:bg-slate-700 rounded-full p-1 flex-shrink-0">
+          {/* View Toggles */}
+          <div className="flex bg-slate-100 dark:bg-slate-700 rounded-full p-0 flex-shrink-0">
             <button
               onClick={() => setView('grid')}
               className={`px-2 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
@@ -344,7 +346,7 @@ export default function CohortCalendarTabs({ cohortEvents }: Props) {
             <div className="relative group">
               <button
                 onClick={() => setShowGreekTheater(!showGreekTheater)}
-                className={`px-2 py-2 rounded-full transition-all duration-200 ${
+                className={`px-2 py-3 rounded-full transition-all duration-200 ${
                   showGreekTheater
                     ? ' hover:bg-white/80 dark:hover:bg-slate-600/80'
                     : 'hover:bg-white/80 dark:hover:bg-slate-600/80'
@@ -361,8 +363,60 @@ export default function CohortCalendarTabs({ cohortEvents }: Props) {
               </button>
               
               {/* Floating tooltip */}
-              <div className="absolute  transform -translate-x-20 -translate-y-13 mb-2 px-2 py-1  text-red-400/50 text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[9999]">
+              <div className="absolute  transform -translate-x-10 -translate-y-13.75 mb-2 px-2 py-1  text-red-400/70 text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[9999]">
                 Greek Theater Events
+              </div>
+            </div>
+
+            {/* UC Launch Toggle Button inside pill */}
+            <div className="relative group">
+                <button
+                onClick={() => setShowUCLaunch(!showUCLaunch)}
+                className={`px-2 py-2 rounded-full transition-all duration-200 ${
+                  showUCLaunch
+                  ? 'hover:bg-white/80 dark:hover:bg-slate-600/80'
+                  : 'hover:bg-white/80 dark:hover:bg-slate-600/80'
+                }`}
+                aria-label={showUCLaunch ? 'Hide UC Launch events' : 'Show UC Launch events'}
+                >
+                <Image
+                  src="/Launch Accelerator logo.png"
+                  alt="UC Launch Accelerator"
+                  width={50}
+                  height={20}
+                  className="object-contain filter brightness-0 invert"
+                />
+                </button>
+              
+              {/* Floating tooltip */}
+              <div className="absolute  transform -translate-x-10 -translate-y-13.75 mb-2 px-2 py-1  text-blue-400/70 text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-clicking z-[9999]">
+                UC Launch Events
+              </div>
+            </div>
+
+            {/* Cal Bears Toggle Button inside pill */}
+            <div className="relative group">
+                <button
+                onClick={() => setShowCalBears(!showCalBears)}
+                className={`px-2 py-2 rounded-full transition-all duration-200 ${
+                  showCalBears
+                  ? 'hover:bg-white/80 dark:hover:bg-slate-600/80'
+                  : 'hover:bg-white/80 dark:hover:bg-slate-600/80'
+                }`}
+                aria-label={showCalBears ? 'Hide Cal Bears events' : 'Show Cal Bears events'}
+                >
+                <Image
+                  src="/cal_logo.png"
+                  alt="Cal Bears"
+                  width={30}
+                  height={20}
+                  className="object-contain hover-invert filter brightness-0 invert"
+                />
+                </button>
+              
+              {/* Floating tooltip */}
+              <div className="absolute  transform -translate-x-10 -translate-y-13 mb-2 px-2 py-1  text-yellow-600/70 text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[9999]">
+                Cal Bears Events
               </div>
             </div>
           </div>
@@ -431,6 +485,10 @@ export default function CohortCalendarTabs({ cohortEvents }: Props) {
               currentMonth={currentMonth} 
               onEventClick={handleEventClick} 
               showGreekTheater={showGreekTheater}
+              showUCLaunch={showUCLaunch}
+              launchEvents={cohortEvents.launch}
+              showCalBears={showCalBears}
+              calBearsEvents={cohortEvents.calBears}
             />
           </div>
         )}

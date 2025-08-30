@@ -10,6 +10,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Urbanist', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        doto: ['Doto', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      },
       colors: {
         base: {
           900: '#0B1220',

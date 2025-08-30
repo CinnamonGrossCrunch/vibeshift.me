@@ -1,0 +1,76 @@
+BEGIN:VCALENDAR
+PRODID:-//VibeShift//UC LAUNCH Events//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:81b9c24a-6d92-4ed9-aea5-2584171566e5@vibeshift.me
+DTSTAMP:20250829T122441Z
+SUMMARY:Information Session — UC LAUNCH (On Campus)
+LOCATION:Berkeley Haas (On campus)
+DTSTART;VALUE=DATE:20250826
+DTEND;VALUE=DATE:20250827
+DESCRIPTION:Join us on campus at Berkeley Haas for an Information Session t
+ o learn more about our Startup Accelerator and the application criteria.\\
+ n\\nWe look forward to meeting you!\\n\\nRegister: https://forms.gle/u6T4j
+ vpUdimtDWYn6
+URL:https://forms.gle/u6T4jvpUdimtDWYn6
+END:VEVENT
+BEGIN:VEVENT
+UID:1518f135-25a0-4dda-bc83-bd9e9bf79e35@vibeshift.me
+DTSTAMP:20250829T122441Z
+SUMMARY:Executive Committee — Application Deadline
+DTSTART;VALUE=DATE:20250827
+DTEND;VALUE=DATE:20250828
+DESCRIPTION:UC LAUNCH is looking for passionate and dynamic individuals to 
+ join our team in the following roles:\\n• Co-Chair\\n• SVP Community\\n• S
+ VP Accelerator\\n\\nApply here: https://forms.gle/pbP7UBYzwaGNhDJ88
+URL:https://forms.gle/pbP7UBYzwaGNhDJ88
+END:VEVENT
+BEGIN:VEVENT
+UID:39aa0979-b8ac-4897-9d1a-6f6f89668faa@vibeshift.me
+DTSTAMP:20250829T122441Z
+SUMMARY:Information Session — UC LAUNCH (Zoom)
+LOCATION:Zoom
+DTSTART;VALUE=DATE:20250903
+DTEND;VALUE=DATE:20250904
+DESCRIPTION:Join us via Zoom for an Information Session to learn more about
+  our Startup Accelerator and the application criteria.\\n\\nWe look forwar
+ d to meeting you!\\n\\nRegister: https://forms.gle/u6T4jvpUdimtDWYn6
+URL:https://forms.gle/u6T4jvpUdimtDWYn6
+END:VEVENT
+BEGIN:VEVENT
+UID:05303ba9-9c3e-45ad-93fc-0169d3fc49bf@vibeshift.me
+DTSTAMP:20250829T122441Z
+SUMMARY:Startup Accelerator — Application Deadline
+DTSTART;VALUE=DATE:20250905
+DTEND;VALUE=DATE:20250906
+DESCRIPTION:Fall 2025 Applications are now open! Apply now to build your co
+ mpany using lean methodology from world-class faculty\, get paired with an
+  expert mentor\, build your network\, and win up to $60K in prizes on Demo
+  Day!\\n\\nApply here: https://forms.gle/qBfc6wuNXFKmE28R8
+URL:https://forms.gle/qBfc6wuNXFKmE28R8
+END:VEVENT
+BEGIN:VEVENT
+UID:39dc3fc4-9a02-4b54-97e1-7a4ce58b9dd6@vibeshift.me
+DTSTAMP:20250829T122441Z
+SUMMARY:Launchathon Weekend — UC LAUNCH
+DTSTART;VALUE=DATE:20251018
+DTEND;VALUE=DATE:20251020
+DESCRIPTION:We are looking for talent across Berkeley to help our startups 
+ solve their business challenges. Join us at this two-day hackathon-styled 
+ event where you get paired with a UC LAUNCH startup and share your experti
+ se. Prize money will be awarded by VC Judges to the top volunteers!
+END:VEVENT
+BEGIN:VEVENT
+UID:1866c7d9-09ca-4be5-9fc5-d01b418ca0ac@vibeshift.me
+DTSTAMP:20250829T122441Z
+SUMMARY:UC LAUNCH Demo Day
+DTSTART;VALUE=DATE:20251202
+DTEND;VALUE=DATE:20251203
+DESCRIPTION:Join us to watch the top startups pitch for a chance to win up 
+ to $60K in prizes. Winners are selected by our VC Judges.\\n\\nThe day wil
+ l be jam-packed with pitches\, networking\, and inspiration you won't want
+  to miss!\\n\\nRegistration opens in October.
+END:VEVENT
+END:VCALENDAR

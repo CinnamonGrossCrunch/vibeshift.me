@@ -71,19 +71,30 @@ export default async function Home() {
             </filter>
           </svg>
           <div className="pointer-events-none absolute inset-0" style={{ maskImage: 'radial-gradient(circle at 30% 25%, rgba(0,0,0,.7), transparent 70%)', WebkitMaskImage: 'radial-gradient(circle at 30% 25%, rgba(0,0,0,.7), transparent 70%)', filter: 'url(#glassDistort)' }} />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-1">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="rounded-lg overflow-hidden flex items-center justify-center">
                 <Image 
-                  src="/C OSKI.png" 
+                  src="/CalOskiLogoWhite.svg" 
                   alt="C OSKI Logo"
-                  width={60}
-                  height={60}
-                  className="w-15 h-15 object-contain"
+                  width={40}
+                  height={40}
+                  className="w-10 h-10 object-contain"
                 />
               </div>
-              <span className="text-xl font-semibold text-slate-900 dark:text-white">OskiHub</span>
+                <span className="rounded text-2xl font-semibold bg-berkeley-blue text-slate-900 dark:text-white font-sans">
+                  Oski
+                  <span
+                    className="ml-0 font-black text-[#fdb515]"
+                    style={{ 
+                      fontWeight: '900',
+                      fontFamily: 'Urbanist, ui-sans-serif, system-ui, sans-serif'
+                    }}
+                  >
+                Hub
+                  </span>
+                </span>
             </div>
           </div>
         </div>

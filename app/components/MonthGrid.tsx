@@ -11,9 +11,22 @@ type Props = {
   currentMonth: Date;
   onEventClick: (event: CalendarEvent) => void;
   showGreekTheater?: boolean;
+  showUCLaunch?: boolean;
+  launchEvents?: CalendarEvent[];
+  showCalBears?: boolean;
+  calBearsEvents?: CalendarEvent[];
 };
 
-export default function MonthGrid({ events, currentMonth, onEventClick, showGreekTheater = true }: Props) {
+export default function MonthGrid({ 
+  events, 
+  currentMonth, 
+  onEventClick, 
+  showGreekTheater = true, 
+  showUCLaunch = true,
+  launchEvents = [],
+  showCalBears = true,
+  calBearsEvents = []
+}: Props) {
   // Remove the internal state since month is controlled by parent
   // const [currentMonth, setCurrentMonth] = useState(new Date(2025, 7, 1));
 
@@ -40,6 +53,19 @@ export default function MonthGrid({ events, currentMonth, onEventClick, showGree
         const dayEvents = events.filter((ev) =>
           isSameDay(new Date(ev.start), day)
         );
+        
+        // Add UC Launch events for this day if they should be shown
+        const dayLaunchEvents = showUCLaunch ? launchEvents.filter((ev) =>
+          isSameDay(new Date(ev.start), day)
+        ) : [];
+        
+        // Add Cal Bears events for this day if they should be shown
+        const dayCalBearsEvents = showCalBears ? calBearsEvents.filter((ev) =>
+          isSameDay(new Date(ev.start), day)
+        ) : [];
+        
+        // Combine regular events with launch events and Cal Bears events
+        const allDayEvents = [...dayEvents, ...dayLaunchEvents, ...dayCalBearsEvents];
 
         const isToday = isSameDay(day, new Date());
         const hasGreekEvent = hasGreekTheaterEventOnDate(day);
@@ -107,6 +133,16 @@ export default function MonthGrid({ events, currentMonth, onEventClick, showGree
         const getCourseColor = (event: CalendarEvent) => {
           const hoverGold = 'hover:border-[#FDB515]'; // Berkeley Gold
           const glassBase = 'backdrop-blur-sm bg-clip-padding saturate-50 shadow-sm';
+
+          // Check for UC Launch events FIRST - Orange styling
+          if (event.source && event.source.includes('uc_launch_events')) {
+            return `${glassBase} bg-orange-800/40 border-orange-700/40 text-white ${hoverGold}`;
+          }
+
+          // Check for Cal Bears events - Blue and Gold styling
+          if (event.source && event.source.includes('cal_bears_home')) {
+            return `${glassBase} bg-blue-800/40 border-yellow-500/40 text-white ${hoverGold}`;
+          }
 
           // Check for Teams@Haas events FIRST (before source-based detection)
             // because Teams@Haas events are in the 205 ICS files but should have purple styling
@@ -186,8 +222,8 @@ export default function MonthGrid({ events, currentMonth, onEventClick, showGree
               )}
             </div>
             <div className="flex-1 flex flex-col gap-px">
-              {dayEvents.length > 0 ? (
-                dayEvents.map((ev) => {
+              {allDayEvents.length > 0 ? (
+                allDayEvents.map((ev) => {
                   const { courseName, assignment } = parseEventTitle(ev.title);
                   const courseColor = getCourseColor(ev);
                   
@@ -201,7 +237,7 @@ export default function MonthGrid({ events, currentMonth, onEventClick, showGree
                         onEventClick(ev);
                       }}
                       style={{
-                        height: `calc((100% - ${(dayEvents.length - 1) * 1}px) / ${dayEvents.length})`
+                        height: `calc((100% - ${(allDayEvents.length - 1) * 1}px) / ${allDayEvents.length})`
                       }}
                     >
                       {/* Course name */}

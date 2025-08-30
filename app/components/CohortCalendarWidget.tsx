@@ -13,7 +13,7 @@ export default async function CohortCalendarWidget({
   daysAhead = 30,
   max = 150,
 }: Props) {
-  let cohortEvents: CohortEvents = { blue: [], gold: [], original: [] };
+  let cohortEvents: CohortEvents = { blue: [], gold: [], original: [], launch: [], calBears: [] };
   let error: string | null = null;
 
   try {

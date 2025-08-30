@@ -788,11 +788,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
         
         {/* Copyright Footer */}
         <div className="border-t border-slate-200 dark:border-slate-700 py-2 px-4 rounded-b-2xl relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>
-          {/* Background Image */}
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
-            style={{ backgroundImage: "url('/bear blue 2.jpg')" }}
-          ></div>
+        
           
           {/* Content Overlay */}
           <div className="relative z-10 text-center">
