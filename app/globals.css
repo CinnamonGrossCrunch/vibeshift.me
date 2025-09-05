@@ -1,7 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap');
 @import "tailwindcss";
 @import "./berkeley-colors.css";
+
+/* Import Urbanist font with proper loading strategy */
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap');
 
 /* Force dark mode globally - safety net */
 html {
@@ -9,9 +11,17 @@ html {
   color-scheme: dark !important;
 }
 
+/* Base styles - apply Urbanist as default font family */
+html {
+  font-family: 'Urbanist', ui-sans-serif, system-ui, sans-serif;
+}
+
 body {
-  background-color: #0f172a !important;
-  color: #f1f5f9 !important;
+  background-color: #0f172a;
+  color: #f1f5f9;
+  font-family: 'Urbanist', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
 :root {
@@ -24,7 +34,7 @@ body {
   --berkeley-gold-dark: #D4941E;
   --accent-blue: #2D637F;
   
-  /* Force dark theme variables */
+  /* Theme variables */
   --background: #0f172a;
   --foreground: #f1f5f9;
   --surface: #1e293b;
@@ -34,36 +44,20 @@ body {
   --text-muted: #94a3b8;
 }
 
-/* Remove the media query preference and force dark mode
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0f172a;
-    --foreground: #f1f5f9;
-    --surface: #1e293b;
-    --surface-hover: #334155;
-    --border: #475569;
-    --text-secondary: #cbd5e1;
-    --text-muted: #94a3b8;
-  }
-} */
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: "Urbanist", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
-  line-height: 1.6;
+/* Utility classes for precise font control */
+.font-urbanist {
+  font-family: 'Urbanist', ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Override all font weights to use medium by default */
-* {
-  font-family: "Urbanist", sans-serif !important;
-  font-optical-sizing: auto;
-  font-weight: 500 !important;
-  font-style: normal;
-}
+.font-weight-100 { font-weight: 100; }
+.font-weight-200 { font-weight: 200; }
+.font-weight-300 { font-weight: 300; }
+.font-weight-400 { font-weight: 400; }
+.font-weight-500 { font-weight: 500; }
+.font-weight-600 { font-weight: 600; }
+.font-weight-700 { font-weight: 700; }
+.font-weight-800 { font-weight: 800; }
+.font-weight-900 { font-weight: 900; }
 
 /* National Park font utility classes */
 .national-park-light {
@@ -162,97 +156,13 @@ body {
   font-style: italic !important;
 }
 
-/* Urbanist utility classes */
-.urbanist-thin {
-  font-family: "Urbanist", sans-serif !important;
-  font-optical-sizing: auto !important;
-  font-weight: 100 !important;
-  font-style: normal !important;
-}
-
-.urbanist-extralight {
-  font-family: "Urbanist", sans-serif !important;
-  font-optical-sizing: auto !important;
-  font-weight: 200 !important;
-  font-style: normal !important;
-}
-
-.urbanist-light {
-  font-family: "Urbanist", sans-serif !important;
-  font-optical-sizing: auto !important;
-  font-weight: 300 !important;
-  font-style: normal !important;
-}
-
-.urbanist-regular {
-  font-family: "Urbanist", sans-serif !important;
-  font-optical-sizing: auto !important;
-  font-weight: 400 !important;
-  font-style: normal !important;
-}
-
-.urbanist-medium {
-  font-family: "Urbanist", sans-serif !important;
-  font-optical-sizing: auto !important;
-  font-weight: 500 !important;
-  font-style: normal !important;
-}
-
-.urbanist-semibold {
-  font-family: "Urbanist", sans-serif !important;
-  font-optical-sizing: auto !important;
-  font-weight: 600 !important;
-  font-style: normal !important;
-}
-
-.urbanist-bold {
-  font-family: "Urbanist", sans-serif !important;
-  font-optical-sizing: auto !important;
-  font-weight: 700 !important;
-  font-style: normal !important;
-}
-
-.urbanist-extrabold {
-  font-family: "Urbanist", sans-serif !important;
-  font-optical-sizing: auto !important;
-  font-weight: 800 !important;
-  font-style: normal !important;
-}
-
-.urbanist-black {
-  font-family: "Urbanist", sans-serif !important;
-  font-optical-sizing: auto !important;
-  font-weight: 900 !important;
-  font-style: normal !important;
-}
-
-.urbanist-italic {
-  font-family: "Urbanist", sans-serif !important;
-  font-optical-sizing: auto !important;
-  font-weight: 400 !important;
-  font-style: italic !important;
-}
-
-.urbanist-medium-italic {
-  font-family: "Urbanist", sans-serif !important;
-  font-optical-sizing: auto !important;
-  font-weight: 500 !important;
-  font-style: italic !important;
-}
-
-.urbanist-semibold-italic {
-  font-family: "Urbanist", sans-serif !important;
-  font-optical-sizing: auto !important;
-  font-weight: 600 !important;
-  font-style: italic !important;
-}
-
-.urbanist-bold-italic {
-  font-family: "Urbanist", sans-serif !important;
-  font-optical-sizing: auto !important;
-  font-weight: 700 !important;
-  font-style: italic !important;
-}
+/* Simplified Urbanist utility classes */
+.urbanist-light { font-family: 'Urbanist', sans-serif; font-weight: 300; }
+.urbanist-regular { font-family: 'Urbanist', sans-serif; font-weight: 400; }
+.urbanist-medium { font-family: 'Urbanist', sans-serif; font-weight: 500; }
+.urbanist-semibold { font-family: 'Urbanist', sans-serif; font-weight: 600; }
+.urbanist-bold { font-family: 'Urbanist', sans-serif; font-weight: 700; }
+.urbanist-extrabold { font-family: 'Urbanist', sans-serif; font-weight: 800; }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
@@ -270,11 +180,6 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--berkeley-blue);
-}
-
-/* Smooth transitions */
-* {
-  transition: colors 200ms ease-in-out;
 }
 
 /* Custom animations */
@@ -407,4 +312,82 @@ body {
 
 .animate-smooth-fade-in {
   animation: smoothFadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Custom scrollbar styles for modal */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thumb-slate-300::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+}
+
+.scrollbar-thumb-slate-600::-webkit-scrollbar-thumb {
+  background-color: #475569;
+}
+
+.scrollbar-track-transparent::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Hide scrollbar for What's Next widget horizontal scroll */
+.calendar-list-widget .events-container::-webkit-scrollbar {
+  display: none;
+}
+
+.calendar-list-widget .events-container {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Glass Effect Turbulence - Global Styles */
+.glass-turbulence {
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.02) 100%);
+  backdrop-filter: blur(12px) saturate(180%) brightness(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(120%);
+}
+
+.glass-nav-button {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px) saturate(180%) brightness(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(120%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.glass-nav-button:hover {
+  background: rgba(0, 50, 98, 0.8); /* berkeley-blue/80 */
+  border-color: #003262; /* berkeley-blue */
+}
+
+@media (prefers-color-scheme: dark) {
+  .glass-nav-button {
+    background: rgba(15, 23, 42, 0.05);
+    border: 1px solid rgba(71, 85, 105, 0.3);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+  }
+  
+  .glass-nav-button:hover {
+    background: rgba(253, 181, 21, 0.8); /* berkeley-gold/80 */
+    border-color: #FDB515; /* berkeley-gold */
+  }
 }

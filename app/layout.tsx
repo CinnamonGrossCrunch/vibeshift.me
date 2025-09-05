@@ -6,12 +6,12 @@ export const metadata: Metadata = {
   description: "Smart newsletter dashboard with Mailchimp integration",
   icons: {
     icon: [
-      { url: "/OskiHub_logo.ico", sizes: "any", type: "image/x-icon" },
-      { url: "/OskiHub_logo.ico", sizes: "16x16", type: "image/x-icon" },
-      { url: "/OskiHub_logo.ico", sizes: "32x32", type: "image/x-icon" },
+      { url: "/cloudclaw.ico", sizes: "any", type: "image/x-icon" },
+      { url: "/cloudclaw.ico", sizes: "16x16", type: "image/x-icon" },
+      { url: "/cloudclaw.ico", sizes: "32x32", type: "image/x-icon" },
     ],
-    shortcut: "/OskiHub_logo.ico",
-    apple: "/OskiHub_logo.ico",
+    shortcut: "/cloudclaw.ico",
+    apple: "/cloudclaw.ico",
   },
 };
 

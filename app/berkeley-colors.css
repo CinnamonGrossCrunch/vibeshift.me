@@ -35,7 +35,15 @@
   color: var(--berkeley-blue);
 }
 
-.berkeley-secondary {
+.berkeley-blue-secondary {
+  color: var(--berkeley-blue);
+  background-color: var(--berkeley-gold);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+}
+
+.berkeley-gold-secondary {
   color: var(--berkeley-gold);
 }
 

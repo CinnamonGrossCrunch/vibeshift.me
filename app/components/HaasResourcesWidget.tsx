@@ -1,4 +1,6 @@
-import { getHaasResourcesData } from '../../lib/resources';
+'use client';
+
+import { useState, useEffect } from 'react';
 import HaasResourcesTabs from './HaasResourcesTabs';
 import type { HaasResourcesData } from '../../lib/resources';
 
@@ -6,22 +8,51 @@ type Props = {
   title?: string;
 };
 
-export default async function HaasResourcesWidget({
+export default function HaasResourcesWidget({
   title = 'Haas Resources',
 }: Props) {
-  let resourcesData: HaasResourcesData | null = null;
-  let error: string | null = null;
+  const [resourcesData, setResourcesData] = useState<HaasResourcesData | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  try {
-    resourcesData = await getHaasResourcesData();
-  } catch (err) {
-    console.error('Haas Resources widget error:', err);
-    error = err instanceof Error ? err.message : 'Failed to load resources';
-  }
+  useEffect(() => {
+    const fetchResourcesData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        // Fetch resources data from API endpoint
+        const response = await fetch('/api/resources');
+        if (!response.ok) {
+          throw new Error('Failed to fetch resources data');
+        }
+        
+        const data = await response.json();
+        setResourcesData(data);
+      } catch (err) {
+        console.error('Haas Resources widget error:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load resources');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchResourcesData();
+  }, []);
 
   return (
     <section className="rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-glass">
-      {error ? (
+      {loading ? (
+        <>
+          <header className="flex items-center justify-between mb-4 p-5">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{title}</h3>
+          </header>
+          <div className="text-center py-4">
+            <div className="w-4 h-4 border-2 border-slate-300 border-t-berkeley-blue rounded-full animate-spin mx-auto mb-3"></div>
+            <p className="text-sm text-slate-600 dark:text-slate-400">Loading resources...</p>
+          </div>
+        </>
+      ) : error ? (
         <>
           <header className="flex items-center justify-between mb-4 p-5">
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{title}</h3>

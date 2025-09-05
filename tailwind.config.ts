@@ -11,8 +11,20 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Urbanist', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Urbanist', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        urbanist: ['Urbanist', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         doto: ['Doto', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      },
+      fontWeight: {
+        '100': '100',
+        '200': '200', 
+        '300': '300',
+        '400': '400',
+        '500': '500',
+        '600': '600',
+        '700': '700',
+        '800': '800',
+        '900': '900',
       },
       colors: {
         base: {
@@ -51,6 +63,9 @@ const config: Config = {
       },
       backdropBlur: {
         xs: '2px',
+      },
+      gridTemplateColumns: {
+        '9': 'repeat(9, minmax(0, 1fr))',
       },
     },
   },

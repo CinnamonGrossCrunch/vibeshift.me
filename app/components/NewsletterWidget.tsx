@@ -332,6 +332,19 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     // Rejoin the processed parts
     processedHtml = processedParts.join('');
 
+    // --- IMPORTANT: Process links FIRST before any other processing ---
+    // Handle remaining elements - MOVED TO TOP to preserve links
+    processedHtml = processedHtml.replace(/<strong>([^<]+)<\/strong>/g, 
+      '<span class="urbanist-semibold text-slate-900 dark:text-white">$1</span>');
+    
+    // More robust link processing to handle various link formats
+    processedHtml = processedHtml.replace(/<a\s+([^>]*)>([^<]+)<\/a>/gi, 
+      '<a $1 class="text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 underline decoration-amber-300 hover:decoration-amber-500 transition-colors !important">$2</a>');
+    
+    // Also handle links that might have special characters in the content
+    processedHtml = processedHtml.replace(/<a\s+([^>]*)>([\s\S]*?)<\/a>/gi, 
+      '<a $1 class="text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 underline decoration-amber-300 hover:decoration-amber-500 transition-colors !important">$2</a>');
+
     // Handle sections: <strong>Title</strong> followed by content (lists, paragraphs)
     processedHtml = processedHtml.replace(/<strong>([^<]+)<\/strong>\s*(<ul>[\s\S]*?<\/ul>|<ol>[\s\S]*?<\/ol>|<p>[\s\S]*?<\/p>)*/g, (match, title, content) => {
       return `<div class="mb-4">
@@ -384,15 +397,18 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
           const parts = liContent.split(/(<ul>[\s\S]*?<\/ul>|<ol>[\s\S]*?<\/ol>)/);
           const mainText = parts[0].trim();
           const nestedList = parts[1] || '';
+          const afterListText = parts[2] ? parts[2].trim() : ''; // CAPTURE TEXT AFTER THE NESTED LIST
+          
           return `<div class="flex items-center space-x-3 my-2">
             <div class="flex-shrink-0">
               <div class="w-2 h-2 rounded-full" style="background-color: var(--berkeley-gold);"></div>
             </div>
             <div class="flex-1">
-              <span class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300">${mainText}</span>
+              <div class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300">${mainText}</div>
               <div class="ml-4 mt-2">
                 ${nestedList}
               </div>
+              ${afterListText ? `<div class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300 mt-2">${afterListText}</div>` : ''}
             </div>
           </div>`;
         } else {
@@ -401,7 +417,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
               <div class="w-2 h-2 rounded-full" style="background-color: var(--berkeley-gold);"></div>
             </div>
             <div class="flex-1">
-              <span class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300">${liContent.trim()}</span>
+              <div class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300">${liContent.trim()}</div>
             </div>
           </div>`;
         }
@@ -451,7 +467,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
             </div>
           </div>
           <div class="flex-1">
-            <span class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300">${liContent.trim()}</span>
+            <div class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300">${liContent.trim()}</div>
           </div>
         </div>`;
       }).join('');
@@ -477,15 +493,36 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
       return `<p class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300 my-3">${content}</p>`;
     });
 
-    // Handle remaining elements
-    processedHtml = processedHtml.replace(/<strong>([^<]+)<\/strong>/g, 
-      '<span class="urbanist-semibold text-slate-900 dark:text-white">$1</span>');
-    processedHtml = processedHtml.replace(/<a([^>]*)>([^<]+)<\/a>/g, 
-      '<a$1 class="text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 underline decoration-amber-300 hover:decoration-amber-500 transition-colors !important">$2</a>');
-    
     // Clean up whitespace but preserve line breaks
     processedHtml = processedHtml.replace(/\n\s*\n/g, '\n'); // Remove multiple consecutive newlines
     processedHtml = processedHtml.replace(/[ \t]+/g, ' '); // Normalize spaces and tabs but keep line breaks
+
+    // POST-PROCESSING FIX: Restore links that got separated during list processing
+    // This handles cases where link text appears after nested lists in list items
+    
+    // Generic pattern: Look for common link text patterns that might have been separated
+    const linkPatterns = [
+      // Club Fair pattern
+      {
+        pattern: /Add the event[^\s]*\s*to your calendar by clicking the link on Campus Groups\./gi,
+        replacement: '<a href="https://haas.campusgroups.com/FTMBA/rsvp_boot?id=2250690" target="_blank" rel="noopener noreferrer" class="text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 underline decoration-amber-300 hover:decoration-amber-500 transition-colors !important">Add the event to your calendar</a> by clicking the link on Campus Groups.'
+      },
+      // Generic "click here" or "register here" patterns that might get separated
+      {
+        pattern: /Register\s+(?:for\s+)?(?:the\s+)?(.+?)\s+(?:here|by clicking this link)/gi,
+        replacement: '<a href="#" class="text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 underline decoration-amber-300 hover:decoration-amber-500 transition-colors !important">Register for $1 here</a>'
+      },
+      // Generic "more information" patterns
+      {
+        pattern: /(?:For\s+)?(?:more\s+)?(?:information|details)\s+(?:visit|see|click)\s+(?:here|this link)/gi,
+        replacement: '<a href="#" class="text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 underline decoration-amber-300 hover:decoration-amber-500 transition-colors !important">More information here</a>'
+      }
+    ];
+    
+    // Apply each pattern
+    linkPatterns.forEach(({ pattern, replacement }) => {
+      processedHtml = processedHtml.replace(pattern, replacement);
+    });
 
     return processedHtml;
   };
@@ -493,7 +530,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
   return (
     <div className="max-w-4xl mx-auto dark">
       {/* Header */}
-      <div className="rounded-t-3xl pt-3 sm:pt-4 md:pt-6 px-3 sm:px-4 md:px-6 pb-2 sm:pb-3 md:pb-4 text-white relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>
+      <div className="rounded-t-3xl pt-2 px-3 pb-2 text-white relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>
         {/* Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
@@ -502,20 +539,20 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
         
         {/* Content Overlay */}
         <div className="relative z-10 select-none">
-          <div className="flex items-start justify-between gap-2 sm:gap-4">
+          <div className="flex items-start justify-between gap-1 sm:gap-2">
           <div className="flex-1 min-w-0">
-            <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-3 mb-1 sm:mb-2">
+            <div className="flex items-center space-x-1 mb-1">
               <h2 className="text-2xl sm:text-xl md:text-2xl lg:text-3xl urbanist-black whitespace-nowrap truncate">
                 <span style={{ color: 'white' }}>Bear</span>
-                <span className="ml-2" style={{ color: 'var(--berkeley-gold)' }}>Necessities</span>
+                <span className="ml-1" style={{ color: 'var(--berkeley-gold)' }}>Necessities</span>
               </h2>
             </div>
             
             {data.title && (
-              <p className="text-blue-100 text-xs sm:text-sm lg:text-xs urbanist-medium mb-1 truncate">{data.title}</p>
+              <p className="text-blue-100 text-xs urbanist-medium mb-0 truncate">{data.title}</p>
             )}
               <a
-              className="text-gray-800 dark:text-gray-600 text-xs urbanist-regular transition-colors inline-block mb-0 whitespace-nowrap select-text"
+              className="text-gray-800 dark:text-gray-600 text-xs urbanist-regular transition-colors inline-block mb-0  select-text"
               onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'var(--berkeley-gold)'}
               onMouseLeave={(e) => (e.target as HTMLElement).style.color = ''}
               href={data.sourceUrl}
@@ -552,23 +589,23 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
             <div className="text-right">
               {unopenedSectionsCount === 0 ? (
                 <div className="text-center">
-               <div className="text-xl sm:text-2xl urbanist-bold" style={{ color: 'var(--berkeley-gold)' }}>
+               <div className="text-md urbanist-bold" style={{ color: 'var(--berkeley-gold)' }}>
                     {animationData && triggerTopLevelAnimation ? (
                       <Lottie 
                         animationData={animationData}
                         loop={false}
                         autoplay={true}
-                        className="w-12 h-12 sm:w-16 sm:h-16 mx-auto"
+                        className="w-12 h-12 mx-auto"
                       />
                     ) : (
                       <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto flex items-center justify-center">
-                        <span className="text-2xl">✓</span>
+                        <span className="text-lg">✓</span>
                       </div>
                     )}
                   </div>
                   {showCaughtUpText && (
                     <div 
-                      className="text-xs urbanist-medium whitespace-nowrap animate-smooth-fade-in" 
+                      className="text-xs px-2 urbanist-medium whitespace-nowrap flex items-center animate-smooth-fade-in" 
                       style={{ 
                         color: 'white'
                       }}
@@ -580,7 +617,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                 </div>
               ) : (
                 <div className=" rounded-xl sm:rounded-2xl p-1.5 sm:p-2 shadow-lg bg-gradient-to-b from-gray-900/50 to-gray-900/10 text-center" style={{ borderColor: 'var(--berkeley-gold)', boxShadow: '0 -2px 20px 2px rgba(255, 255, 255, 0.2)' }}>
-                  <div className="text-xs urbanist-light mb-1 sm:mb-0 whitespace-nowrap" style={{ color: 'var(--berkeley-gold)' }}>Updates<br />To Review</div>
+                  <div className="text-xs urbanist-light mb-0 whitespace-nowrap" style={{ color: 'var(--berkeley-gold)' }}>Updates<br />To Review</div>
                   <div className="text-xl sm:text-2xl urbanist-bold whitespace-nowrap" style={{ color: 'var(--berkeley-gold)' }}>
                   {unopenedSectionsCount} of {data.sections.length}
                   </div>
@@ -617,7 +654,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                   // Also close all item dropdowns when switching sections
                   setItemOpen({});
                 }}
-                className={`section-button w-full text-left px-5 py-2 bg-gradient-to-r from-slate-50 to-blue-50 hover:from-blue-50 hover:to-amber-50 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 transition-all duration-300 ease-in-out flex items-center justify-between group`}
+                className={`section-button w-full text-left px-2.5 py-2 bg-gradient-to-r from-slate-50 to-blue-50 hover:from-blue-50 hover:to-amber-50 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 transition-all duration-300 ease-in-out flex items-center justify-between group`}
               >
                 <div className="flex items-center space-x-3">
                   {allItemsInSectionVisited(idx) ? (
@@ -637,7 +674,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                       <div className="w-20 h-8 rounded-lg flex items-center justify-center">
                         {animationData ? (
                           <div 
-                            className={`transition-transform duration-[1000ms] ease-in-out ${sectionScaleStates[idx] ? 'scale-[1.5]' : 'scale-100'} flex items-center justify-center`}
+                            className={`transition-transform duration-[200ms] ease-in-out ${sectionScaleStates[idx] ? 'brightness-[1.5]' : 'brightness-100'} flex items-center justify-center`}
                           >
                             <Lottie 
                               animationData={animationData}
@@ -647,7 +684,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                             />
                           </div>
                         ) : (
-                          <span className="text-lg text-green-600 dark:text-green-400">✓</span>
+                          <span className="text-sm text-green-600 dark:text-green-400">✓</span>
                         )}
                       </div>
                     ) : (
@@ -667,7 +704,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
               >
                 <div className="expandable-content">
                   <div className={`border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 ${idx === data.sections.length - 1 ? 'rounded-b-2xl' : ''}`}>
-                    <div className={`px-8 py-4 space-y-3 ${idx === data.sections.length - 1 ? 'pb-6 rounded-b-2xl' : ''}`}>
+                    <div className={`px-1 py-3 ${idx === data.sections.length - 1 ? 'pb-6 rounded-b-2xl' : ''}`}>
                       {createSubsections(sec.items).map((subsection, j) => {
                         const itemKey = `${idx}-${j}`;
                         const itemId = `${id}-item-${j}`;
@@ -677,7 +714,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                         return (
                           <div key={itemId} className="relative">
                             {/* Subsection container */}
-                            <div className="ml-6 border border-slate-200 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700/50 shadow-sm">
+                            <div className="ml-2 text-sm border border-slate-200 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700/50 shadow-sm">
                               <button
                                 onClick={() => {
                                   // Auto-collapse: close all other items in this section

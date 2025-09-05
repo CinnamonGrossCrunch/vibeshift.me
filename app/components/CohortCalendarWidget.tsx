@@ -1,4 +1,6 @@
-import { getCohortEvents } from '@/lib/icsUtils';
+'use client';
+
+import { useState, useEffect } from 'react';
 import CohortCalendarTabs from './CohortCalendarTabs';
 import type { CohortEvents } from '@/lib/icsUtils';
 
@@ -6,28 +8,69 @@ type Props = {
   title?: string;
   daysAhead?: number;
   max?: number;
+  cohortEvents?: CohortEvents;
+  selectedCohort?: 'blue' | 'gold';
 };
 
-export default async function CohortCalendarWidget({
+export default function CohortCalendarWidget({
   title = 'Cohort Calendar',
   daysAhead = 30,
   max = 150,
+  cohortEvents: externalCohortEvents,
+  selectedCohort: externalSelectedCohort,
 }: Props) {
-  let cohortEvents: CohortEvents = { blue: [], gold: [], original: [], launch: [], calBears: [] };
-  let error: string | null = null;
+  const [cohortEvents, setCohortEvents] = useState<CohortEvents>({ 
+    blue: [], 
+    gold: [], 
+    original: [], 
+    launch: [], 
+    calBears: [] 
+  });
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  try {
-    console.log('CohortCalendarWidget: Starting to fetch cohort events');
-    cohortEvents = await getCohortEvents(daysAhead, max);
-    console.log(`CohortCalendarWidget: Successfully loaded Blue: ${cohortEvents.blue.length}, Gold: ${cohortEvents.gold.length} events`);
-  } catch (err) {
-    console.error('Cohort calendar widget error:', err);
-    error = err instanceof Error ? err.message : 'Failed to load cohort calendar events';
-  }
+  // Fetch data if not provided externally
+  useEffect(() => {
+    if (externalCohortEvents) {
+      setCohortEvents(externalCohortEvents);
+    } else {
+      const fetchCohortEvents = async () => {
+        try {
+          setLoading(true);
+          setError(null);
+          
+          const response = await fetch('/api/calendar');
+          if (!response.ok) {
+            throw new Error('Failed to fetch cohort events');
+          }
+          
+          const events = await response.json();
+          setCohortEvents(events);
+        } catch (err) {
+          console.error('Cohort calendar widget error:', err);
+          setError(err instanceof Error ? err.message : 'Failed to load cohort calendar events');
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchCohortEvents();
+    }
+  }, [externalCohortEvents, daysAhead, max]);
 
   return (
-    <section className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-glass overflow-hidden">
-      {error ? (
+    <section className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl md:rounded-l-none lg:rounded-l-none p-5 border border-slate-200 dark:border-slate-700 shadow-glass overflow-hidden">
+      {loading ? (
+        <>
+          <header className="flex items-center justify-between mb-4">
+            <h3 className="text-base font-semibold text-slate-900 dark:text-white">{title}</h3>
+          </header>
+          <div className="text-center py-8">
+            <div className="w-4 h-4 border-2 border-slate-300 border-t-berkeley-blue rounded-full animate-spin mx-auto mb-3"></div>
+            <p className="text-sm text-slate-600 dark:text-slate-400">Loading calendar...</p>
+          </div>
+        </>
+      ) : error ? (
         <>
           <header className="flex items-center justify-between mb-4">
             <h3 className="text-base font-semibold text-slate-900 dark:text-white">{title}</h3>
@@ -51,7 +94,11 @@ export default async function CohortCalendarWidget({
           </div>
         </>
       ) : (
-        <CohortCalendarTabs cohortEvents={cohortEvents} title={title} />
+        <CohortCalendarTabs 
+          cohortEvents={cohortEvents} 
+          title={title}
+          externalSelectedCohort={externalSelectedCohort}
+        />
       )}
     </section>
   );

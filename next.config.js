@@ -1,5 +1,36 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Configure the output file tracing root to prevent workspace warnings
+  outputFileTracingRoot: __dirname,
+  
+  // Webpack configuration
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Fallback for Node.js modules in client-side
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        stream: false,
+        constants: false,
+        url: false,
+        buffer: false,
+        util: false,
+        os: false,
+        crypto: false,
+        events: false,
+        assert: false,
+      };
+
+      // Ignore node-ical and other server-only modules
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        'node-ical': false,
+      };
+    }
+    return config;
+  },
+  
   // Security headers
   async headers() {
     return [
@@ -13,7 +44,7 @@ const nextConfig = {
           },
           {
             key: 'X-Frame-Options',
-            value: 'DENY'
+            value: process.env.NODE_ENV === 'production' ? 'DENY' : 'SAMEORIGIN'
           },
           {
             key: 'X-Content-Type-Options',

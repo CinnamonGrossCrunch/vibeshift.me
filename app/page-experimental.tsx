@@ -1,27 +1,41 @@
 import Link from "next/link";
 import Image from "next/image";
 import NewsletterWidget from "./components/NewsletterWidget";
-import CalendarWidget from "./components/CalendarWidget";
+import CohortCalendarWidget from "./components/CohortCalendarWidget";
 import HaasResourcesWidget from "./components/HaasResourcesWidget";
+import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
 
 async function getNewsletterData() {
   try {
-    const baseUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}` 
-      : 'http://localhost:3000';
-    
-    const response = await fetch(`${baseUrl}/api/newsletter`, {
-      cache: 'no-store', // Always fetch fresh data
-    });
-    
-    if (!response.ok) {
-      throw new Error('Failed to fetch newsletter data');
-    }
-    
-    return await response.json();
+    console.log('Experimental: Starting direct newsletter data fetch');
+    const latest = await getLatestNewsletterUrl();
+    console.log('Experimental: Latest URL found:', latest);
+    const data = await scrapeNewsletter(latest);
+    console.log('Experimental: Newsletter data scraped successfully');
+    return data;
   } catch (error) {
-    console.error('Error fetching newsletter data:', error);
-    return null;
+    console.error('Experimental: Error fetching newsletter data:', error);
+    // Fallback to API route if direct method fails
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL 
+        || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
+      
+      const response = await fetch(`${baseUrl}/api/newsletter`, {
+        next: { revalidate: 3600 }, // Cache for 1 hour like the API route
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch newsletter data from API');
+      }
+      
+      return await response.json();
+    } catch (apiError) {
+      console.error('Experimental: API fallback also failed:', apiError);
+      return null;
+    }
   }
 }
 
@@ -31,8 +45,12 @@ export default async function HomeExperimental() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-amber-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative">
       {/* Background Image */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50"
-        style={{ backgroundImage: "url('/haas bkg.jpg')" }}
+        className="fixed inset-0 bg-center bg-no-repeat opacity-50"
+        style={{ 
+          backgroundImage: "url('/haas bkg.jpg')",
+          backgroundSize: 'cover',
+          backgroundAttachment: 'fixed'
+        }}
       ></div>
       
       {/* Content Overlay */}
@@ -93,7 +111,7 @@ export default async function HomeExperimental() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {/* Calendar Widget - First two columns */}
           <div className="sm:col-span-2 lg:col-span-2">
-            <CalendarWidget title="Upcoming Assignments" daysAhead={45} max={150} />
+            <CohortCalendarWidget title="Upcoming Assignments" daysAhead={45} max={150} />
           </div>
 
           {/* Newsletter Widget - Right third column */}

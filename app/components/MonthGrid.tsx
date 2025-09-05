@@ -69,6 +69,7 @@ export default function MonthGrid({
 
         const isToday = isSameDay(day, new Date());
         const hasGreekEvent = hasGreekTheaterEventOnDate(day);
+        const hasCalBearsEvent = showCalBears && dayCalBearsEvents.length > 0;
 
         // Function to parse event title and extract course name and assignment
         const parseEventTitle = (title: string) => {
@@ -216,6 +217,22 @@ export default function MonthGrid({
                       // Convert the first Greek Theater event to calendar event format
                       const calendarEvent = greekTheaterToCalendarEvent(greekEvents[0]);
                       onEventClick(calendarEvent);
+                    }
+                  }}
+                />
+              )}
+              {hasCalBearsEvent && (
+                <Image 
+                  src="/cal_logo.png"
+                  alt="Cal Bears Event"
+                  width={25}
+                  height={20}
+                  className="flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-opacity object-containo hover-invert " 
+                  title={`Cal Bears: ${dayCalBearsEvents.map(e => e.title).join(', ')}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (dayCalBearsEvents.length > 0) {
+                      onEventClick(dayCalBearsEvents[0]);
                     }
                   }}
                 />

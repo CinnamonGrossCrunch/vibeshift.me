@@ -104,7 +104,7 @@ export default function EventDetailModal({ event, originalEvent, onClose }: Prop
                 href={part}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-berkeley-blue dark:text-berkeley-blue-light hover:text-berkeley-blue-dark dark:hover:text-berkeley-gold underline break-all"
+                className="text-[#FDB515] dark:text-[#FDB515] hover:text-[#CC9500] dark:hover:text-[#FFD700] break-all"
               >
                 {part}
               </a>
@@ -166,7 +166,7 @@ export default function EventDetailModal({ event, originalEvent, onClose }: Prop
                 href={safeStringify(displayEvent.url)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-berkeley-blue dark:text-berkeley-blue-light hover:text-berkeley-blue-dark dark:hover:text-berkeley-gold underline break-all"
+                className="text-sm text-[#FDB515] dark:text-[#FDB515] hover:text-[#CC9500] dark:hover:text-[#FFD700] break-all"
               >
                 {safeStringify(displayEvent.url)}
               </a>
@@ -177,7 +177,7 @@ export default function EventDetailModal({ event, originalEvent, onClose }: Prop
           {displayEvent.description && (
             <div>
               <h3 className="text-sm font-medium text-slate-900 dark:text-white mb-2">Description</h3>
-              <div className="text-sm text-slate-600 dark:text-slate-400 whitespace-pre-wrap leading-relaxed">
+              <div className="text-sm text-slate-600 dark:text-slate-300 whitespace-pre-wrap leading-relaxed">
                 {renderTextWithLinks(displayEvent.description)}
               </div>
             </div>
@@ -200,7 +200,7 @@ export default function EventDetailModal({ event, originalEvent, onClose }: Prop
               href={displayEvent.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-berkeley-blue hover:bg-berkeley-blue-dark text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors text-center"
+              className="flex-1 bg-[#003262] hover:bg-[#CC9500] text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors text-center"
             >
               Open Event Link
             </a>

@@ -10,36 +10,49 @@ import type { CalendarEvent, CohortEvents } from '@/lib/icsUtils';
 type Props = {
   cohortEvents: CohortEvents;
   title: string;
+  externalSelectedCohort?: 'blue' | 'gold';
 };
 
 type CohortType = 'blue' | 'gold';
-type ViewType = 'list' | 'grid';
 
-export default function CohortCalendarTabs({ cohortEvents }: Props) {
-  const [selectedCohort, setSelectedCohort] = useState<CohortType>('blue');
-  const [view, setView] = useState<ViewType>('grid');
-  const [currentMonth, setCurrentMonth] = useState(new Date(2025, 7, 1)); // August 2025
+export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohort }: Props) {
+  const [selectedCohort, setSelectedCohort] = useState<CohortType>(externalSelectedCohort || 'blue');
+  const [currentMonth, setCurrentMonth] = useState(new Date()); // Current month
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [matchedOriginalEvent, setMatchedOriginalEvent] = useState<CalendarEvent | null>(null);
-  const [showGreekTheater, setShowGreekTheater] = useState(true);
+  const [showGreekTheater, setShowGreekTheater] = useState(false);
   const [showUCLaunch, setShowUCLaunch] = useState(true);
-  const [showCalBears, setShowCalBears] = useState(true);
+  const [showCalBears, setShowCalBears] = useState(false);
 
-  // Load cohort preference from localStorage on mount
+  // Load cohort preference from localStorage on mount (only if not externally controlled)
   useEffect(() => {
-    const saved = localStorage.getItem('calendar-cohort');
-    if (saved === 'blue' || saved === 'gold') {
-      setSelectedCohort(saved);
+    if (!externalSelectedCohort) {
+      const saved = localStorage.getItem('calendar-cohort');
+      if (saved === 'blue' || saved === 'gold') {
+        setSelectedCohort(saved);
+      }
     }
-  }, []);
+  }, [externalSelectedCohort]);
 
-  // Save cohort preference to localStorage
+  // Sync with external cohort selection
   useEffect(() => {
-    localStorage.setItem('calendar-cohort', selectedCohort);
-  }, [selectedCohort]);
+    if (externalSelectedCohort) {
+      setSelectedCohort(externalSelectedCohort);
+    }
+  }, [externalSelectedCohort]);
+
+  // Save cohort preference to localStorage (only if not externally controlled)
+  useEffect(() => {
+    if (!externalSelectedCohort) {
+      localStorage.setItem('calendar-cohort', selectedCohort);
+    }
+  }, [selectedCohort, externalSelectedCohort]);
 
   const handleCohortChange = (cohort: CohortType) => {
-    setSelectedCohort(cohort);
+    // Only allow local changes if not externally controlled
+    if (!externalSelectedCohort) {
+      setSelectedCohort(cohort);
+    }
   };
 
   const goToPreviousMonth = () => {
@@ -240,107 +253,83 @@ export default function CohortCalendarTabs({ cohortEvents }: Props) {
 
   // Get current cohort events
   const currentEvents = cohortEvents[selectedCohort] || [];
-  
-  // Filter out past events for list view
-  const futureEvents = currentEvents.filter(ev => new Date(ev.start) >= new Date());
 
   return (
     <>
       {/* Compact Header - All controls on one line */}
       <header className="mb-4 relative overflow-visible">
         <div className="flex items-center justify-between gap-3 flex-wrap">
-          
             
-            {/* Cohort Tabs */}
-          <div 
-            role="tablist" 
-            className="flex bg-slate-100 dark:bg-slate-700 rounded-full p-1 flex-shrink-0"
-            aria-label="Select cohort"
-          >
-            <button
-              role="tab"
-              aria-selected={selectedCohort === 'blue'}
-              aria-controls="calendar-content"
-              onClick={() => handleCohortChange('blue')}
-              className={`px-2 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
-                selectedCohort === 'blue'
-                  ? 'bg-berkeley-gold text-berkeley-blue shadow-[0_0_0_2px_rgba(0,50,98,0.15)] ring-3 ring-blue-300/30 shadow-blue-500/40'
-                  : 'text-white hover:bg-berkeley-blue/10'
-              }`}
-              style={{
-                backgroundColor: selectedCohort === 'blue' ? '#00336275' : '#00000025',
-                color: selectedCohort === 'blue' ? '#ffffff' : '#4d81b3ff'
-              }}
+          {/* Cohort Tabs - Only show if not externally controlled */}
+          {!externalSelectedCohort && (
+            <div 
+              role="tablist" 
+              className="flex bg-slate-100 dark:bg-slate-700 rounded-full p-1 flex-shrink-0"
+              aria-label="Select cohort"
             >
-              Blue
-            </button>
-            <button
-              role="tab"
-              aria-selected={selectedCohort === 'gold'}
-              aria-controls="calendar-content"
-              onClick={() => handleCohortChange('gold')}
-              className={`relative px-2 py-1 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none
-                ${selectedCohort === 'gold'
-                  ? 'bg-berkeley-gold text-md font-medium text-berkeley-blue shadow-[0_0_0_2px_rgba(0,50,98,0.15)] ring-3 ring-white/60 shadow-yellow-500/40'
-                  : 'text-berkeley-gold hover:bg-berkeley-gold/10 focus-visible:ring-2 focus-visible:ring-yellow-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 dark:focus-visible:ring-offset-slate-700'
+              <button
+                role="tab"
+                aria-selected={selectedCohort === 'blue'}
+                aria-controls="calendar-content"
+                onClick={() => handleCohortChange('blue')}
+                className={`px-2 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
+                  selectedCohort === 'blue'
+                    ? 'bg-berkeley-gold text-berkeley-blue shadow-[0_0_0_2px_rgba(0,50,98,0.15)] ring-3 ring-blue-300/30 shadow-blue-500/40'
+                    : 'text-white hover:bg-berkeley-blue/10'
                 }`}
-              style={{
-                backgroundColor: selectedCohort === 'gold' ? '#FDB51595' : '#00000025',
-                color: selectedCohort === 'gold' ? '#000000' : '#FDB51575'
-              }}
-            >
-              Gold
-            </button>
-          </div>
-
-          {/* Month Navigation (only show in grid view) */}
-          {view === 'grid' && (
-            <div className="flex items-center gap-1 flex-shrink-0">
-              <button
-                onClick={goToPreviousMonth}
-                className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
-                aria-label="Previous month"
+                style={{
+                  backgroundColor: selectedCohort === 'blue' ? '#00336275' : '#00000025',
+                  color: selectedCohort === 'blue' ? '#ffffff' : '#4d81b3ff'
+                }}
               >
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
+                Blue
               </button>
-              <h4 className="text-sm font-semibold text-slate-900 dark:text-white px-10">
-                {format(currentMonth, 'MMM yyyy')}
-              </h4>
               <button
-                onClick={goToNextMonth}
-                className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
-                aria-label="Next month"
+                role="tab"
+                aria-selected={selectedCohort === 'gold'}
+                aria-controls="calendar-content"
+                onClick={() => handleCohortChange('gold')}
+                className={`relative px-2 py-1 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none
+                  ${selectedCohort === 'gold'
+                    ? 'bg-berkeley-gold text-md font-medium text-berkeley-blue shadow-[0_0_0_2px_rgba(0,50,98,0.15)] ring-3 ring-white/60 shadow-yellow-500/40'
+                    : 'text-berkeley-gold hover:bg-berkeley-gold/10 focus-visible:ring-2 focus-visible:ring-yellow-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 dark:focus-visible:ring-offset-slate-700'
+                  }`}
+                style={{
+                  backgroundColor: selectedCohort === 'gold' ? '#FDB51595' : '#00000025',
+                  color: selectedCohort === 'gold' ? '#000000' : '#FDB51575'
+                }}
               >
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                Gold
               </button>
             </div>
           )}
-          {/* View Toggles */}
+
+          {/* Month Navigation */}
+          <div className="flex items-center gap-1 flex-shrink-0">
+            <button
+              onClick={goToPreviousMonth}
+              className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-white"
+              aria-label="Previous month"
+            >
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <h4 className="text-sm font-semibold text-white px-10">
+              {format(currentMonth, 'MMM yyyy')}
+            </h4>
+            <button
+              onClick={goToNextMonth}
+              className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-white"
+              aria-label="Next month"
+            >
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+          {/* Special Event Toggles */}
           <div className="flex bg-slate-100 dark:bg-slate-700 rounded-full p-0 flex-shrink-0">
-            <button
-              onClick={() => setView('grid')}
-              className={`px-2 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
-                view === 'grid'
-                  ? 'bg-white dark:bg-slate-600 text-slate-900 dark:text-white shadow-sm'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
-            >
-              Calendar
-            </button>
-            <button
-              onClick={() => setView('list')}
-              className={`px-2 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
-                view === 'list'
-                  ? 'bg-white dark:bg-slate-600 text-slate-900 dark:text-white shadow-sm'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
-            >
-              List
-            </button>
             
             {/* Greek Theater Toggle Button inside pill */}
             <div className="relative group">
@@ -348,7 +337,7 @@ export default function CohortCalendarTabs({ cohortEvents }: Props) {
                 onClick={() => setShowGreekTheater(!showGreekTheater)}
                 className={`px-2 py-3 rounded-full transition-all duration-200 ${
                   showGreekTheater
-                    ? ' hover:bg-white/80 dark:hover:bg-slate-600/80'
+                    ? 'bg-white dark:bg-slate-600 hover:bg-white/80 dark:hover:bg-slate-600/80'
                     : 'hover:bg-white/80 dark:hover:bg-slate-600/80'
                 }`}
                 aria-label={showGreekTheater ? 'Hide Greek Theater events' : 'Show Greek Theater events'}
@@ -358,7 +347,7 @@ export default function CohortCalendarTabs({ cohortEvents }: Props) {
                   alt="Greek Theater" 
                   width={50}
                   height={20}
-                  className="object-contain"
+                  className="object-contain hover-invert filter brightness-0 invert"
                 />
               </button>
               
@@ -374,7 +363,7 @@ export default function CohortCalendarTabs({ cohortEvents }: Props) {
                 onClick={() => setShowUCLaunch(!showUCLaunch)}
                 className={`px-2 py-2 rounded-full transition-all duration-200 ${
                   showUCLaunch
-                  ? 'hover:bg-white/80 dark:hover:bg-slate-600/80'
+                  ? ' hover:bg-white/80 dark:hover:bg-slate-600/80'
                   : 'hover:bg-white/80 dark:hover:bg-slate-600/80'
                 }`}
                 aria-label={showUCLaunch ? 'Hide UC Launch events' : 'Show UC Launch events'}
@@ -427,71 +416,18 @@ export default function CohortCalendarTabs({ cohortEvents }: Props) {
 
       {/* Calendar Content */}
       <div id="calendar-content" role="tabpanel">
-        {view === 'list' ? (
-          futureEvents.length === 0 ? (
-            <div className="text-center py-8">
-              <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-lg">📅</span>
-              </div>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                No upcoming events for {selectedCohort} cohort.
-              </p>
-            </div>
-          ) : (
-            <ul className="space-y-3">
-              {futureEvents.map((ev) => {
-                const start = new Date(ev.start);
-                const end = ev.end ? new Date(ev.end) : undefined;
-                const isAllDay = ev.allDay || (!end || (start.getHours() === 0 && start.getMinutes() === 0 && end.getHours() === 0 && end.getMinutes() === 0));
-
-                return (
-                  <li 
-                    key={ev.uid || `${ev.title}-${ev.start}`}
-                    className="bg-white/50 dark:bg-slate-700/50 rounded-lg p-3 border border-slate-200 dark:border-slate-600 hover:bg-white/70 dark:hover:bg-slate-700/70 transition-colors cursor-pointer"
-                    onClick={() => handleEventClick(ev)}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1 min-w-0">
-                        <h5 className="font-medium text-slate-900 dark:text-white truncate">
-                          {ev.title}
-                        </h5>
-                        <div className="flex items-center gap-4 mt-1 text-xs text-slate-600 dark:text-slate-400">
-                          <span>
-                            {isAllDay 
-                              ? format(start, 'MMM d, yyyy')
-                              : `${format(start, 'MMM d, h:mm a')} ${end ? `- ${format(end, 'h:mm a')}` : ''}`
-                            }
-                          </span>
-                          {ev.location && (
-                            <span className="flex items-center gap-1">
-                              📍 {ev.location}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div className={`w-2 h-2 rounded-full flex-shrink-0 mt-2 ${
-                        selectedCohort === 'blue' ? 'bg-berkeley-blue' : 'bg-berkeley-gold'
-                      }`} />
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          )
-        ) : (
-          <div className="-mx-5 -mb-5 overflow-hidden">
-            <MonthGrid 
-              events={currentEvents} 
-              currentMonth={currentMonth} 
-              onEventClick={handleEventClick} 
-              showGreekTheater={showGreekTheater}
-              showUCLaunch={showUCLaunch}
-              launchEvents={cohortEvents.launch}
-              showCalBears={showCalBears}
-              calBearsEvents={cohortEvents.calBears}
-            />
-          </div>
-        )}
+        <div className="-mx-5 -mb-5 overflow-hidden">
+          <MonthGrid 
+            events={currentEvents} 
+            currentMonth={currentMonth} 
+            onEventClick={handleEventClick} 
+            showGreekTheater={showGreekTheater}
+            showUCLaunch={showUCLaunch}
+            launchEvents={cohortEvents.launch}
+            showCalBears={showCalBears}
+            calBearsEvents={cohortEvents.calBears}
+          />
+        </div>
       </div>
 
       {/* Event Detail Modal */}
