@@ -5,7 +5,18 @@ import Lottie from 'lottie-react';
 
 type Item = { title: string; html: string };
 type Section = { sectionTitle: string; items: Item[] };
-type Payload = { sourceUrl: string; title?: string; sections: Section[] };
+type Payload = { 
+  sourceUrl: string; 
+  title?: string; 
+  sections: Section[]; 
+  aiDebugInfo?: {
+    reasoning: string;
+    sectionDecisions: string[];
+    edgeCasesHandled: string[];
+    totalSections: number;
+    processingTime: number;
+  };
+};
 
 export default function NewsletterWidget({ data }: { data: Payload }) {
   // Initialize all sections as open by default
@@ -864,6 +875,62 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
             <p className="text-slate-600 dark:text-slate-400 text-sm urbanist-regular">
               The newsletter content could not be parsed into sections.
             </p>
+          </div>
+        )}
+
+        {/* AI Debug Panel */}
+        {data.aiDebugInfo && (
+          <div className="border-t border-slate-200 dark:border-slate-700">
+            <details className="group">
+              <summary className="px-4 py-3 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                <div className="flex items-center space-x-2">
+                  <span className="text-lg">🤖</span>
+                  <span className="text-sm urbanist-medium text-slate-700 dark:text-slate-300">
+                    AI Debug Info ({data.aiDebugInfo.processingTime}ms)
+                  </span>
+                  <span className="text-xs text-slate-500 group-open:rotate-180 transition-transform">▼</span>
+                </div>
+              </summary>
+              <div className="px-4 pb-4 bg-slate-50 dark:bg-slate-800/30">
+                <div className="space-y-3 text-sm">
+                  <div>
+                    <h4 className="urbanist-semibold text-slate-800 dark:text-slate-200 mb-1">🧠 AI Reasoning:</h4>
+                    <p className="text-slate-600 dark:text-slate-400 urbanist-regular">{data.aiDebugInfo.reasoning}</p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="urbanist-semibold text-slate-800 dark:text-slate-200 mb-1">📝 Section Decisions:</h4>
+                    <ul className="space-y-1 text-slate-600 dark:text-slate-400 urbanist-regular">
+                      {data.aiDebugInfo.sectionDecisions.map((decision, idx) => (
+                        <li key={idx} className="flex items-start space-x-2">
+                          <span className="text-amber-500 mt-1">•</span>
+                          <span>{decision}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  {data.aiDebugInfo.edgeCasesHandled.length > 0 && (
+                    <div>
+                      <h4 className="urbanist-semibold text-slate-800 dark:text-slate-200 mb-1">⚠️ Edge Cases Handled:</h4>
+                      <ul className="space-y-1 text-slate-600 dark:text-slate-400 urbanist-regular">
+                        {data.aiDebugInfo.edgeCasesHandled.map((edge, idx) => (
+                          <li key={idx} className="flex items-start space-x-2">
+                            <span className="text-orange-500 mt-1">•</span>
+                            <span>{edge}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  
+                  <div className="flex items-center space-x-4 text-xs text-slate-500 pt-2 border-t border-slate-200 dark:border-slate-600">
+                    <span>📊 Sections: {data.aiDebugInfo.totalSections}</span>
+                    <span>⏱️ Processing: {data.aiDebugInfo.processingTime}ms</span>
+                  </div>
+                </div>
+              </div>
+            </details>
           </div>
         )}
         

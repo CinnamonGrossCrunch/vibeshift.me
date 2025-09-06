@@ -10,7 +10,18 @@ import type { CohortEvents } from '@/lib/icsUtils';
 type CohortType = 'blue' | 'gold';
 type Item = { title: string; html: string };
 type Section = { sectionTitle: string; items: Item[] };
-type Payload = { sourceUrl: string; title?: string; sections: Section[] };
+type Payload = { 
+  sourceUrl: string; 
+  title?: string; 
+  sections: Section[];
+  aiDebugInfo?: {
+    reasoning: string;
+    sectionDecisions: string[];
+    edgeCasesHandled: string[];
+    totalSections: number;
+    processingTime: number;
+  };
+};
 
 export default function Home() {
   const [selectedCohort, setSelectedCohort] = useState<CohortType>('blue');
