@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from "next/image";
 import MainDashboardTabs from "./components/MainDashboardTabs";
+import DashboardTabs2 from "./components/DashboardTabs2";
 import type { CohortEvents } from '@/lib/icsUtils';
 
 type CohortType = 'blue' | 'gold';
@@ -144,14 +145,26 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4">
-        {/* Tabbed Interface */}
-        <MainDashboardTabs 
-          newsletterData={newsletterData}
-          cohortEvents={cohortEvents}
-          selectedCohort={selectedCohort}
-          loading={loading}
-          onCohortChange={handleCohortChange}
-        />
+        {/* 8 Column Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-8 gap-4">
+          {/* MainDashboardTabs - Columns 1-5 */}
+          <div className="lg:col-span-5">
+            <MainDashboardTabs 
+              newsletterData={newsletterData}
+              cohortEvents={cohortEvents}
+              selectedCohort={selectedCohort}
+              loading={loading}
+              onCohortChange={handleCohortChange}
+            />
+          </div>
+          
+          {/* DashboardTabs#2 - Columns 6-8 */}
+          <div className="lg:col-span-3">
+            <DashboardTabs2 
+              newsletterData={newsletterData}
+            />
+          </div>
+        </div>
       </main>
       </div>
     </div>

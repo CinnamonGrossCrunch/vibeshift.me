@@ -1,0 +1,15 @@
+{
+  "chat.mcp.autostart": "onlyNew",
+  "chat.mcp.servers": {
+    "newsletter-scraper": {
+      "command": "node",
+      "args": ["./lib/mcp-server.js"],
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  },
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
+  "typescript.suggest.autoImports": true,
+  "typescript.format.semicolons": "insert"
+}

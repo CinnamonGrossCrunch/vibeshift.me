@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from "next/link";
+import Image from "next/image";
 import CalendarListView from "./CalendarListView";
 import CohortCalendarWidget from "./CohortCalendarWidget";
 import NewsletterWidget from "./NewsletterWidget";
@@ -29,7 +30,7 @@ export default function MainDashboardTabs({
   onCohortChange 
 }: MainDashboardTabsProps) {
   const [activeTab, setActiveTab] = useState('OskiHub Cal');
-  const tabs = ['OskiHub Cal', 'Announcements'];
+  const tabs = ['OskiHub Cal', 'Book A Space @ Haas'];
 
   return (
     <div className="relative">
@@ -45,6 +46,7 @@ export default function MainDashboardTabs({
                 : ' ml-3 mr-2 mb-2  px-10 py-2 bg-white/40 dark:bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-white/20 dark:supports-[backdrop-filter]:bg-slate-700/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full'
               }
               ${activeTab === tab && index === tabs.length - 1 ? 'border-r border-white/50 dark:border-slate-700/60' : ''}
+              ${tab === 'Book A Space @ Haas' && activeTab !== tab ? 'cursor-pointer' : ''}
             `}
             style={{
               ...(activeTab === tab && {
@@ -113,7 +115,7 @@ export default function MainDashboardTabs({
               <CalendarListView 
                 cohortEvents={cohortEvents}
                 defaultCohort={selectedCohort}
-                className="rounded-lg"
+                className="rounded-4xl"
               />
             </div>
 
@@ -135,7 +137,7 @@ export default function MainDashboardTabs({
                 {newsletterData ? (
                   <NewsletterWidget data={newsletterData} />
                 ) : (
-                  <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-6 rounded-lg border border-slate-200 dark:border-slate-700 text-center">
+                  <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-200 dark:border-slate-700 text-center">
                     <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
                       <span className="text-lg">📭</span>
                     </div>
@@ -151,6 +153,31 @@ export default function MainDashboardTabs({
                     </Link>
                   </div>
                 )}
+                
+                {/* Slack Integration Placeholder */}
+                <div className="mt-2 group cursor-pointer">
+                  <div 
+                    className="relative p-6 h-56  rounded-4xl border-2 border-dashed border-slate-300 dark:border-slate-600 text-center transition-all duration-300  overflow-hidden"
+                    style={{
+                      backgroundImage: "url('/slack cap.jpg')",
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      backgroundRepeat: 'no-repeat'
+                    }}
+                  >
+                    {/* Overlay for text readability */}
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-md rounded-4xl hover:bg-black/80 transition-all duration-200"></div>
+
+                    {/* Content */}
+                    <div className="relative z-10 flex items-center justify-center hover:scale-[1.02] transition-transform duration-400 ">
+
+                      <div className="text-center justify-center">
+                      <h3 className="text-base font-semibold text-white mb-2 drop-shadow-lg">Slack Updates</h3>
+                      <p className="text-sm text-white/90 drop-shadow">Coming Soon - Stay tuned for updates</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -161,10 +188,45 @@ export default function MainDashboardTabs({
           </div>
         )}
         
-        {activeTab === 'Announcements' && (
-          <div className="text-center py-10">
-            <h2 className="text-xl font-semibold">Announcements</h2>
-            <p className="text-slate-500">Important announcements will be displayed here.</p>
+        {activeTab === 'Book A Space @ Haas' && (
+          <div className="text-center py-6 px-4 max-w-none">
+            <h2 className="text-xl font-semibold">Book A Space @ Haas</h2>
+            <p className="text-slate-500 mb-8">Reserve study rooms, meeting spaces, and other facilities at Haas.</p>
+            <div className="flex justify-center mb-8">
+              <a 
+                href="https://ems.haas.berkeley.edu/emswebapp/Default.aspx?_gl=1*12r8rhf*_gcl_au*MTAxMDg4Nzk5Ni4xNzU2OTMyMjU1*_ga*MTQ2MTA4MDQ1Ni4xNzQ4ODUxNTI5*_ga_EW2RSBHHX6*czE3NTcxMTg0MjUkbzU3JGcxJHQxNzU3MTE4NTU2JGo1MiRsMCRoMA.."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative group cursor-pointer"
+              >
+                <Image 
+                  src="/EMS-CAP.png" 
+                  alt="EMS Space Booking System" 
+                  width={1200}
+                  height={800}
+                  className="max-w-4xl w-full h-auto rounded-4xl shadow-lg transition-all duration-300 group-hover:opacity-80"
+                  style={{
+                    border: '4px dashed #FDB515',
+                    boxShadow: '0 0 20px rgba(253, 181, 21, 0.3), 0 0 40px rgba(253, 181, 21, 0.2), 0 0 60px rgba(253, 181, 21, 0.1)'
+                  }}
+                />
+                {/* Hover overlay - positioned above image */}
+                <div className="absolute inset-0 bg-blue-800/80 opacity-0 group-hover:opacity-100 transition-all duration-150 rounded-4xl flex items-center justify-center z-10">
+                  <div className="text-white text-center px-6">
+                    <p className="text-4xl font-light urbanist-light drop-shadow-lg">Login to<br />Haas EMS<br />through CalNet</p>
+                  </div>
+                </div>
+                {/* Hover border effect overlay */}
+                <div 
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-4xl pointer-events-none z-20"
+                  style={{
+                    border: '4px dashed #003262',
+                    boxShadow: '0 0 20px rgba(0, 50, 98, 0.5), 0 0 40px rgba(0, 50, 98, 0.3), 0 0 60px rgba(0, 50, 98, 0.2)'
+                  }}
+                />
+              </a>
+            </div>
+           
           </div>
         )}
       </div>

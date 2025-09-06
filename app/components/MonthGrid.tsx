@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay, format } from 'date-fns';
 import Image from 'next/image';
-import type { CalendarEvent } from '@/lib/calendar';
+import type { CalendarEvent } from '@/lib/icsUtils';
 import { hasGreekTheaterEventOnDate, getGreekTheaterEventsForDate, greekTheaterToCalendarEvent } from '@/lib/greekTheater';
 
 type Props = {

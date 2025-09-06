@@ -13,7 +13,9 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.5",
     "@types/cheerio": "^1.0.0",
+    "@vercel/analytics": "^1.5.0",
     "cheerio": "^1.1.2",
     "date-fns": "^4.1.0",
     "lottie-react": "^2.4.1",

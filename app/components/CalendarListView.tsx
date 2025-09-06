@@ -21,8 +21,7 @@ export default function CalendarListView({
   title = "What's Next",
   maxEvents = 6,
   showCohortToggle = false,
-  defaultCohort = 'blue',
-  className = "sm:rounded-lg md:rounded-t-none lg:rounded-t-none"
+  defaultCohort = 'blue'
 }: Props) {
   const [selectedCohort, setSelectedCohort] = useState<CohortType>(defaultCohort);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
@@ -51,10 +50,6 @@ export default function CalendarListView({
       localStorage.setItem('calendar-cohort', selectedCohort);
     }
   }, [selectedCohort, showCohortToggle]);
-
-  const handleCohortChange = (cohort: CohortType) => {
-    setSelectedCohort(cohort);
-  };
 
   // Generate course-specific fallback content for events without original calendar matches
   const generateCourseContent = (cohortEvent: CalendarEvent): CalendarEvent | null => {

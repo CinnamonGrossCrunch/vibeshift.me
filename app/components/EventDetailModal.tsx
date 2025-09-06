@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { format } from 'date-fns';
-import type { CalendarEvent } from '@/lib/calendar';
+import type { CalendarEvent } from '@/lib/icsUtils';
 
 type Props = {
   event: CalendarEvent | null;
