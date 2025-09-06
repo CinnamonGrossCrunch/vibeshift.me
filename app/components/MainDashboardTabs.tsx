@@ -6,7 +6,6 @@ import Image from "next/image";
 import CalendarListView from "./CalendarListView";
 import CohortCalendarWidget from "./CohortCalendarWidget";
 import NewsletterWidget from "./NewsletterWidget";
-import HaasResourcesWidget from "./HaasResourcesWidget";
 import type { CohortEvents } from '@/lib/icsUtils';
 
 type CohortType = 'blue' | 'gold';
@@ -172,18 +171,14 @@ export default function MainDashboardTabs({
                     <div className="relative z-10 flex items-center justify-center hover:scale-[1.02] transition-transform duration-400 ">
 
                       <div className="text-center justify-center">
-                      <h3 className="text-base font-semibold text-white mb-2 drop-shadow-lg">Slack Updates</h3>
-                      <p className="text-sm text-white/90 drop-shadow">Coming Soon - Stay tuned for updates</p>
+                      <h3 className="text-base font-semibold text-white mb-2 group-hover:hidden drop-shadow-lg">Slack Updates</h3>
+                        <h3 className="text-base font-semibold text-white mb-2 hidden group-hover:block drop-shadow-lg hover:bg-black/80">Coming Soon</h3>
+                        <p className="text-sm text-white/90 hidden group-hover:block drop-shadow ">Stay tuned for updates</p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* Haas Resources Widget - Full width below (PRESERVED) */}
-            <div className="mt-4">
-              <HaasResourcesWidget />
             </div>
           </div>
         )}

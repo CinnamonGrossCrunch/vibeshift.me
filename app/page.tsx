@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from "next/image";
 import MainDashboardTabs from "./components/MainDashboardTabs";
 import DashboardTabs2 from "./components/DashboardTabs2";
+import HaasResourcesWidget from "./components/HaasResourcesWidget";
 import type { CohortEvents } from '@/lib/icsUtils';
 
 type CohortType = 'blue' | 'gold';
@@ -164,6 +165,11 @@ export default function Home() {
               newsletterData={newsletterData}
             />
           </div>
+        </div>
+        
+        {/* Haas Resources Widget - Full width below dashboard */}
+        <div className="mt-6">
+          <HaasResourcesWidget />
         </div>
       </main>
       </div>
