@@ -48,41 +48,46 @@ export async function organizeNewsletterWithAI(
     }).join('\n\n');
 
     const prompt = `
-You are a newsletter content organizer for an MBA program. Please reorganize this newsletter content into logical sections.
+You are a smart newsletter parser for an MBA program. Your job is to intelligently organize newsletter content, similar to how our existing parser works but with better handling of edge cases.
 
-Based on the following raw content, create well-organized sections with appropriate titles and subsections:
-
+Raw newsletter content:
 ${rawContent}
 
-Please reorganize this into exactly these 5 main sections:
-1. "Football Game This Week" - All football-related information
-2. "Taxis and rideshares" - Transportation via rideshare information  
-3. "Parking" - All parking-related information
-4. "Road Closures and Traffic Advisories" - Traffic and road closure information
-5. "Program Office Staff" - Staff information
+Please analyze this content and organize it following these parsing principles:
 
-For each section, create subsections with clear titles and organized content. Ensure all relevant information is properly categorized.
+1. IDENTIFY MAIN SECTIONS: Look for content that represents distinct topics or categories (like our H1 headers)
+2. DETECT SUBSECTIONS: Within each main section, identify subsections based on:
+   - Strong/bold text that acts as subheadings
+   - Logical content breaks
+   - Topics that should be grouped together
+3. HANDLE EDGE CASES: Be flexible with:
+   - Inconsistent formatting
+   - Mixed content that could belong to multiple sections
+   - Text that doesn't clearly fit standard patterns
+4. PRESERVE INFORMATION: Don't lose any content - if something doesn't fit neatly, create appropriate sections for it
 
-Return the result as a JSON object with this exact structure:
+Return a JSON object with this structure:
 {
   "sections": [
     {
-      "sectionTitle": "Section Name",
+      "sectionTitle": "Main Section Name",
       "items": [
         {
           "title": "Subsection Title",
-          "content": "<p>Formatted HTML content</p>"
+          "content": "<p>Formatted HTML content with proper structure</p>"
         }
       ]
     }
   ]
 }
 
-Make sure to:
-- Preserve all important information
-- Use proper HTML formatting in content
-- Create logical subsections within each main section
-- Keep content organized and readable
+Guidelines:
+- Keep section titles descriptive but concise
+- Preserve all important dates, times, and details
+- Use proper HTML formatting (p, strong, ul, li tags as appropriate)
+- Group related information logically
+- If content seems to belong together, keep it together
+- Create subsections that make sense for the content, don't force artificial divisions
 `;
 
     const completion = await openai.chat.completions.create({
@@ -90,14 +95,14 @@ Make sure to:
       messages: [
         {
           role: "system", 
-          content: "You are a helpful assistant that organizes newsletter content. Always return valid JSON."
+          content: "You are a helpful assistant that intelligently parses and organizes newsletter content. Follow the existing parsing logic but handle edge cases flexibly. Always return valid JSON."
         },
         {
           role: "user",
           content: prompt
         }
       ],
-      temperature: 0.1,
+      temperature: 0.2,
       max_tokens: 4000
     });
 
