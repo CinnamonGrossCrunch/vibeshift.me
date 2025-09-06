@@ -362,9 +362,9 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
           .trim();
         
         if (textContent && (isBeforeList || i === 0)) {
-          // Style as large bold white heading if it's before a list or at the start
+          // Style as large bold heading if it's before a list or at the start
           const formattedText = textContent.replace(/\n/g, '<br>');
-          processedParts.push(`<div class="mb-3"><span class="block text-md urbanist-bold text-white">${formattedText}</span></div>`);
+          processedParts.push(`<div class="mb-3"><span class="block text-md urbanist-bold text-slate-900 dark:text-white">${formattedText}</span></div>`);
         } else if (textContent) {
           // Regular text content - preserve as paragraph with line breaks
           const formattedText = textContent.replace(/\n/g, '<br>');
