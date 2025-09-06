@@ -290,6 +290,22 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     processedHtml = processedHtml.replace(/^(<br\s*\/?>|\s)+/, '');
     processedHtml = processedHtml.replace(/(<br\s*\/?>|\s)+$/, '');
 
+    // --- PRE-PROCESSING: Fix malformed HTML that causes empty list items ---
+    // Fix content that appears before list items and creates empty <li> tags
+    processedHtml = processedHtml.replace(/([^<>]+):\s*<li><\/li>/g, '<li>$1</li>');
+    processedHtml = processedHtml.replace(/([^<>]+):\s*<li>\s*<\/li>/g, '<li>$1</li>');
+    
+    // Remove standalone colons that create empty list items
+    processedHtml = processedHtml.replace(/<li[^>]*>[\s\S]*?:\s*<\/li>/g, '');
+    processedHtml = processedHtml.replace(/:\s*<li><\/li>/g, '');
+    
+    // Fix broken list structure where content appears outside li tags within ul
+    processedHtml = processedHtml.replace(/<ul>([\s\S]*?)<\/ul>/g, (match, content) => {
+      // Move orphaned text content into proper list items
+      const fixedContent = content.replace(/^([^<]+)(<li>)/g, '<li>$1</li>$2');
+      return `<ul>${fixedContent}</ul>`;
+    });
+
     // --- NEW LOGIC ---
     // 1. Extract and style any unbulleted text that appears before lists as large bold white headings
     // 2. Remove vertical bars for empty lines in bullet rendering
@@ -366,7 +382,9 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
       const filteredContent = content
         .replace(/<li[^>]*>\s*<\/li>/g, '') // Remove completely empty <li></li> tags
         .replace(/<li[^>]*>(\s|&nbsp;|&\w+;|\?)*<\/li>/gi, '') // Remove <li> with only whitespace/entities
-        .replace(/<li[^>]*>[\u00A0\u2000-\u200B\u2028\u2029\u3000\uFEFF\u202F\?\s]*<\/li>/g, ''); // Remove Unicode spaces
+        .replace(/<li[^>]*>[\u00A0\u2000-\u200B\u2028\u2029\u3000\uFEFF\u202F\?\s]*<\/li>/g, '') // Remove Unicode spaces
+        .replace(/<li[^>]*>[\s\S]*?:\s*<\/li>/g, '') // Remove list items that end with just a colon
+        .replace(/<li[^>]*>[\s\S]*?:\s*$<\/li>/g, ''); // Remove list items ending with colon at end
       
       // Additional pass to remove any remaining problematic list items
       const listItems: string[] = [];
@@ -379,9 +397,15 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
           .replace(/[\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]/g, '') // Remove all Unicode spaces
           .replace(/[\?\u00BF\u061F\u037E\u055E\u061F\u1367\u1945\u2047-\u2049\u2753-\u2755\u2CFA-\u2CFD\u2E2E\uA60F\uA6F7\uFE16\uFE56\uFE5F\uFF1F]/g, '') // Remove various question marks
           .replace(/[^\w\s\-\.,!@#$%^&*()+=\[\]{}|\\:";'<>?/~`]/g, '') // Keep only basic printable characters
+          .replace(/^\s*:\s*$/, '') // Remove content that's just a colon
+          .replace(/^\s*:\s*/, '') // Remove leading colon
           .trim();
         
-        if (ultraCleanContent && ultraCleanContent.length > 0) {
+        // Skip if content is just punctuation or very short meaningless content
+        if (ultraCleanContent && 
+            ultraCleanContent.length > 0 && 
+            !ultraCleanContent.match(/^[:;,.\-_\s]*$/) && // Skip pure punctuation
+            ultraCleanContent.length > 2) { // Skip very short content
           listItems.push(_liMatch);
         }
         return '';
@@ -435,7 +459,9 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
       const filteredContent = content
         .replace(/<li[^>]*>\s*<\/li>/g, '') // Remove completely empty <li></li> tags
         .replace(/<li[^>]*>(\s|&nbsp;|&\w+;|\?)*<\/li>/gi, '') // Remove <li> with only whitespace/entities
-        .replace(/<li[^>]*>[\u00A0\u2000-\u200B\u2028\u2029\u3000\uFEFF\u202F\?\s]*<\/li>/g, ''); // Remove Unicode spaces
+        .replace(/<li[^>]*>[\u00A0\u2000-\u200B\u2028\u2029\u3000\uFEFF\u202F\?\s]*<\/li>/g, '') // Remove Unicode spaces
+        .replace(/<li[^>]*>[\s\S]*?:\s*<\/li>/g, '') // Remove list items that end with just a colon
+        .replace(/<li[^>]*>[\s\S]*?:\s*$<\/li>/g, ''); // Remove list items ending with colon at end
       
       // Collect only valid list items
       const listItems: string[] = [];
@@ -448,9 +474,15 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
           .replace(/[\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]/g, '') // Remove all Unicode spaces
           .replace(/[\?\u00BF\u061F\u037E\u055E\u061F\u1367\u1945\u2047-\u2049\u2753-\u2755\u2CFA-\u2CFD\u2E2E\uA60F\uA6F7\uFE16\uFE56\uFE5F\uFF1F]/g, '') // Remove various question marks
           .replace(/[^\w\s\-\.,!@#$%^&*()+=\[\]{}|\\:";'<>?/~`]/g, '') // Keep only basic printable characters
+          .replace(/^\s*:\s*$/, '') // Remove content that's just a colon
+          .replace(/^\s*:\s*/, '') // Remove leading colon
           .trim();
         
-        if (ultraCleanContent && ultraCleanContent.length > 0) {
+        // Skip if content is just punctuation or very short meaningless content
+        if (ultraCleanContent && 
+            ultraCleanContent.length > 0 && 
+            !ultraCleanContent.match(/^[:;,.\-_\s]*$/) && // Skip pure punctuation
+            ultraCleanContent.length > 2) { // Skip very short content
           listItems.push(liContent);
         }
         return '';

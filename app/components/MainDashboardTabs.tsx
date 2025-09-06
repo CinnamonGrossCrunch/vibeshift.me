@@ -110,7 +110,7 @@ export default function MainDashboardTabs({
             </div>
 
             {/* What's Next Widget - Horizontal Layout (PRESERVED) */}
-            <div className="mb-4">
+            <div className="mb-0">
               <CalendarListView 
                 cohortEvents={cohortEvents}
                 defaultCohort={selectedCohort}

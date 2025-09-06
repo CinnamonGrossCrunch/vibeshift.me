@@ -270,7 +270,7 @@ export default function CalendarListView({
   };
 
   return (
-    <div className="calendar-list-widget border border-slate-200 dark:border-slate-700 rounded-tr-xl rounded-b-xl rounded-tl-none">
+    <div className="calendar-list-widget border border-slate-200 dark:border-slate-700 rounded-tr-xl rounded-tl-none">
       {/* Widget Header */}
       <div className="widget-header">
         <header className="header-container mb-0 bg-berkeley-blue/90 dark:bg-berkeley-blue/80 w-full flex items-center justify-start px-4 py-1 border-b border-slate-200/50 dark:border-slate-700/50 rounded-tr-lg rounded-tl-none">
