@@ -58,45 +58,82 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
       }
 
       // Check if this item contains <strong> tags for subsections (ignore empty or whitespace-only strong tags)
+      // Updated regex to be more selective about what constitutes a header
       const strongMatches = item.html.match(/<strong>\s*[^\s<][^<]*[^\s<]\s*<\/strong>/g);
       
       if (strongMatches && strongMatches.length > 0) {
-        // Split content by <strong> tags that appear to be section headers (with meaningful content)
-        const sections = item.html.split(/(<strong>\s*[^\s<][^<]*[^\s<]\s*<\/strong>)/);
-        
-        let currentTitle = '';
-        let currentContent = '';
-        let hasPreContent = false;
-        
-        for (let i = 0; i < sections.length; i++) {
-          const section = sections[i].trim();
+        // Filter out strong tags that don't look like headers
+        const validHeaders = strongMatches.filter(match => {
+          const text = match.replace(/<\/?strong>/g, '').trim();
           
-          if (section.match(/<strong>\s*[^\s<][^<]*[^\s<]\s*<\/strong>/)) {
-            // If we have accumulated content, save the previous subsection
-            if (currentTitle && currentContent.trim()) {
-              subsections.push({ 
-                title: currentTitle, 
-                content: currentContent.trim()
-              });
-            }
-            // Start new subsection
-            currentTitle = section.replace(/<\/?strong>/g, '').trim();
-            currentContent = '';
-          } else if (section.trim()) {
-            // If this is content before the first <strong> tag and we don't have a title yet
-            if (!currentTitle && section.trim() && !hasPreContent) {
-              // Use item title for content that appears before any <strong> tags
-              subsections.push({
-                title: item.title,
-                content: section.trim()
-              });
-              hasPreContent = true;
-            } else {
-              // Accumulate content for current subsection
-              currentContent += section;
+          // Ignore if it's just dates in parentheses like "(9/6, 9/13, 10/4, 11/1)"
+          if (/^\([0-9\/,\s]+\)$/.test(text)) {
+            return false;
+          }
+          
+          // Ignore if it's just numbers or dates without meaningful text
+          if (/^[\d\/,\s\-]+$/.test(text)) {
+            return false;
+          }
+          
+          // Ignore very short text that doesn't end with colon (likely not a header)
+          if (text.length < 8 && !text.endsWith(':')) {
+            return false;
+          }
+          
+          // Accept if it ends with colon (likely a header) or is reasonably long
+          return text.endsWith(':') || text.length >= 10;
+        });
+        
+        if (validHeaders.length > 0) {
+          // Split content by valid <strong> tags only
+          const sections = item.html.split(/(<strong>\s*[^\s<][^<]*[^\s<]\s*<\/strong>)/);
+          
+          let currentTitle = '';
+          let currentContent = '';
+          let hasPreContent = false;
+          
+          for (let i = 0; i < sections.length; i++) {
+            const section = sections[i].trim();
+            
+            if (section.match(/<strong>\s*[^\s<][^<]*[^\s<]\s*<\/strong>/)) {
+              const strongText = section.replace(/<\/?strong>/g, '').trim();
+              
+              // Only treat as header if it passes our validation
+              const isValidHeader = validHeaders.some(header => 
+                header.replace(/<\/?strong>/g, '').trim() === strongText
+              );
+              
+              if (isValidHeader) {
+                // If we have accumulated content, save the previous subsection
+                if (currentTitle && currentContent.trim()) {
+                  subsections.push({ 
+                    title: currentTitle, 
+                    content: currentContent.trim()
+                  });
+                }
+                // Start new subsection
+                currentTitle = strongText;
+                currentContent = '';
+              } else {
+                // Treat as regular content, not a header
+                currentContent += section;
+              }
+            } else if (section.trim()) {
+              // If this is content before the first <strong> tag and we don't have a title yet
+              if (!currentTitle && section.trim() && !hasPreContent) {
+                // Use item title for content that appears before any <strong> tags
+                subsections.push({
+                  title: item.title,
+                  content: section.trim()
+                });
+                hasPreContent = true;
+              } else {
+                // Accumulate content for current subsection
+                currentContent += section;
+              }
             }
           }
-        }
         
         // Don't forget the last subsection - make sure we capture all remaining content
         if (currentTitle) {
@@ -115,6 +152,13 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
           });
         }
       } else {
+        // No valid headers found, treat as single item
+        subsections.push({
+          title: item.title,
+          content: item.html
+        });
+      }
+    } else {
         // If no <strong> tags found, treat entire item as one subsection
         // But check if the content is meaningful
         const cleanContent = item.html.replace(/<[^>]*>/g, '').trim();
@@ -290,22 +334,6 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     processedHtml = processedHtml.replace(/^(<br\s*\/?>|\s)+/, '');
     processedHtml = processedHtml.replace(/(<br\s*\/?>|\s)+$/, '');
 
-    // --- PRE-PROCESSING: Fix malformed HTML that causes empty list items ---
-    // Fix content that appears before list items and creates empty <li> tags
-    processedHtml = processedHtml.replace(/([^<>]+):\s*<li><\/li>/g, '<li>$1</li>');
-    processedHtml = processedHtml.replace(/([^<>]+):\s*<li>\s*<\/li>/g, '<li>$1</li>');
-    
-    // Remove standalone colons that create empty list items
-    processedHtml = processedHtml.replace(/<li[^>]*>[\s\S]*?:\s*<\/li>/g, '');
-    processedHtml = processedHtml.replace(/:\s*<li><\/li>/g, '');
-    
-    // Fix broken list structure where content appears outside li tags within ul
-    processedHtml = processedHtml.replace(/<ul>([\s\S]*?)<\/ul>/g, (match, content) => {
-      // Move orphaned text content into proper list items
-      const fixedContent = content.replace(/^([^<]+)(<li>)/g, '<li>$1</li>$2');
-      return `<ul>${fixedContent}</ul>`;
-    });
-
     // --- NEW LOGIC ---
     // 1. Extract and style any unbulleted text that appears before lists as large bold white headings
     // 2. Remove vertical bars for empty lines in bullet rendering
@@ -382,9 +410,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
       const filteredContent = content
         .replace(/<li[^>]*>\s*<\/li>/g, '') // Remove completely empty <li></li> tags
         .replace(/<li[^>]*>(\s|&nbsp;|&\w+;|\?)*<\/li>/gi, '') // Remove <li> with only whitespace/entities
-        .replace(/<li[^>]*>[\u00A0\u2000-\u200B\u2028\u2029\u3000\uFEFF\u202F\?\s]*<\/li>/g, '') // Remove Unicode spaces
-        .replace(/<li[^>]*>[\s\S]*?:\s*<\/li>/g, '') // Remove list items that end with just a colon
-        .replace(/<li[^>]*>[\s\S]*?:\s*$<\/li>/g, ''); // Remove list items ending with colon at end
+        .replace(/<li[^>]*>[\u00A0\u2000-\u200B\u2028\u2029\u3000\uFEFF\u202F\?\s]*<\/li>/g, ''); // Remove Unicode spaces
       
       // Additional pass to remove any remaining problematic list items
       const listItems: string[] = [];
@@ -397,15 +423,9 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
           .replace(/[\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]/g, '') // Remove all Unicode spaces
           .replace(/[\?\u00BF\u061F\u037E\u055E\u061F\u1367\u1945\u2047-\u2049\u2753-\u2755\u2CFA-\u2CFD\u2E2E\uA60F\uA6F7\uFE16\uFE56\uFE5F\uFF1F]/g, '') // Remove various question marks
           .replace(/[^\w\s\-\.,!@#$%^&*()+=\[\]{}|\\:";'<>?/~`]/g, '') // Keep only basic printable characters
-          .replace(/^\s*:\s*$/, '') // Remove content that's just a colon
-          .replace(/^\s*:\s*/, '') // Remove leading colon
           .trim();
         
-        // Skip if content is just punctuation or very short meaningless content
-        if (ultraCleanContent && 
-            ultraCleanContent.length > 0 && 
-            !ultraCleanContent.match(/^[:;,.\-_\s]*$/) && // Skip pure punctuation
-            ultraCleanContent.length > 2) { // Skip very short content
+        if (ultraCleanContent && ultraCleanContent.length > 0) {
           listItems.push(_liMatch);
         }
         return '';
@@ -459,9 +479,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
       const filteredContent = content
         .replace(/<li[^>]*>\s*<\/li>/g, '') // Remove completely empty <li></li> tags
         .replace(/<li[^>]*>(\s|&nbsp;|&\w+;|\?)*<\/li>/gi, '') // Remove <li> with only whitespace/entities
-        .replace(/<li[^>]*>[\u00A0\u2000-\u200B\u2028\u2029\u3000\uFEFF\u202F\?\s]*<\/li>/g, '') // Remove Unicode spaces
-        .replace(/<li[^>]*>[\s\S]*?:\s*<\/li>/g, '') // Remove list items that end with just a colon
-        .replace(/<li[^>]*>[\s\S]*?:\s*$<\/li>/g, ''); // Remove list items ending with colon at end
+        .replace(/<li[^>]*>[\u00A0\u2000-\u200B\u2028\u2029\u3000\uFEFF\u202F\?\s]*<\/li>/g, ''); // Remove Unicode spaces
       
       // Collect only valid list items
       const listItems: string[] = [];
@@ -474,15 +492,9 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
           .replace(/[\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]/g, '') // Remove all Unicode spaces
           .replace(/[\?\u00BF\u061F\u037E\u055E\u061F\u1367\u1945\u2047-\u2049\u2753-\u2755\u2CFA-\u2CFD\u2E2E\uA60F\uA6F7\uFE16\uFE56\uFE5F\uFF1F]/g, '') // Remove various question marks
           .replace(/[^\w\s\-\.,!@#$%^&*()+=\[\]{}|\\:";'<>?/~`]/g, '') // Keep only basic printable characters
-          .replace(/^\s*:\s*$/, '') // Remove content that's just a colon
-          .replace(/^\s*:\s*/, '') // Remove leading colon
           .trim();
         
-        // Skip if content is just punctuation or very short meaningless content
-        if (ultraCleanContent && 
-            ultraCleanContent.length > 0 && 
-            !ultraCleanContent.match(/^[:;,.\-_\s]*$/) && // Skip pure punctuation
-            ultraCleanContent.length > 2) { // Skip very short content
+        if (ultraCleanContent && ultraCleanContent.length > 0) {
           listItems.push(liContent);
         }
         return '';
