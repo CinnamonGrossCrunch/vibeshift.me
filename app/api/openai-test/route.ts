@@ -25,8 +25,13 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
+  // During build time, environment variables might not be available
+  // Return a safe response that doesn't trigger initialization errors
+  const hasApiKey = !!process.env.OPENAI_API_KEY;
+  
   return NextResponse.json({ 
-    hasApiKey: !!process.env.OPENAI_API_KEY,
-    message: process.env.OPENAI_API_KEY ? 'OpenAI API configured' : 'OpenAI API key missing'
+    hasApiKey,
+    message: hasApiKey ? 'OpenAI API configured' : 'OpenAI API key missing',
+    buildTime: !hasApiKey && process.env.NODE_ENV === 'production'
   });
 }

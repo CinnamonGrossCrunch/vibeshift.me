@@ -1,8 +1,19 @@
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Lazy initialization to avoid build-time errors
+let openai: OpenAI | null = null;
+
+function getOpenAIClient(): OpenAI {
+  if (!openai) {
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error('OpenAI API key not found');
+    }
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+  }
+  return openai;
+}
 
 // Define proper TypeScript interfaces
 interface ParsedItem {
@@ -211,13 +222,16 @@ ${rawContent}`;
 
     let response: string;
 
+    // Get OpenAI client lazily
+    const client = getOpenAIClient();
+
     // Try the new Responses API first (if available)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((openai as any).responses) {
+    if ((client as any).responses) {
       console.log('🆕 Using new OpenAI Responses API');
       try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const apiResponse = await (openai as any).responses.create({
+        const apiResponse = await (client as any).responses.create({
           model,
           instructions: "You are a newsletter content organizer. Always return valid JSON with preserved content and hyperlinks.",
           input: prompt,
@@ -229,7 +243,7 @@ ${rawContent}`;
       } catch (error) {
         console.log('⚠️ Responses API failed, falling back to chat completions:', error);
         // Fall back to regular chat completions
-        const completion = await openai.chat.completions.create({
+        const completion = await client.chat.completions.create({
           model,
           messages: [
             {
@@ -250,7 +264,7 @@ ${rawContent}`;
     } else {
       console.log('📝 Using standard chat completions API');
       // Use standard chat completions
-      const completion = await openai.chat.completions.create({
+      const completion = await client.chat.completions.create({
         model,
         messages: [
           {
