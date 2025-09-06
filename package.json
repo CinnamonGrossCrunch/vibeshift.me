@@ -10,7 +10,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "mcp:start": "node lib/mcp-server.js",
+    "mcp:dev": "nodemon lib/mcp-server.js",
+    "worktree:list": "git worktree list",
+    "worktree:calendar": "cd ../newsletter-widget-calendar",
+    "worktree:dashboard": "cd ../newsletter-widget-dashboard",
+    "worktree:mcp": "cd ../newsletter-widget-mcp"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.17.5",
@@ -35,6 +41,7 @@
     "@types/sanitize-html": "^2.16.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.0",
+    "nodemon": "^3.1.10",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
