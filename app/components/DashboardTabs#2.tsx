@@ -3,9 +3,7 @@
 import { useState } from 'react';
 import Link from "next/link";
 import NewsletterWidget from "./NewsletterWidget";
-import type { CohortEvents } from '@/lib/icsUtils';
 
-type CohortType = 'blue' | 'gold';
 type Item = { title: string; html: string };
 type Section = { sectionTitle: string; items: Item[] };
 type Payload = { sourceUrl: string; title?: string; sections: Section[] };
