@@ -43,6 +43,32 @@ export default function DashboardTabs2({
       <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-300/10 p-4 sm:p-6 rounded-r-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
         {activeTab === 'Newsletter' && (
           <div>
+            {/* Slack Integration Placeholder */}
+            <div className="mb-4 group cursor-pointer">
+              <div 
+                className="relative p-6 h-56  rounded-4xl border-2 border-dashed border-slate-300 dark:border-slate-600 text-center transition-all duration-300  overflow-hidden"
+                style={{
+                  backgroundImage: "url('/slack cap.jpg')",
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat'
+                }}
+              >
+                {/* Overlay for text readability */}
+                <div className="absolute inset-0 bg-black/50 backdrop-blur-md rounded-4xl hover:bg-black/80 transition-all duration-200"></div>
+
+                {/* Content */}
+                <div className="relative z-10 flex items-center justify-center hover:scale-[1.02] transition-transform duration-400 ">
+
+                  <div className="text-center justify-center">
+                  <h3 className="text-base font-semibold text-white mb-2 group-hover:hidden drop-shadow-lg">Slack Updates</h3>
+                    <h3 className="text-base font-semibold text-white mb-2 hidden group-hover:block drop-shadow-lg hover:bg-black/80">Coming Soon</h3>
+                    <p className="text-sm text-white/90 hidden group-hover:block drop-shadow ">Stay tuned for updates</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Newsletter Widget Only */}
             <div className="w-full">
               {newsletterData ? (

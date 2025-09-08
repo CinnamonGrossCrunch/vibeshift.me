@@ -78,19 +78,19 @@ export async function organizeNewsletterWithAI(
       return `[${section.sectionTitle}]\n${items}`;
     }).join('\n\n');
 
-    // Debug: Log what we're sending to AI
-    console.log('🔍 Raw content being sent to AI:');
-    console.log('📏 Total content length:', rawContent.length);
-    console.log('📝 Raw sections count:', rawSections.length);
-    console.log('📄 First 500 chars of raw content:', rawContent.substring(0, 500));
-    console.log('📊 Raw sections structure:', rawSections.map(s => ({ 
-      title: s.sectionTitle, 
-      itemCount: s.items?.length || 0,
-      firstItemTitle: s.items?.[0]?.title || 'no items',
-      firstItemLength: s.items?.[0]?.html?.length || 0
-    })));
+    // Debug: Log what we're sending to AI (commented out for production)
+    // console.log('🔍 Raw content being sent to AI:');
+    // console.log('📏 Total content length:', rawContent.length);
+    // console.log('📝 Raw sections count:', rawSections.length);
+    // console.log('📄 First 500 chars of raw content:', rawContent.substring(0, 500));
+    // console.log('📊 Raw sections structure:', rawSections.map(s => ({ 
+    //   title: s.sectionTitle, 
+    //   itemCount: s.items?.length || 0,
+    //   firstItemTitle: s.items?.[0]?.title || 'no items',
+    //   firstItemLength: s.items?.[0]?.html?.length || 0
+    // })));
 
-    console.log('🤖 Starting AI organization...');
+    // console.log('🤖 Starting AI organization...');
 
     // Enhanced prompt for the AI
     const prompt = `You are a newsletter content organizer for UC Berkeley EWMBA students. Transform the following newsletter content into a clean, structured format.
@@ -184,13 +184,19 @@ For complex content like "Fall 2025 Electives Reminder":
 {
   "debugInfo": {
     "reasoning": "Organized content into 6 main sections focusing on...",
-    "sectionDecisions": "Grouped academic content in Announcements, social events in Events section...",
+    "sectionDecisions": [
+      "Grouped academic content in Announcements section",
+      "Moved social events to Events section",
+      "Separated career-related items into Career Corner"
+    ],
     "edgeCasesHandled": [
       "List any specific formatting issues, heading conversions, or complex content restructuring you performed",
       "Document how you split long announcements into multiple focused subsections", 
       "Mention how you ensured proper spacing between sentences and created logical bullet point structure",
       "Document any hyperlinks that were preserved and how you maintained their exact format"
-    ]
+    ],
+    "totalSections": ${rawSections.length},
+    "preservedHyperlinks": "List of all hyperlinks preserved"
   }
 }
 
@@ -218,7 +224,7 @@ ${rawContent}`;
 
     // Use configurable model with new Responses API as primary
     const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
-    console.log('🤖 Using AI model:', model);
+    // console.log('🤖 Using AI model:', model);
 
     let response: string;
 
@@ -228,7 +234,7 @@ ${rawContent}`;
     // Try the new Responses API first (if available)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if ((client as any).responses) {
-      console.log('🆕 Using new OpenAI Responses API');
+      // console.log('🆕 Using new OpenAI Responses API');
       try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const apiResponse = await (client as any).responses.create({
@@ -241,7 +247,7 @@ ${rawContent}`;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         response = (apiResponse as any).output_text || '';
       } catch (error) {
-        console.log('⚠️ Responses API failed, falling back to chat completions:', error);
+        // console.log('⚠️ Responses API failed, falling back to chat completions:', error);
         // Fall back to regular chat completions
         const completion = await client.chat.completions.create({
           model,
@@ -262,7 +268,7 @@ ${rawContent}`;
         response = completion.choices[0]?.message?.content?.trim() || '';
       }
     } else {
-      console.log('📝 Using standard chat completions API');
+      // console.log('📝 Using standard chat completions API');
       // Use standard chat completions
       const completion = await client.chat.completions.create({
         model,
@@ -287,8 +293,8 @@ ${rawContent}`;
       throw new Error('No response from AI');
     }
 
-    console.log('📦 Raw AI response length:', response.length);
-    console.log('📄 First 200 chars of AI response:', response.substring(0, 200));
+    // console.log('📦 Raw AI response length:', response.length);
+    // console.log('📄 First 200 chars of AI response:', response.substring(0, 200));
 
     // Remove any markdown code blocks if present
     let cleanedResponse = response;
@@ -303,15 +309,15 @@ ${rawContent}`;
     }
     cleanedResponse = cleanedResponse.trim();
 
-    console.log('🧹 Cleaned response length:', cleanedResponse.length);
-    console.log('🔍 Attempting to parse JSON...');
+    // console.log('🧹 Cleaned response length:', cleanedResponse.length);
+    // console.log('🔍 Attempting to parse JSON...');
 
     // Parse AI response
     let organizedData: {
       sections: OrganizedSection[];
       debugInfo?: {
         reasoning?: string;
-        sectionDecisions?: string[];
+        sectionDecisions?: string[] | string;
         edgeCasesHandled?: string[];
         totalSections?: number;
         preservedHyperlinks?: string;
@@ -320,9 +326,9 @@ ${rawContent}`;
     
     try {
       organizedData = JSON.parse(cleanedResponse);
-      console.log('✅ JSON parsed successfully');
-      console.log('📊 Organized sections count:', organizedData.sections?.length || 0);
-      console.log('📝 Debug info available:', !!organizedData.debugInfo);
+      // console.log('✅ JSON parsed successfully');
+      // console.log('📊 Organized sections count:', organizedData.sections?.length || 0);
+      // console.log('📝 Debug info available:', !!organizedData.debugInfo);
     } catch (parseError) {
       console.error('❌ Failed to parse AI response:', parseError);
       console.error('🔍 Problematic response:', cleanedResponse.substring(0, 500));
@@ -330,7 +336,7 @@ ${rawContent}`;
     }
 
     const processingTime = Date.now() - startTime;
-    console.log(`⏱️ AI processing completed in ${processingTime}ms`);
+    // console.log(`⏱️ AI processing completed in ${processingTime}ms`);
 
     // Validate structure
     const result: OrganizedNewsletter = {
@@ -339,19 +345,23 @@ ${rawContent}`;
       sections: organizedData.sections || [],
       aiDebugInfo: {
         reasoning: organizedData.debugInfo?.reasoning,
-        sectionDecisions: organizedData.debugInfo?.sectionDecisions,
+        sectionDecisions: Array.isArray(organizedData.debugInfo?.sectionDecisions) 
+          ? organizedData.debugInfo.sectionDecisions 
+          : organizedData.debugInfo?.sectionDecisions 
+            ? [organizedData.debugInfo.sectionDecisions]
+            : [],
         edgeCasesHandled: organizedData.debugInfo?.edgeCasesHandled,
         totalSections: organizedData.sections?.length || 0,
         processingTime
       }
     };
 
-    console.log('🎉 Newsletter organization completed successfully');
-    console.log('📋 Final result summary:', {
-      sectionsCount: result.sections.length,
-      hasDebugInfo: !!result.aiDebugInfo,
-      processingTime: result.aiDebugInfo?.processingTime
-    });
+    // console.log('🎉 Newsletter organization completed successfully');
+    // console.log('📋 Final result summary:', {
+    //   sectionsCount: result.sections.length,
+    //   hasDebugInfo: !!result.aiDebugInfo,
+    //   processingTime: result.aiDebugInfo?.processingTime
+    // });
 
     return result;
 
