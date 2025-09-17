@@ -8,6 +8,15 @@ export async function POST(request: NextRequest) {
   console.log('My Week API: Starting request');
   
   try {
+    // Check if OpenAI API key is available
+    if (!process.env.OPENAI_API_KEY) {
+      console.error('My Week API: OpenAI API key not configured');
+      return NextResponse.json(
+        { error: 'AI analysis is not available. OpenAI API key is not configured.' }, 
+        { status: 503 }
+      );
+    }
+
     const body = await request.json();
     const { cohortEvents, newsletterData } = body;
     
