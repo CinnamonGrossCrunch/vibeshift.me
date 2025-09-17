@@ -141,8 +141,8 @@ TIME-SENSITIVE RULES:
 CONTENT:
 ${rawContent}`;
 
-    // Use configurable model with gpt-4o-mini as default for better token support
-    const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
+    // Use configurable model with gpt-3.5-turbo as default for better compatibility
+    const model = process.env.OPENAI_MODEL || "gpt-3.5-turbo";
     console.log('🤖 Using AI model:', model);
 
     // Use standard chat completions with token limit appropriate for model

@@ -331,7 +331,7 @@ Analyze the content and provide the weekly summary:`;
   try {
     console.log('🤖 Sending to AI for analysis...');
     
-    const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
+    const model = process.env.OPENAI_MODEL || "gpt-3.5-turbo";
     const client = getOpenAIClient();
     
     const completion = await client.chat.completions.create({
