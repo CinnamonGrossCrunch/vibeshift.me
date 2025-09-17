@@ -346,8 +346,9 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
                   src="/greeklogo.png" 
                   alt="Greek Theater" 
                   width={50}
-                  height={20}
-                  className="object-contain hover-invert filter brightness-0 invert"
+                  height={50}
+                  style={{ width: "auto", height: "auto" }}
+                  className="object-contain hover-invert filter brightness-0 invert max-h-5"
                 />
               </button>
               
@@ -372,8 +373,9 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
                   src="/Launch Accelerator logo.png"
                   alt="UC Launch Accelerator"
                   width={50}
-                  height={20}
-                  className="object-contain filter brightness-0 invert"
+                  height={50}
+                  style={{ width: "auto", height: "auto" }}
+                  className="object-contain filter brightness-0 invert max-h-5"
                 />
                 </button>
               
@@ -398,8 +400,9 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
                   src="/cal_logo.png"
                   alt="Cal Bears"
                   width={30}
-                  height={20}
-                  className="object-contain hover-invert filter brightness-0 invert"
+                  height={30}
+                  style={{ width: "auto", height: "auto" }}
+                  className="object-contain hover-invert filter brightness-0 invert max-h-5"
                 />
                 </button>
               

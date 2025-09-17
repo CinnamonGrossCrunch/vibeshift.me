@@ -11,9 +11,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Urbanist', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        urbanist: ['Urbanist', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        doto: ['Doto', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-urbanist)', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        urbanist: ['var(--font-urbanist)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       fontWeight: {
         '100': '100',

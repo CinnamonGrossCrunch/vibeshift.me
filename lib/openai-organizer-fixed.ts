@@ -20,6 +20,12 @@ export interface OrganizedSection {
   items: {
     title: string;
     html: string;
+    timeSensitive?: {
+      dates: string[];
+      deadline?: string;
+      eventType: 'deadline' | 'event' | 'announcement' | 'reminder';
+      priority: 'high' | 'medium' | 'low';
+    };
   }[];
 }
 
@@ -81,66 +87,16 @@ export async function organizeNewsletterWithAI(
 
     console.log('🤖 Starting AI organization...');
 
-    // Enhanced prompt for the AI
-    const prompt = `You are a newsletter content organizer for UC Berkeley EWMBA students. Transform the following newsletter content into a clean, structured format.
+    // Concise prompt for better token efficiency
+    const prompt = `Organize newsletter content for UC Berkeley EWMBA students. Preserve ALL content and hyperlinks exactly.
 
-**REQUIREMENTS:**
+REQUIREMENTS:
+1. Keep ALL content - no truncation or removal
+2. Preserve ALL hyperlinks exactly: <a href='exact-url' target='_blank'>text</a>
+3. Use proper HTML: <h4> for titles, <h5> for subheadings, <p> for text, <ul>/<li> for lists
+4. Extract time-sensitive data: dates, deadlines, events
 
-1. CONTENT PRESERVATION: Preserve ALL content - do not truncate, summarize, or remove any information
-2. HYPERLINK PRESERVATION: 
-   - **CRITICAL: PRESERVE ALL HYPERLINKS** - Never remove or modify any <a href="..."> tags or URLs
-   - Maintain exact link text and destination URLs without any changes
-   - Keep target="_blank" attributes when present
-   - If hyperlinks exist in content, they MUST appear in the final output
-
-3. SECTION ORGANIZATION:
-   - Group related content logically into the existing section structure
-   - Common sections: "This Week", "Announcements", "Saturday Scoop", "Events", "Career Corner", "PO Tips and Tidbits"
-   - If content doesn't fit existing sections, create appropriate new sections
-   - Split long content into multiple focused subsections within sections
-
-4. FORMATTING GUIDELINES:
-   - **HEADERS**: Use <h4> tags for main item titles only (not bold)
-   - **SUBHEADINGS**: Use <h5> tags for subsection headers within items
-   - **LISTS**: Use proper <ul> and <li> tags for bullet points
-   - **PARAGRAPHS**: Use <p> tags for paragraph content
-   - **BODY TEXT**: Convert ANY bold/strong formatting in the middle of paragraphs to normal font weight
-   - **HYPERLINKS - CRITICAL**: Preserve ALL hyperlinks exactly as they are - NEVER remove, modify, or strip any <a href="..."> tags
-
-5. CONTENT STRUCTURE:
-   - Create clear, scannable sections with proper hierarchy
-   - Break down complex announcements into logical subsections
-   - Use descriptive, action-oriented headings
-   - Ensure proper spacing and readability
-
-6. SPECIAL FORMATTING RULES:
-   
-   **Headers and Subheadings:**
-   - Use <h4> for: Main item titles at the start of each content block
-   - Use <h5> for: Subsection headers like "Things to keep in mind", "Important dates", etc.
-   - Do NOT use bold (**text**) or <strong> tags for headers - use proper HTML heading tags
-   
-   **Body Text:**
-   - Convert to normal weight: Any bold text in the middle of sentences or paragraphs
-   - Exception: Keep bold ONLY for true emphasis within sentences (very sparingly)
-   - Remove unnecessary bold formatting that was used for visual separation
-   
-   **Lists and Structure:**
-   - Use <ul> and <li> for bullet point lists
-   - Use <ol> and <li> for numbered lists
-   - Maintain proper nesting for sub-lists
-   - Group related bullet points together
-
-7. CONTENT ORGANIZATION LOGIC:
-   - **ANNOUNCEMENTS**: Important updates, policy changes, deadline reminders
-   - **EVENTS**: Social gatherings, networking, extracurricular activities  
-   - **ACADEMIC**: Course-related info, registration, academic deadlines
-   - **CAREER**: Job opportunities, career services, professional development
-   - **COMPLEX CONTENT**: Break down any single item >300 words into logical subsections
-
-8. OUTPUT FORMAT:
-   Return ONLY a JSON object with this structure:
-
+OUTPUT FORMAT (JSON only):
 {
   "sections": [
     {
@@ -148,126 +104,56 @@ export async function organizeNewsletterWithAI(
       "items": [
         {
           "title": "Item Title",
-          "html": "<h4>Item Title</h4><h5>Subheading</h5><p>Content with <a href='exact-url' target='_blank'>preserved links</a></p><ul><li>Bullet points</li></ul>"
+          "html": "<h4>Title</h4><p>Content with <a href='exact-url' target='_blank'>links</a></p>",
+          "timeSensitive": {
+            "dates": ["2025-09-17"],
+            "deadline": "2025-09-17",
+            "eventType": "deadline|event|announcement|reminder",
+            "priority": "high|medium|low"
+          }
         }
       ]
     }
   ],
   "debugInfo": {
-    "reasoning": "Explanation of organization decisions",
-    "sectionDecisions": "How sections were structured", 
-    "edgeCasesHandled": "Special cases addressed",
-    "totalSections": ${rawSections.length},
-    "preservedHyperlinks": "List of all hyperlinks preserved"
+    "reasoning": "Brief explanation",
+    "totalSections": ${rawSections.length}
   }
 }
 
-**EXAMPLE FORMATTING:**
-For complex content like "Fall 2025 Electives Reminder":
-{
-  "title": "Fall 2025 Electives Reminder",
-  "html": "<h4>Fall 2025 Electives Reminder</h4><h5>Drop Only ends Monday Sep 8, 11:59PM PT</h5><h5>Things to keep in mind:</h5><ul><li>Any enrollment changes to your schedule must be made in <a href=\"https://calcentral.berkeley.edu\" target=\"_blank\">OLR</a>.</li><li>Final enrollment changes in CalCentral will be processed on Sep 9, after which you should confirm your class schedule accuracy.</li><li>Bills, transcripts, and <a href=\"https://bcourses.berkeley.edu\">bCourses</a> enrollments are generated by enrollment in CalCentral.</li></ul><h5>Go Beyond Yourself</h5><ul><li>Please drop any course enrollments you do not wish to take in consideration of students on the waitlist.</li><li>In addition, also drop yourself from any waitlists that you do not want.</li><li>As other students drop, you may be enrolled off the waitlist during Drops Only! So check your <a href=\"https://calcentral.berkeley.edu/dashboard\">OLR status</a> before the Drop Only Round closes.</li></ul>"
-}
+TIME-SENSITIVE RULES:
+- Extract dates in YYYY-MM-DD format
+- deadline: main due date if any
+- eventType: deadline (due dates), event (scheduled), announcement (general), reminder (action needed)  
+- priority: high (urgent/today), medium (this week), low (general)
+- Omit timeSensitive if no dates found
 
-**DEBUG INFO REQUIREMENTS:**
-{
-  "debugInfo": {
-    "reasoning": "Organized content into 6 main sections focusing on...",
-    "sectionDecisions": "Grouped academic content in Announcements, social events in Events section...",
-    "edgeCasesHandled": [
-      "List any specific formatting issues, heading conversions, or complex content restructuring you performed",
-      "Document how you split long announcements into multiple focused subsections", 
-      "Mention how you ensured proper spacing between sentences and created logical bullet point structure",
-      "Document any hyperlinks that were preserved and how you maintained their exact format"
-    ]
-  }
-}
-
-FINAL CHECKS:
-- **CRITICAL**: ALL content must be preserved and properly categorized (no truncation!)
-- **SECTION COUNT VERIFICATION**: Output section count MUST match input section count exactly
-- **HYPERLINKS**: Double-check that ALL <a href="..."> tags from the original content are preserved exactly
-- **LINK VERIFICATION**: Ensure no URLs or link text have been modified or removed
-- **CONTENT VERIFICATION**: Every piece of original content must appear in the output
-- Proper spacing between all sentences and paragraphs
-- Bold formatting only at line beginnings for headers/subsections
-- All hyperlinks maintained exactly as provided with original URLs and link text
-- Proper HTML structure with semantic tags
-- Content grouped logically to match our existing section organization
-- Clean, readable format that adheres to our established UI patterns
-
-HYPERLINK PRESERVATION PRIORITY: This is CRITICAL - any missing or modified hyperlinks will break the user experience. Treat hyperlink preservation as the highest priority alongside content preservation.
-
-SECTION PRESERVATION PRIORITY: This is CRITICAL - removing any sections will lose important information. Every original section must be preserved in the output.
-
-IMPORTANT: Return ONLY the JSON object, no additional text, explanations, or markdown formatting. Start with { and end with }.
-
-Raw newsletter content to organize:
+CONTENT:
 ${rawContent}`;
 
-    // Use configurable model with new Responses API as primary
+    // Use configurable model with gpt-4o-mini as default for better token support
     const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
     console.log('🤖 Using AI model:', model);
 
-    let response: string;
+    // Use standard chat completions with token limit appropriate for model
+    console.log('📝 Using standard chat completions API with increased token limit');
+    const completion = await openai.chat.completions.create({
+      model,
+      messages: [
+        {
+          role: "system",
+          content: "You are a newsletter content organizer. Always return valid JSON with preserved content and hyperlinks."
+        },
+        {
+          role: "user", 
+          content: prompt
+        }
+      ],
+      temperature: 0.1,
+      max_tokens: model === "gpt-3.5-turbo" ? 4000 : 16000, // Max for gpt-3.5-turbo is ~4K
+    });
 
-    // Try the new Responses API first (if available)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((openai as any).responses) {
-      console.log('🆕 Using new OpenAI Responses API');
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const apiResponse = await (openai as any).responses.create({
-          model,
-          instructions: "You are a newsletter content organizer. Always return valid JSON with preserved content and hyperlinks.",
-          input: prompt,
-          temperature: 0.1,
-        });
-        
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        response = (apiResponse as any).output_text || '';
-      } catch (error) {
-        console.log('⚠️ Responses API failed, falling back to chat completions:', error);
-        // Fall back to regular chat completions
-        const completion = await openai.chat.completions.create({
-          model,
-          messages: [
-            {
-              role: "system",
-              content: "You are a newsletter content organizer. Always return valid JSON with preserved content and hyperlinks."
-            },
-            {
-              role: "user", 
-              content: prompt
-            }
-          ],
-          temperature: 0.1,
-          max_tokens: 4000,
-        });
-
-        response = completion.choices[0]?.message?.content?.trim() || '';
-      }
-    } else {
-      console.log('📝 Using standard chat completions API');
-      // Use standard chat completions
-      const completion = await openai.chat.completions.create({
-        model,
-        messages: [
-          {
-            role: "system",
-            content: "You are a newsletter content organizer. Always return valid JSON with preserved content and hyperlinks."
-          },
-          {
-            role: "user", 
-            content: prompt
-          }
-        ],
-        temperature: 0.1,
-        max_tokens: 4000,
-      });
-
-      response = completion.choices[0]?.message?.content?.trim() || '';
-    }
+    const response = completion.choices[0]?.message?.content?.trim() || '';
 
     if (!response) {
       throw new Error('No response from AI');
@@ -312,6 +198,26 @@ ${rawContent}`;
     } catch (parseError) {
       console.error('❌ Failed to parse AI response:', parseError);
       console.error('🔍 Problematic response:', cleanedResponse.substring(0, 500));
+      console.error('🔚 Response ending:', cleanedResponse.substring(-200));
+      
+      // Check if response was truncated
+      if (!cleanedResponse.endsWith('}') && !cleanedResponse.endsWith(']}')) {
+        console.log('⚠️ Response appears to be truncated, returning fallback structure...');
+        
+        // Return a minimal valid structure with error info
+        return {
+          sourceUrl,
+          sections: [],
+          aiDebugInfo: {
+            reasoning: 'AI response was truncated due to token limit',
+            totalSections: rawSections.length,
+            processingTime: Date.now() - startTime,
+            sectionDecisions: ['Error: Response truncated'],
+            edgeCasesHandled: [`Response length: ${cleanedResponse.length} chars`]
+          }
+        };
+      }
+      
       throw new Error('Invalid JSON response from AI');
     }
 

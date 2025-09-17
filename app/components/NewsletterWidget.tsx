@@ -879,6 +879,8 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
         )}
 
         {/* AI Debug Panel */}
+        {/* Commented out AI debug info to reduce visual clutter */}
+        {/*
         {data.aiDebugInfo && (
           <div className="border-t border-slate-200 dark:border-slate-700">
             <details className="group">
@@ -933,6 +935,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
             </details>
           </div>
         )}
+        */}
         
         {/* Copyright Footer */}
         <div className="border-t border-slate-200 dark:border-slate-700 py-2 px-4 rounded-b-2xl relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>

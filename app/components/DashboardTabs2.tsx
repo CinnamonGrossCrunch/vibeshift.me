@@ -3,6 +3,9 @@
 import { useState } from 'react';
 import Link from "next/link";
 import NewsletterWidget from "./NewsletterWidget";
+import SlackWidget from "./SlackWidget";
+import MyWeekWidget from "./MyWeekWidget";
+import type { CohortEvents } from '@/lib/icsUtils';
 
 type Item = { title: string; html: string };
 type Section = { sectionTitle: string; items: Item[] };
@@ -10,13 +13,15 @@ type Payload = { sourceUrl: string; title?: string; sections: Section[] };
 
 interface DashboardTabs2Props {
   newsletterData: Payload | null;
+  cohortEvents?: CohortEvents;
 }
 
 export default function DashboardTabs2({ 
-  newsletterData
+  newsletterData,
+  cohortEvents
 }: DashboardTabs2Props) {
   const [activeTab, setActiveTab] = useState('Newsletter');
-  const tabs = ['Newsletter'];
+  const tabs = ['Newsletter', 'My Week'];
 
   return (
     <div className="relative">
@@ -42,8 +47,8 @@ export default function DashboardTabs2({
       {/* Content Pane */}
       <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-300/10 p-4 sm:p-6 rounded-r-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
         {activeTab === 'Newsletter' && (
-          <div>
-            {/* Newsletter Widget Only */}
+          <div className="space-y-6">
+            {/* Newsletter Widget */}
             <div className="w-full">
               {newsletterData ? (
                 <NewsletterWidget data={newsletterData} />
@@ -65,6 +70,20 @@ export default function DashboardTabs2({
                 </div>
               )}
             </div>
+
+            {/* Slack Placeholder */}
+            <div className="w-full">
+              <SlackWidget />
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'My Week' && (
+          <div>
+            <MyWeekWidget 
+              cohortEvents={cohortEvents}
+              newsletterData={newsletterData}
+            />
           </div>
         )}
       </div>

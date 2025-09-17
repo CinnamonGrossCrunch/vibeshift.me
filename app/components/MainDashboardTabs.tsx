@@ -1,31 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import Link from "next/link";
 import Image from "next/image";
 import CalendarListView from "./CalendarListView";
 import CohortCalendarWidget from "./CohortCalendarWidget";
-import NewsletterWidget from "./NewsletterWidget";
 import type { CohortEvents } from '@/lib/icsUtils';
 
 type CohortType = 'blue' | 'gold';
-type Item = { title: string; html: string };
-type Section = { sectionTitle: string; items: Item[] };
-type Payload = { 
-  sourceUrl: string; 
-  title?: string; 
-  sections: Section[];
-  aiDebugInfo?: {
-    reasoning: string;
-    sectionDecisions: string[];
-    edgeCasesHandled: string[];
-    totalSections: number;
-    processingTime: number;
-  };
-};
 
 interface MainDashboardTabsProps {
-  newsletterData: Payload | null;
   cohortEvents: CohortEvents;
   selectedCohort: CohortType;
   loading: boolean;
@@ -33,7 +16,6 @@ interface MainDashboardTabsProps {
 }
 
 export default function MainDashboardTabs({ 
-  newsletterData, 
   cohortEvents, 
   selectedCohort, 
   loading, 
@@ -121,7 +103,7 @@ export default function MainDashboardTabs({
             </div>
 
             {/* What's Next Widget - Horizontal Layout (PRESERVED) */}
-            <div className="mb-0">
+            <div className="mb-4">
               <CalendarListView 
                 cohortEvents={cohortEvents}
                 defaultCohort={selectedCohort}
@@ -129,41 +111,15 @@ export default function MainDashboardTabs({
               />
             </div>
 
-            {/* Widget Grid - 8 Column Layout (PRESERVED) */}
-            <div className="grid grid-cols-1 sm:grid-cols-6 lg:grid-cols-8 gap-2">
-              {/* Calendar Widget - 5 columns */}
-              <div className="sm:col-span-5 lg:col-span-5">
-                <CohortCalendarWidget 
-                  title="Cohort Calendar" 
-                  daysAhead={45} 
-                  max={150}
-                  cohortEvents={cohortEvents}
-                  selectedCohort={selectedCohort}
-                />
-              </div>
-
-              {/* Newsletter Widget - Columns 6-8 */}
-              <div className="sm:col-span-6 lg:col-span-3">
-                {newsletterData ? (
-                  <NewsletterWidget data={newsletterData} />
-                ) : (
-                  <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-200 dark:border-slate-700 text-center">
-                    <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
-                      <span className="text-lg">📭</span>
-                    </div>
-                    <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-2">Newsletter Unavailable</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
-                      Unable to load newsletter content at this time.
-                    </p>
-                    <Link
-                      href="/api/newsletter"
-                      className="inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
-                    >
-                      Try API Route →
-                    </Link>
-                  </div>
-                )}
-              </div>
+            {/* Calendar Widget - Full Width */}
+            <div className="w-full">
+              <CohortCalendarWidget 
+                title="Cohort Calendar" 
+                daysAhead={45} 
+                max={150}
+                cohortEvents={cohortEvents}
+                selectedCohort={selectedCohort}
+              />
             </div>
           </div>
         )}

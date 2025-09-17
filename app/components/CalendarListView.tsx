@@ -23,6 +23,7 @@ export default function CalendarListView({
   showCohortToggle = false,
   defaultCohort = 'blue'
 }: Props) {
+  // ALL hooks must come FIRST before any conditional logic or returns
   const [selectedCohort, setSelectedCohort] = useState<CohortType>(defaultCohort);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [matchedOriginalEvent, setMatchedOriginalEvent] = useState<CalendarEvent | null>(null);
@@ -50,6 +51,17 @@ export default function CalendarListView({
       localStorage.setItem('calendar-cohort', selectedCohort);
     }
   }, [selectedCohort, showCohortToggle]);
+
+  // MYSTERY DETECTOR: If this is the phantom component, log detailed info but don't crash
+  if (title === 'EWMBA Calendar Overview') {
+    console.error('🚨 PHANTOM COMPONENT DETECTED!');
+    console.log('🔍 Phantom Props:', { title, maxEvents, showCohortToggle, defaultCohort });
+    console.log('🔍 Parent Component Stack:', new Error().stack);
+    console.trace('PHANTOM CalendarListView with EWMBA Calendar Overview');
+    
+    // Return null to prevent rendering this phantom component
+    return null;
+  }
 
   // Generate course-specific fallback content for events without original calendar matches
   const generateCourseContent = (cohortEvent: CalendarEvent): CalendarEvent | null => {

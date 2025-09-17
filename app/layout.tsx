@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import { Urbanist } from "next/font/google";
 import "./globals.css";
+
+const urbanist = Urbanist({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+  variable: '--font-urbanist',
+});
 
 export const metadata: Metadata = {
   title: "Newsletter Widget",
@@ -22,8 +31,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
-      <body className="antialiased dark">
+    <html lang="en" className={`dark ${urbanist.variable}`} style={{ colorScheme: 'dark' }}>
+      <body className={`antialiased dark ${urbanist.className}`}>
         {children}
         <Analytics />
       </body>
