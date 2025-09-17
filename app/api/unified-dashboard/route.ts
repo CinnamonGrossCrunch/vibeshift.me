@@ -77,6 +77,8 @@ export async function GET() {
   
   try {
     console.log('🚀 Unified Dashboard API: Starting comprehensive data fetch');
+    console.log('🔑 OpenAI API Key available:', !!process.env.OPENAI_API_KEY);
+    console.log('🤖 OpenAI Model:', process.env.OPENAI_MODEL || 'not set');
     
     // Start all data fetching operations in parallel
     const [newsletterResult, calendarResult] = await Promise.allSettled([
