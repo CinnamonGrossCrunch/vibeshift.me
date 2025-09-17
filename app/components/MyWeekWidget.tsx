@@ -93,7 +93,18 @@ export default function MyWeekWidget({ cohortEvents, newsletterData }: MyWeekWid
         });
 
         if (!response.ok) {
-          throw new Error(`Failed to fetch week data: ${response.status}`);
+          // Handle specific error cases
+          if (response.status === 503) {
+            const errorData = await response.json();
+            if (errorData.error?.includes('OpenAI API key')) {
+              setError('AI_NOT_CONFIGURED');
+            } else {
+              setError('Service temporarily unavailable');
+            }
+          } else {
+            throw new Error(`Failed to fetch week data: ${response.status}`);
+          }
+          return;
         }
 
         const data = await response.json();
@@ -156,6 +167,25 @@ export default function MyWeekWidget({ cohortEvents, newsletterData }: MyWeekWid
   }
 
   if (error) {
+    // Show different UI based on error type
+    if (error === 'AI_NOT_CONFIGURED') {
+      return (
+        <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-200 dark:border-slate-700">
+          <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
+            <span className="text-lg">🤖</span>
+          </div>
+          <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-2 text-center">AI Week Summary</h3>
+          <p className="text-sm text-slate-600 dark:text-slate-400 text-center mb-3">
+            AI-powered week analysis is currently unavailable.
+          </p>
+          <p className="text-xs text-slate-500 dark:text-slate-500 text-center">
+            This feature requires OpenAI API configuration.
+          </p>
+        </div>
+      );
+    }
+
+    // Generic error display
     return (
       <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-200 dark:border-slate-700">
         <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
