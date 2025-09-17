@@ -5,7 +5,6 @@ import Image from "next/image";
 import MainDashboardTabs from "./components/MainDashboardTabs";
 import DashboardTabs2 from "./components/DashboardTabs2";
 import HaasResourcesWidget from "./components/HaasResourcesWidget";
-import CalendarListView from "./components/CalendarListView";
 import type { CohortEvents } from '@/lib/icsUtils';
 
 type CohortType = 'blue' | 'gold';
@@ -160,23 +159,6 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4">
         {/* Current Time Debug Display */}
         {/* <CurrentTimeDisplay /> */}
-        
-        {/* Full Width Calendar Widget spanning cohort tabs */}
-        <div className="mb-4">
-          <div className="relative">
-            {/* Calendar Widget Background */}
-            <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-300/10 rounded-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] border border-white/50 dark:border-slate-700/60 p-6">
-              <h2 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">EWMBA Calendar Overview</h2>
-              <CalendarListView 
-                cohortEvents={cohortEvents}
-                title="EWMBA Calendar Overview"
-                maxEvents={150}
-                showCohortToggle={true}
-                defaultCohort={selectedCohort}
-              />
-            </div>
-          </div>
-        </div>
         
         {/* 8 Column Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-8 gap-4">

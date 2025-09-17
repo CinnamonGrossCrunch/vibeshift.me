@@ -52,17 +52,6 @@ export default function CalendarListView({
     }
   }, [selectedCohort, showCohortToggle]);
 
-  // MYSTERY DETECTOR: If this is the phantom component, log detailed info but don't crash
-  if (title === 'EWMBA Calendar Overview') {
-    console.error('🚨 PHANTOM COMPONENT DETECTED!');
-    console.log('🔍 Phantom Props:', { title, maxEvents, showCohortToggle, defaultCohort });
-    console.log('🔍 Parent Component Stack:', new Error().stack);
-    console.trace('PHANTOM CalendarListView with EWMBA Calendar Overview');
-    
-    // Return null to prevent rendering this phantom component
-    return null;
-  }
-
   // Generate course-specific fallback content for events without original calendar matches
   const generateCourseContent = (cohortEvent: CalendarEvent): CalendarEvent | null => {
     if (!cohortEvent.source) return null;
