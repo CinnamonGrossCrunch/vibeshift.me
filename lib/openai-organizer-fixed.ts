@@ -1,8 +1,18 @@
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Lazy initialization of OpenAI client to avoid build-time errors
+let openai: OpenAI | null = null;
+
+function getOpenAIClient(): OpenAI {
+  if (!openai) {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      throw new Error('OpenAI API key is not configured. Please set the OPENAI_API_KEY environment variable.');
+    }
+    openai = new OpenAI({ apiKey });
+  }
+  return openai;
+}
 
 // Define proper TypeScript interfaces
 interface ParsedItem {
@@ -137,7 +147,8 @@ ${rawContent}`;
 
     // Use standard chat completions with token limit appropriate for model
     console.log('📝 Using standard chat completions API with increased token limit');
-    const completion = await openai.chat.completions.create({
+    const client = getOpenAIClient();
+    const completion = await client.chat.completions.create({
       model,
       messages: [
         {
