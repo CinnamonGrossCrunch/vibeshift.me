@@ -1,28 +1,127 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from "next/link";
 import NewsletterWidget from "./NewsletterWidget";
 import SlackWidget from "./SlackWidget";
 import MyWeekWidget from "./MyWeekWidget";
-import type { CohortEvents } from '@/lib/icsUtils';
+import type { UnifiedDashboardData } from '@/app/api/unified-dashboard/route';
 
-type Item = { title: string; html: string };
-type Section = { sectionTitle: string; items: Item[] };
-type Payload = { sourceUrl: string; title?: string; sections: Section[] };
+// No props needed since we fetch unified data internally
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+interface DashboardTabs2Props {}
 
-interface DashboardTabs2Props {
-  newsletterData: Payload | null;
-  cohortEvents?: CohortEvents;
-}
-
-export default function DashboardTabs2({ 
-  newsletterData,
-  cohortEvents
-}: DashboardTabs2Props) {
+export default function DashboardTabs2({}: DashboardTabs2Props) {
   const [activeTab, setActiveTab] = useState('Newsletter');
+  const [dashboardData, setDashboardData] = useState<UnifiedDashboardData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
   const tabs = ['Newsletter', 'My Week'];
 
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        console.log('🚀 Fetching unified dashboard data...');
+        const response = await fetch('/api/unified-dashboard');
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch dashboard data: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setDashboardData(data);
+        console.log('✅ Unified dashboard data loaded successfully');
+        
+      } catch (err) {
+        console.error('❌ Error fetching dashboard data:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load dashboard');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="relative">
+        {/* Tab Navigation */}
+        <div className="flex items-end relative">
+          {tabs.map((tab, index) => (
+            <button
+              key={index}
+              disabled
+              className="ml-3 mr-2 mb-2 px-10 py-2 bg-white/40 dark:bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-white/20 dark:supports-[backdrop-filter]:bg-slate-700/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full opacity-50"
+            >
+              <span className="block relative z-10">{tab}</span>
+            </button>
+          ))}
+          <div className="flex-grow h-px mt-3"></div>
+        </div>
+
+        {/* Loading Content */}
+        <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-300/10 p-4 sm:p-6 rounded-r-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
+          <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-200 dark:border-slate-700 text-center">
+            <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-3 animate-pulse">
+              <span className="text-lg">🔄</span>
+            </div>
+            <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-2">Loading Dashboard</h3>
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+              Fetching newsletter, calendar, and AI analysis...
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error || !dashboardData) {
+    return (
+      <div className="relative">
+        {/* Tab Navigation */}
+        <div className="flex items-end relative">
+          {tabs.map((tab, index) => (
+            <button
+              key={index}
+              disabled
+              className="ml-3 mr-2 mb-2 px-10 py-2 bg-white/40 dark:bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-white/20 dark:supports-[backdrop-filter]:bg-slate-700/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full opacity-50"
+            >
+              <span className="block relative z-10">{tab}</span>
+            </button>
+          ))}
+          <div className="flex-grow h-px mt-3"></div>
+        </div>
+
+        {/* Error Content */}
+        <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-300/10 p-4 sm:p-6 rounded-r-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
+          <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-200 dark:border-slate-700 text-center">
+            <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
+              <span className="text-lg">⚠️</span>
+            </div>
+            <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-2">Dashboard Unavailable</h3>
+            <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
+              {error || 'Unable to load dashboard content at this time.'}
+            </p>
+            <Link
+              href="/api/unified-dashboard"
+              className="inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+            >
+              Try API Route →
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Success state with data
   return (
     <div className="relative">
       {/* Tab Navigation */}
@@ -50,25 +149,7 @@ export default function DashboardTabs2({
           <div className="space-y-6">
             {/* Newsletter Widget */}
             <div className="w-full">
-              {newsletterData ? (
-                <NewsletterWidget data={newsletterData} />
-              ) : (
-                <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-200 dark:border-slate-700 text-center">
-                  <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <span className="text-lg">📭</span>
-                  </div>
-                  <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-2">Newsletter Unavailable</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
-                    Unable to load newsletter content at this time.
-                  </p>
-                  <Link
-                    href="/api/newsletter"
-                    className="inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
-                  >
-                    Try API Route →
-                  </Link>
-                </div>
-              )}
+              <NewsletterWidget data={dashboardData.newsletterData} />
             </div>
 
             {/* Slack Placeholder */}
@@ -81,12 +162,22 @@ export default function DashboardTabs2({
         {activeTab === 'My Week' && (
           <div>
             <MyWeekWidget 
-              cohortEvents={cohortEvents}
-              newsletterData={newsletterData}
+              data={dashboardData.myWeekData}
+              cohortEvents={dashboardData.cohortEvents}
             />
           </div>
         )}
       </div>
+      
+      {/* Processing Info (optional debug display) */}
+      {dashboardData.processingInfo && (
+        <div className="mt-2 text-xs text-slate-500 dark:text-slate-400 text-center">
+          Loaded in {dashboardData.processingInfo.totalTime}ms
+          {/* • Newsletter: {dashboardData.processingInfo.newsletterTime}ms 
+          • Calendar: {dashboardData.processingInfo.calendarTime}ms 
+          • AI: {dashboardData.processingInfo.myWeekTime}ms */}
+        </div>
+      )}
     </div>
   );
 }

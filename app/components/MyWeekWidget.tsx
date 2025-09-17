@@ -21,6 +21,10 @@ type MyWeekData = {
 };
 
 interface MyWeekWidgetProps {
+  // New unified approach: direct data from unified API
+  data?: MyWeekData;
+  
+  // Legacy approach: for backwards compatibility (will fetch from old API)
   cohortEvents?: CohortEvents;
   newsletterData?: NewsletterData | Payload | null;
 }
@@ -70,12 +74,20 @@ interface Payload {
   }[];
 }
 
-export default function MyWeekWidget({ cohortEvents, newsletterData }: MyWeekWidgetProps) {
-  const [weekData, setWeekData] = useState<MyWeekData | null>(null);
-  const [loading, setLoading] = useState(true);
+export default function MyWeekWidget({ data, cohortEvents, newsletterData }: MyWeekWidgetProps) {
+  const [weekData, setWeekData] = useState<MyWeekData | null>(data || null);
+  const [loading, setLoading] = useState(!data); // If data provided, don't start loading
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // If direct data is provided, use it and skip API calls
+    if (data) {
+      setWeekData(data);
+      setLoading(false);
+      return;
+    }
+    
+    // Legacy approach: fetch from old API if no direct data provided
     const fetchWeekData = async () => {
       try {
         setLoading(true);
@@ -112,7 +124,7 @@ export default function MyWeekWidget({ cohortEvents, newsletterData }: MyWeekWid
     } else {
       setLoading(false);
     }
-  }, [cohortEvents, newsletterData]);
+  }, [data, cohortEvents, newsletterData]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

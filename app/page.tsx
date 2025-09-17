@@ -174,10 +174,7 @@ export default function Home() {
           
           {/* DashboardTabs#2 - Columns 6-8 */}
           <div className="lg:col-span-3">
-            <DashboardTabs2 
-              newsletterData={newsletterData}
-              cohortEvents={cohortEvents}
-            />
+            <DashboardTabs2 />
           </div>
         </div>
         
