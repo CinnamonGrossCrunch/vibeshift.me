@@ -334,7 +334,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     }
   }, [triggerTopLevelAnimation, unopenedSectionsCount]);
 
-    // Smart bulleting function with enhanced HTML hierarchy
+  // Smart bulleting function with enhanced HTML hierarchy
   const addSmartBullets = (html: string) => {
     // Skip if content is very short
     if (html.length < 50) {
@@ -344,6 +344,37 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     let processedHtml = html.trim();
     processedHtml = processedHtml.replace(/^(<br\s*\/?>|\s)+/, '');
     processedHtml = processedHtml.replace(/(<br\s*\/?>|\s)+$/, '');
+
+    // --- CRITICAL: Comprehensive HTML entity decoding FIRST ---
+    // Multiple passes to handle double-encoded entities
+    for (let i = 0; i < 3; i++) {
+      processedHtml = processedHtml
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&#x27;/g, "'")
+        .replace(/&#x2F;/g, '/')
+        .replace(/&#x3D;/g, '=')
+        .replace(/&apos;/g, "'");
+    }
+    
+    // Handle links with much more robust pattern matching - preserve ALL link attributes
+    // But avoid double-processing already processed links
+    if (!processedHtml.includes('class="text-amber-600')) {
+      processedHtml = processedHtml.replace(/<a\s+([^>]*?)>([\s\S]*?)<\/a>/gi, 
+        '<a $1 class="text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 underline decoration-amber-300 hover:decoration-amber-500 transition-colors !important">$2</a>');
+    }
+    
+    // Handle standalone URLs that might not be wrapped in <a> tags
+    processedHtml = processedHtml.replace(/(^|[^"'>=])(https?:\/\/[^\s<>"]+)/gi, 
+      '$1<a href="$2" target="_blank" rel="noopener noreferrer" class="text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 underline decoration-amber-300 hover:decoration-amber-500 transition-colors !important">$2</a>');
+    
+    // Handle email links - but avoid double processing
+    processedHtml = processedHtml.replace(/(^|[^"'>=])mailto:([^\s<>"]+)/gi, 
+      '$1<a href="mailto:$2" class="text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 underline decoration-amber-300 hover:decoration-amber-500 transition-colors !important">$2</a>');
 
     // --- NEW LOGIC ---
     // 1. Extract and style any unbulleted text that appears before lists as large bold white headings
@@ -366,20 +397,47 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
         const nextPart = parts[i + 1];
         const isBeforeList = nextPart && nextPart.match(listPattern);
         
-        // Extract clean text content (remove HTML tags but keep structure)
-        const textContent = part
-          .replace(/<br\s*\/?>/gi, '\n') // Convert <br> tags to newlines first
-          .replace(/<[^>]*>/g, '') // Then remove all remaining HTML tags
-          .trim();
-        
-        if (textContent && (isBeforeList || i === 0)) {
-          // Style as large bold heading if it's before a list or at the start
-          const formattedText = textContent.replace(/\n/g, '<br>');
-          processedParts.push(`<div class="mb-3"><span class="block text-md urbanist-bold text-slate-900 dark:text-white">${formattedText}</span></div>`);
-        } else if (textContent) {
-          // Regular text content - preserve as paragraph with line breaks
-          const formattedText = textContent.replace(/\n/g, '<br>');
-          processedParts.push(`<p class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300 my-2">${formattedText}</p>`);
+        // Keep HTML structure for text that contains links - don't strip tags if links are present
+        if (part.includes('<a ')) {
+          // This part contains links - preserve HTML structure
+          if (isBeforeList || i === 0) {
+            // Check if it's a short title without links, or longer content with links
+            const textContent = part.replace(/<[^>]*>/g, '').trim();
+            const isShortTitle = textContent.length < 100 && !textContent.includes('\n') && !textContent.includes('.') && !part.includes('<a ');
+            
+            if (isShortTitle) {
+              processedParts.push(`<div class="mb-3"><span class="block text-md urbanist-bold text-slate-900 dark:text-white">${part}</span></div>`);
+            } else {
+              processedParts.push(`<p class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300 my-2">${part}</p>`);
+            }
+          } else {
+            processedParts.push(`<p class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300 my-2">${part}</p>`);
+          }
+        } else {
+          // No links - process as before (strip HTML)
+          const textContent = part
+            .replace(/<br\s*\/?>/gi, '\n') // Convert <br> tags to newlines first
+            .replace(/<[^>]*>/g, '') // Then remove all remaining HTML tags
+            .trim();
+          
+          if (textContent && (isBeforeList || i === 0)) {
+            // Only style as large heading if it's short and looks like a title (not a paragraph)
+            const isShortTitle = textContent.length < 100 && !textContent.includes('\n') && !textContent.includes('.');
+            
+            if (isShortTitle) {
+              // Style as large bold heading if it's before a list and looks like a title
+              const formattedText = textContent.replace(/\n/g, '<br>');
+              processedParts.push(`<div class="mb-3"><span class="block text-md urbanist-bold text-slate-900 dark:text-white">${formattedText}</span></div>`);
+            } else {
+              // Treat as regular paragraph content
+              const formattedText = textContent.replace(/\n/g, '<br>');
+              processedParts.push(`<p class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300 my-2">${formattedText}</p>`);
+            }
+          } else if (textContent) {
+            // Regular text content - preserve as paragraph with line breaks
+            const formattedText = textContent.replace(/\n/g, '<br>');
+            processedParts.push(`<p class="text-sm leading-relaxed urbanist-regular text-slate-700 dark:text-slate-300 my-2">${formattedText}</p>`);
+          }
         }
       }
     }
@@ -387,18 +445,9 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     // Rejoin the processed parts
     processedHtml = processedParts.join('');
 
-    // --- IMPORTANT: Process links FIRST before any other processing ---
-    // Handle remaining elements - MOVED TO TOP to preserve links
-    processedHtml = processedHtml.replace(/<strong>([^<]+)<\/strong>/g, 
+    // Process strong tags more selectively - avoid making large blocks bold
+    processedHtml = processedHtml.replace(/<strong>([^<]{1,100})<\/strong>/g, 
       '<span class="urbanist-semibold text-slate-900 dark:text-white">$1</span>');
-    
-    // More robust link processing to handle various link formats
-    processedHtml = processedHtml.replace(/<a\s+([^>]*)>([^<]+)<\/a>/gi, 
-      '<a $1 class="text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 underline decoration-amber-300 hover:decoration-amber-500 transition-colors !important">$2</a>');
-    
-    // Also handle links that might have special characters in the content
-    processedHtml = processedHtml.replace(/<a\s+([^>]*)>([\s\S]*?)<\/a>/gi, 
-      '<a $1 class="text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 underline decoration-amber-300 hover:decoration-amber-500 transition-colors !important">$2</a>');
 
     // Handle sections: <strong>Title</strong> followed by content (lists, paragraphs)
     processedHtml = processedHtml.replace(/<strong>([^<]+)<\/strong>\s*(<ul>[\s\S]*?<\/ul>|<ol>[\s\S]*?<\/ol>|<p>[\s\S]*?<\/p>)*/g, (match, title, content) => {
@@ -552,6 +601,28 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     processedHtml = processedHtml.replace(/\n\s*\n/g, '\n'); // Remove multiple consecutive newlines
     processedHtml = processedHtml.replace(/[ \t]+/g, ' '); // Normalize spaces and tabs but keep line breaks
 
+    // FINAL CLEANUP: Remove HTML artifacts and fix malformed tags
+    // Fix malformed nested anchor tags
+    processedHtml = processedHtml.replace(/<a[^>]*href="<a[^>]*href="([^"]+)"[^>]*>([^<]+)<\/a>"[^>]*>([^<]*)<\/a>/gi, 
+      '<a href="$1" class="text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 underline decoration-amber-300 hover:decoration-amber-500 transition-colors !important">$2</a>');
+    
+    // Remove any remaining HTML entity artifacts
+    processedHtml = processedHtml.replace(/&amp;/g, '&');
+    processedHtml = processedHtml.replace(/&lt;/g, '<');
+    processedHtml = processedHtml.replace(/&gt;/g, '>');
+    processedHtml = processedHtml.replace(/&quot;/g, '"');
+    
+    // Clean up any empty paragraphs or divs
+    processedHtml = processedHtml.replace(/<p[^>]*>\s*<\/p>/g, '');
+    processedHtml = processedHtml.replace(/<div[^>]*>\s*<\/div>/g, '');
+    
+    // Fix any broken link attributes
+    processedHtml = processedHtml.replace(/href="&lt;a href=&quot;([^&]+)&quot;[^>]*&gt;([^&]+)&lt;\/a&gt;"/gi, 'href="$1"');
+    
+    // Remove any remaining broken HTML patterns
+    processedHtml = processedHtml.replace(/class="[^"]*"=""/g, '');
+    processedHtml = processedHtml.replace(/=""[^>]*/g, '');
+
     // POST-PROCESSING FIX: Restore links that got separated during list processing
     // This handles cases where link text appears after nested lists in list items
     
@@ -584,6 +655,32 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
 
   return (
     <div className="max-w-4xl mx-auto dark">
+      <style jsx>{`
+        .newsletter-content h1 { font-size: 1rem; font-weight: 700; color: rgb(15 23 42); margin-bottom: 0.75rem; margin-top: 0.5rem; }
+        .newsletter-content h2 { font-size: 0.875rem; font-weight: 600; color: rgb(30 41 59); margin-bottom: 0.5rem; margin-top: 0.5rem; }
+        .newsletter-content h3 { font-size: 0.875rem; font-weight: 500; color: rgb(51 65 85); margin-bottom: 0.5rem; margin-top: 0.25rem; }
+        .newsletter-content h4 { font-size: 0.875rem; font-weight: 500; color: rgb(71 85 105); margin-bottom: 0.25rem; }
+        .newsletter-content h5 { font-size: 0.75rem; font-weight: 400; color: rgb(71 85 105); margin-bottom: 0.25rem; }
+        .newsletter-content h6 { font-size: 0.75rem; font-weight: 400; color: rgb(100 116 139); margin-bottom: 0.25rem; }
+        .newsletter-content p { font-size: 0.875rem; line-height: 1.625; font-weight: 400; color: rgb(51 65 85); margin-bottom: 0.5rem; }
+        .newsletter-content strong { font-weight: 600; color: rgb(15 23 42); }
+        .newsletter-content em { font-style: italic; color: rgb(71 85 105); }
+        .newsletter-content a { color: rgb(217 119 6) !important; text-decoration: underline; text-decoration-color: rgb(252 211 77); transition: colors 0.2s; }
+        .newsletter-content a:hover { color: rgb(146 64 14) !important; text-decoration-color: rgb(245 158 11); }
+        
+        /* Dark mode styles */
+        .dark .newsletter-content h1 { color: white; }
+        .dark .newsletter-content h2 { color: rgb(241 245 249); }
+        .dark .newsletter-content h3 { color: rgb(226 232 240); }
+        .dark .newsletter-content h4 { color: rgb(203 213 225); }
+        .dark .newsletter-content h5 { color: rgb(148 163 184); }
+        .dark .newsletter-content h6 { color: rgb(100 116 139); }
+        .dark .newsletter-content p { color: rgb(203 213 225); }
+        .dark .newsletter-content strong { color: white; }
+        .dark .newsletter-content em { color: rgb(148 163 184); }
+        .dark .newsletter-content a { color: rgb(251 191 36) !important; }
+        .dark .newsletter-content a:hover { color: rgb(252 211 77) !important; }
+      `}</style>
       {/* Header */}
       <div className="rounded-t-3xl pt-2 px-3 pb-2 text-white relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>
         {/* Background Image */}
@@ -831,22 +928,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                                       {/* Content with enhanced visual hierarchy */}
                                       <div>
                                         <div
-                                          className="prose prose-slate dark:prose-invert prose-sm max-w-none space-y-1 urbanist-regular
-                                            [&>h1]:text-base [&>h1]:urbanist-bold [&>h1]:text-slate-900 [&>h1]:dark:text-white [&>h1]:mb-3 [&>h1]:mt-2
-                                            [&>h2]:text-sm [&>h2]:urbanist-semibold [&>h2]:text-slate-800 [&>h2]:dark:text-slate-100 [&>h2]:mb-2 [&>h2]:mt-2
-                                            [&>h3]:text-sm [&>h3]:urbanist-medium [&>h3]:text-slate-700 [&>h3]:dark:text-slate-200 [&>h3]:mb-2 [&>h3]:mt-1
-                                            [&>h4]:text-sm [&>h4]:urbanist-medium [&>h4]:text-slate-600 [&>h4]:dark:text-slate-300 [&>h4]:mb-1
-                                            [&>h5]:text-xs [&>h5]:urbanist-regular [&>h5]:text-slate-600 [&>h5]:dark:text-slate-400 [&>h5]:mb-1
-                                            [&>h6]:text-xs [&>h6]:urbanist-regular [&>h6]:text-slate-500 [&>h6]:dark:text-slate-500 [&>h6]:mb-1
-                                            [&>p]:text-sm [&>p]:leading-relaxed [&>p]:urbanist-regular [&>p]:text-slate-700 [&>p]:dark:text-slate-300 [&>p]:mb-2
-                                            [&>ul]:text-sm [&>ul]:space-y-1 [&>ul]:ml-4 [&>ul]:my-2 [&>ul]:urbanist-regular
-                                            [&>ol]:text-sm [&>ol]:space-y-1 [&>ol]:ml-4 [&>ol]:my-2 [&>ol]:urbanist-regular
-                                            [&>li]:text-sm [&>li]:urbanist-regular [&>li]:text-slate-700 [&>li]:dark:text-slate-300
-                                            [&>blockquote]:text-sm [&>blockquote]:urbanist-italic [&>blockquote]:border-l-2 [&>blockquote]:border-slate-300 [&>blockquote]:pl-3 [&>blockquote]:text-slate-600
-                                            [&>strong]:urbanist-semibold [&>strong]:text-slate-900 [&>strong]:dark:text-white
-                                            [&>em]:urbanist-italic [&>em]:text-slate-600 [&>em]:dark:text-slate-400
-                                            [&>code]:text-sm [&>code]:bg-slate-100 [&>code]:dark:bg-slate-800 [&>code]:px-1 [&>code]:rounded [&>code]:urbanist-regular
-                                            [&_a]:text-amber-600 [&_a]:dark:text-amber-400 [&_a]:!text-amber-600 [&_a]:dark:!text-amber-400 [&_a]:no-underline [&_a]:hover:underline [&_a]:transition-colors"
+                                          className="newsletter-content text-sm urbanist-regular text-slate-700 dark:text-slate-300"
                                           dangerouslySetInnerHTML={{ __html: addSmartBullets(subsection.content) }}
                                         />
                                       </div>

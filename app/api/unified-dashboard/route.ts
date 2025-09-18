@@ -5,8 +5,8 @@ export const revalidate = 3600;
 
 import { NextResponse } from 'next/server';
 import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
-import { organizeNewsletterWithAI } from '@/lib/openai-organizer-fixed';
-import { analyzeMyWeekWithAI } from '@/lib/my-week-analyzer';
+import { organizeNewsletterWithAI } from '@/lib/openai-organizer';
+import { analyzeCohortMyWeekWithAI } from '@/lib/my-week-analyzer';
 import { getCohortEvents, type CalendarEvent } from '@/lib/icsUtils';
 
 export interface UnifiedDashboardData {
@@ -32,15 +32,18 @@ export interface UnifiedDashboardData {
       sectionDecisions: string[];
       edgeCasesHandled: string[];
       totalSections: number;
-      processingTime: number;
+  processingTime: number;
+  model?: string;
+  modelsTried?: string[];
+  modelLatency?: number;
     };
   };
   
-  // My Week data for MyWeekWidget
+  // My Week data for MyWeekWidget - now supports both cohorts
   myWeekData: {
     weekStart: string;
     weekEnd: string;
-    events: {
+    blueEvents: {
       date: string;
       time?: string;
       title: string;
@@ -49,7 +52,17 @@ export interface UnifiedDashboardData {
       location?: string;
       url?: string;
     }[];
-    aiSummary: string;
+    goldEvents: {
+      date: string;
+      time?: string;
+      title: string;
+      type: 'calendar' | 'newsletter' | 'academic' | 'social';
+      description?: string;
+      location?: string;
+      url?: string;
+    }[];
+    blueSummary: string;
+    goldSummary: string;
     processingTime: number;
   };
   
@@ -142,7 +155,7 @@ export async function GET() {
     const myWeekStart = Date.now();
     console.log('🤖 Running My Week AI analysis...');
     
-    const myWeekData = await analyzeMyWeekWithAI(cohortEvents, newsletterData);
+    const myWeekData = await analyzeCohortMyWeekWithAI(cohortEvents, newsletterData);
     const myWeekTime = Date.now() - myWeekStart;
     
     console.log('🤖 My Week analysis completed');
@@ -171,6 +184,15 @@ export async function GET() {
         timestamp: new Date().toISOString()
       }
     };
+      // Attach aiMeta if present
+      // @ts-expect-error augment for debug
+      response.newsletterData.aiMeta = {
+        model: response.newsletterData.aiDebugInfo?.model,
+        modelsTried: response.newsletterData.aiDebugInfo?.modelsTried,
+        ms: response.newsletterData.aiDebugInfo?.modelLatency
+      };
+      // @ts-expect-error augment for debug
+      response.myWeekData.aiMeta = (myWeekData as any).aiMeta;
     
     console.log(`✅ Unified Dashboard API completed in ${totalTime}ms`);
     console.log(`📊 Breakdown: Newsletter ${newsletterTime}ms, Calendar ${calendarTime}ms, My Week ${myWeekTime}ms`);

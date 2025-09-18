@@ -1,18 +1,4 @@
-import OpenAI from 'openai';
-
-// Lazy initialization of OpenAI client to avoid build-time errors
-let openai: OpenAI | null = null;
-
-function getOpenAIClient(): OpenAI {
-  if (!openai) {
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-      throw new Error('OpenAI API key is not configured. Please set the OPENAI_API_KEY environment variable.');
-    }
-    openai = new OpenAI({ apiKey });
-  }
-  return openai;
-}
+import { runAI } from './aiClient';
 
 export interface WeeklyEvent {
   date: string;
@@ -30,6 +16,27 @@ export interface MyWeekAnalysis {
   events: WeeklyEvent[];
   aiSummary: string;
   processingTime: number;
+  aiMeta?: {
+    model: string;
+    modelsTried: string[];
+    ms: number;
+  };
+}
+
+// New interface for cohort-specific analysis
+export interface CohortMyWeekAnalysis {
+  weekStart: string;
+  weekEnd: string;
+  blueEvents: WeeklyEvent[];
+  goldEvents: WeeklyEvent[];
+  blueSummary: string;
+  goldSummary: string;
+  processingTime: number;
+  aiMeta?: {
+    model: string;
+    modelsTried: string[];
+    ms: number;
+  };
 }
 
 // Define proper TypeScript interfaces for data structures
@@ -79,21 +86,35 @@ interface ProcessedNewsletterEvent extends NewsletterItem {
 }
 
 /**
- * Get the date range for "this week" (from today to next Sunday)
+ * Get the date range for "this week" (from today to the upcoming Sunday, inclusive)
  */
 function getThisWeekRange(): { start: Date; end: Date } {
   const today = new Date();
+  const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
   const start = new Date(today);
   
-  // Find next Sunday (or today if it's Sunday)
-  const daysUntilSunday = (7 - today.getDay()) % 7;
+  // Set start time to beginning of day
+  start.setHours(0, 0, 0, 0);
+  
+  // Calculate days until next Sunday
+  let daysUntilSunday;
+  if (dayOfWeek === 0) {
+    // Today is Sunday, include it and the next 7 days (to next Sunday)
+    daysUntilSunday = 7;
+  } else {
+    // Calculate days until Sunday (7 - dayOfWeek)
+    daysUntilSunday = 7 - dayOfWeek;
+  }
+  
+  // Create end date
   const end = new Date(today);
   end.setDate(today.getDate() + daysUntilSunday);
   
-  // If today is Sunday, the range is just today
-  if (daysUntilSunday === 0) {
-    end.setDate(today.getDate());
-  }
+  // Set end time to end of day
+  end.setHours(23, 59, 59, 999);
+  
+  console.log(`🗓️ Week range: ${start.toISOString()} to ${end.toISOString()}`);
+  console.log(`   Today: ${today.toDateString()} (day ${dayOfWeek}), Days to Sunday: ${daysUntilSunday}`);
   
   return { start, end };
 }
@@ -104,25 +125,47 @@ function getThisWeekRange(): { start: Date; end: Date } {
 function filterCalendarEventsForWeek(cohortEvents: CohortEvents, weekStart: Date, weekEnd: Date): CohortEvent[] {
   const events: CohortEvent[] = [];
   
-  if (!cohortEvents) return events;
+  if (!cohortEvents) {
+    console.log('❌ No cohort events provided');
+    return events;
+  }
   
   // Process blue cohort events
   if (cohortEvents.blue?.length) {
+    console.log(`📘 Processing ${cohortEvents.blue.length} blue cohort events`);
     events.push(...cohortEvents.blue);
   }
   
   // Process gold cohort events
   if (cohortEvents.gold?.length) {
+    console.log(`📙 Processing ${cohortEvents.gold.length} gold cohort events`);
     events.push(...cohortEvents.gold);
   }
   
+  console.log(`📊 Total events before date filtering: ${events.length}`);
+  console.log(`📅 Filtering for range: ${weekStart.toDateString()} to ${weekEnd.toDateString()}`);
+  
   // Filter events that fall within the week range
-  return events.filter(event => {
-    if (!event.start) return false;
+  const filteredEvents = events.filter(event => {
+    if (!event.start) {
+      console.log(`⚠️ Event missing start date: ${event.title}`);
+      return false;
+    }
     
     const eventDate = new Date(event.start);
-    return eventDate >= weekStart && eventDate <= weekEnd;
+    const isInRange = eventDate >= weekStart && eventDate <= weekEnd;
+    
+    if (isInRange) {
+      console.log(`✅ Including event: ${event.title} on ${eventDate.toDateString()}`);
+    } else {
+      console.log(`❌ Excluding event: ${event.title} on ${eventDate.toDateString()} (outside range)`);
+    }
+    
+    return isInRange;
   });
+  
+  console.log(`📊 Events after date filtering: ${filteredEvents.length}`);
+  return filteredEvents;
 }
 
 /**
@@ -221,14 +264,25 @@ export async function analyzeMyWeekWithAI(
   const startTime = Date.now();
   const { start: weekStart, end: weekEnd } = getThisWeekRange();
   
+  console.log('🗓️ My Week Analysis starting...');
+  console.log('📅 Week range:', weekStart.toISOString(), 'to', weekEnd.toISOString());
+  console.log(`🧮 Today is ${new Date().toDateString()}, day of week: ${new Date().getDay()}`);
+  
   // Filter events for this week
   const calendarEvents = filterCalendarEventsForWeek(cohortEvents, weekStart, weekEnd);
   const newsletterEvents = extractNewsletterEventsForWeek(newsletterData, weekStart, weekEnd);
   
-  console.log('🗓️ My Week Analysis starting...');
-  console.log('📅 Week range:', weekStart.toISOString(), 'to', weekEnd.toISOString());
-  console.log('📊 Calendar events found:', calendarEvents.length);
-  console.log('📰 Newsletter events found:', newsletterEvents.length);
+  console.log('� Calendar events found:', calendarEvents.length);
+  console.log('� Newsletter events found:', newsletterEvents.length);
+  
+  // Debug: Log some event details
+  calendarEvents.forEach(event => {
+    console.log(`� Calendar: ${event.title} on ${new Date(event.start).toDateString()}`);
+  });
+  
+  newsletterEvents.forEach(event => {
+    console.log(`📰 Newsletter: ${event.title} on ${event.relevantDates.join(', ')}`);
+  });
   
   // Prepare content for AI analysis
   const calendarContent = calendarEvents.map(event => {
@@ -331,30 +385,8 @@ Analyze the content and provide the weekly summary:`;
   try {
     console.log('🤖 Sending to AI for analysis...');
     
-    const model = process.env.OPENAI_MODEL || "gpt-3.5-turbo";
-    const client = getOpenAIClient();
-    
-    const completion = await client.chat.completions.create({
-      model,
-      messages: [
-        {
-          role: "system",
-          content: "You are a helpful assistant that analyzes calendar and newsletter content to create weekly summaries for UC Berkeley EWMBA students. Always return valid JSON."
-        },
-        {
-          role: "user",
-          content: prompt
-        }
-      ],
-      temperature: 0.1,
-      max_tokens: 2000,
-    });
-
-    const response = completion.choices[0]?.message?.content?.trim() || '';
-    
-    if (!response) {
-      throw new Error('No response from AI');
-    }
+  const ai = await runAI({ prompt, reasoningEffort: 'low', verbosity: 'low', temperature: 0.1, maxOutputTokens: 2000 });
+  const response = ai.text;
 
     console.log('📦 Raw AI response length:', response.length);
     
@@ -383,7 +415,8 @@ Analyze the content and provide the weekly summary:`;
       weekEnd: weekEnd.toISOString().split('T')[0],
       events: aiResult.events || [],
       aiSummary: aiResult.aiSummary || 'No summary available.',
-      processingTime
+      processingTime,
+      aiMeta: { model: ai.model, modelsTried: ai.modelsTried, ms: ai.ms }
     };
 
   } catch (error) {
@@ -407,7 +440,7 @@ Analyze the content and provide the weekly summary:`;
       };
     });
     
-    return {
+  return {
       weekStart: weekStart.toISOString().split('T')[0],
       weekEnd: weekEnd.toISOString().split('T')[0],
       events: basicEvents,
@@ -415,4 +448,197 @@ Analyze the content and provide the weekly summary:`;
       processingTime: Date.now() - startTime
     };
   }
+}
+
+// New function for cohort-specific analysis
+export async function analyzeCohortMyWeekWithAI(
+  cohortEvents: CohortEvents,
+  newsletterData: NewsletterData
+): Promise<CohortMyWeekAnalysis> {
+  
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error('OpenAI API key not found');
+  }
+
+  const startTime = Date.now();
+  const { start: weekStart, end: weekEnd } = getThisWeekRange();
+  
+  console.log('🗓️ Cohort My Week Analysis starting...');
+  console.log('📅 Week range:', weekStart.toISOString(), 'to', weekEnd.toISOString());
+  
+  try {
+    // Filter events for each cohort separately
+    const blueCalendarEvents = filterCalendarEventsForWeek({ blue: cohortEvents.blue || [] }, weekStart, weekEnd);
+    const goldCalendarEvents = filterCalendarEventsForWeek({ gold: cohortEvents.gold || [] }, weekStart, weekEnd);
+    const newsletterEvents = extractNewsletterEventsForWeek(newsletterData, weekStart, weekEnd);
+    
+    console.log('📘 Blue cohort calendar events:', blueCalendarEvents.length);
+    console.log('📙 Gold cohort calendar events:', goldCalendarEvents.length);
+    console.log('📰 Newsletter events found:', newsletterEvents.length);
+    
+    // Generate analysis for Blue cohort
+    const blueAnalysis = await generateCohortSpecificAnalysis(
+      blueCalendarEvents, 
+      newsletterEvents, 
+      'Blue', 
+      weekStart, 
+      weekEnd
+    );
+    
+    // Generate analysis for Gold cohort  
+    const goldAnalysis = await generateCohortSpecificAnalysis(
+      goldCalendarEvents, 
+      newsletterEvents, 
+      'Gold', 
+      weekStart, 
+      weekEnd
+    );
+
+    return {
+      weekStart: weekStart.toISOString().split('T')[0],
+      weekEnd: weekEnd.toISOString().split('T')[0],
+      blueEvents: blueAnalysis.events,
+      goldEvents: goldAnalysis.events,
+      blueSummary: blueAnalysis.summary,
+      goldSummary: goldAnalysis.summary,
+      processingTime: Date.now() - startTime
+    };
+
+  } catch (error) {
+    console.error('💥 Error in Cohort My Week AI analysis:', error);
+    
+    // Fallback: return basic event lists without AI processing
+    const blueEvents = filterCalendarEventsForWeek({ blue: cohortEvents.blue || [] }, weekStart, weekEnd).map(event => {
+      const eventDate = new Date(event.start);
+      return {
+        date: eventDate.toISOString().split('T')[0],
+        time: eventDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
+        title: event.summary || event.title || 'Calendar Event',
+        type: 'calendar' as const,
+        description: event.description || undefined,
+        location: event.location || undefined,
+        url: event.url || undefined
+      };
+    });
+
+    const goldEvents = filterCalendarEventsForWeek({ gold: cohortEvents.gold || [] }, weekStart, weekEnd).map(event => {
+      const eventDate = new Date(event.start);
+      return {
+        date: eventDate.toISOString().split('T')[0],
+        time: eventDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
+        title: event.summary || event.title || 'Calendar Event',
+        type: 'calendar' as const,
+        description: event.description || undefined,
+        location: event.location || undefined,
+        url: event.url || undefined
+      };
+    });
+    
+    return {
+      weekStart: weekStart.toISOString().split('T')[0],
+      weekEnd: weekEnd.toISOString().split('T')[0],
+      blueEvents,
+      goldEvents,
+      blueSummary: `AI analysis failed for Blue cohort: ${error instanceof Error ? error.message : 'Unknown error'}. Showing basic calendar events.`,
+      goldSummary: `AI analysis failed for Gold cohort: ${error instanceof Error ? error.message : 'Unknown error'}. Showing basic calendar events.`,
+      processingTime: Date.now() - startTime
+    };
+  }
+}
+
+// Helper function to generate cohort-specific analysis
+async function generateCohortSpecificAnalysis(
+  calendarEvents: CohortEvent[],
+  newsletterEvents: any[],
+  cohortName: string,
+  weekStart: Date,
+  weekEnd: Date
+): Promise<{ events: WeeklyEvent[]; summary: string }> {
+  
+  // Prepare content for AI analysis
+  const calendarContent = calendarEvents.map(event => {
+    const eventDate = new Date(event.start);
+    return `Date: ${eventDate.toLocaleDateString()}
+Time: ${eventDate.toLocaleTimeString()}
+Title: ${event.summary || event.title || 'Untitled Event'}
+Description: ${event.description || 'No description'}
+Location: ${event.location || 'No location'}
+URL: ${event.url || 'No URL'}`;
+  }).join('\n\n');
+  
+  const newsletterContent = newsletterEvents.map(event => {
+    const dates = event.relevantDates.join(', ');
+    const content = event.html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    
+    return `Section: ${event.section}
+Title: ${event.title}
+Relevant Dates: ${dates}
+Priority: ${event.priority}
+Event Type: ${event.eventType}
+Content: ${content.substring(0, 500)}${content.length > 500 ? '...' : ''}`;
+  }).join('\n\n');
+
+  const prompt = `You are an AI assistant helping a UC Berkeley EWMBA ${cohortName} cohort student organize their week.
+
+Analyze the following calendar events and newsletter content for the ${cohortName} cohort for the week of ${weekStart.toLocaleDateString()} to ${weekEnd.toLocaleDateString()}.
+
+**${cohortName.toUpperCase()} COHORT CALENDAR EVENTS:**
+${calendarContent || `No ${cohortName} cohort calendar events found for this week.`}
+
+**NEWSLETTER HIGHLIGHTS (relevant to all students):**
+${newsletterContent || 'No newsletter events found for this week.'}
+
+**REQUIREMENTS:**
+
+1. **Focus specifically on ${cohortName} cohort events** while including relevant general announcements
+2. **Extract and organize ALL relevant events** for this specific week
+3. **Prioritize cohort-specific activities** and deadlines
+4. **Categorize each event** as: 'calendar', 'newsletter', 'academic', or 'social'
+5. **Provide a brief weekly summary** (2-3 sentences) highlighting key themes and priorities for the ${cohortName} cohort
+6. **Preserve all important details** including times, locations, and URLs
+7. **Format dates consistently** as YYYY-MM-DD
+
+Return ONLY a JSON object with this exact structure:
+
+{
+  "events": [
+    {
+      "date": "2025-09-17",
+      "time": "6:00 PM", 
+      "title": "Event Title",
+      "type": "academic",
+      "description": "Brief description",
+      "location": "Location if available",
+      "url": "URL if available"
+    }
+  ],
+  "aiSummary": "This week for the ${cohortName} cohort focuses on... Key priorities include... Don't miss..."
+}`;
+
+  console.log(`🤖 Sending ${cohortName} cohort analysis to AI...`);
+  
+  const ai = await runAI({ prompt, reasoningEffort: 'low', verbosity: 'low', temperature: 0.1, maxOutputTokens: 2000 });
+  const response = ai.text;
+  console.log(`📦 Raw AI response for ${cohortName} cohort length:`, response.length);
+  
+  // Clean up the response - same logic as main analyzer
+  let cleanedResponse = response;
+  if (cleanedResponse.startsWith('```json')) {
+    cleanedResponse = cleanedResponse.slice(7);
+  }
+  if (cleanedResponse.startsWith('```')) {
+    cleanedResponse = cleanedResponse.slice(3);
+  }
+  if (cleanedResponse.endsWith('```')) {
+    cleanedResponse = cleanedResponse.slice(0, -3);
+  }
+  cleanedResponse = cleanedResponse.trim();
+  
+  console.log('🔍 Attempting to parse AI response...');
+  const parsed = JSON.parse(cleanedResponse);
+  
+  return {
+    events: parsed.events || [],
+    summary: parsed.aiSummary || `No summary generated for ${cohortName} cohort`
+  };
 }

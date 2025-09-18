@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { organizeNewsletterWithAI } from '@/lib/openai-organizer-fixed';
+import { organizeNewsletterWithAI } from '@/lib/openai-organizer';
 
 export async function POST(request: Request) {
   try {

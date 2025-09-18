@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from "next/image";
 import CalendarListView from "./CalendarListView";
 import CohortCalendarWidget from "./CohortCalendarWidget";
+import CohortToggleWidget from "./CohortToggleWidget";
 import type { CohortEvents } from '@/lib/icsUtils';
 
 type CohortType = 'blue' | 'gold';
@@ -60,48 +61,6 @@ export default function MainDashboardTabs({
       <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-300/10 p-4 sm:p-6  rounded-r-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
         {activeTab === 'OskiHub Cal' && (
           <div>
-            {/* Global Cohort Toggle */}
-            <div className="mb-0 flex justify-between items-center">
-              <div className="flex items-center space-x-2">
-                <div 
-                  role="tablist" 
-                  className="flex bg-slate-100 dark:bg-slate-700 rounded-t-lg p-1"
-                  aria-label="Select cohort for all widgets"
-                >
-                  <button
-                    role="tab"
-                    aria-selected={selectedCohort === 'blue'}
-                    onClick={() => onCohortChange('blue')}
-                    className={`px-8 py-0 rounded-t-md text-sm font-medium transition-all duration-200 ${
-                      selectedCohort === 'blue'
-                        ? 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm text-slate-900 dark:text-white shadow-sm'
-                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                    }`}
-                  >
-                    Blue Cohort
-                  </button>
-                  <button
-                    role="tab"
-                    aria-selected={selectedCohort === 'gold'}
-                    onClick={() => onCohortChange('gold')}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                      selectedCohort === 'gold'
-                        ? 'bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm text-slate-900 dark:text-white shadow-sm'
-                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                    }`}
-                  >
-                    Gold Cohort
-                  </button>
-                </div>
-              </div>
-              {loading && (
-                <div className="text-sm text-slate-500 flex items-center space-x-2">
-                  <div className="w-4 h-4 border-2 border-slate-300 border-t-berkeley-blue rounded-full animate-spin"></div>
-                  <span>Loading...</span>
-                </div>
-              )}
-            </div>
-
             {/* What's Next Widget - Horizontal Layout (PRESERVED) */}
             <div className="mb-4">
               <CalendarListView 

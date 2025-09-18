@@ -4,22 +4,30 @@ import { useState, useEffect } from 'react';
 import Link from "next/link";
 import NewsletterWidget from "./NewsletterWidget";
 import SlackWidget from "./SlackWidget";
-import MyWeekWidget from "./MyWeekWidget";
 import type { UnifiedDashboardData } from '@/app/api/unified-dashboard/route';
 
-// No props needed since we fetch unified data internally
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-interface DashboardTabs2Props {}
+interface DashboardTabs2Props {
+  // Optional pre-fetched data to avoid duplicate API calls
+  dashboardData?: UnifiedDashboardData | null;
+}
 
-export default function DashboardTabs2({}: DashboardTabs2Props) {
+export default function DashboardTabs2({ dashboardData: externalData }: DashboardTabs2Props) {
   const [activeTab, setActiveTab] = useState('Newsletter');
-  const [dashboardData, setDashboardData] = useState<UnifiedDashboardData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [dashboardData, setDashboardData] = useState<UnifiedDashboardData | null>(externalData || null);
+  const [loading, setLoading] = useState(!externalData); // If external data provided, don't start loading
   const [error, setError] = useState<string | null>(null);
   
-  const tabs = ['Newsletter', 'My Week'];
+  // Remove My Week from tabs since it's now rendered at top level
+  const tabs = ['Newsletter'];
 
   useEffect(() => {
+    // If external data is provided, use it and skip API calls
+    if (externalData) {
+      setDashboardData(externalData);
+      setLoading(false);
+      return;
+    }
+    
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
@@ -45,7 +53,7 @@ export default function DashboardTabs2({}: DashboardTabs2Props) {
     };
 
     fetchDashboardData();
-  }, []);
+  }, [externalData]);
 
   // Loading state
   if (loading) {
@@ -156,15 +164,6 @@ export default function DashboardTabs2({}: DashboardTabs2Props) {
             <div className="w-full">
               <SlackWidget />
             </div>
-          </div>
-        )}
-
-        {activeTab === 'My Week' && (
-          <div>
-            <MyWeekWidget 
-              data={dashboardData.myWeekData}
-              cohortEvents={dashboardData.cohortEvents}
-            />
           </div>
         )}
       </div>

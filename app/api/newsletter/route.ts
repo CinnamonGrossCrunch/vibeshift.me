@@ -5,7 +5,7 @@ export const revalidate = 3600;
 
 import { NextResponse } from 'next/server';
 import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
-import { organizeNewsletterWithAI } from '@/lib/openai-organizer-fixed';
+import { organizeNewsletterWithAI } from '@/lib/openai-organizer';
 
 export async function GET() {
   try {

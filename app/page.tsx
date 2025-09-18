@@ -4,8 +4,11 @@ import { useState, useEffect } from 'react';
 import Image from "next/image";
 import MainDashboardTabs from "./components/MainDashboardTabs";
 import DashboardTabs2 from "./components/DashboardTabs2";
+import MyWeekWidget from "./components/MyWeekWidget";
 import HaasResourcesWidget from "./components/HaasResourcesWidget";
+import CohortToggleWidget from "./components/CohortToggleWidget";
 import type { CohortEvents } from '@/lib/icsUtils';
+import type { UnifiedDashboardData } from '@/app/api/unified-dashboard/route';
 
 type CohortType = 'blue' | 'gold';
 type Item = { title: string; html: string };
@@ -34,6 +37,10 @@ export default function Home() {
     calBears: [] 
   });
   const [loading, setLoading] = useState(true);
+  
+  // New unified dashboard data for the top-level MyWeekWidget and DashboardTabs2
+  const [unifiedData, setUnifiedData] = useState<UnifiedDashboardData | null>(null);
+  const [unifiedLoading, setUnifiedLoading] = useState(true);
 
   // Load cohort preference from localStorage on mount
   useEffect(() => {
@@ -53,15 +60,24 @@ export default function Home() {
     const fetchData = async () => {
       try {
         setLoading(true);
+        setUnifiedLoading(true);
         
-        // Fetch newsletter data
+        // Fetch unified dashboard data for My Week widget and sidebar
+        const unifiedResponse = await fetch('/api/unified-dashboard');
+        if (unifiedResponse.ok) {
+          const unified = await unifiedResponse.json();
+          setUnifiedData(unified);
+        }
+        setUnifiedLoading(false);
+        
+        // Fetch newsletter data for legacy compatibility
         const newsletterResponse = await fetch('/api/newsletter');
         if (newsletterResponse.ok) {
           const newsletter = await newsletterResponse.json();
           setNewsletterData(newsletter);
         }
 
-        // Fetch cohort events
+        // Fetch cohort events for main dashboard
         const eventsResponse = await fetch('/api/calendar');
         if (eventsResponse.ok) {
           const events = await eventsResponse.json();
@@ -159,6 +175,33 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4">
         {/* Current Time Debug Display */}
         {/* <CurrentTimeDisplay /> */}
+      
+        {/* Global Cohort Toggle - Top of page */}
+        <div className="w-full mb-4">
+          <CohortToggleWidget 
+            selectedCohort={selectedCohort}
+            loading={loading}
+            onCohortChange={handleCohortChange}
+            className="flex justify-center"
+          />
+        </div>
+          {loading && (
+        <div className="text-sm text-slate-500 flex items-center space-x-2">
+            <div className="flex flex-col items-center space-y-1 mx-auto mb-2 mt-2 z-50">
+            <div className="w-8 h-8 border-2 border-slate-300 border-violet-900/50 rounded-xl animate-spin [animation-duration:1.8s]"></div>
+            <span>Loading...</span>
+            </div>
+        </div>
+      )}
+        {/* My Week Widget - Full width at top */}
+        <div className="w-full mb-6">
+          <MyWeekWidget 
+            data={unifiedData?.myWeekData}
+            selectedCohort={selectedCohort}
+            cohortEvents={unifiedData?.cohortEvents}
+            newsletterData={unifiedData?.newsletterData}
+          />
+        </div>
         
         {/* 8 Column Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-8 gap-4">
@@ -172,9 +215,10 @@ export default function Home() {
             />
           </div>
           
-          {/* DashboardTabs#2 - Columns 6-8 */}
+          {/* Right Sidebar - Columns 6-8 */}
           <div className="lg:col-span-3">
-            <DashboardTabs2 />
+            {/* DashboardTabs2 - Newsletter & other tabs */}
+            <DashboardTabs2 dashboardData={unifiedData} />
           </div>
         </div>
         

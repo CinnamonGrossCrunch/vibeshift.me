@@ -1,19 +1,4 @@
-import OpenAI from 'openai';
-
-// Lazy initialization to avoid build-time errors
-let openai: OpenAI | null = null;
-
-function getOpenAIClient(): OpenAI {
-  if (!openai) {
-    if (!process.env.OPENAI_API_KEY) {
-      throw new Error('OpenAI API key not found');
-    }
-    openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
-  }
-  return openai;
-}
+import { runAI } from './aiClient';
 
 // Define proper TypeScript interfaces
 interface ParsedItem {
@@ -44,6 +29,9 @@ export interface OrganizedNewsletter {
     edgeCasesHandled?: string[];
     totalSections: number;
     processingTime: number;
+  model?: string;
+  modelsTried?: string[];
+  modelLatency?: number;
   };
 }
 
@@ -222,76 +210,8 @@ IMPORTANT: Return ONLY the JSON object, no additional text, explanations, or mar
 Raw newsletter content to organize:
 ${rawContent}`;
 
-    // Use configurable model with new Responses API as primary
-    const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
-    // console.log('🤖 Using AI model:', model);
-
-    let response: string;
-
-    // Get OpenAI client lazily
-    const client = getOpenAIClient();
-
-    // Try the new Responses API first (if available)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if ((client as any).responses) {
-      // console.log('🆕 Using new OpenAI Responses API');
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const apiResponse = await (client as any).responses.create({
-          model,
-          instructions: "You are a newsletter content organizer. Always return valid JSON with preserved content and hyperlinks.",
-          input: prompt,
-          temperature: 0.1,
-        });
-        
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        response = (apiResponse as any).output_text || '';
-      } catch (error) {
-        // console.log('⚠️ Responses API failed, falling back to chat completions:', error);
-        // Fall back to regular chat completions
-        const completion = await client.chat.completions.create({
-          model,
-          messages: [
-            {
-              role: "system",
-              content: "You are a newsletter content organizer. Always return valid JSON with preserved content and hyperlinks."
-            },
-            {
-              role: "user", 
-              content: prompt
-            }
-          ],
-          temperature: 0.1,
-          max_tokens: 4000,
-        });
-
-        response = completion.choices[0]?.message?.content?.trim() || '';
-      }
-    } else {
-      // console.log('📝 Using standard chat completions API');
-      // Use standard chat completions
-      const completion = await client.chat.completions.create({
-        model,
-        messages: [
-          {
-            role: "system",
-            content: "You are a newsletter content organizer. Always return valid JSON with preserved content and hyperlinks."
-          },
-          {
-            role: "user", 
-            content: prompt
-          }
-        ],
-        temperature: 0.1,
-        max_tokens: 4000,
-      });
-
-      response = completion.choices[0]?.message?.content?.trim() || '';
-    }
-
-    if (!response) {
-      throw new Error('No response from AI');
-    }
+  const ai = await runAI({ prompt, reasoningEffort: 'minimal', verbosity: 'low', temperature: 0.1, maxOutputTokens: 4000 });
+  const response = ai.text;
 
     // console.log('📦 Raw AI response length:', response.length);
     // console.log('📄 First 200 chars of AI response:', response.substring(0, 200));
@@ -339,7 +259,7 @@ ${rawContent}`;
     // console.log(`⏱️ AI processing completed in ${processingTime}ms`);
 
     // Validate structure
-    const result: OrganizedNewsletter = {
+  const result: OrganizedNewsletter = {
       sourceUrl,
       title,
       sections: organizedData.sections || [],
@@ -352,7 +272,11 @@ ${rawContent}`;
             : [],
         edgeCasesHandled: organizedData.debugInfo?.edgeCasesHandled,
         totalSections: organizedData.sections?.length || 0,
-        processingTime
+    processingTime,
+    // attach minimal ai meta
+    model: ai.model,
+    modelsTried: ai.modelsTried,
+    modelLatency: ai.ms
       }
     };
 
