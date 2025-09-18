@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Image from "next/image";
 import CalendarListView from "./CalendarListView";
 import CohortCalendarWidget from "./CohortCalendarWidget";
-import CohortToggleWidget from "./CohortToggleWidget";
 import type { CohortEvents } from '@/lib/icsUtils';
 
 type CohortType = 'blue' | 'gold';
@@ -12,15 +11,11 @@ type CohortType = 'blue' | 'gold';
 interface MainDashboardTabsProps {
   cohortEvents: CohortEvents;
   selectedCohort: CohortType;
-  loading: boolean;
-  onCohortChange: (cohort: CohortType) => void;
 }
 
 export default function MainDashboardTabs({ 
   cohortEvents, 
-  selectedCohort, 
-  loading, 
-  onCohortChange 
+  selectedCohort
 }: MainDashboardTabsProps) {
   const [activeTab, setActiveTab] = useState('OskiHub Cal');
   const tabs = ['OskiHub Cal', 'Book A Space @ Haas'];

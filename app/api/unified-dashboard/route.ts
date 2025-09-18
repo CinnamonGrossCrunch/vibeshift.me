@@ -6,7 +6,7 @@ export const revalidate = 3600;
 import { NextResponse } from 'next/server';
 import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
 import { organizeNewsletterWithAI } from '@/lib/openai-organizer';
-import { analyzeCohortMyWeekWithAI } from '@/lib/my-week-analyzer';
+import { analyzeCohortMyWeekWithAI, type CohortMyWeekAnalysis } from '@/lib/my-week-analyzer';
 import { getCohortEvents, type CalendarEvent } from '@/lib/icsUtils';
 
 export interface UnifiedDashboardData {
@@ -192,7 +192,7 @@ export async function GET() {
         ms: response.newsletterData.aiDebugInfo?.modelLatency
       };
       // @ts-expect-error augment for debug
-      response.myWeekData.aiMeta = (myWeekData as any).aiMeta;
+      response.myWeekData.aiMeta = (myWeekData as CohortMyWeekAnalysis).aiMeta;
     
     console.log(`✅ Unified Dashboard API completed in ${totalTime}ms`);
     console.log(`📊 Breakdown: Newsletter ${newsletterTime}ms, Calendar ${calendarTime}ms, My Week ${myWeekTime}ms`);

@@ -11,24 +11,10 @@ import type { CohortEvents } from '@/lib/icsUtils';
 import type { UnifiedDashboardData } from '@/app/api/unified-dashboard/route';
 
 type CohortType = 'blue' | 'gold';
-type Item = { title: string; html: string };
-type Section = { sectionTitle: string; items: Item[] };
-type Payload = { 
-  sourceUrl: string; 
-  title?: string; 
-  sections: Section[];
-  aiDebugInfo?: {
-    reasoning: string;
-    sectionDecisions: string[];
-    edgeCasesHandled: string[];
-    totalSections: number;
-    processingTime: number;
-  };
-};
 
 export default function Home() {
   const [selectedCohort, setSelectedCohort] = useState<CohortType>('blue');
-  const [newsletterData, setNewsletterData] = useState<Payload | null>(null);
+  // Remove unused newsletterData variable since it's included in unifiedData
   const [cohortEvents, setCohortEvents] = useState<CohortEvents>({ 
     blue: [], 
     gold: [], 
@@ -40,7 +26,7 @@ export default function Home() {
   
   // New unified dashboard data for the top-level MyWeekWidget and DashboardTabs2
   const [unifiedData, setUnifiedData] = useState<UnifiedDashboardData | null>(null);
-  const [unifiedLoading, setUnifiedLoading] = useState(true);
+  // Remove unused unifiedLoading variable since we use loading instead
 
   // Load cohort preference from localStorage on mount
   useEffect(() => {
@@ -60,7 +46,6 @@ export default function Home() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        setUnifiedLoading(true);
         
         // Fetch unified dashboard data for My Week widget and sidebar
         const unifiedResponse = await fetch('/api/unified-dashboard');
@@ -68,16 +53,8 @@ export default function Home() {
           const unified = await unifiedResponse.json();
           setUnifiedData(unified);
         }
-        setUnifiedLoading(false);
         
-        // Fetch newsletter data for legacy compatibility
-        const newsletterResponse = await fetch('/api/newsletter');
-        if (newsletterResponse.ok) {
-          const newsletter = await newsletterResponse.json();
-          setNewsletterData(newsletter);
-        }
-
-        // Fetch cohort events for main dashboard
+        // Fetch cohort events for main dashboard (legacy compatibility)
         const eventsResponse = await fetch('/api/calendar');
         if (eventsResponse.ok) {
           const events = await eventsResponse.json();
@@ -180,7 +157,6 @@ export default function Home() {
         <div className="w-full mb-4">
           <CohortToggleWidget 
             selectedCohort={selectedCohort}
-            loading={loading}
             onCohortChange={handleCohortChange}
             className="flex justify-center"
           />
@@ -210,8 +186,6 @@ export default function Home() {
             <MainDashboardTabs 
               cohortEvents={cohortEvents}
               selectedCohort={selectedCohort}
-              loading={loading}
-              onCohortChange={handleCohortChange}
             />
           </div>
           

@@ -4,14 +4,12 @@ type CohortType = 'blue' | 'gold';
 
 interface CohortToggleWidgetProps {
   selectedCohort: CohortType;
-  loading: boolean;
   onCohortChange: (cohort: CohortType) => void;
   className?: string;
 }
 
 export default function CohortToggleWidget({ 
   selectedCohort, 
-  loading, 
   onCohortChange,
   className = ""
 }: CohortToggleWidgetProps) {

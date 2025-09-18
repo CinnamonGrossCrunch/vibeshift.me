@@ -4,7 +4,8 @@ export interface WeeklyEvent {
   date: string;
   time?: string;
   title: string;
-  type: 'calendar' | 'newsletter' | 'academic' | 'social';
+  type: 'assignment' | 'class' | 'exam' | 'administrative' | 'social' | 'newsletter' | 'other';
+  priority?: 'high' | 'medium' | 'low';
   description?: string;
   location?: string;
   url?: string;
@@ -120,6 +121,67 @@ function getThisWeekRange(): { start: Date; end: Date } {
 }
 
 /**
+ * Categorize calendar events based on title and description patterns
+ */
+function categorizeEvent(title: string, description?: string, source?: string): { 
+  type: WeeklyEvent['type']; 
+  priority: WeeklyEvent['priority'] 
+} {
+  const titleLower = title.toLowerCase();
+  const descLower = (description || '').toLowerCase();
+  const sourceLower = (source || '').toLowerCase();
+  
+  // High priority patterns (deadlines, exams)
+  if (titleLower.includes('due') || titleLower.includes('deadline') || 
+      titleLower.includes('assignment') || titleLower.includes('problem set') ||
+      titleLower.includes('project') || titleLower.includes('submission') ||
+      descLower.includes('due') || descLower.includes('deadline')) {
+    return { type: 'assignment', priority: 'high' };
+  }
+  
+  // Exam patterns
+  if (titleLower.includes('exam') || titleLower.includes('test') || 
+      titleLower.includes('quiz') || titleLower.includes('midterm') ||
+      titleLower.includes('final') || descLower.includes('exam')) {
+    return { type: 'exam', priority: 'high' };
+  }
+  
+  // Class session patterns
+  if (titleLower.includes('class') || titleLower.includes('session') || 
+      titleLower.includes('lecture') || titleLower.includes('seminar') ||
+      titleLower.includes('workshop') || titleLower.includes('microeconomics') ||
+      titleLower.includes('leading people') || descLower.includes('lecture') ||
+      descLower.includes('synchronous')) {
+    return { type: 'class', priority: 'medium' };
+  }
+  
+  // Administrative patterns
+  if (titleLower.includes('registration') || titleLower.includes('form') || 
+      titleLower.includes('application') || titleLower.includes('check-in') ||
+      titleLower.includes('integrity') || titleLower.includes('verify') ||
+      descLower.includes('registration') || descLower.includes('form')) {
+    return { type: 'administrative', priority: 'medium' };
+  }
+  
+  // Social events (teams@haas, networking, events)
+  if (sourceLower.includes('teams@haas') || sourceLower.includes('uc_launch') ||
+      titleLower.includes('team') || titleLower.includes('networking') ||
+      titleLower.includes('social') || titleLower.includes('meetup') ||
+      titleLower.includes('debrief') || titleLower.includes('collaborative') ||
+      titleLower.includes('pitch') || titleLower.includes('accelerator')) {
+    return { type: 'social', priority: 'low' };
+  }
+  
+  // Newsletter content
+  if (sourceLower.includes('newsletter')) {
+    return { type: 'newsletter', priority: 'low' };
+  }
+  
+  // Default fallback
+  return { type: 'other', priority: 'medium' };
+}
+
+/**
  * Filter calendar events for the current week
  */
 function filterCalendarEventsForWeek(cohortEvents: CohortEvents, weekStart: Date, weekEnd: Date): CohortEvent[] {
@@ -189,7 +251,7 @@ function extractNewsletterEventsForWeek(newsletterData: NewsletterData, weekStar
           try {
             const itemDate = new Date(dateStr);
             return itemDate >= weekStart && itemDate <= weekEnd;
-          } catch (_e) {
+          } catch {
             return false;
           }
         });
@@ -221,7 +283,7 @@ function extractNewsletterEventsForWeek(newsletterData: NewsletterData, weekStar
                 if (eventDate >= weekStart && eventDate <= weekEnd) {
                   relevantDates.push(eventDate.toISOString().split('T')[0]);
                 }
-              } catch (_e) {
+              } catch {
                 // Ignore invalid dates
               }
             });
@@ -425,6 +487,11 @@ Analyze the content and provide the weekly summary:`;
     // Fallback: return basic event list without AI processing
     const basicEvents: WeeklyEvent[] = calendarEvents.map(event => {
       const eventDate = new Date(event.start);
+      const { type, priority } = categorizeEvent(
+        event.summary || event.title || 'Calendar Event',
+        event.description
+      );
+      
       return {
         date: eventDate.toISOString().split('T')[0],
         time: eventDate.toLocaleTimeString('en-US', { 
@@ -433,7 +500,8 @@ Analyze the content and provide the weekly summary:`;
           hour12: true 
         }),
         title: event.summary || event.title || 'Calendar Event',
-        type: 'calendar' as const,
+        type,
+        priority,
         description: event.description || undefined,
         location: event.location || undefined,
         url: event.url || undefined
@@ -549,7 +617,7 @@ export async function analyzeCohortMyWeekWithAI(
 // Helper function to generate cohort-specific analysis
 async function generateCohortSpecificAnalysis(
   calendarEvents: CohortEvent[],
-  newsletterEvents: any[],
+  newsletterEvents: ProcessedNewsletterEvent[],
   cohortName: string,
   weekStart: Date,
   weekEnd: Date

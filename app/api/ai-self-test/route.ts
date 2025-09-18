@@ -3,12 +3,20 @@ import { runAI, MODEL_CHAIN } from '@/lib/aiClient';
 
 export const runtime = 'nodejs';
 
+interface AIResult {
+  text: string;
+  model?: string;
+  modelsTried?: string[];
+  ms?: number;
+  parsed?: Record<string, unknown>;
+}
+
 export async function GET() {
   const started = Date.now();
   const hasKey = !!process.env.OPENAI_API_KEY;
   const modelEnv = process.env.OPENAI_MODEL || 'unset';
   const chain = MODEL_CHAIN;
-  let aiResult: any = null;
+  let aiResult: AIResult | null = null;
   let error: string | null = null;
 
   try {
@@ -20,11 +28,11 @@ export async function GET() {
       temperature: 0
     });
     // attempt to parse to ensure JSON returned
-    let parsed: any = null;
+    let parsed: Record<string, unknown> | undefined = undefined;
     try { parsed = JSON.parse(aiResult.text); } catch { /* ignore */ }
     aiResult.parsed = parsed;
-  } catch (e: any) {
-    error = e?.message || String(e);
+  } catch (e: unknown) {
+    error = e instanceof Error ? e.message : String(e);
   }
 
   return NextResponse.json({

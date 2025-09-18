@@ -141,26 +141,6 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
     });
   };
 
-  const getEventIcon = (type: WeeklyEvent['type']) => {
-    switch (type) {
-      case 'calendar': return '📅';
-      case 'newsletter': return '📰';
-      case 'academic': return '🎓';
-      case 'social': return '🎉';
-      default: return '📌';
-    }
-  };
-
-  const getEventColor = (type: WeeklyEvent['type']) => {
-    switch (type) {
-      case 'calendar': return 'text-blue-600 dark:text-blue-400';
-      case 'newsletter': return 'text-green-600 dark:text-green-400';
-      case 'academic': return 'text-purple-600 dark:text-purple-400';
-      case 'social': return 'text-orange-600 dark:text-orange-400';
-      default: return 'text-slate-600 dark:text-slate-400';
-    }
-  };
-
   if (loading) {
     return (
       <div className="p-6">
