@@ -434,7 +434,8 @@ Return ONLY a JSON object with this exact structure:
       "date": "2025-09-17",
       "time": "6:00 PM",
       "title": "Event Title",
-      "type": "academic",
+      "type": "class",
+      "priority": "medium",
       "description": "Brief description",
       "location": "Location if available",
       "url": "URL if available"
@@ -455,10 +456,13 @@ Return ONLY a JSON object with this exact structure:
 - **Time format**: Use 12-hour format (e.g., "6:00 PM", "9:30 AM")
 - **Descriptions**: Keep under 150 characters, focus on actionable info
 - **Categories**: 
-  - 'academic': Classes, assignments, exams, academic deadlines
+  - 'assignment': Assignments, homework, coursework
+  - 'class': Classes, lectures, seminars
+  - 'exam': Exams, tests, assessments
+  - 'administrative': Admin tasks, registration, forms
   - 'social': Social events, networking, parties, tailgates
-  - 'calendar': General calendar events, meetings
   - 'newsletter': Events from newsletter announcements (use this for newsletter-derived items)
+  - 'other': General calendar events, meetings, other activities
 - **Summary**: Focus on what the student should prioritize and prepare for
 - **Newsletter Integration**: Treat newsletter items as equally important as calendar events
 
@@ -475,7 +479,7 @@ Analyze the content and provide the weekly summary:`;
   try {
     console.log('🤖 Sending to AI for analysis...');
     
-  const ai = await runAI({ prompt, reasoningEffort: 'low', verbosity: 'low', temperature: 0.1, maxOutputTokens: 2000 });
+  const ai = await runAI({ prompt, reasoningEffort: 'low', verbosity: 'low', temperature: 0.1 });
   const response = ai.text;
 
     console.log('📦 Raw AI response length:', response.length);
@@ -493,9 +497,24 @@ Analyze the content and provide the weekly summary:`;
     }
     cleanedResponse = cleanedResponse.trim();
 
+    // Basic validation - ensure we have a complete JSON object
+    if (!cleanedResponse.startsWith('{') || !cleanedResponse.endsWith('}')) {
+      console.error('❌ AI response does not appear to be a complete JSON object');
+      console.log('🔍 Response start:', cleanedResponse.substring(0, 100));
+      console.log('🔍 Response end:', cleanedResponse.substring(Math.max(0, cleanedResponse.length - 100)));
+      throw new Error('AI response is not a complete JSON object');
+    }
+
     console.log('🔍 Attempting to parse AI response...');
     
-    const aiResult = JSON.parse(cleanedResponse);
+    let aiResult;
+    try {
+      aiResult = JSON.parse(cleanedResponse);
+    } catch (parseError) {
+      console.error('❌ JSON parsing failed:', parseError);
+      console.log('🔍 Problematic response excerpt:', cleanedResponse.substring(0, 500) + '...');
+      throw new Error(`Failed to parse AI response as JSON: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`);
+    }
     
     const processingTime = Date.now() - startTime;
     console.log(`⏱️ My Week analysis completed in ${processingTime}ms`);
@@ -819,7 +838,7 @@ Return ONLY a JSON object with this exact structure:
 
   console.log(`🤖 Sending ${cohortName} cohort analysis to AI...`);
   
-  const ai = await runAI({ prompt, reasoningEffort: 'low', verbosity: 'low', temperature: 0.1, maxOutputTokens: 2000 });
+  const ai = await runAI({ prompt, reasoningEffort: 'low', verbosity: 'low', temperature: 0.1 });
   const response = ai.text;
   console.log(`📦 Raw AI response for ${cohortName} cohort length:`, response.length);
   
@@ -836,8 +855,24 @@ Return ONLY a JSON object with this exact structure:
   }
   cleanedResponse = cleanedResponse.trim();
   
+  // Basic validation - ensure we have a complete JSON object
+  if (!cleanedResponse.startsWith('{') || !cleanedResponse.endsWith('}')) {
+    console.error(`❌ AI response for ${cohortName} does not appear to be a complete JSON object`);
+    console.log('🔍 Response start:', cleanedResponse.substring(0, 100));
+    console.log('🔍 Response end:', cleanedResponse.substring(Math.max(0, cleanedResponse.length - 100)));
+    throw new Error(`AI response for ${cohortName} is not a complete JSON object`);
+  }
+  
   console.log('🔍 Attempting to parse AI response...');
-  const parsed = JSON.parse(cleanedResponse);
+  
+  let parsed;
+  try {
+    parsed = JSON.parse(cleanedResponse);
+  } catch (parseError) {
+    console.error('❌ JSON parsing failed:', parseError);
+    console.log('🔍 Problematic response excerpt:', cleanedResponse.substring(0, 500) + '...');
+    throw new Error(`Failed to parse AI response as JSON: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`);
+  }
   
   // Ensure events have proper categorization and fallback if needed
   const processedEvents = (parsed.events || []).map((event: Partial<WeeklyEvent> & { title: string }) => {
