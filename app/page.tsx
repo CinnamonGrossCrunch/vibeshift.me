@@ -28,11 +28,14 @@ export default function Home() {
   const [unifiedData, setUnifiedData] = useState<UnifiedDashboardData | null>(null);
   // Remove unused unifiedLoading variable since we use loading instead
 
-  // Load cohort preference from localStorage on mount
+  // Load cohort preference from localStorage on mount, but default to blue
   useEffect(() => {
     const saved = localStorage.getItem('global-cohort-preference');
-    if (saved === 'blue' || saved === 'gold') {
-      setSelectedCohort(saved);
+    // Always default to blue, only change if explicitly saved as gold
+    if (saved === 'gold') {
+      setSelectedCohort('gold');
+    } else {
+      setSelectedCohort('blue');
     }
   }, []);
 

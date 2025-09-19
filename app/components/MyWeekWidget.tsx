@@ -86,6 +86,24 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
   const [loading, setLoading] = useState(!data); // If data provided, don't start loading
   const [error, setError] = useState<string | null>(null);
 
+  // Function to handle MyWeek event clicks
+  const handleEventClick = (event: React.MouseEvent<HTMLAnchorElement>, eventTitle: string) => {
+    event.preventDefault();
+    
+    // Trigger glow animation on calendar list view
+    const calendarElement = document.querySelector('[data-calendar-list-view]');
+    if (calendarElement) {
+      calendarElement.classList.add('ring-4', 'ring-berkeley-blue/50', 'ring-offset-2', 'ring-offset-white', 'dark:ring-offset-slate-900');
+      
+      // Remove the glow after 2 seconds
+      setTimeout(() => {
+        calendarElement.classList.remove('ring-4', 'ring-berkeley-blue/50', 'ring-offset-2', 'ring-offset-white', 'dark:ring-offset-slate-900');
+      }, 2000);
+    }
+    
+    console.log(`📅 Directing attention to calendar for: ${eventTitle}`);
+  };
+
   // Temporary debug to understand the data issue
   useEffect(() => {
     if (data) {
@@ -304,8 +322,12 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
                         <div className="flex-1 min-w-0">
                           <div className="flex items-baseline space-x-2">
                             <h4 className={`text-sm font-light group-hover:opacity-80 transition-opacity truncate`}>
-                              {event.url ? (
-                                <a href={event.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                              {event.url && event.url !== 'No URL' ? (
+                                <a 
+                                  href="#" 
+                                  onClick={(e) => handleEventClick(e, event.title)}
+                                  className="hover:underline cursor-pointer"
+                                >
                                   {event.title}
                                 </a>
                               ) : (

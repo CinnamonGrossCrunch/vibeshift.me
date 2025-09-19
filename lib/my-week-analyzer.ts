@@ -120,30 +120,19 @@ interface ProcessedNewsletterEvent extends NewsletterItem {
 function getThisWeekRange(): { start: Date; end: Date } {
   const today = new Date();
   const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-  const start = new Date(today);
   
-  // Set start time to beginning of day
+  // Calculate the start of the week (Sunday)
+  const start = new Date(today);
+  start.setDate(today.getDate() - dayOfWeek);
   start.setHours(0, 0, 0, 0);
   
-  // Calculate days until next Sunday
-  let daysUntilSunday;
-  if (dayOfWeek === 0) {
-    // Today is Sunday, include it and the next 7 days (to next Sunday)
-    daysUntilSunday = 7;
-  } else {
-    // Calculate days until Sunday (7 - dayOfWeek)
-    daysUntilSunday = 7 - dayOfWeek;
-  }
-  
-  // Create end date
-  const end = new Date(today);
-  end.setDate(today.getDate() + daysUntilSunday);
-  
-  // Set end time to end of day
+  // Calculate the end of the week (Saturday)
+  const end = new Date(start);
+  end.setDate(start.getDate() + 6);
   end.setHours(23, 59, 59, 999);
   
   console.log(`🗓️ Week range: ${start.toISOString()} to ${end.toISOString()}`);
-  console.log(`   Today: ${today.toDateString()} (day ${dayOfWeek}), Days to Sunday: ${daysUntilSunday}`);
+  console.log(`   Today: ${today.toDateString()} (day ${dayOfWeek}), Week: ${start.toDateString()} to ${end.toDateString()}`);
   
   return { start, end };
 }
@@ -362,12 +351,12 @@ export async function analyzeMyWeekWithAI(
   const calendarEvents = filterCalendarEventsForWeek(cohortEvents, weekStart, weekEnd);
   const newsletterEvents = extractNewsletterEventsForWeek(newsletterData, weekStart, weekEnd);
   
-  console.log('� Calendar events found:', calendarEvents.length);
-  console.log('� Newsletter events found:', newsletterEvents.length);
+  console.log('📅 Calendar events found:', calendarEvents.length);
+  console.log('📰 Newsletter events found:', newsletterEvents.length);
   
   // Debug: Log some event details
   calendarEvents.forEach(event => {
-    console.log(`� Calendar: ${event.title} on ${new Date(event.start).toDateString()}`);
+    console.log(`📅 Calendar: ${event.title} on ${new Date(event.start).toDateString()}`);
   });
   
   newsletterEvents.forEach(event => {
@@ -382,7 +371,7 @@ Time: ${eventDate.toLocaleTimeString()}
 Title: ${event.summary || event.title || 'Untitled Event'}
 Description: ${event.description || 'No description'}
 Location: ${event.location || 'No location'}
-URL: ${event.url || 'No URL'}`;
+URL: ${event.url || ''}`;
   }).join('\n\n');
   
   const newsletterContent = newsletterEvents.map(event => {
@@ -767,7 +756,7 @@ Time: ${eventDate.toLocaleTimeString()}
 Title: ${event.summary || event.title || 'Untitled Event'}
 Description: ${event.description || 'No description'}
 Location: ${event.location || 'No location'}
-URL: ${event.url || 'No URL'}`;
+URL: ${event.url || ''}`;
   }).join('\n\n');
   
   const newsletterContent = newsletterEvents.map(event => {
