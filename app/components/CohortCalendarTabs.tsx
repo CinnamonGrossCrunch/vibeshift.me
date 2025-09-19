@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { format, addMonths, subMonths } from 'date-fns';
 import Image from 'next/image';
 import MonthGrid from './MonthGrid';
@@ -23,6 +23,8 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
   const [showGreekTheater, setShowGreekTheater] = useState(false);
   const [showUCLaunch, setShowUCLaunch] = useState(true);
   const [showCalBears, setShowCalBears] = useState(false);
+  const [showEventDropdown, setShowEventDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Load cohort preference from localStorage on mount (only if not externally controlled)
   useEffect(() => {
@@ -33,6 +35,20 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
       }
     }
   }, [externalSelectedCohort]);
+
+  // Handle clicking outside dropdown to close it
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowEventDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   // Sync with external cohort selection
   useEffect(() => {
@@ -259,7 +275,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
       {/* Compact Header - All controls on one line */}
       <header className="mb-4 relative overflow-visible">
         <div className="flex items-center justify-between gap-3 flex-wrap">
-            
+
           {/* Cohort Tabs - Only show if not externally controlled */}
           {!externalSelectedCohort && (
             <div 
@@ -328,89 +344,122 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
               </svg>
             </button>
           </div>
-          {/* Special Event Toggles */}
-          <div className="flex bg-slate-100 dark:bg-slate-700 rounded-full p-0 flex-shrink-0">
-            
-            {/* Greek Theater Toggle Button inside pill */}
-            <div className="relative group">
-              <button
-                onClick={() => setShowGreekTheater(!showGreekTheater)}
-                className={`px-2 py-3 rounded-full transition-all duration-200 ${
-                  showGreekTheater
-                    ? 'bg-white dark:bg-slate-600 hover:bg-white/80 dark:hover:bg-slate-600/80'
-                    : 'hover:bg-white/80 dark:hover:bg-slate-600/80'
-                }`}
-                aria-label={showGreekTheater ? 'Hide Greek Theater events' : 'Show Greek Theater events'}
-              >
-                <Image 
-                  src="/greeklogo.png" 
-                  alt="Greek Theater" 
-                  width={50}
-                  height={50}
-                  style={{ width: "auto", height: "auto" }}
-                  className="object-contain hover-invert filter brightness-0 invert max-h-5"
-                />
-              </button>
+          {/* Special Event Toggles - Dropdown */}
+          <div className="relative flex-shrink-0" ref={dropdownRef}>
+            <button
+              onClick={() => setShowEventDropdown(!showEventDropdown)}
+              className="flex items-center gap-2 px-3 py-2 bg-slate-100 dark:bg-slate-700 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+              aria-label="Toggle special events"
+            >
+              <svg className="w-3 h-3 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              <span className="text-xs font-medium text-slate-600 dark:text-slate-300">Events</span>
               
-              {/* Floating tooltip */}
-              <div className="absolute  transform -translate-x-10 -translate-y-13.75 mb-2 px-2 py-1  text-red-400/70 text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[9999]">
-                Greek Theater Events
-              </div>
-            </div>
+            </button>
 
-            {/* UC Launch Toggle Button inside pill */}
-            <div className="relative group">
-                <button
-                onClick={() => setShowUCLaunch(!showUCLaunch)}
-                className={`px-2 py-2 rounded-full transition-all duration-200 ${
-                  showUCLaunch
-                  ? ' hover:bg-white/80 dark:hover:bg-slate-600/80'
-                  : 'hover:bg-white/80 dark:hover:bg-slate-600/80'
-                }`}
-                aria-label={showUCLaunch ? 'Hide UC Launch events' : 'Show UC Launch events'}
-                >
-                <Image
-                  src="/Launch Accelerator logo.png"
-                  alt="UC Launch Accelerator"
-                  width={50}
-                  height={50}
-                  style={{ width: "auto", height: "auto" }}
-                  className="object-contain filter brightness-0 invert max-h-5"
-                />
-                </button>
-              
-              {/* Floating tooltip */}
-              <div className="absolute  transform -translate-x-10 -translate-y-13.75 mb-2 px-2 py-1  text-blue-400/70 text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-clicking z-[9999]">
-                UC Launch Events
-              </div>
-            </div>
+            {/* Dropdown Menu */}
+            {showEventDropdown && (
+              <div className="absolute top-full right-0 mt-2 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-600 py-0 z-50 min-w-[150px]">
+                
+                {/* Greek Theater Toggle */}
+                <label className="flex items-center justify-between px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <Image
+                      src="/greeklogo.png"
+                      alt="Greek Theater"
+                      width={50}
+                      height={50}
+                      className="object-contain filter brightness-0 dark:invert"
+                    />
+                    
+                  </div>
+                  <div className="relative">
+                    <input
+                      type="checkbox"
+                      checked={showGreekTheater}
+                      onChange={(e) => setShowGreekTheater(e.target.checked)}
+                      className="sr-only"
+                    />
+                    <div className={`w-10 h-6 rounded-full transition-colors duration-200 ${
+                      showGreekTheater ? 'bg-blue-500' : 'bg-slate-300 dark:bg-slate-600'
+                    }`}>
+                      <div className={`translate-y-1 w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-200 mt-1 ${
+                        showGreekTheater ? 'translate-x-5' : 'translate-x-1'
+                      }`} />
+                    </div>
+                  </div>
+                </label>
 
-            {/* Cal Bears Toggle Button inside pill */}
-            <div className="relative group">
-                <button
-                onClick={() => setShowCalBears(!showCalBears)}
-                className={`px-2 py-2 rounded-full transition-all duration-200 ${
-                  showCalBears
-                  ? 'hover:bg-white/80 dark:hover:bg-slate-600/80'
-                  : 'hover:bg-white/80 dark:hover:bg-slate-600/80'
-                }`}
-                aria-label={showCalBears ? 'Hide Cal Bears events' : 'Show Cal Bears events'}
-                >
-                <Image
-                  src="/cal_logo.png"
-                  alt="Cal Bears"
-                  width={30}
-                  height={30}
-                  style={{ width: "auto", height: "auto" }}
-                  className="object-contain hover-invert filter brightness-0 invert max-h-5"
-                />
-                </button>
-              
-              {/* Floating tooltip */}
-              <div className="absolute  transform -translate-x-10 -translate-y-13 mb-2 px-2 py-1  text-yellow-600/70 text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[9999]">
-                Cal Bears Events
+                {/* UC Launch Toggle */}
+                <label className="flex items-center justify-between px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <Image
+                      src="/Launch Accelerator logo.png"
+                      alt="UC Launch Accelerator"
+                      width={50}
+                      height={50}
+                      className="object-contain filter brightness-0 dark:invert"
+                    />
+                    
+                  </div>
+                  <div className="relative">
+                    <input
+                      type="checkbox"
+                      checked={showUCLaunch}
+                      onChange={(e) => setShowUCLaunch(e.target.checked)}
+                      className="sr-only"
+                    />
+                    <div className={`w-10 h-6 rounded-full transition-colors duration-200 ${
+                      showUCLaunch ? 'bg-blue-500' : 'bg-slate-300 dark:bg-slate-600'
+                    }`}>
+                      <div className={`translate-y-1 w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-200 mt-1 ${
+                        showUCLaunch ? 'translate-x-5' : 'translate-x-1'
+                      }`} />
+                    </div>
+                  </div>
+                </label>
+
+                {/* Cal Bears Toggle */}
+                <label className="flex items-center justify-between px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <Image
+                      src="/cal_logo.png"
+                      alt="Cal Bears"
+                      width={40}
+                      height={40}
+                      className="object-contain filter brightness-0 dark:invert"
+                    />
+                    
+                  </div>
+                  <div className="relative">
+                    <input
+                      type="checkbox"
+                      checked={showCalBears}
+                      onChange={(e) => setShowCalBears(e.target.checked)}
+                      className="sr-only"
+                    />
+                    <div className={`w-10 h-6 rounded-full transition-colors duration-200 ${
+                      showCalBears ? 'bg-blue-500' : 'bg-slate-300 dark:bg-slate-600'
+                    }`}>
+                      <div className={`translate-y-1 w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-200 mt-1 ${
+                        showCalBears ? 'translate-x-5' : 'translate-x-1'
+                      }`} />
+                    </div>
+                  </div>
+                </label>
+              {/* COMING SOON*/}
+                <label className="flex items-center justify-center text-center px-5 py-1 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-extralight text-slate-300/50 dark:text-slate-300/50">
+                      Custom Feeds coming soon
+                    </span>
+                    
+                  </div>
+                  
+                </label>
               </div>
-            </div>
+            )}
           </div>
 
        
@@ -419,7 +468,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
 
       {/* Calendar Content */}
       <div id="calendar-content" role="tabpanel">
-        <div className="-mx-5 -mb-5 overflow-hidden">
+        <div className="-mx-0 -mb-0 rounded-xl overflow-hidden">
           <MonthGrid 
             events={currentEvents} 
             currentMonth={currentMonth} 

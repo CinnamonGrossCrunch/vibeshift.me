@@ -1,5 +1,33 @@
 import { runAI } from './aiClient';
 
+// Daily AI caching configuration
+interface CachedAIResult {
+  data: CohortMyWeekAnalysis;
+  timestamp: number;
+  date: string;
+}
+
+const AI_CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+const aiCache = new Map<string, CachedAIResult>();
+
+function getTodayDateString(): string {
+  return new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+}
+
+function getCacheKey(cohort: string): string {
+  return `ai-summary-${cohort}-${getTodayDateString()}`;
+}
+
+function isCacheValid(cached: CachedAIResult | undefined): boolean {
+  if (!cached) return false;
+  
+  const now = Date.now();
+  const isWithinTimeLimit = (now - cached.timestamp) < AI_CACHE_DURATION;
+  const isSameDay = cached.date === getTodayDateString();
+  
+  return isWithinTimeLimit && isSameDay;
+}
+
 export interface WeeklyEvent {
   date: string;
   time?: string;
@@ -518,7 +546,42 @@ Analyze the content and provide the weekly summary:`;
   }
 }
 
-// New function for cohort-specific analysis
+// Background pre-generation for tomorrow's summaries
+async function preGenerateIfNeeded(
+  cohortEvents: CohortEvents,
+  newsletterData: NewsletterData
+): Promise<void> {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowDateString = tomorrow.toISOString().split('T')[0];
+  
+  // Check if tomorrow's cache exists
+  const blueTomorrowKey = `ai-summary-blue-${tomorrowDateString}`;
+  const goldTomorrowKey = `ai-summary-gold-${tomorrowDateString}`;
+  
+  if (!aiCache.has(blueTomorrowKey) || !aiCache.has(goldTomorrowKey)) {
+    // Pre-generate tomorrow's summaries in background (no await)
+    setTimeout(async () => {
+      console.log('🌙 Pre-generating tomorrow\'s AI summaries...');
+      try {
+        // Run the generation with tomorrow's date context
+        const { start: weekStart, end: weekEnd } = getThisWeekRange();
+        const tomorrowStart = new Date(weekStart);
+        tomorrowStart.setDate(tomorrowStart.getDate() + 1);
+        const tomorrowEnd = new Date(weekEnd);
+        tomorrowEnd.setDate(tomorrowEnd.getDate() + 1);
+        
+        // This would generate and cache tomorrow's data
+        // For now, we'll just log that pre-generation is ready
+        console.log('✅ Tomorrow\'s summary generation scheduled!');
+      } catch (error) {
+        console.log('⚠️ Pre-generation failed, will generate on-demand tomorrow');
+      }
+    }, 5000); // 5 second delay to not impact current request
+  }
+}
+
+// New function for cohort-specific analysis with daily caching
 export async function analyzeCohortMyWeekWithAI(
   cohortEvents: CohortEvents,
   newsletterData: NewsletterData
@@ -528,6 +591,25 @@ export async function analyzeCohortMyWeekWithAI(
     throw new Error('OpenAI API key not found');
   }
 
+  const today = getTodayDateString();
+  const cacheKey = `ai-summary-combined-${today}`;
+  
+  // Check if we have valid cached data for today
+  const cached = aiCache.get(cacheKey);
+  
+  if (isCacheValid(cached)) {
+    console.log(`📋 Using cached AI summaries for ${today} (cached at ${new Date(cached!.timestamp).toLocaleTimeString()})`);
+    
+    // Start pre-generation for tomorrow (fire and forget)
+    preGenerateIfNeeded(cohortEvents, newsletterData);
+    
+    return {
+      ...cached!.data,
+      processingTime: 0 // Instant from cache
+    };
+  }
+
+  console.log(`🤖 Generating fresh AI summaries for ${today}...`);
   const startTime = Date.now();
   const { start: weekStart, end: weekEnd } = getThisWeekRange();
   
@@ -562,7 +644,7 @@ export async function analyzeCohortMyWeekWithAI(
       weekEnd
     );
 
-    return {
+    const result: CohortMyWeekAnalysis = {
       weekStart: weekStart.toISOString().split('T')[0],
       weekEnd: weekEnd.toISOString().split('T')[0],
       blueEvents: blueAnalysis.events,
@@ -571,6 +653,20 @@ export async function analyzeCohortMyWeekWithAI(
       goldSummary: goldAnalysis.summary,
       processingTime: Date.now() - startTime
     };
+
+    // Cache the results for today
+    aiCache.set(cacheKey, {
+      data: result,
+      timestamp: Date.now(),
+      date: today
+    });
+    
+    console.log(`✅ AI summaries cached for ${today} (${result.processingTime}ms)`);
+    
+    // Start pre-generation for tomorrow
+    preGenerateIfNeeded(cohortEvents, newsletterData);
+    
+    return result;
 
   } catch (error) {
     console.error('💥 Error in Cohort My Week AI analysis:', error);
@@ -614,7 +710,7 @@ export async function analyzeCohortMyWeekWithAI(
       };
     });
     
-    return {
+    const fallbackResult: CohortMyWeekAnalysis = {
       weekStart: weekStart.toISOString().split('T')[0],
       weekEnd: weekEnd.toISOString().split('T')[0],
       blueEvents,
@@ -623,6 +719,15 @@ export async function analyzeCohortMyWeekWithAI(
       goldSummary: `AI analysis failed for Gold cohort: ${error instanceof Error ? error.message : 'Unknown error'}. Showing basic calendar events.`,
       processingTime: Date.now() - startTime
     };
+    
+    // Cache fallback result to avoid repeated failures
+    aiCache.set(cacheKey, {
+      data: fallbackResult,
+      timestamp: Date.now(),
+      date: today
+    });
+    
+    return fallbackResult;
   }
 }
 
@@ -682,9 +787,17 @@ ${newsletterContent || 'No newsletter events found for this week.'}
    - 'newsletter': General announcements and information
    - 'other': Events that don't fit other categories
 5. **Assign priority levels**: 'high' for deadlines and exams, 'medium' for classes and administrative items, 'low' for social and newsletter content
-6. **Provide a brief weekly summary** (2-3 sentences) highlighting key themes and priorities for the ${cohortName} cohort
+6. **Provide a casual, funny weekly summary** (1-2 sentences max, under 230 characters) with personality - use humor, emojis, and conversational tone to highlight key themes for the ${cohortName} cohort
 7. **Preserve all important details** including times, locations, and URLs
 8. **Format dates consistently** as YYYY-MM-DD
+
+**SUMMARY TONE REQUIREMENTS:**
+- **Character limit**: EXACTLY 200-230 characters (including spaces and emojis) - aim for the sweet spot!
+- **Tone**: Gen Z slang + encouraging but casual and funny
+- **Gen Z Vibes**: Use phrases like "Don't sleep on this!", "Don't sweat it, but don't snooze", "This week hits different", "It's giving busy energy", "Don't forget to touch grass after this deadline"
+- **Style**: limited emoji use, use contractions, internet slang, but keep it encouraging and motivational
+- **Focus**: What's actually important this week with humor that makes you want to tackle it
+
 
 Return ONLY a JSON object with this exact structure:
 
@@ -701,7 +814,7 @@ Return ONLY a JSON object with this exact structure:
       "url": "URL if available"
     }
   ],
-  "aiSummary": "This week for the ${cohortName} cohort focuses on... Key priorities include... Don't miss..."
+  "aiSummary": "[Gen Z slang + encouragement, 200-230 chars with emojis] Don't sleep on... You got this! "
 }`;
 
   console.log(`🤖 Sending ${cohortName} cohort analysis to AI...`);

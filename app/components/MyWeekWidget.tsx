@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 type WeeklyEvent = {
   date: string;
@@ -84,6 +85,23 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
   const [weekData, setWeekData] = useState<MyWeekData | null>(data || null);
   const [loading, setLoading] = useState(!data); // If data provided, don't start loading
   const [error, setError] = useState<string | null>(null);
+
+  // Temporary debug to understand the data issue
+  useEffect(() => {
+    if (data) {
+      console.log('🔍 MyWeekWidget received data:', {
+        weekStart: data.weekStart,
+        weekEnd: data.weekEnd,
+        blueEvents: data.blueEvents?.length || 0,
+        goldEvents: data.goldEvents?.length || 0,
+        blueSummary: data.blueSummary ? 'Present' : 'Missing',
+        goldSummary: data.goldSummary ? 'Present' : 'Missing',
+        selectedCohort,
+        actualBlueEvents: data.blueEvents,
+        actualGoldEvents: data.goldEvents
+      });
+    }
+  }, [data, selectedCohort]);
 
   useEffect(() => {
     // If direct data is provided, use it and skip API calls
@@ -238,92 +256,87 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
   }, {} as Record<string, WeeklyEvent[]>);
 
   return (
-    <div className="p-6">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-          My Week - {selectedCohort.charAt(0).toUpperCase() + selectedCohort.slice(1)} Cohort
-        </h3>
-        <div className="text-xs text-slate-500 dark:text-slate-400">
-          {formatDate(weekData.weekStart)} - {formatDate(weekData.weekEnd)}
+    <div className="py-4 mb-8">
+      {/* Main Layout: Left to Right Flow */}
+      <div className=" rounded-2xl flex items-start gap-6">
+        {/* Left Column: Current Date */}
+
+        <div className="text-start shrink-0">
+          <div className="text-2xl font-extralight text-slate-600 dark:text-slate-400 mt-1 px-2 mb-1">
+            My Week
+          </div>
+                <div className="text-5xl mx-2 font-medium text-slate-900 dark:text-white">
+                {new Date().toLocaleDateString('en-US', { month: 'short' })}{' '}
+                <span className="text-white/60">{new Date().toLocaleDateString('en-US', { day: 'numeric' })}</span>
+                </div>
         </div>
-      </div>
 
-      {/* AI Summary */}
-      {currentSummary && (
-        <div className="mb-4 p-3 bg-berkeley-blue/10 dark:bg-berkeley-blue/20 rounded-2xl">
-          <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-            {currentSummary}
-          </p>
-        </div>
-      )}
-
-      {/* Events List */}
-      <div className="space-y-4 max-h-96 overflow-y-auto">
-        {Object.entries(eventsByDate)
-          .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
-          .map(([date, events]) => (
-            <div key={date} className="flex items-center gap-2 mb-1">
-              {/* Date Header */}
-              <div className="text-sm font-medium text-slate-900 dark:text-white min-w-[100px] shrink-0">
-                {formatDate(date)}
-              </div>
-              
-              {/* Events for this date */}
-              <div className="flex flex-wrap gap-2 flex-1">
-                {events.map((event, index) => (
-                  <div key={index} className={`flex items-center space-x-2 rounded-lg px-3 py-2 group min-w-fit ${getEventColor(event.type, event.priority)}`}>
-                    {/* Event Icon */}
-                    <span className="text-base leading-none" title={`${event.type} event`}>
-                      {getEventIcon(event.type)}
-                    </span>
-                    
-                    {/* Priority Indicator */}
-                    {event.priority && (
-                      <span title={`${event.priority} priority`}>
-                        {getPriorityIndicator(event.priority)}
-                      </span>
-                    )}
-                    
-                    {/* Event Content */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-baseline space-x-2">
-                        <h4 className={`text-sm font-light group-hover:opacity-80 transition-opacity truncate`}>
-                          {event.url ? (
-                            <a href={event.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                              {event.title}
-                            </a>
-                          ) : (
-                            event.title
-                          )}
-                        </h4>
-
-                        {/* Time and Location */}
-                        <div className="flex items-center space-x-2 text-xs text-slate-600 dark:text-slate-400">
-                          {event.time && (
-                            <span>{event.time}</span>
-                          )}
-                          {event.location && (
-                            <span>📍 {event.location}</span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+        {/* Middle Column: AI Summary and Events */}
+        <div className="flex-1 p-1 space-y-0">
+          {/* AI Summary */}
+          {currentSummary && (
+            <div className="flex items-start gap-3">
+              <div className="w-1 h-full bg-berkeley-blue/30 dark:bg-berkeley-blue/50 rounded-full min-h-[60px] mt-0"></div>
+              <div className=" bg-berkeley-blue/10 dark:bg-berkeley-blue/20 rounded-2xl">
+                <p className="text-md font-medium text-slate-700 dark:text-slate-300 leading-loose">
+                  {currentSummary}
+                </p>
               </div>
             </div>
-          ))}
-      </div>
+          )}
 
-      {/* Footer */}
-      {weekData.processingTime && (
-        <div className="mt-4 pt-3 border-t border-slate-200 dark:border-slate-700">
-          <div className="text-xs text-slate-500 dark:text-slate-400 text-center">
-            Analyzed in {weekData.processingTime}ms
+          {/* Events List */}
+          <div className="space-y-4 max-h-96 overflow-y-auto">
+            {Object.entries(eventsByDate)
+              .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
+              .map(([date, events]) => (
+                <div key={date} className="flex ml-2 items-center gap-2 mb-0">
+                  {/* Date Header */}
+                  <div className="text-center text-sm font-semibold text-slate-900 dark:text-white min-w-[100px] shrink-0">
+                    {formatDate(date)}
+                  </div>
+                  
+                  {/* Events for this date */}
+                  <div className="flex  gap-2 flex-1">
+                    {events.map((event, index) => (
+                      <div key={index} className={`flex items-center space-x-2 rounded-lg px-3 py-1 group min-w-fit ${getEventColor(event.type, event.priority)}`}>
+                        {/* Event Content */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-baseline space-x-2">
+                            <h4 className={`text-sm font-light group-hover:opacity-80 transition-opacity truncate`}>
+                              {event.url ? (
+                                <a href={event.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                                  {event.title}
+                                </a>
+                              ) : (
+                                event.title
+                              )}
+                            </h4>
+
+                            {/* Time and Location */}
+                            <div className="flex items-baseline space-x-2 text-xs text-slate-600 dark:text-slate-400">
+                              {event.time && (
+                                <span>{event.time}</span>
+                              )}
+                              {event.location && (
+                                <>
+                                  <Image src="/images/location-icon.png" alt="location" width={14} height={14} className="w-3.5 h-3.5" />
+                                  <span>{event.location}</span>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
-      )}
+
+       
+      </div>
     </div>
   );
 }

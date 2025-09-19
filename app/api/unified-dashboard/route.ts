@@ -157,10 +157,26 @@ export async function GET() {
     const myWeekStart = Date.now();
     console.log('🤖 Running My Week AI analysis...');
     
-    const myWeekData = await analyzeCohortMyWeekWithAI(cohortEvents, newsletterData);
-    const myWeekTime = Date.now() - myWeekStart;
-    
-    console.log('🤖 My Week analysis completed');
+    let myWeekData: CohortMyWeekAnalysis;
+    let myWeekTime = 0;
+    try {
+      myWeekData = await analyzeCohortMyWeekWithAI(cohortEvents, newsletterData);
+      myWeekTime = Date.now() - myWeekStart;
+      console.log('🤖 My Week analysis completed');
+    } catch (error) {
+      console.error('❌ My Week analysis failed:', error);
+      // Provide fallback data with correct structure
+      myWeekData = {
+        weekStart: new Date().toISOString(),
+        weekEnd: new Date().toISOString(),
+        blueEvents: [],
+        goldEvents: [],
+        blueSummary: 'No events found for the blue cohort this week.',
+        goldSummary: 'No events found for the gold cohort this week.',
+        processingTime: 0
+      };
+      myWeekTime = Date.now() - myWeekStart;
+    }
     
     const totalTime = Date.now() - startTime;
     

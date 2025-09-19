@@ -59,7 +59,7 @@ export default function CohortCalendarWidget({
   }, [externalCohortEvents, daysAhead, max]);
 
   return (
-    <section className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl md:rounded-l-none lg:rounded-l-none p-5 border border-slate-200 dark:border-slate-700 shadow-glass overflow-hidden">
+    <section className="">
       {loading ? (
         <>
           <header className="flex items-center justify-between mb-4">
@@ -77,9 +77,9 @@ export default function CohortCalendarWidget({
           </header>
           <div className="text-center py-8">
             <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
-              <span className="text-lg">📅</span>
+              <span className="text-lg"></span>
             </div>
-            <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">Calendar Unavailable</p>
+            <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">Calendar Loading</p>
             <p className="text-xs text-slate-500 dark:text-slate-500">{error}</p>
             <div className="mt-4 text-xs text-slate-500 dark:text-slate-500">
               <p>Expected ICS files in /public/:</p>

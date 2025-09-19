@@ -46,24 +46,34 @@ export default function Home() {
     const fetchData = async () => {
       try {
         setLoading(true);
+        console.log('🚀 Starting data fetch...');
         
         // Fetch unified dashboard data for My Week widget and sidebar
+        console.log('📡 Fetching unified dashboard data...');
         const unifiedResponse = await fetch('/api/unified-dashboard');
+        console.log('📡 Unified dashboard response status:', unifiedResponse.status);
+        
         if (unifiedResponse.ok) {
           const unified = await unifiedResponse.json();
+          console.log('📡 Unified dashboard data received:', unified);
           setUnifiedData(unified);
+        } else {
+          console.error('📡 Unified dashboard fetch failed:', unifiedResponse.status, unifiedResponse.statusText);
         }
         
         // Fetch cohort events for main dashboard (legacy compatibility)
+        console.log('📅 Fetching cohort events...');
         const eventsResponse = await fetch('/api/calendar');
         if (eventsResponse.ok) {
           const events = await eventsResponse.json();
+          console.log('📅 Cohort events received');
           setCohortEvents(events);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('❌ Error fetching data:', error);
       } finally {
         setLoading(false);
+        console.log('✅ Data fetch completed');
       }
     };
 
@@ -89,7 +99,7 @@ export default function Home() {
       {/* Content Overlay */}
       <div className="fixed inset-0 z-10 overflow-auto">
         {/* Header */}
-        <div className="w-full sticky top-0 z-30 bg-white/40 dark:bg-slate-900/30 backdrop-blur-md supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-900/25 border-b border-white/50 dark:border-slate-700/60 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] relative overflow-hidden">
+        <div className="w-full sticky top-0 z-30 bg-white/40 dark:bg-slate-900/30 backdrop-blur-md supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-900/25 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] relative overflow-hidden">
           {/* SVG turbulence / glass distortion layer */}
           <svg className="absolute -inset-px w-[120%] h-[140%] opacity-20 mix-blend-overlay pointer-events-none" aria-hidden="true">
             <filter id="glassNoise">
@@ -109,15 +119,16 @@ export default function Home() {
           </svg>
           <div className="pointer-events-none flex justify-left inset-0" style={{ maskImage: 'radial-gradient(circle at 30% 25%, rgba(0,0,0,.7), transparent 70%)', WebkitMaskImage: 'radial-gradient(circle at 30% 25%, rgba(0,0,0,.7), transparent 70%)', filter: 'url(#glassDistort)' }} />
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-1 relative">
-          <div className="flex items-center justify-between h-10 sm:h-11 md:h-12">
-            <div className="flex items-center gap-1 sm:gap-2 h-full">
+          <div className="flex items-center h-10 sm:h-11 md:h-12">
+            {/* Left section - Logos */}
+            <div className="flex-1 flex items-center gap-1 sm:gap-2 h-full px-1">
                 <div className="rounded-lg opacity- px-0 sm:px-3 md:px-4 overflow-hidden flex items-center justify-center invert mix-blend-multiply filter brightness-80 transition-all h-full">
                 <Image 
                   src="/HubClaw.svg" 
                   alt="HubClaw Logo"
                   width={32}
                   height={40}
-                  className="h-6 sm:h-10 md:h-10 w-auto object-contain"
+                  className="h-6 sm:h-10 md:h-10 w-10 object-contain"
                 />
                 </div>
               <div className="rounded-lg opacity-80 overflow-hidden flex items-center justify-center invert mix-blend-color filter brightness-80 transition-all h-full">
@@ -132,16 +143,27 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Beta moved to right side */}
-            <div className="relative rounded-lg px-2 sm:px-3 md:px-4 overflow-hidden flex items-center justify-center h-full">
-              <Image 
-                src="/Beta.svg" 
-                alt="[Beta]"
-                width={60}
-                height={24} 
-                title="Learn More about this project."
-                className="h-4 sm:h-5 md:h-7 w-auto mx-0 opacity-100 object-contain hover:invert filter brightness-20 hover:brightness-0 transition-all cursor-pointer"
-              /> 
+            {/* Center section - Cohort Toggle */}
+            <div className="flex-1 flex items-center justify-center h-full px-1">
+              <CohortToggleWidget 
+                selectedCohort={selectedCohort}
+                onCohortChange={handleCohortChange}
+                className=""
+              />
+            </div>
+            
+            {/* Right section - Beta */}
+            <div className="flex-1 flex items-center justify-end h-full px-1">
+              <div className="relative rounded-lg px-2 sm:px-3 md:px-4 overflow-hidden flex items-center justify-center h-full">
+                <Image 
+                  src="/Beta.svg" 
+                  alt="[Beta]"
+                  width={60}
+                  height={24} 
+                  title="Learn More about this project."
+                  className="h-4 sm:h-5 md:h-7 w-auto mx-0 opacity-100 object-contain hover:invert filter brightness-20 hover:brightness-0 transition-all cursor-pointer"
+                /> 
+              </div>
             </div>
           </div>
         </div>
@@ -153,14 +175,6 @@ export default function Home() {
         {/* Current Time Debug Display */}
         {/* <CurrentTimeDisplay /> */}
       
-        {/* Global Cohort Toggle - Top of page */}
-        <div className="w-full mb-4">
-          <CohortToggleWidget 
-            selectedCohort={selectedCohort}
-            onCohortChange={handleCohortChange}
-            className="flex justify-center"
-          />
-        </div>
           {loading && (
         <div className="text-sm text-slate-500 flex items-center space-x-2">
             <div className="flex flex-col items-center space-y-1 mx-auto mb-2 mt-2 z-50">

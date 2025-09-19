@@ -1,193 +1,195 @@
 # Code Citations
 
-## License: MIT
-https://github.com/howon-kim/tutoring/blob/4b78139c173415652a5120267bc94526604ea730/index.html
+## License: unknown
+https://github.com/Shazzad-Hossen/TripTrekker-front-end/blob/feea79001c5b5ddf07ede75e98f56c2b0da8a0c0/src/pages/Home/AccordionItem%20.jsx
 
 ```
-://fonts.googleapis.com/css
-```
-
-
-## License: MIT
-https://github.com/howon-kim/tutoring/blob/4b78139c173415652a5120267bc94526604ea730/index.html
-
-```
-://fonts.googleapis.com/css2?family=Urbanist:
+' :
 ```
 
 
-## License: GPL-3.0
-https://github.com/psychopy/psychopy/blob/dd98c6b41207ccb2b7a98ba2bbc063ca4f683fb5/psychopy/app/themes/css/dark.css
+## License: unknown
+https://github.com/Shazzad-Hossen/TripTrekker-front-end/blob/feea79001c5b5ddf07ede75e98f56c2b0da8a0c0/src/pages/Home/AccordionItem%20.jsx
 
 ```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100
-```
-
-
-## License: MIT
-https://github.com/howon-kim/tutoring/blob/4b78139c173415652a5120267bc94526604ea730/index.html
-
-```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100
+' : ''}`} fill="none" stroke
 ```
 
 
-## License: GPL-3.0
-https://github.com/psychopy/psychopy/blob/dd98c6b41207ccb2b7a98ba2bbc063ca4f683fb5/psychopy/app/themes/css/dark.css
+## License: unknown
+https://github.com/huybuicuiluinhui/beeShoseClient/blob/90d056435c732d43cdf7c59131a73f658973f465/src/pages/listProductsByBrand/index.tsx
 
 ```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300
-```
-
-
-## License: MIT
-https://github.com/howon-kim/tutoring/blob/4b78139c173415652a5120267bc94526604ea730/index.html
-
-```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300
+' : ''}`} fill="none" stroke
 ```
 
 
-## License: GPL-3.0
-https://github.com/psychopy/psychopy/blob/dd98c6b41207ccb2b7a98ba2bbc063ca4f683fb5/psychopy/app/themes/css/dark.css
+## License: unknown
+https://github.com/Shazzad-Hossen/TripTrekker-front-end/blob/feea79001c5b5ddf07ede75e98f56c2b0da8a0c0/src/pages/Home/AccordionItem%20.jsx
 
 ```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500
-```
-
-
-## License: MIT
-https://github.com/howon-kim/tutoring/blob/4b78139c173415652a5120267bc94526604ea730/index.html
-
-```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500
+' : ''}`} fill="none" stroke="currentColor" viewBox="0
 ```
 
 
-## License: GPL-3.0
-https://github.com/psychopy/psychopy/blob/dd98c6b41207ccb2b7a98ba2bbc063ca4f683fb5/psychopy/app/themes/css/dark.css
+## License: unknown
+https://github.com/huybuicuiluinhui/beeShoseClient/blob/90d056435c732d43cdf7c59131a73f658973f465/src/pages/listProductsByBrand/index.tsx
 
 ```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700
-```
-
-
-## License: MIT
-https://github.com/howon-kim/tutoring/blob/4b78139c173415652a5120267bc94526604ea730/index.html
-
-```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700
+' : ''}`} fill="none" stroke="currentColor" viewBox="0
 ```
 
 
-## License: GPL-3.0
-https://github.com/psychopy/psychopy/blob/dd98c6b41207ccb2b7a98ba2bbc063ca4f683fb5/psychopy/app/themes/css/dark.css
+## License: unknown
+https://github.com/Shazzad-Hossen/TripTrekker-front-end/blob/feea79001c5b5ddf07ede75e98f56c2b0da8a0c0/src/pages/Home/AccordionItem%20.jsx
 
 ```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900
-```
-
-
-## License: MIT
-https://github.com/howon-kim/tutoring/blob/4b78139c173415652a5120267bc94526604ea730/index.html
-
-```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900
+' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
 ```
 
 
-## License: GPL-3.0
-https://github.com/psychopy/psychopy/blob/dd98c6b41207ccb2b7a98ba2bbc063ca4f683fb5/psychopy/app/themes/css/dark.css
+## License: unknown
+https://github.com/huybuicuiluinhui/beeShoseClient/blob/90d056435c732d43cdf7c59131a73f658973f465/src/pages/listProductsByBrand/index.tsx
 
 ```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200
-```
-
-
-## License: MIT
-https://github.com/howon-kim/tutoring/blob/4b78139c173415652a5120267bc94526604ea730/index.html
-
-```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200
+' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
 ```
 
 
-## License: GPL-3.0
-https://github.com/psychopy/psychopy/blob/dd98c6b41207ccb2b7a98ba2bbc063ca4f683fb5/psychopy/app/themes/css/dark.css
+## License: unknown
+https://github.com/Shazzad-Hossen/TripTrekker-front-end/blob/feea79001c5b5ddf07ede75e98f56c2b0da8a0c0/src/pages/Home/AccordionItem%20.jsx
 
 ```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400
-```
-
-
-## License: MIT
-https://github.com/howon-kim/tutoring/blob/4b78139c173415652a5120267bc94526604ea730/index.html
-
-```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400
+' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="
 ```
 
 
-## License: GPL-3.0
-https://github.com/psychopy/psychopy/blob/dd98c6b41207ccb2b7a98ba2bbc063ca4f683fb5/psychopy/app/themes/css/dark.css
+## License: unknown
+https://github.com/huybuicuiluinhui/beeShoseClient/blob/90d056435c732d43cdf7c59131a73f658973f465/src/pages/listProductsByBrand/index.tsx
 
 ```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600
-```
-
-
-## License: MIT
-https://github.com/howon-kim/tutoring/blob/4b78139c173415652a5120267bc94526604ea730/index.html
-
-```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600
+' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="
 ```
 
 
-## License: GPL-3.0
-https://github.com/psychopy/psychopy/blob/dd98c6b41207ccb2b7a98ba2bbc063ca4f683fb5/psychopy/app/themes/css/dark.css
+## License: unknown
+https://github.com/Shazzad-Hossen/TripTrekker-front-end/blob/feea79001c5b5ddf07ede75e98f56c2b0da8a0c0/src/pages/Home/AccordionItem%20.jsx
 
 ```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800
-```
-
-
-## License: MIT
-https://github.com/howon-kim/tutoring/blob/4b78139c173415652a5120267bc94526604ea730/index.html
-
-```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800
+' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="roun
 ```
 
 
-## License: GPL-3.0
-https://github.com/psychopy/psychopy/blob/dd98c6b41207ccb2b7a98ba2bbc063ca4f683fb5/psychopy/app/themes/css/dark.css
+## License: unknown
+https://github.com/huybuicuiluinhui/beeShoseClient/blob/90d056435c732d43cdf7c59131a73f658973f465/src/pages/listProductsByBrand/index.tsx
 
 ```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap
-```
-
-
-## License: MIT
-https://github.com/howon-kim/tutoring/blob/4b78139c173415652a5120267bc94526604ea730/index.html
-
-```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap
+' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="roun
 ```
 
 
-## License: GPL-3.0
-https://github.com/psychopy/psychopy/blob/dd98c6b41207ccb2b7a98ba2bbc063ca4f683fb5/psychopy/app/themes/css/dark.css
+## License: unknown
+https://github.com/Shazzad-Hossen/TripTrekker-front-end/blob/feea79001c5b5ddf07ede75e98f56c2b0da8a0c0/src/pages/Home/AccordionItem%20.jsx
 
 ```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap')
+' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="
 ```
 
 
-## License: MIT
-https://github.com/howon-kim/tutoring/blob/4b78139c173415652a5120267bc94526604ea730/index.html
+## License: unknown
+https://github.com/huybuicuiluinhui/beeShoseClient/blob/90d056435c732d43cdf7c59131a73f658973f465/src/pages/listProductsByBrand/index.tsx
 
 ```
-://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap')
+' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="
+```
+
+
+## License: unknown
+https://github.com/Shazzad-Hossen/TripTrekker-front-end/blob/feea79001c5b5ddf07ede75e98f56c2b0da8a0c0/src/pages/Home/AccordionItem%20.jsx
+
+```
+' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 
+```
+
+
+## License: unknown
+https://github.com/huybuicuiluinhui/beeShoseClient/blob/90d056435c732d43cdf7c59131a73f658973f465/src/pages/listProductsByBrand/index.tsx
+
+```
+' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 
+```
+
+
+## License: unknown
+https://github.com/Shazzad-Hossen/TripTrekker-front-end/blob/feea79001c5b5ddf07ede75e98f56c2b0da8a0c0/src/pages/Home/AccordionItem%20.jsx
+
+```
+' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+```
+
+
+## License: unknown
+https://github.com/huybuicuiluinhui/beeShoseClient/blob/90d056435c732d43cdf7c59131a73f658973f465/src/pages/listProductsByBrand/index.tsx
+
+```
+' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+```
+
+
+## License: unknown
+https://github.com/Shazzad-Hossen/TripTrekker-front-end/blob/feea79001c5b5ddf07ede75e98f56c2b0da8a0c0/src/pages/Home/AccordionItem%20.jsx
+
+```
+' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    </svg>
+  </button
+```
+
+
+## License: unknown
+https://github.com/huybuicuiluinhui/beeShoseClient/blob/90d056435c732d43cdf7c59131a73f658973f465/src/pages/listProductsByBrand/index.tsx
+
+```
+' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    </svg>
+  </button
+```
+
+
+## License: unknown
+https://github.com/Shazzad-Hossen/TripTrekker-front-end/blob/feea79001c5b5ddf07ede75e98f56c2b0da8a0c0/src/pages/Home/AccordionItem%20.jsx
+
+```
+' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  {/*
+```
+
+
+## License: unknown
+https://github.com/huybuicuiluinhui/beeShoseClient/blob/90d056435c732d43cdf7c59131a73f658973f465/src/pages/listProductsByBrand/index.tsx
+
+```
+' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  {/*
 ```
 

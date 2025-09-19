@@ -30,7 +30,7 @@ export default function MainDashboardTabs({
             onClick={() => setActiveTab(tab)}
             className={`relative  text-sm font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
               ${activeTab === tab
-                ? ' px-10 py-3 bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-300/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%]'
+                ? ' px-10 py-3 bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-400/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%]'
                 : ' ml-3 mr-2 mb-2  px-10 py-2 bg-white/40 dark:bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-white/20 dark:supports-[backdrop-filter]:bg-slate-700/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full'
               }
               ${activeTab === tab && index === tabs.length - 1 ? 'border-r border-white/50 dark:border-slate-700/60' : ''}
@@ -53,7 +53,7 @@ export default function MainDashboardTabs({
       </div>
 
       {/* Content Pane */}
-      <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-300/10 p-4 sm:p-6  rounded-r-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
+      <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-400/10 p-4 sm:p-6  rounded-r-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
         {activeTab === 'OskiHub Cal' && (
           <div>
             {/* What's Next Widget - Horizontal Layout (PRESERVED) */}
