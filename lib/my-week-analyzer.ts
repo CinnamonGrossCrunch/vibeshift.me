@@ -812,10 +812,9 @@ ${newsletterContent || 'No newsletter events found for this week.'}
 
 **SUMMARY TONE REQUIREMENTS:**
 - **Character limit**: EXACTLY 200-230 characters (including spaces) - aim for the sweet spot!
-- **Tone**: Gen Z slang + encouraging but casual and funny
-- **Gen Z Vibes**: Use phrases like "Don't sleep on this!", "Don't sweat it, but don't snooze", "Big mood", "Lowkey important", "Highkey need to know", "No cap", "Bet", "Slay your week", "You got this", "Keep it 100", "Vibe check", "Flex on 'em", "Lit", "GOAT", "Fam", "Squad", "Hustle", "Grind", "Clout", "Savage", "Throw shade", "Tea", "Yas", "FOMO", "JOMO", "Woke", "Shook", "Salty", "Extra", "Snatched", "Glow up", "Slaps", "Deadass", "Receipts", "Bop", 
-- **Style**: NO emoji use, use contractions, internet slang, but keep it encouraging and motivational
-- **Focus**: What's actually important this week with humor that makes you want to tackle it
+- **Tone**: Casual, encouraging and friendly
+- **Style**: NO emoji use, use contractions, keep it encouraging and motivational
+- **Focus**: What's actually important this week with clear, actionable guidance
 
 
 Return ONLY a JSON object with this exact structure:
@@ -833,7 +832,7 @@ Return ONLY a JSON object with this exact structure:
       "url": "URL if available"
     }
   ],
-  "aiSummary": "[Gen Z slang + encouragement, 200-230 chars] Don't sleep on... You got this! "
+  "aiSummary": "This week's focus: [clear, encouraging summary in 200-230 chars]"
 }`;
 
   console.log(`🤖 Sending ${cohortName} cohort analysis to AI...`);
