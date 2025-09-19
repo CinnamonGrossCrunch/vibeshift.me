@@ -578,11 +578,17 @@ export async function analyzeCohortMyWeekWithAI(
     // Fallback: return basic event lists without AI processing
     const blueEvents = filterCalendarEventsForWeek({ blue: cohortEvents.blue || [] }, weekStart, weekEnd).map(event => {
       const eventDate = new Date(event.start);
+      const { type, priority } = categorizeEvent(
+        event.summary || event.title || 'Calendar Event',
+        event.description
+      );
+      
       return {
         date: eventDate.toISOString().split('T')[0],
         time: eventDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
         title: event.summary || event.title || 'Calendar Event',
-        type: 'calendar' as const,
+        type,
+        priority,
         description: event.description || undefined,
         location: event.location || undefined,
         url: event.url || undefined
@@ -591,11 +597,17 @@ export async function analyzeCohortMyWeekWithAI(
 
     const goldEvents = filterCalendarEventsForWeek({ gold: cohortEvents.gold || [] }, weekStart, weekEnd).map(event => {
       const eventDate = new Date(event.start);
+      const { type, priority } = categorizeEvent(
+        event.summary || event.title || 'Calendar Event',
+        event.description
+      );
+      
       return {
         date: eventDate.toISOString().split('T')[0],
         time: eventDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
         title: event.summary || event.title || 'Calendar Event',
-        type: 'calendar' as const,
+        type,
+        priority,
         description: event.description || undefined,
         location: event.location || undefined,
         url: event.url || undefined
@@ -661,10 +673,18 @@ ${newsletterContent || 'No newsletter events found for this week.'}
 1. **Focus specifically on ${cohortName} cohort events** while including relevant general announcements
 2. **Extract and organize ALL relevant events** for this specific week
 3. **Prioritize cohort-specific activities** and deadlines
-4. **Categorize each event** as: 'calendar', 'newsletter', 'academic', or 'social'
-5. **Provide a brief weekly summary** (2-3 sentences) highlighting key themes and priorities for the ${cohortName} cohort
-6. **Preserve all important details** including times, locations, and URLs
-7. **Format dates consistently** as YYYY-MM-DD
+4. **Categorize each event** using these specific types:
+   - 'assignment': Homework, problem sets, projects due, deadlines
+   - 'class': Lectures, seminars, class sessions, workshops
+   - 'exam': Tests, quizzes, midterms, finals
+   - 'administrative': Registration, forms, check-ins, verification
+   - 'social': Teams@Haas, networking, group activities, social events
+   - 'newsletter': General announcements and information
+   - 'other': Events that don't fit other categories
+5. **Assign priority levels**: 'high' for deadlines and exams, 'medium' for classes and administrative items, 'low' for social and newsletter content
+6. **Provide a brief weekly summary** (2-3 sentences) highlighting key themes and priorities for the ${cohortName} cohort
+7. **Preserve all important details** including times, locations, and URLs
+8. **Format dates consistently** as YYYY-MM-DD
 
 Return ONLY a JSON object with this exact structure:
 
@@ -674,7 +694,8 @@ Return ONLY a JSON object with this exact structure:
       "date": "2025-09-17",
       "time": "6:00 PM", 
       "title": "Event Title",
-      "type": "academic",
+      "type": "assignment",
+      "priority": "high",
       "description": "Brief description",
       "location": "Location if available",
       "url": "URL if available"
@@ -705,8 +726,25 @@ Return ONLY a JSON object with this exact structure:
   console.log('🔍 Attempting to parse AI response...');
   const parsed = JSON.parse(cleanedResponse);
   
+  // Ensure events have proper categorization and fallback if needed
+  const processedEvents = (parsed.events || []).map((event: Partial<WeeklyEvent> & { title: string }) => {
+    // If AI didn't provide proper categorization, apply our logic
+    if (!event.type || !['assignment', 'class', 'exam', 'administrative', 'social', 'newsletter', 'other'].includes(event.type)) {
+      const { type, priority } = categorizeEvent(event.title, event.description);
+      event.type = type;
+      event.priority = priority;
+    }
+    
+    // Ensure priority is set
+    if (!event.priority) {
+      event.priority = categorizeEvent(event.title, event.description).priority;
+    }
+    
+    return event;
+  });
+  
   return {
-    events: parsed.events || [],
+    events: processedEvents,
     summary: parsed.aiSummary || `No summary generated for ${cohortName} cohort`
   };
 }

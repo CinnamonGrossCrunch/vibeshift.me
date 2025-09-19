@@ -6,7 +6,8 @@ type WeeklyEvent = {
   date: string;
   time?: string;
   title: string;
-  type: 'calendar' | 'newsletter' | 'academic' | 'social';
+  type: 'assignment' | 'class' | 'exam' | 'administrative' | 'social' | 'newsletter' | 'other';
+  priority?: 'high' | 'medium' | 'low';
   description?: string;
   location?: string;
   url?: string;
@@ -141,6 +142,51 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
     });
   };
 
+  const getEventIcon = (type: WeeklyEvent['type']) => {
+    switch (type) {
+      case 'assignment': return '📝';
+      case 'class': return '🎓';
+      case 'exam': return '📊';
+      case 'administrative': return '📋';
+      case 'social': return '🎉';
+      case 'newsletter': return '📰';
+      case 'other': return '📌';
+      default: return '📅';
+    }
+  };
+
+  const getEventColor = (type: WeeklyEvent['type'], priority?: WeeklyEvent['priority']) => {
+    // High priority items get stronger colors
+    if (priority === 'high') {
+      switch (type) {
+        case 'assignment': return 'bg-red-100 dark:bg-red-900/30 border-red-300 dark:border-red-700';
+        case 'exam': return 'bg-orange-100 dark:bg-orange-900/30 border-orange-300 dark:border-orange-700';
+        default: return 'bg-red-100 dark:bg-red-900/30 border-red-300 dark:border-red-700';
+      }
+    }
+    
+    // Regular colors for medium/low priority
+    switch (type) {
+      case 'assignment': return 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800';
+      case 'class': return 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800';
+      case 'exam': return 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800';
+      case 'administrative': return 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800';
+      case 'social': return 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800';
+      case 'newsletter': return 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700';
+      case 'other': return 'bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700';
+      default: return 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700';
+    }
+  };
+
+  const getPriorityIndicator = (priority?: WeeklyEvent['priority']) => {
+    switch (priority) {
+      case 'high': return '🔴';
+      case 'medium': return '🟡';
+      case 'low': return '🟢';
+      default: return '';
+    }
+  };
+
   if (loading) {
     return (
       <div className="p-6">
@@ -226,8 +272,18 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
               {/* Events for this date */}
               <div className="flex flex-wrap gap-2 flex-1">
                 {events.map((event, index) => (
-                  <div key={index} className="flex items-center space-x-2 bg-white/10 dark:bg-slate-800/20 rounded-lg px-3 py-2 group min-w-fit">
-                   
+                  <div key={index} className={`flex items-center space-x-2 rounded-lg px-3 py-2 group min-w-fit ${getEventColor(event.type, event.priority)}`}>
+                    {/* Event Icon */}
+                    <span className="text-base leading-none" title={`${event.type} event`}>
+                      {getEventIcon(event.type)}
+                    </span>
+                    
+                    {/* Priority Indicator */}
+                    {event.priority && (
+                      <span title={`${event.priority} priority`}>
+                        {getPriorityIndicator(event.priority)}
+                      </span>
+                    )}
                     
                     {/* Event Content */}
                     <div className="flex-1 min-w-0">

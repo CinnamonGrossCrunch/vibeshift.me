@@ -164,7 +164,7 @@ export default function Home() {
           {loading && (
         <div className="text-sm text-slate-500 flex items-center space-x-2">
             <div className="flex flex-col items-center space-y-1 mx-auto mb-2 mt-2 z-50">
-            <div className="w-8 h-8 border-2 border-slate-300 border-violet-900/50 rounded-xl animate-spin [animation-duration:1.8s]"></div>
+            <div className="w-8 h-8 border-2 border-t-violet-900/50 border-r-violet-900/50 border-b-violet-900/50 border-l-slate-900/50 rounded-full animate-spin [animation-duration:.5s]"></div>
             <span>Loading...</span>
             </div>
         </div>

@@ -39,7 +39,7 @@ export interface UnifiedDashboardData {
     };
   };
   
-  // My Week data for MyWeekWidget - now supports both cohorts
+  // My Week data for MyWeekWidget - now supports both cohorts with enhanced categorization
   myWeekData: {
     weekStart: string;
     weekEnd: string;
@@ -47,7 +47,8 @@ export interface UnifiedDashboardData {
       date: string;
       time?: string;
       title: string;
-      type: 'calendar' | 'newsletter' | 'academic' | 'social';
+      type: 'assignment' | 'class' | 'exam' | 'administrative' | 'social' | 'newsletter' | 'other';
+      priority?: 'high' | 'medium' | 'low';
       description?: string;
       location?: string;
       url?: string;
@@ -56,7 +57,8 @@ export interface UnifiedDashboardData {
       date: string;
       time?: string;
       title: string;
-      type: 'calendar' | 'newsletter' | 'academic' | 'social';
+      type: 'assignment' | 'class' | 'exam' | 'administrative' | 'social' | 'newsletter' | 'other';
+      priority?: 'high' | 'medium' | 'low';
       description?: string;
       location?: string;
       url?: string;
