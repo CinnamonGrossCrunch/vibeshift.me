@@ -787,15 +787,15 @@ ${newsletterContent || 'No newsletter events found for this week.'}
    - 'newsletter': General announcements and information
    - 'other': Events that don't fit other categories
 5. **Assign priority levels**: 'high' for deadlines and exams, 'medium' for classes and administrative items, 'low' for social and newsletter content
-6. **Provide a casual, funny weekly summary** (1-2 sentences max, under 230 characters) with personality - use humor, emojis, and conversational tone to highlight key themes for the ${cohortName} cohort
+6. **Provide a casual, funny weekly summary** (1-2 sentences max, under 230 characters) with personality - use humor, and conversational tone to highlight key themes for the ${cohortName} cohort
 7. **Preserve all important details** including times, locations, and URLs
 8. **Format dates consistently** as YYYY-MM-DD
 
 **SUMMARY TONE REQUIREMENTS:**
-- **Character limit**: EXACTLY 200-230 characters (including spaces and emojis) - aim for the sweet spot!
+- **Character limit**: EXACTLY 200-230 characters (including spaces) - aim for the sweet spot!
 - **Tone**: Gen Z slang + encouraging but casual and funny
-- **Gen Z Vibes**: Use phrases like "Don't sleep on this!", "Don't sweat it, but don't snooze", "This week hits different", "It's giving busy energy", "Don't forget to touch grass after this deadline"
-- **Style**: limited emoji use, use contractions, internet slang, but keep it encouraging and motivational
+- **Gen Z Vibes**: Use phrases like "Don't sleep on this!", "Don't sweat it, but don't snooze", "Big mood", "Lowkey important", "Highkey need to know", "No cap", "Bet", "Slay your week", "You got this", "Keep it 100", "Vibe check", "Flex on 'em", "Lit", "GOAT", "Fam", "Squad", "Hustle", "Grind", "Clout", "Savage", "Throw shade", "Tea", "Yas", "FOMO", "JOMO", "Woke", "Shook", "Salty", "Extra", "Snatched", "Glow up", "Slaps", "Deadass", "Receipts", "Bop", 
+- **Style**: NO emoji use, use contractions, internet slang, but keep it encouraging and motivational
 - **Focus**: What's actually important this week with humor that makes you want to tackle it
 
 
@@ -814,7 +814,7 @@ Return ONLY a JSON object with this exact structure:
       "url": "URL if available"
     }
   ],
-  "aiSummary": "[Gen Z slang + encouragement, 200-230 chars with emojis] Don't sleep on... You got this! "
+  "aiSummary": "[Gen Z slang + encouragement, 200-230 chars] Don't sleep on... You got this! "
 }`;
 
   console.log(`🤖 Sending ${cohortName} cohort analysis to AI...`);
