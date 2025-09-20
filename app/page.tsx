@@ -20,7 +20,8 @@ export default function Home() {
     gold: [], 
     original: [], 
     launch: [], 
-    calBears: [] 
+    calBears: [],
+    campusGroups: []
   });
   const [loading, setLoading] = useState(true);
   

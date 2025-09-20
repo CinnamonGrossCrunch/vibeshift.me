@@ -24,7 +24,8 @@ export default function CohortCalendarWidget({
     gold: [], 
     original: [], 
     launch: [], 
-    calBears: [] 
+    calBears: [],
+    campusGroups: []
   });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
