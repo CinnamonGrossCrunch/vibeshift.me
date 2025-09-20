@@ -126,10 +126,10 @@ function getThisWeekRange(): { start: Date; end: Date } {
   start.setDate(today.getDate() - dayOfWeek);
   start.setHours(0, 0, 0, 0);
   
-  // Calculate the end as next Sunday (8 days total: Sunday through Sunday)
+  // Calculate the end as next Monday at 00:00:00 (exclusive) to include all Sunday events
   const end = new Date(start);
-  end.setDate(start.getDate() + 7); // 7 days later = next Sunday
-  end.setHours(23, 59, 59, 999);
+  end.setDate(start.getDate() + 8); // 8 days later = next Monday
+  end.setHours(0, 0, 0, 0);
   
   console.log(`🗓️ Week range: ${start.toISOString()} to ${end.toISOString()}`);
   console.log(`   Today: ${today.toDateString()} (day ${dayOfWeek}), Week: ${start.toDateString()} to ${end.toDateString()} (Sunday through Sunday, 8 days)`);
@@ -232,7 +232,7 @@ function filterCalendarEventsForWeek(cohortEvents: CohortEvents, weekStart: Date
     }
     
     const eventDate = new Date(event.start);
-    const isInRange = eventDate >= weekStart && eventDate <= weekEnd;
+    const isInRange = eventDate >= weekStart && eventDate < weekEnd;
     
     if (isInRange) {
       console.log(`✅ Including event: ${event.title} on ${eventDate.toDateString()}`);
