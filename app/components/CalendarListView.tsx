@@ -28,6 +28,7 @@ export default function CalendarListView({
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [matchedOriginalEvent, setMatchedOriginalEvent] = useState<CalendarEvent | null>(null);
   const [scrollIndex, setScrollIndex] = useState(0);
+  const [isGlowing, setIsGlowing] = useState(false);
 
   // Sync with external cohort selection
   useEffect(() => {
@@ -51,6 +52,21 @@ export default function CalendarListView({
       localStorage.setItem('calendar-cohort', selectedCohort);
     }
   }, [selectedCohort, showCohortToggle]);
+
+  // Listen for glow animation triggers from MyWeekWidget
+  useEffect(() => {
+    const handleGlowTrigger = () => {
+      setIsGlowing(true);
+      setTimeout(() => setIsGlowing(false), 100); // Remove glow after 0.1 seconds
+    };
+
+    // Listen for custom event from MyWeekWidget
+    window.addEventListener('triggerCalendarGlow', handleGlowTrigger);
+    
+    return () => {
+      window.removeEventListener('triggerCalendarGlow', handleGlowTrigger);
+    };
+  }, []);
 
   // Generate course-specific fallback content for events without original calendar matches
   const generateCourseContent = (cohortEvent: CalendarEvent): CalendarEvent | null => {
@@ -271,10 +287,22 @@ export default function CalendarListView({
   };
 
   return (
-    <div className="calendar-list-widget border border-slate-200 dark:border-slate-700 rounded-tr-xl rounded-tl-none transition-all duration-300" data-calendar-list-view>
+    <div 
+      className={`calendar-list-widget p-1 rounded-xl transition-all duration-1000 ${
+        isGlowing 
+          ? 'ring-4 ring-blue-400/60 ring-offset-2 ring-offset-white dark:ring-offset-slate-800 shadow-lg shadow-blue-500/30' 
+          : ''
+      }`} 
+      style={{
+        boxShadow: isGlowing && selectedCohort === 'blue' 
+          ? '0 0 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.2), 0 0 80px rgba(59, 130, 246, 0.1)'
+          : undefined
+      }}
+      data-calendar-list-view
+    >
       {/* Widget Header */}
       <div className="widget-header">
-        <header className="header-container mb-0 bg-berkeley-blue/90 dark:bg-berkeley-blue/80 w-full flex items-center justify-start px-4 py-1 border-b border-slate-200/50 dark:border-slate-700/50 rounded-tr-lg rounded-tl-none">
+        <header className="header-container mb-2 bg-berkeley-blue/90 dark:bg-berkeley-blue/80 w-full flex items-center justify-start px-0 py-0  rounded-tr-lg rounded-tl-none">
           <h3 className="text-white text-base urbanist-medium tracking-wide leading-none m-0 p-0">
             {title}
           </h3>
@@ -282,7 +310,7 @@ export default function CalendarListView({
       </div>
 
       {/* Widget Content */}
-      <div className="widget-content px-4 py-0 relative">
+      <div className="widget-content px-0 py-0 relative">
         {/* Events List */}
         {displayedEvents.length === 0 ? (
           <div className="empty-state text-center py-8">
@@ -295,7 +323,7 @@ export default function CalendarListView({
           </div>
         ) : (
           <div className="events-container overflow-x-auto mb-0">
-            <div className="flex gap-4 pb-2" style={{ minWidth: 'max-content' }}>
+            <div className="flex gap-4 pl-1.5" style={{ minWidth: 'max-content' }}>
               {displayedEvents.map((ev) => {
                 const start = new Date(ev.start);
                 const end = ev.end ? new Date(ev.end) : undefined;
@@ -312,116 +340,116 @@ export default function CalendarListView({
                 const diffInMs = eventDate.getTime() - today.getTime();
                 const diffInDays = Math.round(diffInMs / (1000 * 60 * 60 * 24));
                 
-                // Generate days remaining text
-                let daysRemainingText = '';
-                if (diffInDays === 0) {
-                  daysRemainingText = 'Today';
-                } else if (diffInDays === 1) {
-                  daysRemainingText = 'Tomorrow';
-                } else if (diffInDays > 1) {
-                  daysRemainingText = `${diffInDays} Days Remaining`;
-                } else {
-                  daysRemainingText = `${Math.abs(diffInDays)} Day's Ago`;
+          // Generate days remaining text
+          let daysRemainingText = '';
+          if (diffInDays === 0) {
+            daysRemainingText = 'Today';
+          } else if (diffInDays === 1) {
+            daysRemainingText = 'Tomorrow';
+          } else if (diffInDays > 1) {
+            daysRemainingText = `${diffInDays} Days Remaining`;
+          } else {
+            daysRemainingText = `${Math.abs(diffInDays)} Day's Ago`;
+          }
+
+          // Generate color for the day indicator circle based on days remaining
+          const getDayIndicatorColor = (days: number): string => {
+            if (days <= 0) return '#ef4444'; // Today or past - red-500 equivalent
+            if (days === 1) return '#f97316'; // Tomorrow - orange-500
+            if (days === 2) return '#f59e0b'; // 2 days - amber-500
+            if (days === 3) return '#eab308'; // 3 days - yellow-500
+            if (days === 4) return '#84cc16'; // 4 days - lime-500
+            if (days === 5) return '#22c55e'; // 5 days - green-500
+            if (days === 6) return '#06b6d4'; // 6 days - cyan-500
+            if (days === 7) return '#14b8a680'; // 7 days - medium opacity teal (50% opacity)
+            return '#14b8a680'; // 7+ days - medium opacity teal (50% opacity)
+          };
+
+          const circleColor = getDayIndicatorColor(diffInDays);
+
+          return (
+            <div 
+            key={ev.uid || `${ev.title}-${ev.start}`}
+            className="event-card flex-shrink-0 w-52 bg-gradient-to-r from-slate-50 to-blue-50 hover:from-blue-50 hover:to-amber-50 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 p-4 rounded-lg border border-slate-200 dark:border-slate-600 hover: transition-all duration-300 ease-in-out cursor-pointer"
+            onClick={() => handleEventClick(ev)}
+            >
+            <div className="event-content flex flex-col h-full">
+              {/* Days remaining indicator */}
+              <div 
+              className="text-xs mb-1 urbanist-medium"
+              style={{ color: circleColor }}
+              >
+              {daysRemainingText}
+              </div>
+              <h4 className="event-title urbanist-medium text-slate-900 dark:text-white text-sm mb-2 line-clamp-2 flex-grow">
+              {ev.title}
+              </h4>
+              <div className="event-meta space-y-1 mt-auto">
+              <div className="event-time text-xs text-slate-600 dark:text-slate-400">
+                <div 
+                className="inline-block w-3 h-3 rounded-full mr-2" 
+                style={{ backgroundColor: circleColor }}
+                ></div>
+                <span className="">
+                {isAllDay 
+                  ? format(start, 'MMM d, yyyy')
+                  : `${format(start, 'MMM d, h:mm a')} ${end ? `- ${format(end, 'h:mm a')}` : ''}`
                 }
-
-                // Generate color for the day indicator circle based on days remaining
-                const getDayIndicatorColor = (days: number): string => {
-                  if (days <= 0) return '#ef4444'; // Today or past - red-500 equivalent
-                  if (days === 1) return '#f97316'; // Tomorrow - orange-500
-                  if (days === 2) return '#f59e0b'; // 2 days - amber-500
-                  if (days === 3) return '#eab308'; // 3 days - yellow-500
-                  if (days === 4) return '#84cc16'; // 4 days - lime-500
-                  if (days === 5) return '#22c55e'; // 5 days - green-500
-                  if (days === 6) return '#06b6d4'; // 6 days - cyan-500
-                  if (days === 7) return '#14b8a680'; // 7 days - medium opacity teal (50% opacity)
-                  return '#14b8a680'; // 7+ days - medium opacity teal (50% opacity)
-                };
-
-                const circleColor = getDayIndicatorColor(diffInDays);
-
-                return (
-                  <div 
-                    key={ev.uid || `${ev.title}-${ev.start}`}
-                    className="event-card flex-shrink-0 w-52 bg-gradient-to-r from-slate-50 to-blue-50 hover:from-blue-50 hover:to-amber-50 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 p-4 rounded-lg border border-slate-200 dark:border-slate-600 hover: transition-all duration-300 ease-in-out cursor-pointer"
-                    onClick={() => handleEventClick(ev)}
-                  >
-                    <div className="event-content flex flex-col h-full">
-                      {/* Days remaining indicator */}
-                      <div 
-                        className="text-xs mb-1 urbanist-medium"
-                        style={{ color: circleColor }}
-                      >
-                        {daysRemainingText}
-                      </div>
-                      <h4 className="event-title urbanist-medium text-slate-900 dark:text-white text-sm mb-2 line-clamp-2 flex-grow">
-                        {ev.title}
-                      </h4>
-                      <div className="event-meta space-y-1 mt-auto">
-                        <div className="event-time text-xs text-slate-600 dark:text-slate-400">
-                          <div 
-                            className="inline-block w-3 h-3 rounded-full mr-2" 
-                            style={{ backgroundColor: circleColor }}
-                          ></div>
-                          <span className="">
-                            {isAllDay 
-                              ? format(start, 'MMM d, yyyy')
-                              : `${format(start, 'MMM d, h:mm a')} ${end ? `- ${format(end, 'h:mm a')}` : ''}`
-                            }
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+                </span>
+              </div>
+              </div>
             </div>
-          </div>
-        )}
-        
-        {/* Scroll indicators for navigation */}
-        {hasPreviousEvents && (
-          <div className="absolute top-2 left-0.5 bottom-2">
-            <div 
-              className="w-8 h-full glass-nav-button rounded-xl flex items-center justify-center cursor-pointer"
-              onClick={handleScrollPrevious}
-            >
-              <svg 
-              className="w-5 h-5 text-slate-600 dark:text-slate-300 hover:text-white transition-colors duration-300" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-              >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
             </div>
-          </div>
-        )}
-        
-        {/* Scroll indicator for more events - positioned in widget container */}
-        {showNextArrow && (
-          <div className="absolute top-2 right-0.5 bottom-2">
-            <div 
-              className="w-8 h-full glass-nav-button rounded-xl flex items-center justify-center cursor-pointer"
-              onClick={handleScrollNext}
-            >
-              <svg 
-              className="w-5 h-5 text-slate-600 dark:text-slate-300 hover:text-white transition-colors duration-300" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-              >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </div>
-        )}
+          );
+          })}
+        </div>
+        </div>
+      )}
+      
+      {/* Scroll indicators for navigation */}
+      {hasPreviousEvents && (
+        <div className="absolute top-5 left-0.5 bottom-2">
+        <div 
+          className="w-6 h-20 glass-nav-button rounded-xl flex items-center justify-center cursor-pointer"
+          onClick={handleScrollPrevious}
+        >
+          <svg 
+          className="w-5 h-5 text-slate-600 dark:text-slate-300 hover:text-white transition-colors duration-300" 
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+          >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </div>
+        </div>
+      )}
+      
+      {/* Scroll indicator for more events - positioned in widget container */}
+      {showNextArrow && (
+        <div className="absolute top-5 right-0.5 bottom-2">
+        <div 
+          className="w-6 h-20 glass-nav-button rounded-xl flex items-center justify-center cursor-pointer"
+          onClick={handleScrollNext}
+        >
+          <svg 
+          className="w-5 h-5 text-slate-600 dark:text-slate-300 hover:text-white transition-colors duration-300" 
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+          >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+        </div>
+      )}
       </div>
 
       {/* Event Detail Modal */}
       <EventDetailModal 
-        event={selectedEvent} 
-        originalEvent={matchedOriginalEvent}
-        onClose={handleCloseModal} 
+      event={selectedEvent} 
+      originalEvent={matchedOriginalEvent}
+      onClose={handleCloseModal} 
       />
     </div>
   );

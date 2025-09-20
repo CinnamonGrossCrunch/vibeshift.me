@@ -15,6 +15,8 @@ type Props = {
   launchEvents?: CalendarEvent[];
   showCalBears?: boolean;
   calBearsEvents?: CalendarEvent[];
+  showCampusGroups?: boolean;
+  campusGroupsEvents?: CalendarEvent[];
 };
 
 export default function MonthGrid({ 
@@ -25,7 +27,9 @@ export default function MonthGrid({
   showUCLaunch = true,
   launchEvents = [],
   showCalBears = true,
-  calBearsEvents = []
+  calBearsEvents = [],
+  showCampusGroups = false,
+  campusGroupsEvents = []
 }: Props) {
   // Remove the internal state since month is controlled by parent
   // const [currentMonth, setCurrentMonth] = useState(new Date(2025, 7, 1));
@@ -64,12 +68,31 @@ export default function MonthGrid({
           isSameDay(new Date(ev.start), day)
         ) : [];
         
-        // Combine regular events with launch events and Cal Bears events
-        const allDayEvents = [...dayEvents, ...dayLaunchEvents, ...dayCalBearsEvents];
+        // Add Campus Groups events for this day if they should be shown
+        const dayCampusGroupsEvents = showCampusGroups ? campusGroupsEvents.filter((ev) =>
+          isSameDay(new Date(ev.start), day)
+        ) : [];
+        
+        // Debug logging for Campus Groups
+        if (day.getDate() === 1) { // Only log once per month to avoid spam
+          console.log(`MonthGrid Campus Groups Debug:`, {
+            showCampusGroups,
+            campusGroupsEventsLength: campusGroupsEvents.length,
+            campusGroupsEvents: campusGroupsEvents,
+            month: format(day, 'MMMM yyyy')
+          });
+        }
+        if (showCampusGroups && campusGroupsEvents.length > 0) {
+          console.log(`Campus Groups: ${campusGroupsEvents.length} total events, ${dayCampusGroupsEvents.length} events for ${day.toDateString()}`);
+        }
+        
+        // Combine regular events with launch events, Cal Bears events, and Campus Groups events
+        const allDayEvents = [...dayEvents, ...dayLaunchEvents, ...dayCalBearsEvents, ...dayCampusGroupsEvents];
 
         const isToday = isSameDay(day, new Date());
         const hasGreekEvent = hasGreekTheaterEventOnDate(day);
         const hasCalBearsEvent = showCalBears && dayCalBearsEvents.length > 0;
+        const hasCampusGroupsEvent = showCampusGroups && dayCampusGroupsEvents.length > 0;
 
         // Function to parse event title and extract course name and assignment
         const parseEventTitle = (title: string) => {
@@ -143,6 +166,11 @@ export default function MonthGrid({
           // Check for Cal Bears events - Blue and Gold styling
           if (event.source && event.source.includes('cal_bears_home')) {
             return `${glassBase} bg-blue-800/40 border-yellow-500/40 text-white ${hoverGold}`;
+          }
+
+          // Check for Campus Groups events - Blue styling
+          if (event.source && event.source.includes('campus_groups')) {
+            return `${glassBase} bg-blue-600/40 border-blue-500/40 text-white ${hoverGold}`;
           }
 
           // Check for Teams@Haas events FIRST (before source-based detection)
@@ -236,6 +264,22 @@ export default function MonthGrid({
                     }
                   }}
                 />
+              )}
+              {hasCampusGroupsEvent && (
+                <div 
+                  className="w-6 h-6 flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-opacity bg-blue-600 rounded-lg flex items-center justify-center"
+                  title={`Campus Groups: ${dayCampusGroupsEvents.map(e => e.title).join(', ')}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (dayCampusGroupsEvents.length > 0) {
+                      onEventClick(dayCampusGroupsEvents[0]);
+                    }
+                  }}
+                >
+                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
               )}
             </div>
             <div className="flex-1 flex flex-col gap-px">

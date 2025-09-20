@@ -21,8 +21,9 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [matchedOriginalEvent, setMatchedOriginalEvent] = useState<CalendarEvent | null>(null);
   const [showGreekTheater, setShowGreekTheater] = useState(false);
-  const [showUCLaunch, setShowUCLaunch] = useState(true);
+  const [showUCLaunch, setShowUCLaunch] = useState(false);
   const [showCalBears, setShowCalBears] = useState(false);
+  const [showCampusGroups, setShowCampusGroups] = useState(false);
   const [showEventDropdown, setShowEventDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -270,11 +271,16 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
   // Get current cohort events
   const currentEvents = cohortEvents[selectedCohort] || [];
 
+  // Debug logging for Campus Groups
+  console.log('Campus Groups Events:', cohortEvents.campusGroups?.length || 0, 'events');
+  console.log('Show Campus Groups:', showCampusGroups);
+  console.log('Campus Groups Events Detail:', cohortEvents.campusGroups);
+
   return (
     <>
       {/* Compact Header - All controls on one line */}
       <header className="mb-4 relative overflow-visible">
-        <div className="flex items-center justify-between gap-3 flex-wrap">
+        <div className="relative flex items-center gap-3 flex-wrap">
 
           {/* Cohort Tabs - Only show if not externally controlled */}
           {!externalSelectedCohort && (
@@ -320,42 +326,44 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
             </div>
           )}
 
-          {/* Month Navigation */}
-          <div className="flex items-center gap-1 flex-shrink-0">
+          {/* Month Navigation - Centered */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-0 flex-shrink-0">
             <button
               onClick={goToPreviousMonth}
-              className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-white"
+              className="p-0 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-white"
               aria-label="Previous month"
             >
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            <h4 className="text-sm font-semibold text-white px-10">
-              {format(currentMonth, 'MMM yyyy')}
+            <h4 className="text-lg px-10">
+              <span className="font-medium text-white">{format(currentMonth, 'MMM')}</span>
+              <span className="font-light text-white/60"> {format(currentMonth, 'yyyy')}</span>
             </h4>
             <button
               onClick={goToNextMonth}
               className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-white"
               aria-label="Next month"
             >
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
           </div>
-          {/* Special Event Toggles - Dropdown */}
-          <div className="relative flex-shrink-0" ref={dropdownRef}>
+          
+          {/* Special Event Toggles - Dropdown - Right Anchored */}
+          <div className="relative flex-shrink-0 ml-auto" ref={dropdownRef}>
             <button
               onClick={() => setShowEventDropdown(!showEventDropdown)}
-              className="flex items-center gap-2 px-3 py-2 bg-slate-100 dark:bg-slate-700 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+              className="flex items-center justify-center gap-2 px-3 py-2 bg-slate-400/10 rounded-full hover:bg-slate-800 transition-all duration-200 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]"
               aria-label="Toggle special events"
             >
-              <svg className="w-3 h-3 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
-              <span className="text-xs font-medium text-slate-600 dark:text-slate-300">Events</span>
-              
+              <span className="text-sm font-semibold text-white/80">Events</span>
+
             </button>
 
             {/* Dropdown Menu */}
@@ -448,6 +456,33 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
                     </div>
                   </div>
                 </label>
+
+                {/* Campus Groups Toggle */}
+                <label className="flex items-center justify-between px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 flex items-center justify-center bg-blue-600 rounded-lg">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                    </div>
+                    <span className="text-sm font-medium">Campus Groups</span>
+                  </div>
+                  <div className="relative">
+                    <input
+                      type="checkbox"
+                      checked={showCampusGroups}
+                      onChange={(e) => setShowCampusGroups(e.target.checked)}
+                      className="sr-only"
+                    />
+                    <div className={`w-10 h-6 rounded-full transition-colors duration-200 ${
+                      showCampusGroups ? 'bg-blue-500' : 'bg-slate-300 dark:bg-slate-600'
+                    }`}>
+                      <div className={`translate-y-1 w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-200 mt-1 ${
+                        showCampusGroups ? 'translate-x-5' : 'translate-x-1'
+                      }`} />
+                    </div>
+                  </div>
+                </label>
               {/* COMING SOON*/}
                 <label className="flex items-center justify-center text-center px-5 py-1 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer">
                   <div className="flex items-center gap-3">
@@ -475,9 +510,11 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
             onEventClick={handleEventClick} 
             showGreekTheater={showGreekTheater}
             showUCLaunch={showUCLaunch}
-            launchEvents={cohortEvents.launch}
+            launchEvents={cohortEvents.launch || []}
             showCalBears={showCalBears}
-            calBearsEvents={cohortEvents.calBears}
+            calBearsEvents={cohortEvents.calBears || []}
+            showCampusGroups={showCampusGroups}
+            campusGroupsEvents={cohortEvents.campusGroups || []}
           />
         </div>
       </div>

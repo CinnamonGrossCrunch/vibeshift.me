@@ -12,13 +12,13 @@ interface DashboardTabs2Props {
 }
 
 export default function DashboardTabs2({ dashboardData: externalData }: DashboardTabs2Props) {
-  const [activeTab, setActiveTab] = useState('Newsletter');
+  const [activeTab, setActiveTab] = useState('Updates');
   const [dashboardData, setDashboardData] = useState<UnifiedDashboardData | null>(externalData || null);
   const [loading, setLoading] = useState(!externalData); // If external data provided, don't start loading
   const [error, setError] = useState<string | null>(null);
   
   // Remove My Week from tabs since it's now rendered at top level
-  const tabs = ['Newsletter'];
+  const tabs = ['Slack', 'Updates'];
 
   useEffect(() => {
     // If external data is provided, use it and skip API calls
@@ -61,6 +61,7 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
       <div className="relative">
         {/* Tab Navigation */}
         <div className="flex items-end relative">
+          <div className="flex-grow h-px mt-3"></div>
           {tabs.map((tab, index) => (
             <button
               key={index}
@@ -70,11 +71,10 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
               <span className="block relative z-10">{tab}</span>
             </button>
           ))}
-          <div className="flex-grow h-px mt-3"></div>
         </div>
 
         {/* Loading Content */}
-        <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-300/10 p-4 sm:p-6 rounded-r-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
+        <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-400/10 p-4 sm:p-6 rounded-l-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
           <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-200 dark:border-slate-700 text-center">
             <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-3 animate-pulse">
               <span className="text-lg">🔄</span>
@@ -95,6 +95,7 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
       <div className="relative">
         {/* Tab Navigation */}
         <div className="flex items-end relative">
+          <div className="flex-grow h-px mt-3"></div>
           {tabs.map((tab, index) => (
             <button
               key={index}
@@ -104,11 +105,10 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
               <span className="block relative z-10">{tab}</span>
             </button>
           ))}
-          <div className="flex-grow h-px mt-3"></div>
         </div>
 
         {/* Error Content */}
-        <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-300/10 p-4 sm:p-6 rounded-r-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
+        <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-400/10 p-4 sm:p-6 rounded-l-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
           <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-200 dark:border-slate-700 text-center">
             <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
               <span className="text-lg">⚠️</span>
@@ -131,52 +131,59 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
 
   // Success state with data
   return (
-    <div className="relative">
+    <div className="relative h-full flex flex-col">
       {/* Tab Navigation */}
       <div className="flex items-end relative">
+        <div className="flex-grow h-px mt-3"></div>
         {tabs.map((tab, index) => (
           <button
             key={index}
             onClick={() => setActiveTab(tab)}
             className={`relative text-sm font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
               ${activeTab === tab
-                ? ' px-10 py-3 bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-300/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%]'
+                ? ' px-10 py-3 bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-400/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%]'
                 : ' ml-3 mr-2 mb-2  px-10 py-2 bg-white/40 dark:bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-white/20 dark:supports-[backdrop-filter]:bg-slate-700/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full'
               }
             `}
+            style={{
+              ...(activeTab === tab && {
+                clipPath: index === tabs.length - 1 
+                  ? 'polygon(30px 0%, 100% 0%, 100% 100%, 0% 100%)'  // Newsletter (rightmost) - angled left edge
+                  : 'polygon(0% 0%, calc(100% - 30px) 0%, 100% 100%, 0% 100%)', // Slack (left) - angled right edge
+                marginLeft: index === tabs.length - 1 ? '-16px' : '0',
+                marginRight: index === tabs.length - 1 ? '0' : '-16px',
+              }),
+              position: 'relative'
+            }}
           >
             <span className="block relative z-10">{tab || ' '}</span>
           </button>
         ))}
-        <div className="flex-grow h-px mt-3"></div>
       </div>
 
       {/* Content Pane */}
-      <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-300/10 p-4 sm:p-6 rounded-r-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
-        {activeTab === 'Newsletter' && (
-          <div className="space-y-6">
-            {/* Newsletter Widget */}
-            <div className="w-full">
-              <NewsletterWidget data={dashboardData.newsletterData} />
-            </div>
-
-            {/* Slack Placeholder */}
-            <div className="w-full">
-              <SlackWidget />
-            </div>
+      <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-400/10 p-4 sm:p-6 rounded-l-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%] flex-1 min-h-[600px]">
+        {activeTab === 'Updates' && (
+          <div className="w-full">
+            <NewsletterWidget data={dashboardData.newsletterData} />
+          </div>
+        )}
+        
+        {activeTab === 'Slack' && (
+          <div className="w-full">
+            <SlackWidget />
           </div>
         )}
       </div>
       
-      {/* Processing Info (optional debug display) */}
+      {/* Processing Info (optional debug display) - COMMENTED OUT */}
+      {/* 
       {dashboardData.processingInfo && (
         <div className="mt-2 text-xs text-slate-500 dark:text-slate-400 text-center">
           Loaded in {dashboardData.processingInfo.totalTime}ms
-          {/* • Newsletter: {dashboardData.processingInfo.newsletterTime}ms 
-          • Calendar: {dashboardData.processingInfo.calendarTime}ms 
-          • AI: {dashboardData.processingInfo.myWeekTime}ms */}
         </div>
       )}
+      */}
     </div>
   );
 }

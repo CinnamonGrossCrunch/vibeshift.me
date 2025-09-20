@@ -102,7 +102,7 @@ export default function Home() {
       {/* Content Overlay */}
       <div className="fixed inset-0 z-10 overflow-auto">
         {/* Header */}
-        <div className="w-full sticky top-0 z-30 bg-white/40 dark:bg-slate-900/30 backdrop-blur-md supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-900/25 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] relative overflow-hidden">
+        <div className="w-full sticky top-0 z-30 bg-white/40 dark:bg-slate-900/30 backdrop-blur-md supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-900/25 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] relative overflow-hidden py-2">
           {/* SVG turbulence / glass distortion layer */}
           <svg className="absolute -inset-px w-[120%] h-[140%] opacity-20 mix-blend-overlay pointer-events-none" aria-hidden="true">
             <filter id="glassNoise">

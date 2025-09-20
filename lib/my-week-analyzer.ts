@@ -126,13 +126,13 @@ function getThisWeekRange(): { start: Date; end: Date } {
   start.setDate(today.getDate() - dayOfWeek);
   start.setHours(0, 0, 0, 0);
   
-  // Calculate the end of the week (Saturday)
+  // Calculate the end as next Sunday (8 days total: Sunday through Sunday)
   const end = new Date(start);
-  end.setDate(start.getDate() + 6);
+  end.setDate(start.getDate() + 7); // 7 days later = next Sunday
   end.setHours(23, 59, 59, 999);
   
   console.log(`🗓️ Week range: ${start.toISOString()} to ${end.toISOString()}`);
-  console.log(`   Today: ${today.toDateString()} (day ${dayOfWeek}), Week: ${start.toDateString()} to ${end.toDateString()}`);
+  console.log(`   Today: ${today.toDateString()} (day ${dayOfWeek}), Week: ${start.toDateString()} to ${end.toDateString()} (Sunday through Sunday, 8 days)`);
   
   return { start, end };
 }

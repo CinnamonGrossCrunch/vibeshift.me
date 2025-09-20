@@ -87,18 +87,17 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
   const [error, setError] = useState<string | null>(null);
 
   // Function to handle MyWeek event clicks
-  const handleEventClick = (event: React.MouseEvent<HTMLAnchorElement>, eventTitle: string) => {
+  const handleEventClick = (event: React.MouseEvent, eventTitle: string) => {
     event.preventDefault();
     
-    // Trigger glow animation on calendar list view
+    // Trigger glow animation on calendar list view via custom event
+    const glowEvent = new CustomEvent('triggerCalendarGlow');
+    window.dispatchEvent(glowEvent);
+    
+    // Scroll to calendar if needed
     const calendarElement = document.querySelector('[data-calendar-list-view]');
     if (calendarElement) {
-      calendarElement.classList.add('ring-4', 'ring-berkeley-blue/50', 'ring-offset-2', 'ring-offset-white', 'dark:ring-offset-slate-900');
-      
-      // Remove the glow after 2 seconds
-      setTimeout(() => {
-        calendarElement.classList.remove('ring-4', 'ring-berkeley-blue/50', 'ring-offset-2', 'ring-offset-white', 'dark:ring-offset-slate-900');
-      }, 2000);
+      calendarElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     
     console.log(`📅 Directing attention to calendar for: ${eventTitle}`);
@@ -317,22 +316,16 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
                   {/* Events for this date */}
                   <div className="flex  gap-2 flex-1">
                     {events.map((event, index) => (
-                      <div key={index} className={`flex items-center space-x-2 rounded-lg px-3 py-1 group min-w-fit ${getEventColor(event.type, event.priority)}`}>
+                      <div 
+                        key={index} 
+                        className={`flex items-center space-x-2 rounded-lg px-3 py-1 group min-w-fit cursor-pointer hover:opacity-80 transition-all ${getEventColor(event.type, event.priority)}`}
+                        onClick={(e) => handleEventClick(e, event.title)}
+                      >
                         {/* Event Content */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-baseline space-x-2">
                             <h4 className={`text-sm font-light group-hover:opacity-80 transition-opacity truncate`}>
-                              {event.url && event.url !== 'No URL' ? (
-                                <a 
-                                  href="#" 
-                                  onClick={(e) => handleEventClick(e, event.title)}
-                                  className="hover:underline cursor-pointer"
-                                >
-                                  {event.title}
-                                </a>
-                              ) : (
-                                event.title
-                              )}
+                              {event.title}
                             </h4>
 
                             {/* Time and Location */}

@@ -38,7 +38,8 @@ export async function GET(request: NextRequest) {
         gold: [],
         original: [],
         launch: [],
-        calBears: []
+        calBears: [],
+        campusGroups: []
       },
       { status: 500 }
     );

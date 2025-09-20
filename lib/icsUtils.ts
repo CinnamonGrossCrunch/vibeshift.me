@@ -25,6 +25,7 @@ export type CohortEvents = {
   original: CalendarEvent[]; // Original calendar.ics events for rich content matching
   launch: CalendarEvent[]; // UC Launch Accelerator events
   calBears: CalendarEvent[]; // Cal Bears home events
+  campusGroups: CalendarEvent[]; // Campus Groups events
 };
 
 // File mappings for each cohort
@@ -495,6 +496,31 @@ async function fetchCalBearsEvents(): Promise<CalendarEvent[]> {
 }
 
 /**
+ * Fetch and parse events from the Campus Groups ICS URL
+ */
+async function fetchCampusGroupsEvents(): Promise<CalendarEvent[]> {
+  console.log('Fetching Campus Groups events');
+
+  try {
+    const campusGroupsUrl = 'https://haas.campusgroups.com/ics?uid=67214d1a-6c1a-11f0-9d0d-0265b2da6df3&type=group&eid=21fd71de3371203c09be0e414fe6f145';
+    
+    // Fetch from URL
+    const response = await fetch(campusGroupsUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const icsText = await response.text();
+    const events = parseIcsToEvents(icsText, 'blue', 'campus_groups.ics'); // Default to blue for compatibility
+    console.log(`Successfully parsed ${events.length} events from Campus Groups calendar`);
+    return events;
+  } catch (error) {
+    console.error('Error fetching Campus Groups events:', error);
+    return [];
+  }
+}
+
+/**
  * Main function to fetch events for both cohorts plus original calendar
  */
 export async function getCohortEvents(
@@ -504,8 +530,8 @@ export async function getCohortEvents(
   console.log('Fetching events for both cohorts, original calendar, and UC Launch...');
 
   try {
-    // Fetch both cohorts, original calendar, UC Launch events, and Cal Bears events in parallel
-    const [blueEvents, goldEvents, originalEvents, launchEvents, calBearsEvents] = await Promise.all([
+    // Fetch both cohorts, original calendar, UC Launch events, Cal Bears events, and Campus Groups events in parallel
+    const [blueEvents, goldEvents, originalEvents, launchEvents, calBearsEvents, campusGroupsEvents] = await Promise.all([
       fetchCohortEvents('blue'),
       fetchCohortEvents('gold'),
       fetchOriginalCalendarEvents().catch(() => {
@@ -518,6 +544,10 @@ export async function getCohortEvents(
       }),
       fetchCalBearsEvents().catch(() => {
         console.warn('Could not load Cal Bears events, continuing without them');
+        return [];
+      }),
+      fetchCampusGroupsEvents().catch(() => {
+        console.warn('Could not load Campus Groups events, continuing without them');
         return [];
       })
     ]);
@@ -563,15 +593,19 @@ export async function getCohortEvents(
     
     // Filter and limit Cal Bears events with extended date range (6 months ahead)
     const filteredCalBears = filterEventsByDateRange(calBearsEvents, daysAhead * 6, limit);
+    
+    // Filter and limit Campus Groups events with extended date range (6 months ahead)
+    const filteredCampusGroups = filterEventsByDateRange(campusGroupsEvents, daysAhead * 6, limit);
 
-    console.log(`Filtered events - Blue: ${filteredBlue.length}, Gold: ${filteredGold.length}, Original: ${filteredOriginal.length}, Launch: ${filteredLaunch.length}, Cal Bears: ${filteredCalBears.length}`);
+    console.log(`Filtered events - Blue: ${filteredBlue.length}, Gold: ${filteredGold.length}, Original: ${filteredOriginal.length}, Launch: ${filteredLaunch.length}, Cal Bears: ${filteredCalBears.length}, Campus Groups: ${filteredCampusGroups.length}`);
 
     return {
       blue: filteredBlue,
       gold: filteredGold,
       original: filteredOriginal,
       launch: filteredLaunch,
-      calBears: filteredCalBears
+      calBears: filteredCalBears,
+      campusGroups: filteredCampusGroups
     };
   } catch (error) {
     console.error('Error fetching cohort events:', error);

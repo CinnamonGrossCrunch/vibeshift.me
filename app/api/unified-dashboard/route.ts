@@ -75,6 +75,7 @@ export interface UnifiedDashboardData {
     original?: CalendarEvent[];
     launch?: CalendarEvent[];
     calBears?: CalendarEvent[];
+    campusGroups?: CalendarEvent[];
   };
   
   // Processing metadata

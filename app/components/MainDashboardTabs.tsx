@@ -80,7 +80,7 @@ export default function MainDashboardTabs({
         
         {activeTab === 'Book A Space @ Haas' && (
           <div className="text-center py-6 px-4 max-w-none">
-            <h2 className="text-xl font-semibold">Book A Space @ Haas</h2>
+            <h2 className="text-xl font-semibold">Reserve Space @ Haas</h2>
             <p className="text-slate-500 mb-8">Reserve study rooms, meeting spaces, and other facilities at Haas.</p>
             <div className="flex justify-center mb-8">
               <a 
