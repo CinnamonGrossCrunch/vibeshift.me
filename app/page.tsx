@@ -104,7 +104,7 @@ export default function Home() {
       {/* Content Overlay */}
       <div className="fixed inset-0 z-10 overflow-auto">
         {/* Header */}
-        <div className="w-full sticky top-0 z-30 backdrop-blur-md glassglass-turbulence relative overflow-hidden py-3 mb-5">
+        <div className="w-full sticky top-0 z-30 backdrop-blur-md bg-glass bg-turbulence relative overflow-hidden py-3 mb-5">
 
           <div className="pointer-events-none flex justify-left inset-0" style={{ maskImage: 'radial-gradient(circle at 30% 25%, rgba(0,0,0,.7), transparent 70%)', WebkitMaskImage: 'radial-gradient(circle at 30% 25%, rgba(0,0,0,.7), transparent 70%)', filter: 'url(#glassDistort)' }} />
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-2 relative">
