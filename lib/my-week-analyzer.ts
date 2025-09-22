@@ -1,4 +1,5 @@
 import { runAI } from './aiClient';
+import { getConsistentToday, getConsistentWeekRange, parseConsistentDate, isDateInWeekRange } from './date-utils';
 
 // Daily AI caching configuration
 interface CachedAIResult {
@@ -11,7 +12,10 @@ const AI_CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 const aiCache = new Map<string, CachedAIResult>();
 
 function getTodayDateString(): string {
-  return new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+  // Use a more consistent approach for getting today's date
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  return today.toISOString().split('T')[0]; // YYYY-MM-DD
 }
 
 function getCacheKey(cohort: string): string {
@@ -116,23 +120,13 @@ interface ProcessedNewsletterEvent extends NewsletterItem {
 
 /**
  * Get the date range for "this week" (from today to the upcoming Sunday, inclusive)
+ * Uses a consistent timezone approach to avoid SSR/CSR mismatches
  */
 function getThisWeekRange(): { start: Date; end: Date } {
-  const today = new Date();
-  const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-  
-  // Calculate the start of the week (Sunday)
-  const start = new Date(today);
-  start.setDate(today.getDate() - dayOfWeek);
-  start.setHours(0, 0, 0, 0);
-  
-  // Calculate the end as next Monday at 00:00:00 (exclusive) to include all Sunday events
-  const end = new Date(start);
-  end.setDate(start.getDate() + 8); // 8 days later = next Monday
-  end.setHours(0, 0, 0, 0);
+  const { start, end } = getConsistentWeekRange();
   
   console.log(`🗓️ Week range: ${start.toISOString()} to ${end.toISOString()}`);
-  console.log(`   Today: ${today.toDateString()} (day ${dayOfWeek}), Week: ${start.toDateString()} to ${end.toDateString()} (Sunday through Sunday, 8 days)`);
+  console.log(`   Today: ${getConsistentToday().toDateString()} (day ${getConsistentToday().getDay()}), Week: ${start.toDateString()} to ${end.toDateString()} (Sunday through Sunday, 8 days)`);
   
   return { start, end };
 }
@@ -231,8 +225,9 @@ function filterCalendarEventsForWeek(cohortEvents: CohortEvents, weekStart: Date
       return false;
     }
     
-    const eventDate = new Date(event.start);
-    const isInRange = eventDate >= weekStart && eventDate < weekEnd;
+    // Parse the event date more carefully to avoid timezone issues
+    const isInRange = isDateInWeekRange(event.start, weekStart, weekEnd);
+    const eventDate = parseConsistentDate(event.start);
     
     if (isInRange) {
       console.log(`✅ Including event: ${event.title} on ${eventDate.toDateString()}`);

@@ -93,8 +93,8 @@ export default function MainDashboardTabs({
                 <Image 
                   src="/EMS-CAP.png" 
                   alt="EMS Space Booking System" 
-                  width={1200}
-                  height={800}
+                  width={900}
+                  height={600}
                   className="opacity-80 max-w-4xl w-full h-auto rounded-4xl shadow-lg transition-all duration-300 group-hover:opacity-80"
                   style={{
                     border: '2px dashed #FDB515',

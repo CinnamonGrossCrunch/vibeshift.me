@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { formatConsistentDate } from '@/lib/date-utils';
 
 type WeeklyEvent = {
   date: string;
@@ -188,27 +189,22 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
   }, [data, cohortEvents, newsletterData]);
 
   const formatDate = (dateString: string) => {
-    // Handle timezone issues by parsing the date as UTC to avoid local timezone shifts
-    const date = new Date(dateString + 'T12:00:00'); // Add noon to avoid timezone edge cases
-    return date.toLocaleDateString('en-US', { 
-      weekday: 'short', 
-      month: 'short', 
-      day: 'numeric' 
-    });
+    // Use the consistent date formatting utility
+    return formatConsistentDate(dateString);
   };
 
-  const getEventIcon = (type: WeeklyEvent['type']) => {
-    switch (type) {
-      case 'assignment': return '📝';
-      case 'class': return '🎓';
-      case 'exam': return '📊';
-      case 'administrative': return '📋';
-      case 'social': return '🎉';
-      case 'newsletter': return '📰';
-      case 'other': return '📌';
-      default: return '📅';
-    }
-  };
+    const getEventIcon = (type: WeeklyEvent['type']) => {
+      switch (type) {
+        case 'assignment': return '📝';
+        case 'class': return '🎓';
+        case 'exam': return '📊';
+        case 'administrative': return '📋';
+        case 'social': return '🎉';
+        case 'newsletter': return '📰';
+        case 'other': return '📌';
+        default: return '📅';
+      }
+    };
 
   const getEventColor = (type: WeeklyEvent['type'], priority?: WeeklyEvent['priority']) => {
     // High priority items get stronger colors

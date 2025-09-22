@@ -405,60 +405,19 @@ body {
   }
 }
 .bg-glass {
-  background: rgba(255, 255, 255, 0.1);
-  /* Blur Effects */
-  /* backdrop-filter: blur(5px);          /* Applies gaussian blur */
-  /* backdrop-filter: blur(10px);         /* Stronger blur effect */
-
-  /* Brightness Adjustments */
-  /* backdrop-filter: brightness(50%);    /* Darkens backdrop */
-  /* backdrop-filter: brightness(150%);   /* Brightens backdrop */
-
-  /* Contrast Adjustments */
-  /* backdrop-filter: contrast(200%);     /* Increases contrast */
-  /* backdrop-filter: contrast(50%);      /* Decreases contrast */
-
-  /* Saturation Effects */
-  /* backdrop-filter: saturate(200%);     /* Increases color saturation */
-  /* backdrop-filter: saturate(0%);       /* Desaturates to grayscale */
-
-  /* Hue Rotation */
-  /* backdrop-filter: hue-rotate(90deg);  /* Rotates colors around color wheel */
-  /* backdrop-filter: hue-rotate(180deg); /* Half rotation */
-
-  /* Opacity/Transparency */
-  /* backdrop-filter: opacity(50%);       /* Makes backdrop semi-transparent */
-
-  /* Grayscale */
-  /* backdrop-filter: grayscale(100%);    /* Converts to grayscale */
-  /* backdrop-filter: grayscale(50%);     /* Partial grayscale */
-
-  /* Sepia Tone */
-  /* backdrop-filter: sepia(100%);        /* Applies sepia tone */
-  /* backdrop-filter: sepia(50%);         /* Partial sepia effect */
-
-  /* Invert Colors */
-  /* backdrop-filter: invert(100%);       /* Inverts all colors */
-  /* backdrop-filter: invert(50%);        /* Partial inversion */
-
-  /* Drop Shadow */
-  /* backdrop-filter: drop-shadow(4px 4px 8px rgba(0,0,0,0.3)); /* Adds shadow */
-
-  /* Combining Multiple Filters */
-  backdrop-filter: blur(50px) brightness(120%) saturate(150%);
-  backdrop-filter: blur(5px) contrast(110%) hue-rotate(45deg);
-  -webkit-backdrop-filter: blur(12px) saturate(100%) brightness(150%);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px) saturate(120%) brightness(130%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%) brightness(130%);
 }
 
 @media (prefers-color-scheme: dark) {
   .bg-glass {
-    background: rgba(15, 23, 42, 0.05);
+    background: rgba(15, 23, 42, 0.08);
   }
 }
 
 .bg-turbulence {
-  background:  rgba(255, 255, 255, 0.04) 0% ;
-  backdrop-filter: blur(22px) saturate(100%) brightness(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(80%) brightness(140%) ;
-
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(110%) brightness(130%);
+  -webkit-backdrop-filter: blur(20px) saturate(110%) brightness(130%);
 }
