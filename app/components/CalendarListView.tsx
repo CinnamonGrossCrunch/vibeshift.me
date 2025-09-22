@@ -19,7 +19,7 @@ type CohortType = 'blue' | 'gold';
 export default function CalendarListView({ 
   cohortEvents, 
   title = "What's Next",
-  maxEvents = 6,
+  maxEvents = 10,
   showCohortToggle = false,
   defaultCohort = 'blue'
 }: Props) {
@@ -55,16 +55,23 @@ export default function CalendarListView({
 
   // Listen for glow animation triggers from MyWeekWidget
   useEffect(() => {
-    const handleGlowTrigger = () => {
+    const handleGlowTrigger = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      console.log(`✨ CalendarListView received glow trigger`, customEvent?.detail);
       setIsGlowing(true);
-      setTimeout(() => setIsGlowing(false), 100); // Remove glow after 0.1 seconds
+      setTimeout(() => {
+        setIsGlowing(false);
+        console.log(`✨ Glow effect ended`);
+      }, 500); // Extended glow duration to 500ms for testing
     };
 
     // Listen for custom event from MyWeekWidget
     window.addEventListener('triggerCalendarGlow', handleGlowTrigger);
+    console.log(`🎧 CalendarListView listening for glow events`);
     
     return () => {
       window.removeEventListener('triggerCalendarGlow', handleGlowTrigger);
+      console.log(`🎧 CalendarListView stopped listening for glow events`);
     };
   }, []);
 
@@ -266,6 +273,19 @@ export default function CalendarListView({
   // Show next arrow if there are more events OR if we can shift to right anchor
   const showNextArrow = hasMoreEvents || (canShiftToRight && !isAtRightAnchor);
   
+  // Debug logging for navigation arrows
+  console.log('📊 Navigation Debug:', {
+    totalFutureEvents: allFutureEvents.length,
+    maxEvents,
+    scrollIndex,
+    displayedEvents: displayedEvents.length,
+    hasMoreEvents,
+    hasPreviousEvents,
+    showNextArrow,
+    canShiftToRight,
+    isAtRightAnchor
+  });
+  
   // Handle scroll to next event
   const handleScrollNext = () => {
     if (hasMoreEvents) {
@@ -288,15 +308,16 @@ export default function CalendarListView({
 
   return (
     <div 
-      className={`calendar-list-widget p-1 rounded-xl transition-all duration-1000 ${
+      className={`calendar-list-widget p-1 rounded-md border-2 border-transparent transition-all duration-500 ${
         isGlowing 
-          ? 'ring-4 ring-blue-400/60 ring-offset-2 ring-offset-white dark:ring-offset-slate-800 shadow-lg shadow-blue-500/30' 
+          ? ' border-blue-400 ring-4 ring-blue-400/80 ring-offset-4 ring-offset-white dark:ring-offset-slate-800 shadow-2xl shadow-blue-500/50 ' 
           : ''
       }`} 
       style={{
-        boxShadow: isGlowing && selectedCohort === 'blue' 
-          ? '0 0 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.2), 0 0 80px rgba(59, 130, 246, 0.1)'
-          : undefined
+        boxShadow: isGlowing 
+          ? '0 0 30px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3), 0 0 50px rgba(59, 130, 246, 0.2)'
+          : undefined,
+        transform: isGlowing ? 'scale(1.01)' : undefined
       }}
       data-calendar-list-view
     >
@@ -323,7 +344,7 @@ export default function CalendarListView({
           </div>
         ) : (
           <div className="events-container overflow-x-auto mb-0">
-            <div className="flex gap-4 pl-1.5" style={{ minWidth: 'max-content' }}>
+            <div className="flex gap-1 " style={{ minWidth: 'max-content' }}>
               {displayedEvents.map((ev) => {
                 const start = new Date(ev.start);
                 const end = ev.end ? new Date(ev.end) : undefined;
@@ -370,7 +391,7 @@ export default function CalendarListView({
           return (
             <div 
             key={ev.uid || `${ev.title}-${ev.start}`}
-            className="event-card flex-shrink-0 w-52 bg-gradient-to-r from-slate-50 to-blue-50 hover:from-blue-50 hover:to-amber-50 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 p-4 rounded-lg border border-slate-200 dark:border-slate-600 hover: transition-all duration-300 ease-in-out cursor-pointer"
+            className="event-card flex-shrink-0 w-45 bg-glass bg-turbulence   p-2 rounded-lg  transition-all duration-200 ease-in-out cursor-pointer"
             onClick={() => handleEventClick(ev)}
             >
             <div className="event-content flex flex-col h-full">
@@ -381,7 +402,7 @@ export default function CalendarListView({
               >
               {daysRemainingText}
               </div>
-              <h4 className="event-title urbanist-medium text-slate-900 dark:text-white text-sm mb-2 line-clamp-2 flex-grow">
+              <h4 className="event-title urbanist-light text-white dark:text-white text-sm mb-2 line-clamp-2 flex-grow">
               {ev.title}
               </h4>
               <div className="event-meta space-y-1 mt-auto">
@@ -405,45 +426,43 @@ export default function CalendarListView({
         </div>
         </div>
       )}
-      
-      {/* Scroll indicators for navigation */}
-      {hasPreviousEvents && (
-        <div className="absolute top-5 left-0.5 bottom-2">
-        <div 
-          className="w-6 h-20 glass-nav-button rounded-xl flex items-center justify-center cursor-pointer"
-          onClick={handleScrollPrevious}
-        >
-          <svg 
-          className="w-5 h-5 text-slate-600 dark:text-slate-300 hover:text-white transition-colors duration-300" 
-          fill="none" 
-          stroke="currentColor" 
-          viewBox="0 0 24 24"
+        
+        {/* Scroll indicators for navigation */}
+        {hasPreviousEvents && (
+          <div className="absolute top-2 left-0.5  z-50">
+          <div 
+            className="w-8 h-20 glass-nav-button glass-turbulence rounded-lg flex items-center justify-center cursor-pointer"
+            onClick={handleScrollPrevious}
           >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </div>
-        </div>
-      )}
-      
-      {/* Scroll indicator for more events - positioned in widget container */}
-      {showNextArrow && (
-        <div className="absolute top-5 right-0.5 bottom-2">
-        <div 
-          className="w-6 h-20 glass-nav-button rounded-xl flex items-center justify-center cursor-pointer"
-          onClick={handleScrollNext}
-        >
-          <svg 
-          className="w-5 h-5 text-slate-600 dark:text-slate-300 hover:text-white transition-colors duration-300" 
-          fill="none" 
-          stroke="currentColor" 
-          viewBox="0 0 24 24"
+            <svg 
+            className="w-6 h-6 text-white drop-shadow-md" 
+            fill="currentColor" 
+            viewBox="0 0 24 24"
+            >
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+          </div>
+          </div>
+        )}
+        
+        {/* Scroll indicator for more events - positioned in widget container */}
+        {showNextArrow && (
+          <div className="absolute top-2 right-0.5  z-50">
+          <div 
+            className="w-8 h-20 glass-nav-button glass-turbulence rounded-xl flex items-center justify-center cursor-pointer"
+            onClick={handleScrollNext}
           >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
+            <svg 
+            className="w-6 h-6 text-white drop-shadow-md" 
+            fill="currentColor" 
+            viewBox="0 0 24 24"
+            >
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+          </div>
+          </div>
+        )}
         </div>
-        </div>
-      )}
-      </div>
 
       {/* Event Detail Modal */}
       <EventDetailModal 

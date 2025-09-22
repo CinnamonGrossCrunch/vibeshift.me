@@ -89,16 +89,36 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
   // Function to handle MyWeek event clicks
   const handleEventClick = (event: React.MouseEvent, eventTitle: string) => {
     event.preventDefault();
+    event.stopPropagation();
+    
+    console.log(`🖱️ MyWeek event clicked: ${eventTitle}`);
+    console.log(`🖱️ Event object:`, event);
     
     // Trigger glow animation on calendar list view via custom event
-    const glowEvent = new CustomEvent('triggerCalendarGlow');
-    window.dispatchEvent(glowEvent);
+    const glowEvent = new CustomEvent('triggerCalendarGlow', { 
+      detail: { eventTitle, timestamp: Date.now() }
+    });
     
-    // Scroll to calendar if needed
-    const calendarElement = document.querySelector('[data-calendar-list-view]');
-    if (calendarElement) {
-      calendarElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    console.log(`🚀 About to dispatch glow event:`, glowEvent);
+    window.dispatchEvent(glowEvent);
+    console.log(`✨ Dispatched glow event for: ${eventTitle}`);
+    
+    // Add a small delay then check if calendar element exists
+    setTimeout(() => {
+      const calendarElement = document.querySelector('[data-calendar-list-view]');
+      if (calendarElement) {
+        console.log(`📍 Found calendar element, scrolling to it`, calendarElement);
+        calendarElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        console.log(`❌ Calendar element not found with selector: [data-calendar-list-view]`);
+        // Try alternative selectors
+        const altElement = document.querySelector('.calendar-list-widget');
+        if (altElement) {
+          console.log(`📍 Found calendar widget via alternative selector`, altElement);
+          altElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }, 100);
     
     console.log(`📅 Directing attention to calendar for: ${eventTitle}`);
   };
@@ -213,18 +233,18 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
     }
   };
 
-  const getPriorityIndicator = (priority?: WeeklyEvent['priority']) => {
-    switch (priority) {
-      case 'high': return '🔴';
-      case 'medium': return '🟡';
-      case 'low': return '🟢';
-      default: return '';
-    }
-  };
+  // const getPriorityIndicator = (priority?: WeeklyEvent['priority']) => {
+  //   switch (priority) {
+  //     case 'high': return '🔴';
+  //     case 'medium': return '🟡';
+  //     case 'low': return '🟢';
+  //     default: return '';
+  //   }
+  // };
 
   if (loading) {
     return (
-      <div className="p-6">
+      <div className="p-6 ">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-slate-900 dark:text-white">My Week</h3>
           <div className="w-4 h-4 border-2 border-slate-300 border-t-berkeley-blue rounded-full animate-spin"></div>
@@ -236,7 +256,7 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
 
   if (error) {
     return (
-      <div className="p-6">
+      <div className="p-6 ">
         <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
           <span className="text-lg">⚠️</span>
         </div>
@@ -252,7 +272,7 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
 
   if (!weekData || !currentEvents?.length) {
     return (
-      <div className="p-6">
+      <div className="p-6 ">
         <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
           <span className="text-lg">📅</span>
         </div>
@@ -273,13 +293,13 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
   }, {} as Record<string, WeeklyEvent[]>);
 
   return (
-    <div className="py-4 mb-8">
+    <div className="w-full rounded-xl mb-8 overflow-hidden">
       {/* Main Layout: Left to Right Flow */}
-      <div className=" rounded-2xl flex items-start gap-6">
+      <div className="w-full rounded-2xl flex items-start gap-6">
         {/* Left Column: Current Date */}
 
-        <div className="text-start shrink-0">
-          <div className="text-2xl font-extralight text-slate-600 dark:text-slate-400 mt-1 px-2 mb-1">
+        <div className="text-start mt-0 shrink-0 overflow-hidden min-w-0">
+          <div className="text-2xl font-extralight text-slate-600 dark:text-slate-400 mt-0 px-2 mb-1">
             My Week
           </div>
                 <div className="text-5xl mx-2 font-medium text-slate-900 dark:text-white">
@@ -289,47 +309,47 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
         </div>
 
         {/* Middle Column: AI Summary and Events */}
-        <div className="flex-1 p-1 space-y-0">
+        <div className="flex-1 min-w-0 p-1 space-y-0 overflow-hidden">
           {/* AI Summary */}
-          {currentSummary && (
-            <div className="flex items-start gap-3">
-              <div className="w-1 h-full bg-berkeley-blue/30 dark:bg-berkeley-blue/50 rounded-full min-h-[60px] mt-0"></div>
-              <div className=" bg-berkeley-blue/10 dark:bg-berkeley-blue/20 rounded-2xl">
+          {/* {currentSummary && (
+            <div className="flex items-start backdrop-blur-md bg-turbulence gap-3 rounded-2xl p-1 mb-1">
+              <div className="w-1 h-full rounded-full min-h-[60px] mt-0"></div>
+              <div className=" rounded-2xl">
                 <p className="text-md font-medium text-slate-700 dark:text-slate-300 leading-loose">
                   {currentSummary}
                 </p>
               </div>
             </div>
-          )}
+          )} */}
 
           {/* Events List */}
-          <div className="space-y-4 max-h-96 overflow-y-auto">
+          <div className="space-y-4 max-h-96 overflow-hidden">
             {Object.entries(eventsByDate)
               .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
               .map(([date, events]) => (
-                <div key={date} className="flex ml-2 items-center gap-2 mb-0">
+                <div key={date} className="flex ml-0 rounded-lg bg-glass bg-turbulence items-center gap-1 mb-1">
                   {/* Date Header */}
                   <div className="text-center text-sm font-semibold text-slate-900 dark:text-white min-w-[100px] shrink-0">
                     {formatDate(date)}
                   </div>
                   
                   {/* Events for this date */}
-                  <div className="flex  gap-2 flex-1">
+                  <div className="flex-0 overflow-hidden gap-2 flex-1">
                     {events.map((event, index) => (
                       <div 
                         key={index} 
-                        className={`flex items-center space-x-2 rounded-lg px-3 py-1 group min-w-fit cursor-pointer hover:opacity-80 transition-all ${getEventColor(event.type, event.priority)}`}
+                        className={`flex-0 items-center space-x-2 rounded-lg px-3 py-1 group cursor-pointer hover:opacity-80 transition-all ${getEventColor(event.type, event.priority)}`}
                         onClick={(e) => handleEventClick(e, event.title)}
                       >
                         {/* Event Content */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-baseline space-x-2">
-                            <h4 className={`text-sm font-light group-hover:opacity-80 transition-opacity truncate`}>
+                            <h4 className={`text-xs font-light group-hover:opacity-80 transition-opacity truncate`}>
                               {event.title}
                             </h4>
 
                             {/* Time and Location */}
-                            <div className="flex items-baseline space-x-2 text-xs text-slate-600 dark:text-slate-400">
+                            {/* <div className="flex items-baseline space-x-2 text-xs text-slate-600 dark:text-slate-400">
                               {event.time && (
                                 <span>{event.time}</span>
                               )}
@@ -339,7 +359,7 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
                                   <span>{event.location}</span>
                                 </>
                               )}
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>

@@ -33,7 +33,10 @@ export default function HaasResourcesTabs({ resourcesData, title }: Props) {
     <>
       {/* Header with title and expand/collapse all */}
       <header className="flex items-center justify-between mb-2">
-        <h3 className="text-2xl font-bold" style={{ color: 'white' }}>{title}</h3>
+        <h3 className="text-2xl ">
+          <span className="text-white font-semibold">Haas</span>{' '}
+          <span className="text-white/60 font-medium">Resources</span>
+        </h3>
         
         {/* Collapse All Button */}
         <button
@@ -51,10 +54,10 @@ export default function HaasResourcesTabs({ resourcesData, title }: Props) {
             const isFirst = index === 0;
             const isLast = index === Object.entries(resourcesData.categories).length - 1;
             return (
-            <div key={categoryKey} className={`border-b border-slate-200 dark:border-slate-700 bg-gradient-to-r from-slate-50 to-blue-50 hover:from-blue-50 hover:to-amber-50 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 overflow-hidden ${isFirst ? 'rounded-t-2xl' : ''} ${isLast ? 'rounded-b-2xl' : ''}`}>
+            <div key={categoryKey} className={`border border-slate-100/50 dark:border-slate-500/10 bg-glass  hover:from-blue-50 hover:to-amber-50  dark:hover:from-slate-700 dark:hover:to-slate-600 overflow-hidden ${isFirst ? 'rounded-t-2xl' : ''} ${isLast ? 'rounded-b-2xl' : ''}`}>
               <button
                 onClick={() => toggleCategory(categoryKey)}
-                className="w-full flex items-center justify-between py-1 px-3 bg-gradient-to-r from-slate-50 to-blue-50 hover:from-blue-50 hover:to-amber-50 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 transition-all duration-300 ease-in-out"
+                className="w-full flex items-center justify-between py-1 px-3  hover:from-blue-50 hover:to-amber-50 dark:hover:from-slate-700 dark:hover:to-slate-600 transition-all duration-300 ease-in-out"
               >
                 <div className="flex items-center gap-3">
                   <div className="text-left">

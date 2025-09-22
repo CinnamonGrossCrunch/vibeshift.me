@@ -28,12 +28,12 @@ export default function MainDashboardTabs({
           <button
             key={index}
             onClick={() => setActiveTab(tab)}
-            className={`relative  text-sm font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
+            className={`relative  text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
               ${activeTab === tab
-                ? ' px-10 py-3 bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-400/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%]'
-                : ' ml-3 mr-2 mb-2  px-10 py-2 bg-white/40 dark:bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-white/20 dark:supports-[backdrop-filter]:bg-slate-700/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full'
+                ? ' px-8 py-3 bg-turbulence bg-glass text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
+                : ' ml-3 mr-2 mb-2  px-10 py-2 bg-white/40 dark:bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-white/20 dark:supports-[backdrop-filter]:bg-slate-700/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full font-normal'
               }
-              ${activeTab === tab && index === tabs.length - 1 ? 'border-r border-white/50 dark:border-slate-700/60' : ''}
+              ${activeTab === tab && index === tabs.length - 1 ? '' : ''}
               ${tab === 'Book A Space @ Haas' && activeTab !== tab ? 'cursor-pointer' : ''}
             `}
             style={{
@@ -53,7 +53,7 @@ export default function MainDashboardTabs({
       </div>
 
       {/* Content Pane */}
-      <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-400/10 p-4 sm:p-6  rounded-r-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
+      <div className="bg-turbulence bg-glass p-4 sm:p-6 rounded-r-4xl rounded-b-lg rounded-tr-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%] flex-1 min-h-[600px] overflow-y-auto">
         {activeTab === 'OskiHub Cal' && (
           <div>
             {/* What's Next Widget - Horizontal Layout (PRESERVED) */}
@@ -61,6 +61,7 @@ export default function MainDashboardTabs({
               <CalendarListView 
                 cohortEvents={cohortEvents}
                 defaultCohort={selectedCohort}
+                maxEvents={4}
                 className="rounded-4xl"
               />
             </div>
@@ -79,7 +80,7 @@ export default function MainDashboardTabs({
         )}
         
         {activeTab === 'Book A Space @ Haas' && (
-          <div className="text-center py-6 px-4 max-w-none">
+          <div className="text-center py-6 px-3 max-w-none">
             <h2 className="text-xl font-semibold">Reserve Space @ Haas</h2>
             <p className="text-slate-500 mb-8">Reserve study rooms, meeting spaces, and other facilities at Haas.</p>
             <div className="flex justify-center mb-8">
@@ -94,9 +95,9 @@ export default function MainDashboardTabs({
                   alt="EMS Space Booking System" 
                   width={1200}
                   height={800}
-                  className="max-w-4xl w-full h-auto rounded-4xl shadow-lg transition-all duration-300 group-hover:opacity-80"
+                  className="opacity-80 max-w-4xl w-full h-auto rounded-4xl shadow-lg transition-all duration-300 group-hover:opacity-80"
                   style={{
-                    border: '4px dashed #FDB515',
+                    border: '2px dashed #FDB515',
                     boxShadow: '0 0 20px rgba(253, 181, 21, 0.3), 0 0 40px rgba(253, 181, 21, 0.2), 0 0 60px rgba(253, 181, 21, 0.1)'
                   }}
                 />

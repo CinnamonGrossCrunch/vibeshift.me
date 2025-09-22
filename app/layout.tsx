@@ -32,6 +32,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`dark ${urbanist.variable}`} style={{ colorScheme: 'dark' }}>
+      <head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+      </head>
       <body className={`antialiased dark ${urbanist.className}`}>
         {children}
         <Analytics />

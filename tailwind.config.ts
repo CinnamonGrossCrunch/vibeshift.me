@@ -66,6 +66,12 @@ const config: Config = {
       gridTemplateColumns: {
         '9': 'repeat(9, minmax(0, 1fr))',
       },
+      fontSize: {
+        'xxs': ['10px', {
+          lineHeight: '12px',
+          letterSpacing: '0.01em',
+        }],
+      },
     },
   },
   plugins: [],

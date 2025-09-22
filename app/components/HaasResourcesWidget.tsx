@@ -41,11 +41,14 @@ export default function HaasResourcesWidget({
   }, []);
 
   return (
-    <section className="rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-glass">
+    <section className="rounded-2xl p-4 bg-glass bg-turbulence shadow-glass">
       {loading ? (
         <>
           <header className="flex items-center justify-between mb-4 p-5">
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{title}</h3>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+              <span className="text-white">Haas</span>{' '}
+              <span className="text-white/80">Resources</span>
+            </h3>
           </header>
           <div className="text-center py-4">
             <div className="w-4 h-4 border-2 border-slate-300 border-t-berkeley-blue rounded-full animate-spin mx-auto mb-3"></div>
@@ -55,7 +58,10 @@ export default function HaasResourcesWidget({
       ) : error ? (
         <>
           <header className="flex items-center justify-between mb-4 p-5">
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{title}</h3>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+              <span className="text-white">Haas</span>{' '}
+              <span className="text-white/80">Resources</span>
+            </h3>
           </header>
           <div className="text-center py-4 ">
             <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">

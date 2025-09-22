@@ -44,10 +44,10 @@ export default function MonthGrid({
   return (
     <div>
       {/* Remove any potential navigation wrapper */}
-      <div className="grid grid-cols-7 gap-px bg-white/10 dark:bg-slate-700/10 border border-white/15 dark:border-slate-600/15">
+      <div className="grid grid-cols-7 gap-px bg-white/10 dark:bg-slate-700/10 drop-shadow-">
       {/* Weekday headers */}
       {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map((d) => (
-        <div key={d} className="bg-white/5 dark:bg-slate-600/5 text-xs text-center  font-light uppercase tracking-wide text-slate-700 dark:text-slate-300">
+        <div key={d} className="bg-white/5 text-xs text-center font-light uppercase text-slate-700 dark:text-slate-300">
           {d}
         </div>
       ))}
@@ -220,114 +220,114 @@ export default function MonthGrid({
         
 
         return (
-          <div
+            <div
             key={day.toISOString()}
-            className={`h-28 p-1 flex flex-col border-t border-white/5 dark:border-slate-600/5 overflow-hidden ${
-              isSameMonth(day, currentMonth) ? 'bg-white/5 dark:bg-slate-700/5' : 'bg-transparent opacity-40'
+            className={`h-28 p-1 flex flex-col dark:border-slate overflow-auto ${
+              isSameMonth(day, currentMonth) ? 'bg-slate-600/10' : 'bg-transparent opacity-40'
             } ${isToday ? 'rounded-sm  ring-1 ring-yellow-400 '  : ''}`}
-          >
-            <div className={`text-xs font-medium mb-1 flex-shrink-0 flex items-center gap-1 ${
+            >
+            <div className={`text-xs font-light mb-0 flex-shrink-0 flex items-center gap-1 ${
               isToday ? 'text-yellow-500 font-bold' : 'text-slate-900 dark:text-white'
             }`}>
               {format(day, 'd')}
               {showGreekTheater && hasGreekEvent && (
-                <Image 
-                  src="/greeklogo.png"
-                  alt="Greek Theater Event"
-                  width={40}
-                  height={24}
-                  className="flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-opacity object-contain" 
-                  title={`Greek Theater: ${getGreekTheaterEventsForDate(day).map(e => e.title).join(', ')}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    const greekEvents = getGreekTheaterEventsForDate(day);
-                    if (greekEvents.length > 0) {
-                      // Convert the first Greek Theater event to calendar event format
-                      const calendarEvent = greekTheaterToCalendarEvent(greekEvents[0]);
-                      onEventClick(calendarEvent);
-                    }
-                  }}
-                />
+              <Image 
+                src="/greeklogo.png"
+                alt="Greek Theater Event"
+                width={40}
+                height={24}
+                className="flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-opacity object-contain" 
+                title={`Greek Theater: ${getGreekTheaterEventsForDate(day).map(e => e.title).join(', ')}`}
+                onClick={(e) => {
+                e.stopPropagation();
+                const greekEvents = getGreekTheaterEventsForDate(day);
+                if (greekEvents.length > 0) {
+                  // Convert the first Greek Theater event to calendar event format
+                  const calendarEvent = greekTheaterToCalendarEvent(greekEvents[0]);
+                  onEventClick(calendarEvent);
+                }
+                }}
+              />
               )}
               {hasCalBearsEvent && (
-                <Image 
-                  src="/cal_logo.png"
-                  alt="Cal Bears Event"
-                  width={25}
-                  height={20}
-                  className="flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-opacity object-containo hover-invert " 
-                  title={`Cal Bears: ${dayCalBearsEvents.map(e => e.title).join(', ')}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (dayCalBearsEvents.length > 0) {
-                      onEventClick(dayCalBearsEvents[0]);
-                    }
-                  }}
-                />
+              <Image 
+                src="/cal_logo.png"
+                alt="Cal Bears Event"
+                width={25}
+                height={20}
+                className="flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-opacity object-containo hover-invert " 
+                title={`Cal Bears: ${dayCalBearsEvents.map(e => e.title).join(', ')}`}
+                onClick={(e) => {
+                e.stopPropagation();
+                if (dayCalBearsEvents.length > 0) {
+                  onEventClick(dayCalBearsEvents[0]);
+                }
+                }}
+              />
               )}
               {hasCampusGroupsEvent && (
-                <div 
-                  className="w-6 h-6 flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-opacity bg-blue-600 rounded-lg flex items-center justify-center"
-                  title={`Campus Groups: ${dayCampusGroupsEvents.map(e => e.title).join(', ')}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (dayCampusGroupsEvents.length > 0) {
-                      onEventClick(dayCampusGroupsEvents[0]);
-                    }
-                  }}
-                >
-                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </div>
+              <div 
+                className="w-6 h-6 flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-opacity bg-blue-600 rounded-lg flex items-center justify-center"
+                title={`Campus Groups: ${dayCampusGroupsEvents.map(e => e.title).join(', ')}`}
+                onClick={(e) => {
+                e.stopPropagation();
+                if (dayCampusGroupsEvents.length > 0) {
+                  onEventClick(dayCampusGroupsEvents[0]);
+                }
+                }}
+              >
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
               )}
             </div>
             <div className="flex-1 flex flex-col gap-px">
               {allDayEvents.length > 0 ? (
-                allDayEvents.map((ev) => {
-                  const { courseName, assignment } = parseEventTitle(ev.title);
-                  const courseColor = getCourseColor(ev);
-                  
-                  return (
+              allDayEvents.map((ev) => {
+                const { courseName, assignment } = parseEventTitle(ev.title);
+                const courseColor = getCourseColor(ev);
+                
+                return (
+                <div
+                  key={ev.uid ?? ev.title + ev.start}
+                  className={`text-[10px] px-1 rounded-sm border flex-1 min-h-0 flex flex-col justify-start overflow-hidden cursor-pointer hover:opacity-80 transition-opacity ${courseColor}`}
+                  title={`${assignment ? assignment + ' - ' : ''}${courseName} (${ev.title})`}
+                  onClick={(e) => {
+                  e.stopPropagation();
+                  onEventClick(ev);
+                  }}
+                  style={{
+                  height: `calc((100% - ${(allDayEvents.length - 1) * 1}px) / ${allDayEvents.length})`
+                  }}
+                >
+                  {/* Course name */}
+                  <div className="leading-tight break-words hyphens-auto font-medium" style={{ wordBreak: 'break-word' }}>
+                  {courseName}
+                  {/* Assignment (clamped to 2 lines) */}
+                  {assignment && (
                     <div
-                      key={ev.uid ?? ev.title + ev.start}
-                      className={`text-[10px] px-1 rounded-sm border flex-1 min-h-0 flex flex-col justify-start overflow-hidden cursor-pointer hover:opacity-80 transition-opacity ${courseColor}`}
-                      title={`${assignment ? assignment + ' - ' : ''}${courseName} (${ev.title})`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onEventClick(ev);
-                      }}
-                      style={{
-                        height: `calc((100% - ${(allDayEvents.length - 1) * 1}px) / ${allDayEvents.length})`
-                      }}
+                    className="leading-tight break-words hyphens-auto opacity-80"
+                    style={{
+                      wordBreak: 'break-word',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden'
+                    }}
                     >
-                      {/* Course name */}
-                      <div className="leading-tight break-words hyphens-auto font-medium" style={{ wordBreak: 'break-word' }}>
-                        {courseName}
-                        {/* Assignment (clamped to 2 lines) */}
-                        {assignment && (
-                          <div
-                            className="leading-tight break-words hyphens-auto opacity-80"
-                            style={{
-                              wordBreak: 'break-word',
-                              display: '-webkit-box',
-                              WebkitLineClamp: 2,
-                              WebkitBoxOrient: 'vertical',
-                              overflow: 'hidden'
-                            }}
-                          >
-                            {assignment}
-                          </div>
-                        )}
-                      </div>
+                    {assignment}
                     </div>
-                  );
-                })
+                  )}
+                  </div>
+                </div>
+                );
+              })
               ) : (
-                <div className="flex-1" />
+              <div className="flex-1" />
               )}
             </div>
-          </div>
+            </div>
         );
       })}
       </div>

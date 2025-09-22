@@ -14,6 +14,12 @@ html {
   font-family: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
 }
 
+.bg-turbulence {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(0,0,0,0.02) 100%);
+  backdrop-filter: blur(20px) saturate(140%) brightness(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%) brightness(120%);
+}
+
 body {
   background-color: #0f172a;
   color: #f1f5f9;
@@ -55,7 +61,7 @@ body {
 .font-weight-600 { font-weight: 600; }
 .font-weight-700 { font-weight: 700; }
 .font-weight-800 { font-weight: 800; }
-.font-weight-900 { font-weight: 900; }
+.font-weight-800 { font-weight: 800; }
 
 /* National Park font utility classes */
 .national-park-light {
@@ -359,33 +365,100 @@ body {
 /* Glass Effect Turbulence - Global Styles */
 .glass-turbulence {
   background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.02) 100%);
-  backdrop-filter: blur(12px) saturate(180%) brightness(120%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(120%);
+  backdrop-filter: blur(20px) saturate(180%) brightness(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(120%);
 }
 
 .glass-nav-button {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px) saturate(180%) brightness(120%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(120%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 50, 98, 0.8);
+  backdrop-filter: blur(20px) saturate(180%) brightness(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(120%);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
 
 .glass-nav-button:hover {
   background: rgba(0, 50, 98, 0.8); /* berkeley-blue/80 */
-  border-color: #003262; /* berkeley-blue */
 }
 
 @media (prefers-color-scheme: dark) {
   .glass-nav-button {
     background: rgba(15, 23, 42, 0.05);
-    border: 1px solid rgba(71, 85, 105, 0.3);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
   }
   
   .glass-nav-button:hover {
     background: rgba(253, 181, 21, 0.8); /* berkeley-gold/80 */
-    border-color: #FDB515; /* berkeley-gold */
   }
+}
+
+/* Glass background utility class */
+.bg-glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px) saturate(180%) brightness(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%) brightness(120%);
+}
+
+@media (prefers-color-scheme: dark) {
+  .bg-glass {
+    background: rgba(15, 23, 42, 0.05);
+  }
+}
+.bg-glass {
+  background: rgba(255, 255, 255, 0.1);
+  /* Blur Effects */
+  /* backdrop-filter: blur(5px);          /* Applies gaussian blur */
+  /* backdrop-filter: blur(10px);         /* Stronger blur effect */
+
+  /* Brightness Adjustments */
+  /* backdrop-filter: brightness(50%);    /* Darkens backdrop */
+  /* backdrop-filter: brightness(150%);   /* Brightens backdrop */
+
+  /* Contrast Adjustments */
+  /* backdrop-filter: contrast(200%);     /* Increases contrast */
+  /* backdrop-filter: contrast(50%);      /* Decreases contrast */
+
+  /* Saturation Effects */
+  /* backdrop-filter: saturate(200%);     /* Increases color saturation */
+  /* backdrop-filter: saturate(0%);       /* Desaturates to grayscale */
+
+  /* Hue Rotation */
+  /* backdrop-filter: hue-rotate(90deg);  /* Rotates colors around color wheel */
+  /* backdrop-filter: hue-rotate(180deg); /* Half rotation */
+
+  /* Opacity/Transparency */
+  /* backdrop-filter: opacity(50%);       /* Makes backdrop semi-transparent */
+
+  /* Grayscale */
+  /* backdrop-filter: grayscale(100%);    /* Converts to grayscale */
+  /* backdrop-filter: grayscale(50%);     /* Partial grayscale */
+
+  /* Sepia Tone */
+  /* backdrop-filter: sepia(100%);        /* Applies sepia tone */
+  /* backdrop-filter: sepia(50%);         /* Partial sepia effect */
+
+  /* Invert Colors */
+  /* backdrop-filter: invert(100%);       /* Inverts all colors */
+  /* backdrop-filter: invert(50%);        /* Partial inversion */
+
+  /* Drop Shadow */
+  /* backdrop-filter: drop-shadow(4px 4px 8px rgba(0,0,0,0.3)); /* Adds shadow */
+
+  /* Combining Multiple Filters */
+  backdrop-filter: blur(50px) brightness(120%) saturate(150%);
+  backdrop-filter: blur(5px) contrast(110%) hue-rotate(45deg);
+  -webkit-backdrop-filter: blur(12px) saturate(100%) brightness(150%);
+}
+
+@media (prefers-color-scheme: dark) {
+  .bg-glass {
+    background: rgba(15, 23, 42, 0.05);
+  }
+}
+
+.bg-turbulence {
+  background:  rgba(255, 255, 255, 0.04) 0% ;
+  backdrop-filter: blur(22px) saturate(100%) brightness(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(80%) brightness(140%) ;
+
 }
