@@ -18,9 +18,9 @@ function getTodayDateString(): string {
   return today.toISOString().split('T')[0]; // YYYY-MM-DD
 }
 
-function getCacheKey(cohort: string): string {
-  return `ai-summary-${cohort}-${getTodayDateString()}`;
-}
+// function getCacheKey(cohort: string): string {
+//   return `ai-summary-${cohort}-${getTodayDateString()}`;
+// }
 
 function isCacheValid(cached: CachedAIResult | undefined): boolean {
   if (!cached) return false;
@@ -551,7 +551,9 @@ Analyze the content and provide the weekly summary:`;
 
 // Background pre-generation for tomorrow's summaries
 async function preGenerateIfNeeded(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   cohortEvents: CohortEvents,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   newsletterData: NewsletterData
 ): Promise<void> {
   const tomorrow = new Date();
@@ -577,6 +579,7 @@ async function preGenerateIfNeeded(
         // This would generate and cache tomorrow's data
         // For now, we'll just log that pre-generation is ready
         console.log('✅ Tomorrow\'s summary generation scheduled!');
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         console.log('⚠️ Pre-generation failed, will generate on-demand tomorrow');
       }
