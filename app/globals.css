@@ -417,3 +417,52 @@ body {
 .shadow-glass {
   box-shadow: 0 8px 24px rgba(0,0,0,0.35) !important;
 }
+
+/* Performance-aware CSS classes for device capability adaptation */
+.perf-high {
+  --glass-blur: 20px;
+  --glass-saturate: 120%;
+  --glass-brightness: 140%;
+}
+
+.perf-medium {
+  --glass-blur: 12px;
+  --glass-saturate: 110%;
+  --glass-brightness: 125%;
+}
+
+.perf-low {
+  --glass-blur: 6px;
+  --glass-saturate: 105%;
+  --glass-brightness: 110%;
+}
+
+/* Device-specific optimizations */
+.device-mac .bg-glass {
+  backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturate, 110%)) brightness(var(--glass-brightness, 125%)) !important;
+}
+
+.browser-safari .bg-glass {
+  /* Reduce complexity for Safari */
+  backdrop-filter: blur(8px) saturate(105%) !important;
+}
+
+.device-mobile .bg-glass {
+  /* Simplified effects for mobile */
+  backdrop-filter: blur(6px) !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* GPU-specific optimizations */
+.gpu-high .bg-glass {
+  backdrop-filter: blur(20px) saturate(120%) brightness(140%) !important;
+}
+
+.gpu-medium .bg-glass {
+  backdrop-filter: blur(12px) saturate(110%) brightness(125%) !important;
+}
+
+.gpu-low .bg-glass {
+  backdrop-filter: none !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+}

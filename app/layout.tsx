@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Urbanist } from "next/font/google";
+import { PerformanceProvider } from "./components/PerformanceProvider";
 import "./globals.css";
 
 const urbanist = Urbanist({
@@ -36,7 +37,9 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
       </head>
       <body className={`antialiased dark ${urbanist.className}`}>
-        {children}
+        <PerformanceProvider>
+          {children}
+        </PerformanceProvider>
         <Analytics />
       </body>
     </html>
