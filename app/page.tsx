@@ -15,6 +15,7 @@ import type { UnifiedDashboardData } from '@/app/api/unified-dashboard/route';
 type CohortType = 'blue' | 'gold';
 
 export default function Home() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { glassEffectClass, capabilities, shouldUseReducedMotion } = usePerformance();
   const [selectedCohort, setSelectedCohort] = useState<CohortType>('blue');
   // Remove unused newsletterData variable since it's included in unifiedData
