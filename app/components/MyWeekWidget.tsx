@@ -269,6 +269,8 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const currentSummary = selectedCohort === 'blue' ? weekData?.blueSummary : weekData?.goldSummary;
 
+
+
   if (!weekData || !currentEvents?.length) {
     return (
       <div className="p-6 ">

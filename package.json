@@ -7,6 +7,8 @@
   },
   "scripts": {
     "dev": "next dev",
+    "dev:tunnel": "concurrently -k -n \"NEXT,LT\" -c \"blue,green\" \"next dev\" \"node tunnel.js\"",
+    "compare": "node compare-dev-prod.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -26,7 +28,6 @@
     "date-fns": "^4.1.0",
     "lottie-react": "^2.4.1",
     "next": "15.5.0",
-    "node-fetch": "^3.3.2",
     "node-ical": "^0.20.1",
     "openai": "^5.19.1",
     "react": "19.1.0",
@@ -40,9 +41,16 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/sanitize-html": "^2.16.0",
+    "concurrently": "^9.2.1",
+    "diff": "^8.0.2",
     "eslint": "^9",
     "eslint-config-next": "15.5.0",
+    "jsdom": "^27.0.0",
+    "localtunnel": "^2.0.2",
+    "node-fetch": "^3.3.2",
     "nodemon": "^3.1.10",
+    "open": "^10.2.0",
+    "open-cli": "^8.0.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

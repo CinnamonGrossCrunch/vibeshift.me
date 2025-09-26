@@ -116,6 +116,12 @@ export async function scrapeNewsletter(url: string): Promise<NewsletterPayload> 
   const html = await fetchText(url);
   const $ = cheerio.load(html);
 
+  console.log('📰 Newsletter scraping started');
+  console.log('📄 HTML length:', html.length);
+  console.log('📋 Found h1 elements:', $('h1').length);
+  console.log('📋 Found .mcnTextBlock elements:', $('.mcnTextBlock').length);
+  console.log('📋 Found .mcnCaptionBlock elements:', $('.mcnCaptionBlock').length);
+
   // Absolutize links in the full document first
   absolutizeLinks($, url);
 
@@ -123,6 +129,8 @@ export async function scrapeNewsletter(url: string): Promise<NewsletterPayload> 
   const title =
     $('title').first().text().trim() ||
     $('h1').first().text().trim() || undefined;
+
+  console.log('📝 Newsletter title found:', title);
 
   // Parse sections - much more aggressive approach
   const sections: NewsletterSection[] = [];
@@ -229,6 +237,7 @@ export async function scrapeNewsletter(url: string): Promise<NewsletterPayload> 
 
   // Final fallback: capture main body area
   if (sections.length === 0) {
+    console.log('📝 Newsletter scraping: No sections found, using final fallback');
     const body =
       $('#templateBody').html() ||
       $('.bodyContainer').html() ||
@@ -236,11 +245,23 @@ export async function scrapeNewsletter(url: string): Promise<NewsletterPayload> 
       $('body').html() ||
       '';
 
+    console.log('📄 Final fallback body length:', body.length);
+    console.log('📄 First 200 chars of fallback body:', body.substring(0, 200));
+
     sections.push({
       sectionTitle: 'Newsletter',
       items: [{ title: 'Content', html: cleanHtml(body) }]
     });
   }
+
+  console.log('📊 Newsletter scraping completed:');
+  console.log('📈 Total sections found:', sections.length);
+  console.log('📋 Sections:', sections.map(s => ({
+    title: s.sectionTitle,
+    itemCount: s.items?.length || 0,
+    firstItemTitle: s.items?.[0]?.title || 'no items',
+    firstItemContentLength: s.items?.[0]?.html?.length || 0
+  })));
 
   return { sourceUrl: url, title, sections };
 }

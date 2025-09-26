@@ -64,6 +64,7 @@ export default function Home() {
         if (unifiedResponse.ok) {
           const unified = await unifiedResponse.json();
           console.log('📡 Unified dashboard data received:', unified);
+
           setUnifiedData(unified);
         } else {
           console.error('📡 Unified dashboard fetch failed:', unifiedResponse.status, unifiedResponse.statusText);
@@ -196,7 +197,14 @@ export default function Home() {
           {/* MainDashboardTabs - Columns 1-5 */}
           <div className="lg:col-span-5">
             <MainDashboardTabs 
-              cohortEvents={cohortEvents}
+              cohortEvents={{
+                blue: unifiedData?.cohortEvents?.blue || cohortEvents?.blue || [],
+                gold: unifiedData?.cohortEvents?.gold || cohortEvents?.gold || [],
+                original: unifiedData?.cohortEvents?.original || cohortEvents?.original || [],
+                launch: unifiedData?.cohortEvents?.launch || cohortEvents?.launch || [],
+                calBears: unifiedData?.cohortEvents?.calBears || cohortEvents?.calBears || [],
+                campusGroups: unifiedData?.cohortEvents?.campusGroups || cohortEvents?.campusGroups || []
+              }}
               selectedCohort={selectedCohort}
             />
           </div>

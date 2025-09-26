@@ -66,19 +66,19 @@ export async function organizeNewsletterWithAI(
       return `[${section.sectionTitle}]\n${items}`;
     }).join('\n\n');
 
-    // Debug: Log what we're sending to AI (commented out for production)
-    // console.log('🔍 Raw content being sent to AI:');
-    // console.log('📏 Total content length:', rawContent.length);
-    // console.log('📝 Raw sections count:', rawSections.length);
-    // console.log('📄 First 500 chars of raw content:', rawContent.substring(0, 500));
-    // console.log('📊 Raw sections structure:', rawSections.map(s => ({ 
-    //   title: s.sectionTitle, 
-    //   itemCount: s.items?.length || 0,
-    //   firstItemTitle: s.items?.[0]?.title || 'no items',
-    //   firstItemLength: s.items?.[0]?.html?.length || 0
-    // })));
+    // Debug: Log what we're sending to AI (temporarily enabled for debugging)
+    console.log('🔍 Raw content being sent to AI:');
+    console.log('📏 Total content length:', rawContent.length);
+    console.log('📝 Raw sections count:', rawSections.length);
+    console.log('📄 First 500 chars of raw content:', rawContent.substring(0, 500));
+    console.log('📊 Raw sections structure:', rawSections.map(s => ({ 
+      title: s.sectionTitle, 
+      itemCount: s.items?.length || 0,
+      firstItemTitle: s.items?.[0]?.title || 'no items',
+      firstItemLength: s.items?.[0]?.html?.length || 0
+    })));
 
-    // console.log('🤖 Starting AI organization...');
+    console.log('🤖 Starting AI organization...');
 
     // Enhanced prompt for the AI
     const prompt = `You are a newsletter content organizer for UC Berkeley EWMBA students. Transform the following newsletter content into a clean, structured format.
@@ -213,8 +213,8 @@ ${rawContent}`;
   const ai = await runAI({ prompt, reasoningEffort: 'minimal', verbosity: 'low', temperature: 0.1, maxOutputTokens: 4000 });
   const response = ai.text;
 
-    // console.log('📦 Raw AI response length:', response.length);
-    // console.log('📄 First 200 chars of AI response:', response.substring(0, 200));
+    console.log('📦 Raw AI response length:', response.length);
+    console.log('📄 First 200 chars of AI response:', response.substring(0, 200));
 
     // Remove any markdown code blocks if present
     let cleanedResponse = response;
@@ -229,8 +229,8 @@ ${rawContent}`;
     }
     cleanedResponse = cleanedResponse.trim();
 
-    // console.log('🧹 Cleaned response length:', cleanedResponse.length);
-    // console.log('🔍 Attempting to parse JSON...');
+    console.log('🧹 Cleaned response length:', cleanedResponse.length);
+    console.log('🔍 Attempting to parse JSON...');
 
     // Parse AI response
     let organizedData: {
@@ -246,9 +246,14 @@ ${rawContent}`;
     
     try {
       organizedData = JSON.parse(cleanedResponse);
-      // console.log('✅ JSON parsed successfully');
-      // console.log('📊 Organized sections count:', organizedData.sections?.length || 0);
-      // console.log('📝 Debug info available:', !!organizedData.debugInfo);
+      console.log('✅ JSON parsed successfully');
+      console.log('📊 Organized sections count:', organizedData.sections?.length || 0);
+      console.log('📝 Debug info available:', !!organizedData.debugInfo);
+      console.log('📋 AI organized sections:', organizedData.sections?.map(s => ({
+        title: s.sectionTitle,
+        itemCount: s.items?.length || 0,
+        firstItemTitle: s.items?.[0]?.title || 'no items'
+      })));
     } catch (parseError) {
       console.error('❌ Failed to parse AI response:', parseError);
       console.error('🔍 Problematic response:', cleanedResponse.substring(0, 500));
