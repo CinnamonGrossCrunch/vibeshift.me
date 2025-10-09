@@ -5,6 +5,25 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   
+  // Allow VS Code Simple Browser and other embeds
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'ALLOWALL',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors *",
+          },
+        ],
+      },
+    ];
+  },
+  
   // Image optimization
   images: {
     formats: ['image/webp', 'image/avif'],

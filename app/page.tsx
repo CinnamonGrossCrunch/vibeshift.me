@@ -8,6 +8,7 @@ import MyWeekWidget from "./components/MyWeekWidget";
 import HaasResourcesWidget from "./components/HaasResourcesWidget";
 import HaasJourneyWidget from "./components/HaasJourneyWidget";
 import CohortToggleWidget from "./components/CohortToggleWidget";
+import AnimatedLogo from "./components/AnimatedLogo";
 import { usePerformance, getPerformanceClasses } from "./components/PerformanceProvider";
 import type { CohortEvents } from '@/lib/icsUtils';
 import type { UnifiedDashboardData } from '@/app/api/unified-dashboard/route';
@@ -29,6 +30,10 @@ export default function Home() {
   });
   const [loading, setLoading] = useState(true);
   
+  // Header animation states
+  const [showLogo, setShowLogo] = useState(false);
+  const [overlayOpacity, setOverlayOpacity] = useState(100);
+  
   // New unified dashboard data for the top-level MyWeekWidget and DashboardTabs2
   const [unifiedData, setUnifiedData] = useState<UnifiedDashboardData | null>(null);
   // Remove unused unifiedLoading variable since we use loading instead
@@ -42,6 +47,25 @@ export default function Home() {
     } else {
       setSelectedCohort('blue');
     }
+  }, []);
+
+  // Header animation sequence
+  useEffect(() => {
+    // Wait 1 second, then show logo to trigger animation
+    const logoTimer = setTimeout(() => {
+      setShowLogo(true);
+    }, 1000);
+
+    // Wait for logo animation to complete (4 seconds for animation)
+    // Then start fading out the black overlay while logo holds on final frame
+    const overlayTimer = setTimeout(() => {
+      setOverlayOpacity(0);
+    }, 4000); // 1s delay + 4s animation, then 2s fade during framehold
+
+    return () => {
+      clearTimeout(logoTimer);
+      clearTimeout(overlayTimer);
+    };
   }, []);
 
   // Save cohort preference to localStorage
@@ -109,26 +133,43 @@ export default function Home() {
       <div className="fixed inset-0 z-10 overflow-auto">
         {/* Header */}
         <div className={getPerformanceClasses(
-          `w-full sticky top-0 z-30 backdrop-blur-md ${glassEffectClass} bg-turbulence relative overflow-hidden py-3 mb-5`,
+          `w-full sticky top-0 z-30  ${glassEffectClass} bg-turbulence relative overflow-hidden py-1 mb-5`,
           capabilities
         )}>
+          {/* Animated black overlay - z-index 20 (middle layer) */}
+          <div 
+            className="absolute inset-0 bg-black transition-opacity duration-2000 ease-out pointer-events-none z-20"
+            style={{ opacity: overlayOpacity / 100 }}
+          />
+
+          {/* Animated logo - z-index 30 (top layer) - positioned absolutely to escape content stacking context */}
+          <div className="absolute top-1/2 -translate-y-1/2 z-30" style={{ left: 'max(0.75rem, calc((100vw - 80rem) / 2 + 0.75rem + 0.25rem))' }}>
+            <div className="rounded-lg opacity-100 overflow-hidden flex items-center justify-center filter brightness-100 transition-all h-8 sm:h-10 md:h-14">
+              {/* Logo placeholder to prevent layout shift */}
+              <div className="h-8 sm:h-10 md:h-14 w-[120px]">
+                {showLogo && (
+                  <AnimatedLogo
+                    videoSrc="/oskihub_anim.mp4"
+                    fallbackImageSrc="/oskihub_anim_still.png"
+                    alt="OskiHub Logo"
+                    width={120}
+                    height={56}
+                    className="h-8 sm:h-10 md:h-14 w-auto object-contain"
+                    playOnce={true}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
 
           <div className="pointer-events-none flex justify-left inset-0" style={{ maskImage: 'radial-gradient(circle at 30% 25%, rgba(0,0,0,.7), transparent 70%)', WebkitMaskImage: 'radial-gradient(circle at 30% 25%, rgba(0,0,0,.7), transparent 70%)', filter: 'url(#glassDistort)' }} />
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-2 relative">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-2 relative z-10">
           <div className="flex items-center h-10 sm:h-11 md:h-12">
             {/* Left section - Logos */}
             <div className="flex-1 flex items-center gap-1 sm:gap-2 h-full px-1">
                 
-              <div className="rounded-lg opacity-80 overflow-hidden flex items-center justify-center invert mix-blend-color filter brightness-80 transition-all h-full">
-                <Image 
-                  src="/OskiHubWM.svg" 
-                  alt="OskiHub Logo"
-                  width={60}
-                  height={24} 
-                  className="h-4 sm:h-5 md:h-7 w-auto object-contain"
-                  style={{ filter: 'drop-shadow(0 0 4px rgba(0, 0, 0, 0.1)) drop-shadow(0 0 10px rgba(255, 136, 0, 0.1))' }}
-                />
-              </div>
+              {/* Spacer to reserve space for absolutely positioned logo */}
+              <div className="w-[120px] h-full"></div>
                  <div className="flex-1 flex items-left justify-start h-full px-0">
               <div className="relative rounded-lg px-0 sm:px-3 md:px-4 overflow-hidden flex items-center justify-center h-full">
                 <Image 
@@ -137,7 +178,7 @@ export default function Home() {
                   width={60}
                   height={24} 
                   title="Learn More about this project."
-                  className="h-4 sm:h-5 md:h-7 w-auto mx-0 opacity-100 object-contain hover:invert filter brightness-10 hover:brightness-0 transition-all cursor-pointer"
+                  className="h-4 sm:h-5 md:h-7 w-auto mx-0 opacity-100 object-contain hover:invert filter brightness-20 hover:brightness-0 transition-all cursor-pointer"
                 /> 
               </div>
             </div>

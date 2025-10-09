@@ -743,13 +743,15 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                 <div className="text-center">
                <div className="text-md urbanist-bold" style={{ color: 'var(--berkeley-gold)' }}>
                     {animationData && triggerTopLevelAnimation ? (
-                      <Lottie 
+                        <div className="brightness-[.9] contrast-[2.5]">
+                        <Lottie 
                         animationData={animationData}
                         loop={false}
                         autoplay={true}
                         className="w-12 h-12 mx-auto"
-                      />
-                    ) : (
+                        />
+                        </div>
+                      ) : (
                       <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto flex items-center justify-center">
                         <span className="text-lg">✓</span>
                       </div>
@@ -826,8 +828,9 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                       <div className="w-20 h-8 rounded-lg flex items-center justify-center">
                         {animationData ? (
                           <div 
-                            className={`transition-transform duration-[200ms] ease-in-out ${sectionScaleStates[idx] ? 'brightness-[1.5]' : 'brightness-100'} flex items-center justify-center`}
+                            className={`transition-transform duration-[200ms] brightness-[.9] contrast-[2.5] ease-in-out ${sectionScaleStates[idx] ? 'brightness-[1.5]' : 'brightness-100'} flex items-center justify-center`}
                           >
+                            
                             <Lottie 
                               animationData={animationData}
                               loop={false}

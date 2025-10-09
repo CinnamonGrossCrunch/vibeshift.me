@@ -13,16 +13,16 @@ const urbanist = Urbanist({
 });
 
 export const metadata: Metadata = {
-  title: "Newsletter Widget",
+  title: "OskiHub",
   description: "Smart newsletter dashboard with Mailchimp integration",
   icons: {
     icon: [
-      { url: "/cloudclaw.ico", sizes: "any", type: "image/x-icon" },
-      { url: "/cloudclaw.ico", sizes: "16x16", type: "image/x-icon" },
-      { url: "/cloudclaw.ico", sizes: "32x32", type: "image/x-icon" },
+      { url: "/OskiHub.ico", sizes: "any", type: "image/x-icon" },
+      { url: "/OskiHub.ico", sizes: "16x16", type: "image/x-icon" },
+      { url: "/OskiHub.ico", sizes: "32x32", type: "image/x-icon" },
     ],
-    shortcut: "/cloudclaw.ico",
-    apple: "/cloudclaw.ico",
+    shortcut: "/OskiHub.ico",
+    apple: "/OskiHub.ico",
   },
 };
 
@@ -32,7 +32,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`dark ${urbanist.variable}`} style={{ colorScheme: 'dark' }}>
+    <html
+      lang="en"
+      className={`dark ${urbanist.variable}`}
+      style={{ colorScheme: 'dark' }}
+      suppressHydrationWarning
+    >
       <head>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
       </head>
