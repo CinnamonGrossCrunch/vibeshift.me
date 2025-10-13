@@ -153,7 +153,7 @@ export default function Home() {
       <div className="fixed inset-0 z-50 overflow-auto">
         {/* Header */}
         <div className={getPerformanceClasses(
-          `w-full sticky top-0 z-30  ${glassEffectClass} bg-header-glass relative overflow-hidden py-1 mb-0`,
+          `w-full sticky top-0 z-30 bg bg-header-glass backdrop-blur-md relative overflow-hidden py-1 mb-0`,
           capabilities
         )}>
           {/* Animated black overlay - z-index 20 (middle layer) */}
@@ -175,19 +175,19 @@ export default function Home() {
           <div className="flex items-center h-10 sm:h-11 md:h-12">
             {/* Left section - Logos */}
             <div className="flex-1 flex items-center gap-1 sm:gap-2 h-full px-1">
-                
+          
               {/* Spacer to reserve space for absolutely positioned logo */}
               <div className="w-[120px] h-full"></div>
-                 <div className="flex-1 flex items-left justify-start h-full px-0">
+           <div className="flex-1 flex items-left justify-start h-full px-0">
               <div className="relative rounded-lg px-0 sm:px-3 md:px-4 overflow-hidden flex items-center justify-center h-full">
-                <Image 
-                  src="/Beta.svg" 
-                  alt="[Beta]"
-                  width={60}
-                  height={24} 
-                  title="Learn More about this project."
-                  className="h-4 sm:h-5 md:h-7 w-auto mx-0 opacity-100 object-contain hover:invert filter brightness-20 hover:brightness-0 transition-all cursor-pointer"
-                /> 
+          <Image 
+            src="/Beta.svg" 
+            alt="[Beta]"
+            width={60}
+            height={24} 
+            title="Learn More about this project."
+            className="h-4 sm:h-5 md:h-7 w-auto mx-0 opacity-100 object-contain hover:invert filter brightness-20 hover:brightness-0 transition-all cursor-pointer"
+          /> 
               </div>
             </div>
             
@@ -198,15 +198,15 @@ export default function Home() {
             </div>
                <div className="flex-1 flex items-center justify-end h-full px-1">
               <CohortToggleWidget 
-                selectedCohort={selectedCohort}
-                onCohortChange={handleCohortChange}
-                className=""
+          selectedCohort={selectedCohort}
+          onCohortChange={handleCohortChange}
+          className=""
               />
             </div>
           </div>
         </div>
         
-      </div>
+            </div>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-0 relative">

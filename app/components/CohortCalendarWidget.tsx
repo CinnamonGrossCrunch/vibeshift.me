@@ -87,8 +87,12 @@ export default function CohortCalendarWidget({
               <ul className="mt-2 space-y-1">
                 <li>• ewmba201a_micro_blue_fall2025.ics</li>
                 <li>• ewmba_leadingpeople_blue_fall2025.ics</li>
+                <li>• DataDecisions-Blue.ics</li>
+                <li>• Marketing-Blue-Final.ics</li>
                 <li>• ewmba201a_micro_gold_fall2025.ics</li>
                 <li>• ewmba_leadingpeople_gold_fall2025.ics</li>
+                <li>• DataDecisions-Gold.ics</li>
+                <li>• Marketing-Gold-Final.ics</li>
                 <li>• calendar.ics (for rich content matching)</li>
               </ul>
             </div>

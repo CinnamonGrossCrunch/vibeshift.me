@@ -20,6 +20,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
   const [currentMonth, setCurrentMonth] = useState(new Date()); // Current month
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [matchedOriginalEvent, setMatchedOriginalEvent] = useState<CalendarEvent | null>(null);
+  const [currentEventIndex, setCurrentEventIndex] = useState<number>(-1); // Track current event index
   const [showGreekTheater, setShowGreekTheater] = useState(false);
   const [showUCLaunch, setShowUCLaunch] = useState(false);
   const [showCalBears, setShowCalBears] = useState(false);
@@ -87,8 +88,10 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
     const eventDate = new Date(cohortEvent.start);
     const isCourse201 = cohortEvent.source.includes('201') || cohortEvent.source.includes('micro');
     const isLeadingPeople = cohortEvent.source.includes('205') || cohortEvent.source.includes('leadingpeople');
+    const isDataDecisions = cohortEvent.source.includes('DataDecisions') || cohortEvent.source.includes('202');
+    const isMarketing = cohortEvent.source.includes('Marketing') || cohortEvent.source.includes('208');
     
-    if (!isCourse201 && !isLeadingPeople) return null;
+    if (!isCourse201 && !isLeadingPeople && !isDataDecisions && !isMarketing) return null;
 
     // Course start dates
     const courseStartDates = {
@@ -98,6 +101,12 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
       // Leading People start dates  
       leading_blue: new Date(2025, 7, 6), // August 6, 2025
       leading_gold: new Date(2025, 7, 7), // August 7, 2025
+      // Data & Decisions (202) start dates
+      data_blue: new Date(2025, 9, 14), // October 14, 2025 (Monday)
+      data_gold: new Date(2025, 9, 15), // October 15, 2025 (Tuesday)
+      // Marketing (208) start dates
+      marketing_blue: new Date(2025, 9, 14), // October 14, 2025 (Monday)
+      marketing_gold: new Date(2025, 9, 15), // October 15, 2025 (Tuesday)
     };
 
     let startDate: Date;
@@ -108,6 +117,14 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
       startDate = selectedCohort === 'blue' ? courseStartDates.micro_blue : courseStartDates.micro_gold;
       courseTitle = 'MicroEconomics';
       baseUrl = 'https://bcourses.berkeley.edu/courses/1544880/pages/week-';
+    } else if (isDataDecisions) {
+      startDate = selectedCohort === 'blue' ? courseStartDates.data_blue : courseStartDates.data_gold;
+      courseTitle = 'Data & Decisions';
+      baseUrl = 'https://bcourses.berkeley.edu/courses/1545042/pages/week-';
+    } else if (isMarketing) {
+      startDate = selectedCohort === 'blue' ? courseStartDates.marketing_blue : courseStartDates.marketing_gold;
+      courseTitle = 'Marketing';
+      baseUrl = 'https://bcourses.berkeley.edu/courses/1545360/pages/session-';
     } else {
       startDate = selectedCohort === 'blue' ? courseStartDates.leading_blue : courseStartDates.leading_gold;
       courseTitle = 'Leading People';
@@ -121,11 +138,19 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
     // Generate enhanced content
     const enhancedTitle = isCourse201 
       ? `MicroEconomics Week ${weekNumber}`
-      : `Leading People Week ${weekNumber}`;
+      : isDataDecisions
+        ? `Data & Decisions Week ${weekNumber}`
+        : isMarketing
+          ? `Marketing Session ${weekNumber}`
+          : `Leading People Week ${weekNumber}`;
     
     const courseUrl = isCourse201 
       ? `${baseUrl}${weekNumber}`
-      : `${baseUrl}week-${weekNumber}`;
+      : isDataDecisions
+        ? `${baseUrl}${weekNumber}`
+        : isMarketing
+          ? `${baseUrl}${weekNumber}`
+          : `${baseUrl}week-${weekNumber}`;
 
     const enhancedDescription = `For course content for ${courseTitle}, Week ${weekNumber}, please click Event Link. `;
 
@@ -172,10 +197,16 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
       return generateCourseContent(cohortEvent);
     }
 
-    // If only one event on the same date, return it
+    // Generate the course URL for this event (we'll use it to enhance matched events)
+    const generatedContent = generateCourseContent(cohortEvent);
+
+    // If only one event on the same date, return it enhanced with generated URL
     if (sameDateEvents.length === 1) {
       console.log(`Found matching event by date: ${sameDateEvents[0].title}`);
-      return sameDateEvents[0];
+      return {
+        ...sameDateEvents[0],
+        url: sameDateEvents[0].url || generatedContent?.url, // Add generated URL if ICS doesn't have one
+      };
     }
 
     // Multiple events on same date - try to match by title similarity
@@ -223,24 +254,38 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
 
     if (bestMatch) {
       console.log(`Found best matching event (${bestSimilarity.toFixed(2)} similarity): ${bestMatch.title}`);
-      return bestMatch;
+      return {
+        ...bestMatch,
+        url: bestMatch.url || generatedContent?.url, // Add generated URL if ICS doesn't have one
+      };
     }
 
     // If no good title match, try to generate course content as fallback
-    const courseContent = generateCourseContent(cohortEvent);
-    if (courseContent) {
-      console.log(`No good title match found, using generated course content: ${courseContent.title}`);
-      return courseContent;
+    if (generatedContent) {
+      console.log(`No good title match found, using generated course content: ${generatedContent.title}`);
+      return generatedContent;
     }
 
-    // Final fallback - return the first event on the same date
-    console.log(`No good title match found, returning first event on same date: ${sameDateEvents[0].title}`);
-    return sameDateEvents[0];
+    // Final fallback - return the first event on the same date with generated URL
+    const fallbackEvent = sameDateEvents[0] as CalendarEvent;
+    if (!fallbackEvent) return null; // Safety check (should never happen)
+    
+    console.log(`No good title match found, returning first event on same date: ${fallbackEvent.title}`);
+    return {
+      ...fallbackEvent,
+      url: fallbackEvent.url || generatedContent?.url,
+    };
   };
 
   const handleEventClick = (event: CalendarEvent) => {
     // Scroll to top of page first
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Find the index of this event in the current events array
+    const eventIndex = currentEvents.findIndex(e => 
+      e.start === event.start && e.title === event.title
+    );
+    setCurrentEventIndex(eventIndex);
     
     // Teams@Haas: show raw event only
     if (event.source && event.source.toLowerCase().includes('teams@haas')) {
@@ -250,22 +295,43 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
       return;
     }
 
-    setSelectedEvent(event);
+    // Try to find matching/enriched event from original calendar (this adds the URL!)
+    const enrichedEvent = findMatchingOriginalEvent(event, cohortEvents.original || []);
     
-    // Try to find matching event from original calendar
-    const originalEvent = findMatchingOriginalEvent(event, cohortEvents.original || []);
-    setMatchedOriginalEvent(originalEvent);
-    
-    if (originalEvent) {
-      console.log(`Found matching original event for "${event.title}": "${originalEvent.title}"`);
+    if (enrichedEvent) {
+      console.log(`✅ Enriched event with URL: ${enrichedEvent.url}`);
+      // Merge: Use the base event (has rich ICS description) but add the URL from enrichedEvent
+      const mergedEvent: CalendarEvent = {
+        ...event, // Start with base event (has rich description from ICS)
+        url: enrichedEvent.url, // Add the generated URL
+      };
+      setSelectedEvent(mergedEvent);
+      setMatchedOriginalEvent(null);
     } else {
-      console.log(`No matching original event found for "${event.title}"`);
+      console.log(`⚠️ No enrichment found for "${event.title}"`);
+      setSelectedEvent(event);
+      setMatchedOriginalEvent(null);
+    }
+  };
+
+  const handleNextEvent = () => {
+    if (currentEventIndex < currentEvents.length - 1) {
+      const nextEvent = currentEvents[currentEventIndex + 1];
+      handleEventClick(nextEvent);
+    }
+  };
+
+  const handlePreviousEvent = () => {
+    if (currentEventIndex > 0) {
+      const prevEvent = currentEvents[currentEventIndex - 1];
+      handleEventClick(prevEvent);
     }
   };
 
   const handleCloseModal = () => {
     setSelectedEvent(null);
     setMatchedOriginalEvent(null);
+    setCurrentEventIndex(-1);
   };
 
   // Get current cohort events
@@ -523,7 +589,11 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
       <EventDetailModal 
         event={selectedEvent} 
         originalEvent={matchedOriginalEvent}
-        onClose={handleCloseModal} 
+        onClose={handleCloseModal}
+        onNext={handleNextEvent}
+        onPrevious={handlePreviousEvent}
+        hasNext={currentEventIndex >= 0 && currentEventIndex < currentEvents.length - 1}
+        hasPrevious={currentEventIndex > 0}
       />
     </>
   );

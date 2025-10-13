@@ -1,0 +1,124 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Gross Design//EWMBA206//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:2025-10-16-gold@gross.design
+DTSTAMP:20251013T054549Z
+DTSTART:20251017T010000Z
+DTEND:20251017T043000Z
+SUMMARY:Marketing (Gold) — Intro Foundations
+LOCATION:370 Chou Hall\, Berkeley Haas
+DESCRIPTION:Read/Prepare:\n• What is customer segmentation? The marketing
+  funnel? The 4Ps? Customer lifetime value?\n• How do marketers use these
+  and other foundational concepts?\n• What are the key differences betwee
+ n qualitative and quantitative research and what is the best way to use 
+ each?\n• Brand audit vs a customer audit - Why do either one?\nThis Week
+ 's Materials: https://bcourses.berkeley.edu/courses/1545360/external_too
+ ls/79374
+END:VEVENT
+BEGIN:VEVENT
+UID:2025-10-23-gold@gross.design
+DTSTAMP:20251013T054549Z
+DTSTART:20251024T010000Z
+DTEND:20251024T043000Z
+SUMMARY:Marketing (Gold) — Research Audit
+LOCATION:370 Chou Hall\, Berkeley Haas
+DESCRIPTION:Read/Prepare:\n• “The essential guide to gaming audiences\,” 
+ Activision Blizzard Media–AdWeek\n• Case: Madrigal - Conducting a Custom
+ er Base Audit - 3/24\nThis Week's Materials: https://bcourses.berkeley.e
+ du/courses/1545360/external_tools/79374
+END:VEVENT
+BEGIN:VEVENT
+UID:2025-10-30-gold@gross.design
+DTSTAMP:20251013T054549Z
+DTSTART:20251031T010000Z
+DTEND:20251031T043000Z
+SUMMARY:Marketing (Gold) — Brand Basics
+LOCATION:370 Chou Hall\, Berkeley Haas
+DESCRIPTION:Read/Prepare:\n• “Retail Rx: Coach on Balancing Product with 
+ Purpose”\, Sourcing Journal\, 6/10/24 article and video\n• Case: Liquid 
+ Death - Water made metal - 8/22\nThis Week's Materials: https://bcourses
+ .berkeley.edu/courses/1545360/external_tools/79374
+END:VEVENT
+BEGIN:VEVENT
+UID:2025-11-06-gold@gross.design
+DTSTAMP:20251013T054549Z
+DTSTART:20251107T020000Z
+DTEND:20251107T053000Z
+SUMMARY:Marketing (Gold) — Product Basics
+LOCATION:370 Chou Hall\, Berkeley Haas
+DESCRIPTION:Read/Prepare:\n• “What Is Product Marketing? A Guide to Getti
+ ng Started + Examples\,” 11/24/23\nThis Week's Materials: https://bcours
+ es.berkeley.edu/courses/1545360/external_tools/79374
+END:VEVENT
+BEGIN:VEVENT
+UID:2025-11-13-gold@gross.design
+DTSTAMP:20251013T054549Z
+DTSTART:20251114T020000Z
+DTEND:20251114T053000Z
+SUMMARY:Marketing (Gold) — Influencer Content
+LOCATION:370 Chou Hall\, Berkeley Haas
+DESCRIPTION:Read/Prepare:\n• “How brands and influencers can make the mos
+ t of the relationship\,” HBR\, May-June\, 2023\n• “How marketers are lev
+ eraging micro influencer marketing to engage Gen Z\,” 3/7/24\n• In Influ
+ encer Marketing\, precision wins BCG Perspectives\, 4/21/25\n• Case: Dro
+ p Technologies - Understanding the Influencer Marketing Channel - 5/21\n
+ This Week's Materials: https://bcourses.berkeley.edu/courses/1545360/ext
+ ernal_tools/79374
+END:VEVENT
+BEGIN:VEVENT
+UID:2025-11-20-gold@gross.design
+DTSTAMP:20251013T054549Z
+DTSTART:20251121T020000Z
+DTEND:20251121T053000Z
+SUMMARY:Marketing (Gold) — Content Performance
+LOCATION:370 Chou Hall\, Berkeley Haas
+DESCRIPTION:Read/Prepare:\n• “Content marketing - what it is and how to d
+ o it well\,” 2/21\n• “How to craft an effective social media content str
+ ategy\,” 8/1/24\n• Case: Away - Scaling a DTC travel brand - 4/20\nThis 
+ Week's Materials: https://bcourses.berkeley.edu/courses/1545360/external
+ _tools/79374
+END:VEVENT
+BEGIN:VEVENT
+UID:2025-11-25-gold@gross.design
+DTSTAMP:20251013T054549Z
+DTSTART:20251126T020000Z
+DTEND:20251126T053000Z
+SUMMARY:Marketing (Gold) — Performance Loyalty
+LOCATION:370 Chou Hall\, Berkeley Haas
+DESCRIPTION:Read/Prepare:\n• “Not all performance marketing tools are cre
+ ated equal\,” 3/15/24\n• “Answer engine optimization (AEO)—everything ma
+ rketers need to know about AI search\,” 6/3/25\n• “Marketing To Machines
+ : A New Performance Strategy In The Age Of AI Agents\,” 6/2/25\nThis Wee
+ k's Materials: https://bcourses.berkeley.edu/courses/1545360/external_to
+ ols/79374
+END:VEVENT
+BEGIN:VEVENT
+UID:2025-12-04-gold@gross.design
+DTSTAMP:20251013T054549Z
+DTSTART:20251205T020000Z
+DTEND:20251205T053000Z
+SUMMARY:Marketing (Gold) — Loyalty Funnel
+LOCATION:370 Chou Hall\, Berkeley Haas
+DESCRIPTION:Read/Prepare:\n• “How to make your loyalty program pay off\,”
+  10/28/21\n• “Why Loyalty Programs Fail\,” 9/24\n• Case: Lego: Fostering
+  Brand Love through Customer Communities - 5/25\nThis Week's Materials: 
+ https://bcourses.berkeley.edu/courses/1545360/external_tools/79374
+END:VEVENT
+BEGIN:VEVENT
+UID:2025-12-11-gold@gross.design
+DTSTAMP:20251013T054549Z
+DTSTART:20251212T020000Z
+DTEND:20251212T053000Z
+SUMMARY:Marketing (Gold) — Funnel Synthesis
+LOCATION:370 Chou Hall\, Berkeley Haas
+DESCRIPTION:Read/Prepare:\n• LISTEN: Snack Attack: Kellanova CMO Julie Bo
+ werman Is Future-Proofing Pop-Parts and Pringles\, AdWeek podcast\, 5/22
+ /25\n• “The fundamentals of CPG measurement—what marketers need to know.
+ ” AdAge\, 2/26/25\n• Case: Headspace vs Calm - A mindful competition - 5
+ /22\nThis Week's Materials: https://bcourses.berkeley.edu/courses/154536
+ 0/external_tools/79374
+END:VEVENT
+END:VCALENDAR

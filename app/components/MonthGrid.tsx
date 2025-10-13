@@ -186,9 +186,19 @@ export default function MonthGrid({
               return `${glassBase} bg-green-800/35 border-green-700/40 text-white ${hoverGold}`;
             }
 
+            // EWMBA 202 (Data & Decisions) - Dark Blue
+            if (event.source.includes('DataDecisions')) {
+              return `${glassBase} bg-blue-800/35 border-blue-700/40 text-white ${hoverGold}`;
+            }
+
             // EWMBA 205 (Leading People) - Dark Red
-            if (event.source.includes('205_')) {
+            if (event.source.includes('205_') || event.source.includes('leadingpeople')) {
               return `${glassBase} bg-red-800/35 border-red-700/40 text-white ${hoverGold}`;
+            }
+
+            // EWMBA 208 (Marketing) - Pastel Orange
+            if (event.source.includes('Marketing')) {
+              return `${glassBase} bg-orange-500/60 border-orange-300/50 text-white ${hoverGold}`;
             }
           }
           
@@ -197,25 +207,48 @@ export default function MonthGrid({
           
           // EWMBA 201 (Microeconomics) - Dark Green with 50% opacity
           if (title.includes('EWMBA 201') || title.includes('Microeconomics')) {
-            return `bg-green-800/50 border-green-700/30 text-white ${hoverGold}`;
+            return `${glassBase} bg-green-800/50 border-green-700/30 text-white ${hoverGold}`;
+          }
+          
+          // EWMBA 202 (Data & Decisions) - Dark Blue with glass effect
+          if (title.includes('EWMBA 202') || title.includes('Data & Decisions')) {
+            return `${glassBase} bg-blue-800/50 border-blue-700/30 text-white ${hoverGold}`;
           }
           
           // EWMBA 205 (Leading People) - Dark Red with 50% opacity  
           if (title.includes('EWMBA 205') || title.includes('Leading People')) {
-            return `bg-red-800/50 border-red-700/30 text-white ${hoverGold}`;
+            return `${glassBase} bg-red-800/50 border-red-700/30 text-white ${hoverGold}`;
+          }
+          
+          // EWMBA 208 (Marketing) - Pastel Orange with glass effect
+          if (title.includes('EWMBA 208') || title.includes('Marketing')) {
+            return `${glassBase} bg-orange-400/50 border-orange-300/40 text-white ${hoverGold}`;
           }
           
           // Other courses - keeping existing colors
-          if (title.includes('EWMBA 202')) return `bg-blue-500/10 border-blue-500/30 text-white ${hoverGold}`;
           if (title.includes('EWMBA 203')) return `bg-teal-500/10 border-teal-500/30 text-white ${hoverGold}`;
           if (title.includes('EWMBA 204')) return `bg-pink-500/10 border-pink-500/30 text-white ${hoverGold}`;
           if (title.includes('EWMBA 206')) return `bg-indigo-500/10 border-indigo-500/30 text-white ${hoverGold}`;
           if (title.includes('EWMBA 207')) return `bg-emerald-500/10 border-emerald-500/30 text-white ${hoverGold}`;
-          if (title.includes('EWMBA 208')) return `bg-rose-500/10 border-rose-500/30 text-white ${hoverGold}`;
           if (title.includes('EWMBA 209')) return `bg-purple-500/10 border-purple-500/30 text-white ${hoverGold}`;
           if (title.includes('EWMBA 210')) return `bg-cyan-500/10 border-cyan-500/30 text-white ${hoverGold}`;
           
           return `bg-slate-100 border-slate-200 text-slate-900 ${hoverGold}`;
+        };
+        
+        // Function to check if event has a quiz (for Data & Decisions classes)
+        const hasQuiz = (event: CalendarEvent): boolean => {
+          if (!event.description) return false;
+          
+          // Check if it's a Data & Decisions class
+          const isDataDecisions = event.title.includes('Data & Decisions') || 
+                                  (event.source && event.source.includes('DataDecisions'));
+          
+          if (!isDataDecisions) return false;
+          
+          // Look for "QUIZ: Quiz" pattern (not "QUIZ: No quiz")
+          const quizMatch = event.description.match(/QUIZ:\s*Quiz\s+\d+/i);
+          return !!quizMatch;
         };
         
 
@@ -287,12 +320,13 @@ export default function MonthGrid({
               allDayEvents.map((ev) => {
                 const { courseName, assignment } = parseEventTitle(ev.title);
                 const courseColor = getCourseColor(ev);
+                const eventHasQuiz = hasQuiz(ev);
                 
                 return (
                 <div
                   key={ev.uid ?? ev.title + ev.start}
                   className={`text-[10px] px-1 rounded-sm border flex-1 min-h-0 flex flex-col justify-start overflow-hidden cursor-pointer hover:opacity-80 transition-opacity ${courseColor}`}
-                  title={`${assignment ? assignment + ' - ' : ''}${courseName} (${ev.title})`}
+                  title={`${assignment ? assignment + ' - ' : ''}${courseName} (${ev.title})${eventHasQuiz ? ' - QUIZ TODAY!' : ''}`}
                   onClick={(e) => {
                   e.stopPropagation();
                   onEventClick(ev);
@@ -301,9 +335,18 @@ export default function MonthGrid({
                   height: `calc((100% - ${(allDayEvents.length - 1) * 1}px) / ${allDayEvents.length})`
                   }}
                 >
+                  {/* Quiz indicator above course name */}
+                  {eventHasQuiz && (
+                    <div className="mb-0.5">
+                      <span className="font-bold text-red-500 text-[9px] px-1 bg-red-100 dark:bg-red-900/30 rounded whitespace-nowrap inline-block">
+                        QUIZ
+                      </span>
+                    </div>
+                  )}
                   {/* Course name */}
                   <div className="leading-tight break-words hyphens-auto font-medium" style={{ wordBreak: 'break-word' }}>
-                  {courseName}
+                    {courseName}
+                  </div>
                   {/* Assignment (clamped to 2 lines) */}
                   {assignment && (
                     <div
@@ -319,7 +362,6 @@ export default function MonthGrid({
                     {assignment}
                     </div>
                   )}
-                  </div>
                 </div>
                 );
               })

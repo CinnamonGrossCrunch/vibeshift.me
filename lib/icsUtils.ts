@@ -33,11 +33,15 @@ const COHORT_FILES = {
   blue: [
     'ewmba201a_micro_blue_fall2025.ics',
     'ewmba_leadingpeople_blue_fall2025.ics',
+    'DataDecisions-Blue.ics',
+    'Marketing-Blue-Final.ics',
     'teams@Haas.ics'
   ],
   gold: [
     'ewmba201a_micro_gold_fall2025.ics', 
     'ewmba_leadingpeople_gold_fall2025.ics',
+    'DataDecisions-Gold.ics',
+    'Marketing-Gold-Final.ics',
     'teams@Haas.ics'
   ]
 };

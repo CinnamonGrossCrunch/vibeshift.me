@@ -53,7 +53,7 @@ export default function MainDashboardTabs({
       </div>
 
       {/* Content Pane */}
-      <div className="bg-turbulence bg-glass p-4 sm:p-6 rounded-r-4xl rounded-b-lg rounded-tr-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%] flex-1 min-h-[600px] overflow-y-auto">
+      <div className="bg-turbulence bg-glass backdrop-blur-md p-4 sm:p-6 rounded-r-4xl rounded-b-lg rounded-tr-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%] flex-1 min-h-[600px] overflow-y-auto">
         {activeTab === 'OskiHub Cal' && (
           <div>
             {/* What's Next Widget - Horizontal Layout (PRESERVED) */}

@@ -65,7 +65,7 @@ const HAAS_RESOURCES: ResourceItem[] = [
 const STYLES = {
   container: "absolute,  px-0",
   dropdownHeader: "flex items-center justify-end p-2 rounded-xl hover:bg-turbulence transition-all duration-600 cursor-pointer group",
-  dropdownTitle: "text-md font-bold text-white transition-all duration-600 overflow-hidden text-center",
+  dropdownTitle: "text-md font-light text-white transition-all duration-600 overflow-hidden text-center",
   dropdownIcon: "text-white material-icons transition-all duration-600 ease-in-out",
   dropdownIconOpen: "",
   dropdownContent: "overflow-hidden transition-all duration-1000 w-full",
@@ -76,7 +76,7 @@ const STYLES = {
   icon: "text-white/80 material-icons",
   textContainer: "text-center md:text-left",
   resourceTitle: "text-sm font-light text-white/50 truncate mb-0",
-  resourceCta: "text-xs font-light text-white group-hover:text-blue-200 transition-colors whitespace-normal break-words",
+  resourceCta: "text-sm  font-light text-white group-hover:text-blue-200 transition-colors whitespace-normal break-words",
   tooltip: "absolute bottom-full left-1/2 -translate-x-1/2 mb-0 px-2 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50 whitespace-nowrap backdrop-blur-md bg-white/10 text-white text-xs font-light shadow-lg",
   cascadeItem: "transform transition-all duration-1200 ease-out"
 } as const
@@ -149,17 +149,17 @@ export default function HaasJourneyWidget({ className = "" }: HaasJourneyWidgetP
           onClick={() => setIsOpen(!isOpen)}
           title={isOpen ? 'Collapse' : 'Expand'}
         >
-          <span 
+            <span 
             className={`${STYLES.dropdownIcon} ${isOpen ? STYLES.dropdownIconOpen : ''}`}
             style={{
               transitionDelay: isOpen ? '100ms' : '0ms',
               transform: isOpen ? 'rotate(360deg)' : 'rotate(0deg)',
               fontSize: '32px',
-              textShadow: '0 0 4px rgba(255, 0, 255, 0.8), 0 0 8px rgba(255, 0, 255, 0.6), 0 0 12px rgba(255, 0, 255, 0.4), 0 0 16px rgba(255, 0, 255, 0.2)'
+              textShadow: '0 0 4px rgba(0, 99, 192, 0.8), 0 0 8px rgba(0, 99, 192, 0.6), 0 0 12px rgba(0, 99, 192, 0.4), 0 0 16px rgba(0, 99, 192, 0.2)'
             }}
-          >
+            >
             {isOpen ? 'remove' : 'add'}
-          </span>
+            </span>
             <h3 
             className={STYLES.dropdownTitle}
             style={{
@@ -168,10 +168,10 @@ export default function HaasJourneyWidget({ className = "" }: HaasJourneyWidgetP
               marginLeft: isOpen ? '0px' : '0px',
               paddingRight: '8px',
               paddingLeft: '8px',
-              paddingTop: '0px',
+              paddingTop: '4px',
               paddingBottom: '4px',
               color: '#ffffffff',
-              textShadow: '0 0 4px rgba(255, 0, 255, 0.8), 0 0 8px rgba(255, 0, 255, 0.6), 0 0 12px rgba(255, 0, 255, 0.4), 0 0 16px rgba(255, 0, 255, 0.2)',
+              textShadow: '0 0 12px #0063c0ff, 0 0 24px rgba(0, 50, 98, 0.8), 0 0 36px rgba(0, 50, 98, 0.6), 0 0 48px rgba(0, 50, 98, 0.4)',
               lineHeight: '1'
             }}
             >
