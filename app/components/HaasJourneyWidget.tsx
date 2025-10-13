@@ -65,7 +65,7 @@ const HAAS_RESOURCES: ResourceItem[] = [
 const STYLES = {
   container: "absolute,  px-0",
   dropdownHeader: "flex items-center justify-end p-2 rounded-xl hover:bg-turbulence transition-all duration-600 cursor-pointer group",
-  dropdownTitle: "text-md font-semibold text-white transition-all duration-600 overflow-hidden text-center truncate",
+  dropdownTitle: "text-md font-semibold text-white transition-all duration-600 overflow-hidden text-center",
   dropdownIcon: "text-white material-icons transition-all duration-600 ease-in-out",
   dropdownIconOpen: "",
   dropdownContent: "overflow-hidden transition-all duration-1000 w-full",
@@ -76,7 +76,7 @@ const STYLES = {
   icon: "text-white/80 material-icons",
   textContainer: "text-center md:text-left",
   resourceTitle: "text-sm font-light text-white/50 truncate mb-0",
-  resourceCta: "text-sm  font-light text-white group-hover:text-blue-200 transition-colors whitespace-normal break-words truncate",
+  resourceCta: "text-sm  font-light text-white group-hover:text-blue-200 transition-colors whitespace-normal break-words",
   tooltip: "absolute bottom-full left-1/2 -translate-x-1/2 mb-0 px-2 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50 whitespace-nowrap backdrop-blur-md bg-white/10 text-white text-xs font-light shadow-lg",
   cascadeItem: "transform transition-all duration-1200 ease-out"
 } as const

@@ -37,11 +37,24 @@ export default function RootLayout({
       className={`dark ${urbanist.variable}`}
       style={{ colorScheme: 'dark' }}
       suppressHydrationWarning
+      data-theme="dark"
     >
       <head>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Force dark mode immediately before render
+              (function() {
+                document.documentElement.classList.add('dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.documentElement.style.colorScheme = 'dark';
+              })();
+            `,
+          }}
+        />
       </head>
-      <body className={`antialiased dark ${urbanist.className}`}>
+      <body className={`antialiased dark ${urbanist.className}`} style={{ colorScheme: 'dark' }}>
         <PerformanceProvider>
           {children}
         </PerformanceProvider>
