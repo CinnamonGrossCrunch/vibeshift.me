@@ -75,10 +75,6 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
     displayEvent = event;
   }
   
-  console.log('📍 Modal Display - Title:', displayEvent.title);
-  console.log('📍 Modal Display - URL:', displayEvent.url);
-  console.log('📍 Modal Display - Description length:', displayEvent.description?.length || 0);
-  
   const start = new Date(displayEvent.start);
   const end = displayEvent.end ? new Date(displayEvent.end) : undefined;
 

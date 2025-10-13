@@ -92,22 +92,15 @@ export async function GET() {
   const startTime = Date.now();
   
   try {
-    console.log('🚀 Unified Dashboard API: Starting comprehensive data fetch');
-    console.log('🔑 OpenAI API Key available:', !!process.env.OPENAI_API_KEY);
-    console.log('🤖 OpenAI Model:', process.env.OPENAI_MODEL || 'not set');
-    
     // Start all data fetching operations in parallel
     const [newsletterResult, calendarResult] = await Promise.allSettled([
       // Newsletter data fetch and AI organization
       (async () => {
         const newsletterStart = Date.now();
-        console.log('📰 Fetching and organizing newsletter data...');
         
         const latest = await getLatestNewsletterUrl();
-        console.log('📰 Latest URL found:', latest);
         
         const rawData = await scrapeNewsletter(latest);
-        console.log('📰 Data scraped successfully');
         
         // Use OpenAI to organize the content intelligently
         const organizedData = await organizeNewsletterWithAI(
@@ -115,7 +108,6 @@ export async function GET() {
           rawData.sourceUrl, 
           rawData.title
         );
-        console.log('📰 Content organized with AI');
         
         return {
           data: organizedData,
@@ -126,10 +118,8 @@ export async function GET() {
       // Calendar data fetch
       (async () => {
         const calendarStart = Date.now();
-        console.log('📅 Fetching cohort events...');
         
         const cohortEvents = await getCohortEvents(45, 150); // Same parameters as calendar API
-        console.log('📅 Cohort events fetched successfully');
         
         return {
           data: cohortEvents,
@@ -156,14 +146,12 @@ export async function GET() {
     
     // Now run My Week AI analysis with the fetched data
     const myWeekStart = Date.now();
-    console.log('🤖 Running My Week AI analysis...');
     
     let myWeekData: CohortMyWeekAnalysis;
     let myWeekTime = 0;
     try {
       myWeekData = await analyzeCohortMyWeekWithAI(cohortEvents, newsletterData);
       myWeekTime = Date.now() - myWeekStart;
-      console.log('🤖 My Week analysis completed');
     } catch (error) {
       console.error('❌ My Week analysis failed:', error);
       // Provide fallback data with correct structure
@@ -212,9 +200,6 @@ export async function GET() {
       };
       // @ts-expect-error augment for debug
       response.myWeekData.aiMeta = (myWeekData as CohortMyWeekAnalysis).aiMeta;
-    
-    console.log(`✅ Unified Dashboard API completed in ${totalTime}ms`);
-    console.log(`📊 Breakdown: Newsletter ${newsletterTime}ms, Calendar ${calendarTime}ms, My Week ${myWeekTime}ms`);
     
     return NextResponse.json(response, { status: 200 });
     
