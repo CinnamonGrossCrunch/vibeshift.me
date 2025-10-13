@@ -14,7 +14,7 @@ type Props = {
 
 export default function CohortCalendarWidget({
   title = 'Cohort Calendar',
-  daysAhead = 30,
+  daysAhead = 120,
   max = 150,
   cohortEvents: externalCohortEvents,
   selectedCohort: externalSelectedCohort,
