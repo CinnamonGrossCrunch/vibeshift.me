@@ -55,7 +55,7 @@ async function getIcsData(): Promise<string> {
 }
 
 export async function getUpcomingEvents(
-  daysAhead = 30,
+  daysAhead = 150,
   limit = 150
 ): Promise<CalendarEvent[]> {
   const text = await getIcsData();
@@ -63,7 +63,7 @@ export async function getUpcomingEvents(
   const data = ical.sync.parseICS(text);
   const now = new Date();
   const horizon = addDays(now, daysAhead);
-  const pastLimit = addDays(now, -30); // Show events from 30 days ago
+  const pastLimit = addDays(now, -120); // Show events from 120 days ago
 
   const events: CalendarEvent[] = [];
 

@@ -14,7 +14,7 @@ const urbanist = Urbanist({
 
 export const metadata: Metadata = {
   title: "OskiHub",
-  description: "Smart newsletter dashboard with Mailchimp integration",
+  description: "EWMBA Student Hub & Schedule Aggregator",
   icons: {
     icon: [
       { url: "/OskiHub.ico", sizes: "any", type: "image/x-icon" },

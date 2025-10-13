@@ -185,7 +185,7 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4  bg-black/50 [&>div]:relative [&>div]:shadow-[0_0_0_1px_rgba(139,92,246,0.4),0_0_18px_4px_rgba(139,92,246,0.25)] [&>div]:transition-shadow">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4  bg-black/50 [&>div]:relative [&>div]:shadow-[0_0_0_1px_rgba(139,92,246,0.3),0_0_18px_4px_rgba(139,92,246,0.25)] [&>div]:transition-shadow">
       <div
         ref={modalRef}
         className="bg-slate-900/60 backdrop-blur-3xl rounded-2xl shadow-2xl max-w-3xl w-full max-h-[85vh] overflow-hidden flex flex-col"
@@ -300,7 +300,7 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
               href={displayEvent.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-[#003262] hover:bg-[#CC9500] text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors text-center flex items-center justify-center gap-2"
+              className="flex-1 bg-[#003262]/10 backdrop-blur-xl hover:bg-[#CC9500]/60 text-white text-sm font-medium py-2 px-4 rounded-lg transition-all duration-300 text-center flex items-center justify-center gap-2 shadow-[0_0_0_1px_rgba(255,255,255,0.2),0_0_18px_4px_rgba(255,255,255,0.25)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.6),0_0_25px_8px_rgba(255,255,255,0.4)] hover:scale-[1.02]"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />

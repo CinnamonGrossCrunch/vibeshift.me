@@ -1,10 +1,10 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Gross Design//EWMBA206//EN
+PRODID:-//OskiHub//EWMBA206//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
-UID:2025-10-15-blue@gross.design
+UID:2025-10-15-blue@oski.app
 DTSTAMP:20251013T054549Z
 DTSTART:20251016T010000Z
 DTEND:20251016T043000Z
@@ -19,7 +19,7 @@ DESCRIPTION:Read/Prepare:\n• What is customer segmentation? The marketing
  ls/79374
 END:VEVENT
 BEGIN:VEVENT
-UID:2025-10-22-blue@gross.design
+UID:2025-10-22-blue@oski.app
 DTSTAMP:20251013T054549Z
 DTSTART:20251023T010000Z
 DTEND:20251023T043000Z
@@ -31,7 +31,7 @@ DESCRIPTION:Read/Prepare:\n• “The essential guide to gaming audiences\,”
  du/courses/1545360/external_tools/79374
 END:VEVENT
 BEGIN:VEVENT
-UID:2025-10-29-blue@gross.design
+UID:2025-10-29-blue@oski.app
 DTSTAMP:20251013T054549Z
 DTSTART:20251030T010000Z
 DTEND:20251030T043000Z
@@ -43,7 +43,7 @@ DESCRIPTION:Read/Prepare:\n• “Retail Rx: Coach on Balancing Product with
  .berkeley.edu/courses/1545360/external_tools/79374
 END:VEVENT
 BEGIN:VEVENT
-UID:2025-11-05-blue@gross.design
+UID:2025-11-05-blue@oski.app
 DTSTAMP:20251013T054549Z
 DTSTART:20251106T020000Z
 DTEND:20251106T053000Z
@@ -54,7 +54,7 @@ DESCRIPTION:Read/Prepare:\n• “What Is Product Marketing? A Guide to Getti
  es.berkeley.edu/courses/1545360/external_tools/79374
 END:VEVENT
 BEGIN:VEVENT
-UID:2025-11-12-blue@gross.design
+UID:2025-11-12-blue@oski.app
 DTSTAMP:20251013T054549Z
 DTSTART:20251113T020000Z
 DTEND:20251113T053000Z
@@ -69,7 +69,7 @@ DESCRIPTION:Read/Prepare:\n• “How brands and influencers can make the mos
  ernal_tools/79374
 END:VEVENT
 BEGIN:VEVENT
-UID:2025-11-19-blue@gross.design
+UID:2025-11-19-blue@oski.app
 DTSTAMP:20251013T054549Z
 DTSTART:20251120T020000Z
 DTEND:20251120T053000Z
@@ -82,7 +82,7 @@ DESCRIPTION:Read/Prepare:\n• “Content marketing - what it is and how to d
  _tools/79374
 END:VEVENT
 BEGIN:VEVENT
-UID:2025-11-25-blue@gross.design
+UID:2025-11-25-blue@oski.app
 DTSTAMP:20251013T054549Z
 DTSTART:20251126T020000Z
 DTEND:20251126T053000Z
@@ -96,7 +96,7 @@ DESCRIPTION:Read/Prepare:\n• “Not all performance marketing tools are cre
  ols/79374
 END:VEVENT
 BEGIN:VEVENT
-UID:2025-12-03-blue@gross.design
+UID:2025-12-03-blue@oski.app
 DTSTAMP:20251013T054549Z
 DTSTART:20251204T020000Z
 DTEND:20251204T053000Z
@@ -108,7 +108,7 @@ DESCRIPTION:Read/Prepare:\n• “How to make your loyalty program pay off\,”
  https://bcourses.berkeley.edu/courses/1545360/external_tools/79374
 END:VEVENT
 BEGIN:VEVENT
-UID:2025-12-10-blue@gross.design
+UID:2025-12-10-blue@oski.app
 DTSTAMP:20251013T054549Z
 DTSTART:20251211T020000Z
 DTEND:20251211T053000Z

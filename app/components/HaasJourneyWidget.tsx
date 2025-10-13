@@ -65,7 +65,7 @@ const HAAS_RESOURCES: ResourceItem[] = [
 const STYLES = {
   container: "absolute,  px-0",
   dropdownHeader: "flex items-center justify-end p-2 rounded-xl hover:bg-turbulence transition-all duration-600 cursor-pointer group",
-  dropdownTitle: "text-md font-light text-white transition-all duration-600 overflow-hidden text-center",
+  dropdownTitle: "text-md font-semibold text-white transition-all duration-600 overflow-hidden text-center",
   dropdownIcon: "text-white material-icons transition-all duration-600 ease-in-out",
   dropdownIconOpen: "",
   dropdownContent: "overflow-hidden transition-all duration-1000 w-full",
@@ -87,7 +87,7 @@ function ResourceCard({ resource, index, isOpen, totalItems }: { resource: Resou
   
   return (
     <div 
-      className={`${STYLES.resourceContainer} ${STYLES.cascadeItem}`}
+      className={`select-none ${STYLES.resourceContainer} ${STYLES.cascadeItem}`}
       style={{
         transitionDelay: isOpen ? `${600 + reverseIndex * 100}ms` : '0ms',
         opacity: isOpen ? 1 : 0,
@@ -118,7 +118,7 @@ export default function HaasJourneyWidget({ className = "" }: HaasJourneyWidgetP
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className={`${STYLES.container} ${className}`}>
+    <div className={`select-none ${STYLES.container} ${className}`}>
       <div className="flex items-start justify-end w-full">
         {/* Dropdown Content - Same Row, Left Side */}
         <div 
@@ -149,34 +149,31 @@ export default function HaasJourneyWidget({ className = "" }: HaasJourneyWidgetP
           onClick={() => setIsOpen(!isOpen)}
           title={isOpen ? 'Collapse' : 'Expand'}
         >
-            <span 
-            className={`${STYLES.dropdownIcon} ${isOpen ? STYLES.dropdownIconOpen : ''}`}
-            style={{
-              transitionDelay: isOpen ? '100ms' : '0ms',
-              transform: isOpen ? 'rotate(360deg)' : 'rotate(0deg)',
-              fontSize: '32px',
-              textShadow: '0 0 4px rgba(0, 99, 192, 0.8), 0 0 8px rgba(0, 99, 192, 0.6), 0 0 12px rgba(0, 99, 192, 0.4), 0 0 16px rgba(0, 99, 192, 0.2)'
-            }}
-            >
-            {isOpen ? 'remove' : 'add'}
-            </span>
             <h3 
             className={STYLES.dropdownTitle}
             style={{
               maxWidth: isOpen ? '0px' : '200px',
               opacity: isOpen ? 0 : 1,
               marginLeft: isOpen ? '0px' : '0px',
-              paddingRight: '8px',
-              paddingLeft: '8px',
-              paddingTop: '4px',
-              paddingBottom: '4px',
+           
               color: '#ffffffff',
               textShadow: '0 0 12px #0063c0ff, 0 0 24px rgba(0, 50, 98, 0.8), 0 0 36px rgba(0, 50, 98, 0.6), 0 0 48px rgba(0, 50, 98, 0.4)',
               lineHeight: '1'
             }}
             >
-            Critical<br/>Links
+            Critical Links
             </h3>
+            <span 
+            className={`${STYLES.dropdownIcon} ${isOpen ? STYLES.dropdownIconOpen : ''}`}
+            style={{
+              transitionDelay: isOpen ? '100ms' : '0ms',
+              transform: isOpen ? 'rotate(360deg)' : 'rotate(0deg)',
+              fontSize: '28px',
+              textShadow: '0 0 4px rgba(0, 99, 192, 0.8), 0 0 8px rgba(0, 99, 192, 0.6), 0 0 12px rgba(0, 99, 192, 0.4), 0 0 16px rgba(0, 99, 192, 0.2)'
+            }}
+            >
+            {isOpen ? 'remove' : 'add'}
+            </span>
         </div>
       </div>
     </div>
