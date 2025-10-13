@@ -3,6 +3,19 @@ import { addDays, isAfter, isBefore } from 'date-fns';
 import fs from 'fs';
 import path from 'path';
 
+// Safe logging utilities to prevent console output contamination in production
+const safeLog = (...args: unknown[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    safeLog(...args);
+  }
+};
+
+const safeWarn = (...args: unknown[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    safeWarn(...args);
+  }
+};
+
 export type CalendarEvent = {
   uid?: string;
   title: string;
@@ -27,7 +40,7 @@ async function getIcsData(): Promise<string> {
       if (!res.ok) throw new Error(`Failed to fetch ICS (${res.status}) from ${process.env.CALENDAR_ICS_URL}`);
       return res.text();
     } catch (error) {
-      console.warn('Failed to fetch external calendar, falling back to local file:', error);
+      safeWarn('Failed to fetch external calendar, falling back to local file:', error);
     }
   }
 
@@ -35,11 +48,11 @@ async function getIcsData(): Promise<string> {
   try {
     const filePath = path.join(process.cwd(), 'public', 'calendar.ics');
     if (fs.existsSync(filePath)) {
-      console.log('Reading calendar from local file:', filePath);
+      safeLog('Reading calendar from local file:', filePath);
       return fs.readFileSync(filePath, 'utf-8');
     }
   } catch (error) {
-    console.warn('Could not read local calendar file:', error);
+    safeWarn('Could not read local calendar file:', error);
   }
 
   // Final fallback to HTTP fetch (if file doesn't exist and no external URL)
@@ -47,7 +60,7 @@ async function getIcsData(): Promise<string> {
     || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
   
   const icsUrl = `${baseUrl}/calendar.ics`;
-  console.log('Fallback: fetching calendar from URL:', icsUrl);
+  safeLog('Fallback: fetching calendar from URL:', icsUrl);
   
   const res = await fetch(icsUrl);
   if (!res.ok) throw new Error(`Failed to fetch ICS (${res.status}) from ${icsUrl}`);

@@ -3,6 +3,25 @@ import { addDays, isAfter, isBefore } from 'date-fns';
 import fs from 'fs';
 import path from 'path';
 
+// Safe logging utilities to prevent console output contamination in production
+const safeLog = (...args: unknown[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    safeLog(...args);
+  }
+};
+
+const safeError = (...args: unknown[]) => {
+  if (typeof process !== 'undefined' && process.stderr) {
+    safeError(...args);
+  }
+};
+
+const safeWarn = (...args: unknown[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    safeWarn(...args);
+  }
+};
+
 export type CalendarEvent = {
   uid?: string;
   title: string;
@@ -55,30 +74,30 @@ async function fetchIcsData(filename: string): Promise<string> {
     try {
       const filePath = path.join(process.cwd(), 'public', filename);
       if (fs.existsSync(filePath)) {
-        console.log(`Reading ICS from local file: ${filePath}`);
+        safeLog(`Reading ICS from local file: ${filePath}`);
         const content = fs.readFileSync(filePath, 'utf-8');
         if (content.trim().length > 0) {
           return content;
         } else {
-          console.warn(`Local ICS file ${filename} is empty`);
+          safeWarn(`Local ICS file ${filename} is empty`);
         }
       } else {
-        console.warn(`Local ICS file not found: ${filePath}`);
+        safeWarn(`Local ICS file not found: ${filePath}`);
       }
     } catch (error) {
-      console.warn(`Could not read local ICS file ${filename}:`, error);
+      safeWarn(`Could not read local ICS file ${filename}:`, error);
     }
   }
 
   // If CALENDAR_ICS_URL points to a single file, only use it for calendar.ics
   if (process.env.CALENDAR_ICS_URL && filename === 'calendar.ics') {
     try {
-      console.log(`Fetching single ICS from: ${process.env.CALENDAR_ICS_URL}`);
+      safeLog(`Fetching single ICS from: ${process.env.CALENDAR_ICS_URL}`);
       const res = await fetch(process.env.CALENDAR_ICS_URL);
       if (!res.ok) throw new Error(`Failed to fetch ${filename} (${res.status})`);
       return res.text();
     } catch (error) {
-      console.warn(`Failed to fetch external ICS ${filename}:`, error);
+      safeWarn(`Failed to fetch external ICS ${filename}:`, error);
     }
   }
 
@@ -92,13 +111,13 @@ async function fetchIcsData(filename: string): Promise<string> {
       }
     }
   } catch (error) {
-    console.warn(`Could not read local ICS file ${filename}:`, error);
+    safeWarn(`Could not read local ICS file ${filename}:`, error);
   }
 
   // If we reach here, file wasn't found or was empty
   // For leading people files we suppress throwing to allow fallback logic
   if (/leadingpeople|205_/i.test(filename)) {
-    console.warn(`Could not fetch ICS data for ${filename} - returning empty string for fallback`);
+    safeWarn(`Could not fetch ICS data for ${filename} - returning empty string for fallback`);
     return '';
   }
   throw new Error(`Could not fetch ICS data for ${filename} - file not found or empty`);
@@ -120,7 +139,7 @@ function parseIcsToEvents(icsText: string, cohort: 'blue' | 'gold', filename?: s
       .filter(line => line.length > 0)  // Remove blank lines after unfolding
       .join('\n');
     
-    console.log(`Successfully unfolded ICS content for ${cohort} cohort from ${filename}`);
+    safeLog(`Successfully unfolded ICS content for ${cohort} cohort from ${filename}`);
     
     const data = ical.sync.parseICS(unfoldedIcs);
     const events: CalendarEvent[] = [];
@@ -132,7 +151,7 @@ function parseIcsToEvents(icsText: string, cohort: 'blue' | 'gold', filename?: s
       }
 
       if (!v.start) {
-        console.warn(`Skipping event with no start date: ${v.summary}`);
+        safeWarn(`Skipping event with no start date: ${v.summary}`);
         continue;
       }
 
@@ -141,7 +160,7 @@ function parseIcsToEvents(icsText: string, cohort: 'blue' | 'gold', filename?: s
 
       // Validate date
       if (isNaN(start.getTime())) {
-        console.warn(`Skipping event with invalid start date: ${v.summary}, start: ${v.start}`);
+        safeWarn(`Skipping event with invalid start date: ${v.summary}, start: ${v.start}`);
         continue;
       }
 
@@ -155,14 +174,14 @@ function parseIcsToEvents(icsText: string, cohort: 'blue' | 'gold', filename?: s
         if (typeof value === 'string') {
           const result = value.trim();
           if (fieldName && result && result.length > 50) {
-            console.log(`Extracted ${fieldName}: ${result.substring(0, 100)}...`);
+            safeLog(`Extracted ${fieldName}: ${result.substring(0, 100)}...`);
           }
           return result || undefined;
         }
         if (typeof value === 'object' && value && 'val' in value && typeof value.val === 'string') {
           const result = value.val.trim();
           if (fieldName && result && result.length > 50) {
-            console.log(`Extracted ${fieldName} from .val: ${result.substring(0, 100)}...`);
+            safeLog(`Extracted ${fieldName} from .val: ${result.substring(0, 100)}...`);
           }
           return result || undefined;
         }
@@ -170,7 +189,7 @@ function parseIcsToEvents(icsText: string, cohort: 'blue' | 'gold', filename?: s
           const str = value.toString();
           const result = str !== '[object Object]' ? str.trim() : undefined;
           if (fieldName && result && result.length > 50) {
-            console.log(`Extracted ${fieldName} from toString: ${result.substring(0, 100)}...`);
+            safeLog(`Extracted ${fieldName} from toString: ${result.substring(0, 100)}...`);
           }
           return result || undefined;
         }
@@ -189,7 +208,7 @@ function parseIcsToEvents(icsText: string, cohort: 'blue' | 'gold', filename?: s
       if (filename === 'calendar.ics' || (filename && (filename.includes('leadingpeople') || filename.includes('205')))) {
         const combinedText = `${summaryVal || ''} ${description || ''}`;
         if (/teams@haas/i.test(combinedText)) {
-          console.log(`Filtered Teams@Haas event from ${filename}: ${summaryVal}`);
+          safeLog(`Filtered Teams@Haas event from ${filename}: ${summaryVal}`);
           continue; // skip adding this event
         }
       }
@@ -230,12 +249,12 @@ function parseIcsToEvents(icsText: string, cohort: 'blue' | 'gold', filename?: s
         if (event.description && /team@haas/i.test(event.description)) {
           const cleaned = event.description.replace(/team@haas/ig, '').replace(/\n\s*\n/g, '\n').trim();
           if (cleaned !== event.description) {
-            console.log(`Sanitized 'team@haas' from description in ${filename}`);
+            safeLog(`Sanitized 'team@haas' from description in ${filename}`);
             event.description = cleaned;
           }
         }
         if (event.organizer && /team@haas/i.test(event.organizer)) {
-          console.log(`Removed organizer 'team@haas' in ${filename}`);
+          safeLog(`Removed organizer 'team@haas' in ${filename}`);
           event.organizer = undefined;
         }
       }
@@ -243,10 +262,10 @@ function parseIcsToEvents(icsText: string, cohort: 'blue' | 'gold', filename?: s
       events.push(event);
     }
 
-    console.log(`Successfully parsed ${events.length} events for ${cohort} cohort`);
+    safeLog(`Successfully parsed ${events.length} events for ${cohort} cohort`);
     return events;
   } catch (error) {
-    console.error(`Error parsing ICS for ${cohort} cohort:`, error);
+    safeError(`Error parsing ICS for ${cohort} cohort:`, error);
     return [];
   }
 }
@@ -258,7 +277,7 @@ async function fetchCohortEvents(cohort: 'blue' | 'gold'): Promise<CalendarEvent
   const files = COHORT_FILES[cohort];
   const allEvents: CalendarEvent[] = [];
 
-  console.log(`Fetching ${cohort} cohort events from ${files.length} files`);
+  safeLog(`Fetching ${cohort} cohort events from ${files.length} files`);
 
   // Helper to attempt loading a single file with fallback
   const loadFileWithFallback = async (filename: string): Promise<CalendarEvent[]> => {
@@ -268,30 +287,30 @@ async function fetchCohortEvents(cohort: 'blue' | 'gold'): Promise<CalendarEvent
       if (events.length === 0 && filename.includes('leadingpeople')) {
         // Fallback to legacy 205 file naming if new file is empty
         const legacyName = filename.replace('ewmba_leadingpeople', 'ewmba205').replace('leadingpeople_', '205_').replace('fall2025', 'fallA2025_v2');
-        console.warn(`No events parsed from ${filename}. Trying legacy fallback ${legacyName}`);
+        safeWarn(`No events parsed from ${filename}. Trying legacy fallback ${legacyName}`);
         try {
           const legacyIcs = await fetchIcsData(legacyName);
             const legacyEvents = parseIcsToEvents(legacyIcs, cohort, legacyName);
             if (legacyEvents.length > 0) {
-              console.log(`Loaded ${legacyEvents.length} fallback events from ${legacyName}`);
+              safeLog(`Loaded ${legacyEvents.length} fallback events from ${legacyName}`);
               events = legacyEvents;
             }
         } catch (legacyErr) {
-          console.warn(`Fallback legacy file ${legacyName} also failed:`, legacyErr);
+          safeWarn(`Fallback legacy file ${legacyName} also failed:`, legacyErr);
         }
       }
       return events;
     } catch (error) {
-      console.error(`Failed to process ${filename} for ${cohort} cohort:`, error);
+      safeError(`Failed to process ${filename} for ${cohort} cohort:`, error);
       // If new naming failed, attempt legacy directly when relevant
       if (filename.includes('leadingpeople')) {
         const legacyName = filename.replace('ewmba_leadingpeople', 'ewmba205').replace('leadingpeople_', '205_').replace('fall2025', 'fallA2025_v2');
         try {
-          console.warn(`Attempting legacy file after error: ${legacyName}`);
+          safeWarn(`Attempting legacy file after error: ${legacyName}`);
           const legacyIcs = await fetchIcsData(legacyName);
           return parseIcsToEvents(legacyIcs, cohort, legacyName);
         } catch {
-          console.warn(`Legacy attempt also failed for ${legacyName}`);
+          safeWarn(`Legacy attempt also failed for ${legacyName}`);
         }
       }
       return [];
@@ -342,10 +361,10 @@ async function fetchCohortEvents(cohort: 'blue' | 'gold'): Promise<CalendarEvent
   }
   const output = Array.from(dedupPrefMap.values());
   if (output.length !== allEvents.length) {
-    console.log(`De-duplicated ${allEvents.length - output.length} events (post Teams@Haas preference) for ${cohort}`);
+    safeLog(`De-duplicated ${allEvents.length - output.length} events (post Teams@Haas preference) for ${cohort}`);
   }
 
-  console.log(`Total ${cohort} cohort events (after dedupe + Teams@Haas preference): ${output.length}`);
+  safeLog(`Total ${cohort} cohort events (after dedupe + Teams@Haas preference): ${output.length}`);
   return output;
 }
 
@@ -396,7 +415,7 @@ export function findMatchingOriginalEvent(
 
   // If only one event on the same date, return it
   if (sameDateEvents.length === 1) {
-    console.log(`Found matching event by date: ${sameDateEvents[0].title}`);
+    safeLog(`Found matching event by date: ${sameDateEvents[0].title}`);
     return sameDateEvents[0];
   }
 
@@ -433,7 +452,7 @@ export function findMatchingOriginalEvent(
 
   for (const originalEvent of sameDateEvents) {
     const similarity = getTitleSimilarity(cohortTitle, originalEvent.title);
-    console.log(`Comparing "${cohortTitle}" with "${originalEvent.title.toLowerCase()}" - similarity: ${similarity}`);
+    safeLog(`Comparing "${cohortTitle}" with "${originalEvent.title.toLowerCase()}" - similarity: ${similarity}`);
     
     if (similarity > bestSimilarity && similarity > 0.3) { // Minimum 30% similarity
       bestSimilarity = similarity;
@@ -442,12 +461,12 @@ export function findMatchingOriginalEvent(
   }
 
   if (bestMatch) {
-    console.log(`Found best matching event (${bestSimilarity.toFixed(2)} similarity): ${bestMatch.title}`);
+    safeLog(`Found best matching event (${bestSimilarity.toFixed(2)} similarity): ${bestMatch.title}`);
     return bestMatch;
   }
 
   // If no good title match, return the first event on the same date
-  console.log(`No good title match found, returning first event on same date: ${sameDateEvents[0].title}`);
+  safeLog(`No good title match found, returning first event on same date: ${sameDateEvents[0].title}`);
   return sameDateEvents[0];
 }
 
@@ -455,15 +474,15 @@ export function findMatchingOriginalEvent(
  * Fetch and parse events from the original calendar.ics file
  */
 async function fetchOriginalCalendarEvents(): Promise<CalendarEvent[]> {
-  console.log('Fetching original calendar.ics events for rich content matching');
+  safeLog('Fetching original calendar.ics events for rich content matching');
 
   try {
     const icsText = await fetchIcsData('calendar.ics');
     const events = parseIcsToEvents(icsText, 'blue', 'calendar.ics'); // Default to blue for compatibility
-    console.log(`Successfully parsed ${events.length} events from original calendar.ics`);
+    safeLog(`Successfully parsed ${events.length} events from original calendar.ics`);
     return events;
   } catch (error) {
-    console.error('Error fetching original calendar events:', error);
+    safeError('Error fetching original calendar events:', error);
     return [];
   }
 }
@@ -472,29 +491,29 @@ async function fetchOriginalCalendarEvents(): Promise<CalendarEvent[]> {
  * Fetch and parse events from the UC Launch Accelerator ICS file
  */
 async function fetchUCLaunchEvents(): Promise<CalendarEvent[]> {
-  console.log('Fetching UC Launch Accelerator events');
+  safeLog('Fetching UC Launch Accelerator events');
 
   try {
     const icsText = await fetchIcsData('uc_launch_events_fall2025.ics');
     const events = parseIcsToEvents(icsText, 'blue', 'uc_launch_events_fall2025.ics'); // Default to blue for compatibility
-    console.log(`Successfully parsed ${events.length} events from UC Launch calendar`);
+    safeLog(`Successfully parsed ${events.length} events from UC Launch calendar`);
     return events;
   } catch (error) {
-    console.error('Error fetching UC Launch events:', error);
+    safeError('Error fetching UC Launch events:', error);
     return [];
   }
 }
 
 async function fetchCalBearsEvents(): Promise<CalendarEvent[]> {
-  console.log('Fetching Cal Bears home events');
+  safeLog('Fetching Cal Bears home events');
 
   try {
     const icsText = await fetchIcsData('cal_bears_home_2025_original.ics');
     const events = parseIcsToEvents(icsText, 'blue', 'cal_bears_home_2025_original.ics'); // Default to blue for compatibility
-    console.log(`Successfully parsed ${events.length} events from Cal Bears calendar`);
+    safeLog(`Successfully parsed ${events.length} events from Cal Bears calendar`);
     return events;
   } catch (error) {
-    console.error('Error fetching Cal Bears events:', error);
+    safeError('Error fetching Cal Bears events:', error);
     return [];
   }
 }
@@ -503,7 +522,7 @@ async function fetchCalBearsEvents(): Promise<CalendarEvent[]> {
  * Fetch and parse events from the Campus Groups ICS URL
  */
 async function fetchCampusGroupsEvents(): Promise<CalendarEvent[]> {
-  console.log('Fetching Campus Groups events');
+  safeLog('Fetching Campus Groups events');
 
   try {
     const campusGroupsUrl = 'https://haas.campusgroups.com/ics?uid=67214d1a-6c1a-11f0-9d0d-0265b2da6df3&type=group&eid=21fd71de3371203c09be0e414fe6f145';
@@ -516,10 +535,10 @@ async function fetchCampusGroupsEvents(): Promise<CalendarEvent[]> {
     
     const icsText = await response.text();
     const events = parseIcsToEvents(icsText, 'blue', 'campus_groups.ics'); // Default to blue for compatibility
-    console.log(`Successfully parsed ${events.length} events from Campus Groups calendar`);
+    safeLog(`Successfully parsed ${events.length} events from Campus Groups calendar`);
     return events;
   } catch (error) {
-    console.error('Error fetching Campus Groups events:', error);
+    safeError('Error fetching Campus Groups events:', error);
     return [];
   }
 }
@@ -531,7 +550,7 @@ export async function getCohortEvents(
   daysAhead = 150,
   limit = 150
 ): Promise<CohortEvents> {
-  console.log('Fetching events for both cohorts, original calendar, and UC Launch...');
+  safeLog('Fetching events for both cohorts, original calendar, and UC Launch...');
 
   try {
     // Fetch both cohorts, original calendar, UC Launch events, Cal Bears events, and Campus Groups events in parallel
@@ -539,19 +558,19 @@ export async function getCohortEvents(
       fetchCohortEvents('blue'),
       fetchCohortEvents('gold'),
       fetchOriginalCalendarEvents().catch(() => {
-        console.warn('Could not load original calendar.ics, continuing without rich content matching');
+        safeWarn('Could not load original calendar.ics, continuing without rich content matching');
         return [];
       }),
       fetchUCLaunchEvents().catch(() => {
-        console.warn('Could not load UC Launch events, continuing without them');
+        safeWarn('Could not load UC Launch events, continuing without them');
         return [];
       }),
       fetchCalBearsEvents().catch(() => {
-        console.warn('Could not load Cal Bears events, continuing without them');
+        safeWarn('Could not load Cal Bears events, continuing without them');
         return [];
       }),
       fetchCampusGroupsEvents().catch(() => {
-        console.warn('Could not load Campus Groups events, continuing without them');
+        safeWarn('Could not load Campus Groups events, continuing without them');
         return [];
       })
     ]);
@@ -575,7 +594,7 @@ export async function getCohortEvents(
         }
       }
       if (additions.length) {
-        console.log(`Injected ${additions.length} future Teams@Haas events beyond horizon`);
+        safeLog(`Injected ${additions.length} future Teams@Haas events beyond horizon`);
       }
       // Merge and resort
       const merged = [...filtered, ...additions];
@@ -601,7 +620,7 @@ export async function getCohortEvents(
     // Filter and limit Campus Groups events with extended date range (6 months ahead)
     const filteredCampusGroups = filterEventsByDateRange(campusGroupsEvents, daysAhead * 6, limit);
 
-    console.log(`Filtered events - Blue: ${filteredBlue.length}, Gold: ${filteredGold.length}, Original: ${filteredOriginal.length}, Launch: ${filteredLaunch.length}, Cal Bears: ${filteredCalBears.length}, Campus Groups: ${filteredCampusGroups.length}`);
+    safeLog(`Filtered events - Blue: ${filteredBlue.length}, Gold: ${filteredGold.length}, Original: ${filteredOriginal.length}, Launch: ${filteredLaunch.length}, Cal Bears: ${filteredCalBears.length}, Campus Groups: ${filteredCampusGroups.length}`);
 
     return {
       blue: filteredBlue,
@@ -612,7 +631,7 @@ export async function getCohortEvents(
       campusGroups: filteredCampusGroups
     };
   } catch (error) {
-    console.error('Error fetching cohort events:', error);
+    safeError('Error fetching cohort events:', error);
     throw error;
   }
 }
@@ -624,7 +643,7 @@ export async function getSingleCalendarEvents(
   daysAhead = 30,
   limit = 150
 ): Promise<CalendarEvent[]> {
-  console.log('Fetching single calendar events (fallback mode)');
+  safeLog('Fetching single calendar events (fallback mode)');
 
   try {
     // Try to read the main calendar.ics file
@@ -632,7 +651,7 @@ export async function getSingleCalendarEvents(
     const events = parseIcsToEvents(icsText, 'blue'); // Default to blue for compatibility
     return filterEventsByDateRange(events, daysAhead, limit);
   } catch (error) {
-    console.error('Error fetching single calendar events:', error);
+    safeError('Error fetching single calendar events:', error);
     throw error;
   }
 }

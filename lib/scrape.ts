@@ -2,6 +2,19 @@
 import * as cheerio from 'cheerio';
 import sanitizeHtml from 'sanitize-html';
 
+// Safe logging utilities to prevent console output contamination in production
+const safeLog = (...args: unknown[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    safeLog(...args);
+  }
+};
+
+const safeError = (...args: unknown[]) => {
+  if (typeof process !== 'undefined' && process.stderr) {
+    safeError(...args);
+  }
+};
+
 // Helpers
 function toAbsoluteUrl(href: string, base: string): string {
   try {
@@ -64,7 +77,7 @@ export interface NewsletterPayload {
 // Fetch helpers
 async function fetchText(url: string): Promise<string> {
   try {
-    console.log('Fetching URL:', url);
+    safeLog('Fetching URL:', url);
     // Node 18+ has fetch globally; fallback is ok if node-fetch installed
     const res = await fetch(url, { 
       headers: { 
@@ -79,16 +92,16 @@ async function fetchText(url: string): Promise<string> {
     });
     
     if (!res.ok) {
-      console.error(`HTTP ${res.status} for ${url}`);
+      safeError(`HTTP ${res.status} for ${url}`);
       const errorText = await res.text().catch(() => 'Unable to read error response');
       throw new Error(`HTTP ${res.status} for ${url}: ${errorText}`);
     }
     
     const text = await res.text();
-    console.log(`Successfully fetched ${text.length} characters from ${url}`);
+    safeLog(`Successfully fetched ${text.length} characters from ${url}`);
     return text;
   } catch (error) {
-    console.error('Fetch error for', url, ':', error);
+    safeError('Fetch error for', url, ':', error);
     throw error;
   }
 }
@@ -116,11 +129,11 @@ export async function scrapeNewsletter(url: string): Promise<NewsletterPayload> 
   const html = await fetchText(url);
   const $ = cheerio.load(html);
 
-  console.log('📰 Newsletter scraping started');
-  console.log('📄 HTML length:', html.length);
-  console.log('📋 Found h1 elements:', $('h1').length);
-  console.log('📋 Found .mcnTextBlock elements:', $('.mcnTextBlock').length);
-  console.log('📋 Found .mcnCaptionBlock elements:', $('.mcnCaptionBlock').length);
+  safeLog('📰 Newsletter scraping started');
+  safeLog('📄 HTML length:', html.length);
+  safeLog('📋 Found h1 elements:', $('h1').length);
+  safeLog('📋 Found .mcnTextBlock elements:', $('.mcnTextBlock').length);
+  safeLog('📋 Found .mcnCaptionBlock elements:', $('.mcnCaptionBlock').length);
 
   // Absolutize links in the full document first
   absolutizeLinks($, url);
@@ -130,7 +143,7 @@ export async function scrapeNewsletter(url: string): Promise<NewsletterPayload> 
     $('title').first().text().trim() ||
     $('h1').first().text().trim() || undefined;
 
-  console.log('📝 Newsletter title found:', title);
+  safeLog('📝 Newsletter title found:', title);
 
   // Parse sections - much more aggressive approach
   const sections: NewsletterSection[] = [];
@@ -237,7 +250,7 @@ export async function scrapeNewsletter(url: string): Promise<NewsletterPayload> 
 
   // Final fallback: capture main body area
   if (sections.length === 0) {
-    console.log('📝 Newsletter scraping: No sections found, using final fallback');
+    safeLog('📝 Newsletter scraping: No sections found, using final fallback');
     const body =
       $('#templateBody').html() ||
       $('.bodyContainer').html() ||
@@ -245,8 +258,8 @@ export async function scrapeNewsletter(url: string): Promise<NewsletterPayload> 
       $('body').html() ||
       '';
 
-    console.log('📄 Final fallback body length:', body.length);
-    console.log('📄 First 200 chars of fallback body:', body.substring(0, 200));
+    safeLog('📄 Final fallback body length:', body.length);
+    safeLog('📄 First 200 chars of fallback body:', body.substring(0, 200));
 
     sections.push({
       sectionTitle: 'Newsletter',
@@ -254,9 +267,9 @@ export async function scrapeNewsletter(url: string): Promise<NewsletterPayload> 
     });
   }
 
-  console.log('📊 Newsletter scraping completed:');
-  console.log('📈 Total sections found:', sections.length);
-  console.log('📋 Sections:', sections.map(s => ({
+  safeLog('📊 Newsletter scraping completed:');
+  safeLog('📈 Total sections found:', sections.length);
+  safeLog('📋 Sections:', sections.map(s => ({
     title: s.sectionTitle,
     itemCount: s.items?.length || 0,
     firstItemTitle: s.items?.[0]?.title || 'no items',

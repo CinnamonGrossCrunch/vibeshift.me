@@ -76,7 +76,7 @@ const STYLES = {
   icon: "text-white/80 material-icons",
   textContainer: "text-center md:text-left",
   resourceTitle: "text-sm font-light text-white/50 truncate mb-0",
-  resourceCta: "text-sm  font-light text-white group-hover:text-blue-200 transition-colors whitespace-normal break-words",
+  resourceCta: "text-sm font-light text-white group-hover:text-blue-200 transition-colors whitespace-normal break-words",
   tooltip: "absolute bottom-full left-1/2 -translate-x-1/2 mb-0 px-2 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50 whitespace-nowrap backdrop-blur-md bg-white/10 text-white text-xs font-light shadow-lg",
   cascadeItem: "transform transition-all duration-1200 ease-out"
 } as const
@@ -100,12 +100,13 @@ function ResourceCard({ resource, index, isOpen, totalItems }: { resource: Resou
         rel="noopener noreferrer" 
         className={STYLES.resourceLink}
       >
-        <div className={STYLES.textContainer}>
-          <div className={STYLES.resourceCta}>{resource.cta}</div>
-        </div>
         <div className={STYLES.iconContainer}>
           <span className={STYLES.icon} style={{ fontSize: '20px' }}>{resource.icon}</span>
         </div>
+        <div className={STYLES.textContainer}>
+          <div className={STYLES.resourceCta}>{resource.cta}</div>
+        </div>
+        
         <div className={STYLES.tooltip}>
           {resource.title}
         </div>
