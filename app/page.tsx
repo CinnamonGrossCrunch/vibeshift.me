@@ -153,7 +153,7 @@ export default function Home() {
       <div className="fixed inset-0 z-50 overflow-auto">
         {/* Header */}
         <div className={getPerformanceClasses(
-          `w-full sticky top-0 z-30 bg bg-header-glass backdrop-blur-md relative overflow-hidden py-1 mb-0`,
+          `w-full sticky top-0 z-30 bg-black/10 backdrop-blur-lg relative overflow-hidden py-1 mb-0`,
           capabilities
         )}>
           {/* Animated black overlay - z-index 20 (middle layer) */}

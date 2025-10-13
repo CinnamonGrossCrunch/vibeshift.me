@@ -141,7 +141,7 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
             onClick={() => setActiveTab(tab)}
             className={`relative text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
               ${activeTab === tab
-                ? ' px-8 py-3 bg-turbulence bg-glass text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
+                ? ' px-8 py-3 bg-violet-300/10 backdrop-blur-lg text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
                 : ' ml-3 mr-2 mb-2  px-10 py-2 bg-white/40 dark:bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-white/20 dark:supports-[backdrop-filter]:bg-slate-700/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full font-normal'
               }
             `}
@@ -162,7 +162,7 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
       </div>
 
       {/* Content Pane */}
-      <div className="bg-turbulence bg-glass p-4 sm:p-6 rounded-l-4xl rounded-b-lg rounded-tl-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%] flex-1 min-h-[600px] overflow-y-auto">
+      <div className="bg-violet-300/10 backdrop-blur-lg p-4 sm:p-6 rounded-l-4xl rounded-b-lg rounded-tl-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%] flex-1 min-h-[600px] overflow-y-auto">
         {activeTab === 'Updates' && (
           <div className="w-full">
             <NewsletterWidget data={dashboardData.newsletterData} />
