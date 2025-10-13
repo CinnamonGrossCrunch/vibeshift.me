@@ -395,16 +395,44 @@ body {
   -webkit-backdrop-filter: blur(12px) saturate(120%) brightness(130%) !important;
 }
 
+@media (min-width: 768px) {
+  .bg-glass {
+    background: rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(20px) saturate(130%) brightness(135%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(130%) brightness(135%) !important;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   .bg-glass {
     background: rgba(15, 23, 42, 0.15) !important;
   }
+  
+  @media (min-width: 768px) {
+    .bg-glass {
+      background: rgba(15, 23, 42, 0.25) !important;
+    }
+  }
 }
 
 .bg-turbulence {
-  background: rgba(255, 255, 255, 0.03) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
   backdrop-filter: blur(20px) saturate(110%) brightness(130%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(110%) brightness(130%) !important;
+}
+
+.bg-header-glass {
+  background: rgba(255, 255, 255, 0.01) !important;
+  backdrop-filter: blur(20px) saturate(105%) brightness(100%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(110%) brightness(130%) !important;
+}
+
+@media (min-width: 768px) {
+  .bg-header-glass {
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(30px) saturate(115%) brightness(110%) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(120%) brightness(140%) !important;
+  }
 }
 
 /* Additional glass utility classes for production builds */

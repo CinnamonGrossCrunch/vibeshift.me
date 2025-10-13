@@ -129,11 +129,31 @@ export default function Home() {
         }}
       ></div>
       
+      {/* Animated logo - z-index 100 (highest layer) - fixed positioning outside header stacking context */}
+      <div className="fixed top-0 left-0 z-[100] pointer-events-none" style={{ paddingTop: 'max(0.5rem, 0.5rem)', paddingLeft: 'max(0.75rem, calc((100vw - 80rem) / 2 + 0.75rem + 0.25rem))' }}>
+        <div className="rounded-lg opacity-100 overflow-visible flex items-center justify-center filter brightness-100 transition-all h-8 sm:h-10 md:h-14">
+          {/* Logo placeholder to prevent layout shift */}
+          <div className="h-8 sm:h-10 md:h-14 w-[120px] pointer-events-auto">
+            {showLogo && (
+              <AnimatedLogo
+                videoSrc="/oskihub_anim.mp4"
+                fallbackImageSrc="/oskihub_anim_still.png"
+                alt="OskiHub Logo"
+                width={120}
+                height={56}
+                className="h-8 sm:h-10 md:h-14 w-auto object-contain"
+                playOnce={true}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Content Overlay */}
-      <div className="fixed inset-0 z-10 overflow-auto">
+      <div className="fixed inset-0 z-50 overflow-auto">
         {/* Header */}
         <div className={getPerformanceClasses(
-          `w-full sticky top-0 z-30  ${glassEffectClass} bg-turbulence relative overflow-hidden py-1 mb-5`,
+          `w-full sticky top-0 z-30  ${glassEffectClass} bg-header-glass relative overflow-hidden py-1 mb-0`,
           capabilities
         )}>
           {/* Animated black overlay - z-index 20 (middle layer) */}
@@ -142,27 +162,15 @@ export default function Home() {
             style={{ opacity: overlayOpacity / 100 }}
           />
 
-          {/* Animated logo - z-index 30 (top layer) - positioned absolutely to escape content stacking context */}
-          <div className="absolute top-1/2 -translate-y-1/2 z-30" style={{ left: 'max(0.75rem, calc((100vw - 80rem) / 2 + 0.75rem + 0.25rem))' }}>
-            <div className="rounded-lg opacity-100 overflow-hidden flex items-center justify-center filter brightness-100 transition-all h-8 sm:h-10 md:h-14">
-              {/* Logo placeholder to prevent layout shift */}
-              <div className="h-8 sm:h-10 md:h-14 w-[120px]">
-                {showLogo && (
-                  <AnimatedLogo
-                    videoSrc="/oskihub_anim.mp4"
-                    fallbackImageSrc="/oskihub_anim_still.png"
-                    alt="OskiHub Logo"
-                    width={120}
-                    height={56}
-                    className="h-8 sm:h-10 md:h-14 w-auto object-contain"
-                    playOnce={true}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-
           <div className="pointer-events-none flex justify-left inset-0" style={{ maskImage: 'radial-gradient(circle at 30% 25%, rgba(0,0,0,.7), transparent 70%)', WebkitMaskImage: 'radial-gradient(circle at 30% 25%, rgba(0,0,0,.7), transparent 70%)', filter: 'url(#glassDistort)' }} />
+        
+        {/* Loading spinner - centered on page */}
+        {loading && (
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-2 border-t-violet-900/50 border-r-violet-900/50 border-b-violet-900/50 border-l-slate-900/50 rounded-full animate-spin [animation-duration:.5s]"></div>
+          </div>
+        )}
+        
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-2 relative z-10">
           <div className="flex items-center h-10 sm:h-11 md:h-12">
             {/* Left section - Logos */}
@@ -183,10 +191,9 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Center section*/}
-          
+            {/* Center section */}
             
-            {/* Right section - Beta */}
+            {/* Right section - Cohort Toggle */}
         
             </div>
                <div className="flex-1 flex items-center justify-end h-full px-1">
@@ -202,38 +209,31 @@ export default function Home() {
       </div>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4">
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-0 relative">
         {/* Current Time Debug Display */}
         {/* <CurrentTimeDisplay /> */}
       
-          {loading && (
-        <div className="text-sm text-slate-500 flex items-center space-x-2">
-            <div className="flex flex-col items-center space-y-1 mx-auto mb-2 mt-2 z-50">
-            <div className="w-8 h-8 border-2 border-t-violet-900/50 border-r-violet-900/50 border-b-violet-900/50 border-l-slate-900/50 rounded-full animate-spin [animation-duration:.5s]"></div>
-            <span>Loading...</span>
-            </div>
-        </div>
-      )}
-        
-        {/* Section A: My Week and Haas Journey */}
-        <div className="grid grid-cols-1 lg:grid-cols-8 gap-1 mb-6">
-          {/* My Week Widget - Columns 1-5 */}
-          <div className="lg:col-span-5">
-            <MyWeekWidget 
-              data={unifiedData?.myWeekData}
-              selectedCohort={selectedCohort}
-              cohortEvents={unifiedData?.cohortEvents}
-              newsletterData={unifiedData?.newsletterData}
-            />
-          </div>
-          
-          {/* Haas Journey Resources - Columns 6-8 */}
-          <div className="lg:col-span-3">
-            <HaasJourneyWidget />
-          </div>
+        {/* Animated black overlay - z-index 20 (middle layer) */}
+          <div 
+            className="fixed inset-0 bg-black transition-opacity duration-2000 ease-out pointer-events-none z-45"
+            style={{ opacity: overlayOpacity / 100 }}
+          />
+        {/* Section A: Haas Journey (Full Width Row) */}
+        <div className="mb-0">
+          <HaasJourneyWidget />
         </div>
         
-        {/* Section B: Dashboard Tabs */}
+        {/* Section B: My Week Widget */}
+        <div className="mb-0">
+          <MyWeekWidget 
+            data={unifiedData?.myWeekData}
+            selectedCohort={selectedCohort}
+            cohortEvents={unifiedData?.cohortEvents}
+            newsletterData={unifiedData?.newsletterData}
+          />
+        </div>
+        
+        {/* Section C: Dashboard Tabs */}
         <div className="grid grid-cols-1 lg:grid-cols-8 gap-1 mb-6">
           {/* MainDashboardTabs - Columns 1-5 */}
           <div className="lg:col-span-5">
@@ -257,7 +257,9 @@ export default function Home() {
         </div>
         
         {/* Section C: Haas Resources Widget - Full width */}
+        
         <div className="mt-1">
+          
           <HaasResourcesWidget />
         </div>
       </main>
