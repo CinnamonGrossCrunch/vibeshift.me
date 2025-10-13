@@ -1,6 +1,19 @@
 import { runAI } from './aiClient';
 import { getConsistentToday, getConsistentWeekRange, parseConsistentDate, isDateInWeekRange } from './date-utils';
 
+// Safe console logging - prevents JSON contamination in production
+const safeLog = (...args: unknown[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log(...args);
+  }
+};
+
+const safeError = (...args: unknown[]) => {
+  if (typeof process !== 'undefined' && process.stderr) {
+    console.error(...args);
+  }
+};
+
 // Daily AI caching configuration
 interface CachedAIResult {
   data: CohortMyWeekAnalysis;
@@ -125,8 +138,8 @@ interface ProcessedNewsletterEvent extends NewsletterItem {
 function getThisWeekRange(): { start: Date; end: Date } {
   const { start, end } = getConsistentWeekRange();
   
-  console.log(`🗓️ Week range: ${start.toISOString()} to ${end.toISOString()}`);
-  console.log(`   Today: ${getConsistentToday().toDateString()} (day ${getConsistentToday().getDay()}), Week: ${start.toDateString()} to ${end.toDateString()} (Sunday through Sunday, 8 days)`);
+  safeLog(`🗓️ Week range: ${start.toISOString()} to ${end.toISOString()}`);
+  safeLog(`   Today: ${getConsistentToday().toDateString()} (day ${getConsistentToday().getDay()}), Week: ${start.toDateString()} to ${end.toDateString()} (Sunday through Sunday, 8 days)`);
   
   return { start, end };
 }
@@ -199,29 +212,29 @@ function filterCalendarEventsForWeek(cohortEvents: CohortEvents, weekStart: Date
   const events: CohortEvent[] = [];
   
   if (!cohortEvents) {
-    console.log('❌ No cohort events provided');
+    safeLog('❌ No cohort events provided');
     return events;
   }
   
   // Process blue cohort events
   if (cohortEvents.blue?.length) {
-    console.log(`📘 Processing ${cohortEvents.blue.length} blue cohort events`);
+    safeLog(`📘 Processing ${cohortEvents.blue.length} blue cohort events`);
     events.push(...cohortEvents.blue);
   }
   
   // Process gold cohort events
   if (cohortEvents.gold?.length) {
-    console.log(`📙 Processing ${cohortEvents.gold.length} gold cohort events`);
+    safeLog(`📙 Processing ${cohortEvents.gold.length} gold cohort events`);
     events.push(...cohortEvents.gold);
   }
   
-  console.log(`📊 Total events before date filtering: ${events.length}`);
-  console.log(`📅 Filtering for range: ${weekStart.toDateString()} to ${weekEnd.toDateString()}`);
+  safeLog(`📊 Total events before date filtering: ${events.length}`);
+  safeLog(`📅 Filtering for range: ${weekStart.toDateString()} to ${weekEnd.toDateString()}`);
   
   // Filter events that fall within the week range
   const filteredEvents = events.filter(event => {
     if (!event.start) {
-      console.log(`⚠️ Event missing start date: ${event.title}`);
+      safeLog(`⚠️ Event missing start date: ${event.title}`);
       return false;
     }
     
@@ -230,15 +243,15 @@ function filterCalendarEventsForWeek(cohortEvents: CohortEvents, weekStart: Date
     const eventDate = parseConsistentDate(event.start);
     
     if (isInRange) {
-      console.log(`✅ Including event: ${event.title} on ${eventDate.toDateString()}`);
+      safeLog(`✅ Including event: ${event.title} on ${eventDate.toDateString()}`);
     } else {
-      console.log(`❌ Excluding event: ${event.title} on ${eventDate.toDateString()} (outside range)`);
+      safeLog(`❌ Excluding event: ${event.title} on ${eventDate.toDateString()} (outside range)`);
     }
     
     return isInRange;
   });
   
-  console.log(`📊 Events after date filtering: ${filteredEvents.length}`);
+  safeLog(`📊 Events after date filtering: ${filteredEvents.length}`);
   return filteredEvents;
 }
 
@@ -250,7 +263,7 @@ function extractNewsletterEventsForWeek(newsletterData: NewsletterData, weekStar
   
   if (!newsletterData?.sections) return events;
   
-  console.log('📰 Analyzing newsletter sections for time-sensitive content...');
+  safeLog('📰 Analyzing newsletter sections for time-sensitive content...');
   
   // Process each organized section
   newsletterData.sections.forEach((section: NewsletterSection) => {
@@ -279,7 +292,7 @@ function extractNewsletterEventsForWeek(newsletterData: NewsletterData, weekStar
             eventType: item.timeSensitive.eventType || 'announcement'
           });
           
-          console.log(`📅 Found time-sensitive item: ${item.title} (${relevantDates.length} relevant dates)`);
+          safeLog(`📅 Found time-sensitive item: ${item.title} (${relevantDates.length} relevant dates)`);
         }
       } else {
         // Fallback: Look for date patterns in content for items without time-sensitive tags
@@ -311,7 +324,7 @@ function extractNewsletterEventsForWeek(newsletterData: NewsletterData, weekStar
                 fallbackParsing: true
               });
               
-              console.log(`📝 Found fallback item: ${item.title} (${relevantDates.length} dates)`);
+              safeLog(`📝 Found fallback item: ${item.title} (${relevantDates.length} dates)`);
             }
           }
         }
@@ -319,7 +332,7 @@ function extractNewsletterEventsForWeek(newsletterData: NewsletterData, weekStar
     });
   });
   
-  console.log(`📊 Total newsletter events found: ${events.length}`);
+  safeLog(`📊 Total newsletter events found: ${events.length}`);
   return events;
 }
 
@@ -338,24 +351,24 @@ export async function analyzeMyWeekWithAI(
   const startTime = Date.now();
   const { start: weekStart, end: weekEnd } = getThisWeekRange();
   
-  console.log('🗓️ My Week Analysis starting...');
-  console.log('📅 Week range:', weekStart.toISOString(), 'to', weekEnd.toISOString());
-  console.log(`🧮 Today is ${new Date().toDateString()}, day of week: ${new Date().getDay()}`);
+  safeLog('🗓️ My Week Analysis starting...');
+  safeLog('📅 Week range:', weekStart.toISOString(), 'to', weekEnd.toISOString());
+  safeLog(`🧮 Today is ${new Date().toDateString()}, day of week: ${new Date().getDay()}`);
   
   // Filter events for this week
   const calendarEvents = filterCalendarEventsForWeek(cohortEvents, weekStart, weekEnd);
   const newsletterEvents = extractNewsletterEventsForWeek(newsletterData, weekStart, weekEnd);
   
-  console.log('📅 Calendar events found:', calendarEvents.length);
-  console.log('📰 Newsletter events found:', newsletterEvents.length);
+  safeLog('📅 Calendar events found:', calendarEvents.length);
+  safeLog('📰 Newsletter events found:', newsletterEvents.length);
   
   // Debug: Log some event details
   calendarEvents.forEach(event => {
-    console.log(`📅 Calendar: ${event.title} on ${new Date(event.start).toDateString()}`);
+    safeLog(`📅 Calendar: ${event.title} on ${new Date(event.start).toDateString()}`);
   });
   
   newsletterEvents.forEach(event => {
-    console.log(`📰 Newsletter: ${event.title} on ${event.relevantDates.join(', ')}`);
+    safeLog(`📰 Newsletter: ${event.title} on ${event.relevantDates.join(', ')}`);
   });
   
   // Prepare content for AI analysis
@@ -461,12 +474,12 @@ Return ONLY a JSON object with this exact structure:
 Analyze the content and provide the weekly summary:`;
 
   try {
-    console.log('🤖 Sending to AI for analysis...');
+    safeLog('🤖 Sending to AI for analysis...');
     
   const ai = await runAI({ prompt, reasoningEffort: 'low', verbosity: 'low', temperature: 0.1 });
   const response = ai.text;
 
-    console.log('📦 Raw AI response length:', response.length);
+    safeLog('📦 Raw AI response length:', response.length);
     
     // Clean up the response
     let cleanedResponse = response;
@@ -483,25 +496,25 @@ Analyze the content and provide the weekly summary:`;
 
     // Basic validation - ensure we have a complete JSON object
     if (!cleanedResponse.startsWith('{') || !cleanedResponse.endsWith('}')) {
-      console.error('❌ AI response does not appear to be a complete JSON object');
-      console.log('🔍 Response start:', cleanedResponse.substring(0, 100));
-      console.log('🔍 Response end:', cleanedResponse.substring(Math.max(0, cleanedResponse.length - 100)));
+      safeError('❌ AI response does not appear to be a complete JSON object');
+      safeLog('🔍 Response start:', cleanedResponse.substring(0, 100));
+      safeLog('🔍 Response end:', cleanedResponse.substring(Math.max(0, cleanedResponse.length - 100)));
       throw new Error('AI response is not a complete JSON object');
     }
 
-    console.log('🔍 Attempting to parse AI response...');
+    safeLog('🔍 Attempting to parse AI response...');
     
     let aiResult;
     try {
       aiResult = JSON.parse(cleanedResponse);
     } catch (parseError) {
-      console.error('❌ JSON parsing failed:', parseError);
-      console.log('🔍 Problematic response excerpt:', cleanedResponse.substring(0, 500) + '...');
+      safeError('❌ JSON parsing failed:', parseError);
+      safeLog('🔍 Problematic response excerpt:', cleanedResponse.substring(0, 500) + '...');
       throw new Error(`Failed to parse AI response as JSON: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`);
     }
     
     const processingTime = Date.now() - startTime;
-    console.log(`⏱️ My Week analysis completed in ${processingTime}ms`);
+    safeLog(`⏱️ My Week analysis completed in ${processingTime}ms`);
     
     return {
       weekStart: weekStart.toISOString().split('T')[0],
@@ -513,7 +526,7 @@ Analyze the content and provide the weekly summary:`;
     };
 
   } catch (error) {
-    console.error('💥 Error in My Week AI analysis:', error);
+    safeError('💥 Error in My Week AI analysis:', error);
     
     // Fallback: return basic event list without AI processing
     const basicEvents: WeeklyEvent[] = calendarEvents.map(event => {
@@ -567,7 +580,7 @@ async function preGenerateIfNeeded(
   if (!aiCache.has(blueTomorrowKey) || !aiCache.has(goldTomorrowKey)) {
     // Pre-generate tomorrow's summaries in background (no await)
     setTimeout(async () => {
-      console.log('🌙 Pre-generating tomorrow\'s AI summaries...');
+      safeLog('🌙 Pre-generating tomorrow\'s AI summaries...');
       try {
         // Run the generation with tomorrow's date context
         const { start: weekStart, end: weekEnd } = getThisWeekRange();
@@ -578,10 +591,10 @@ async function preGenerateIfNeeded(
         
         // This would generate and cache tomorrow's data
         // For now, we'll just log that pre-generation is ready
-        console.log('✅ Tomorrow\'s summary generation scheduled!');
+        safeLog('✅ Tomorrow\'s summary generation scheduled!');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
-        console.log('⚠️ Pre-generation failed, will generate on-demand tomorrow');
+        safeLog('⚠️ Pre-generation failed, will generate on-demand tomorrow');
       }
     }, 5000); // 5 second delay to not impact current request
   }
@@ -604,7 +617,7 @@ export async function analyzeCohortMyWeekWithAI(
   const cached = aiCache.get(cacheKey);
   
   if (isCacheValid(cached)) {
-    console.log(`📋 Using cached AI summaries for ${today} (cached at ${new Date(cached!.timestamp).toLocaleTimeString()})`);
+    safeLog(`📋 Using cached AI summaries for ${today} (cached at ${new Date(cached!.timestamp).toLocaleTimeString()})`);
     
     // Start pre-generation for tomorrow (fire and forget)
     preGenerateIfNeeded(cohortEvents, newsletterData);
@@ -615,12 +628,12 @@ export async function analyzeCohortMyWeekWithAI(
     };
   }
 
-  console.log(`🤖 Generating fresh AI summaries for ${today}...`);
+  safeLog(`🤖 Generating fresh AI summaries for ${today}...`);
   const startTime = Date.now();
   const { start: weekStart, end: weekEnd } = getThisWeekRange();
   
-  console.log('🗓️ Cohort My Week Analysis starting...');
-  console.log('📅 Week range:', weekStart.toISOString(), 'to', weekEnd.toISOString());
+  safeLog('🗓️ Cohort My Week Analysis starting...');
+  safeLog('📅 Week range:', weekStart.toISOString(), 'to', weekEnd.toISOString());
   
   try {
     // Filter events for each cohort separately
@@ -628,9 +641,9 @@ export async function analyzeCohortMyWeekWithAI(
     const goldCalendarEvents = filterCalendarEventsForWeek({ gold: cohortEvents.gold || [] }, weekStart, weekEnd);
     const newsletterEvents = extractNewsletterEventsForWeek(newsletterData, weekStart, weekEnd);
     
-    console.log('📘 Blue cohort calendar events:', blueCalendarEvents.length);
-    console.log('📙 Gold cohort calendar events:', goldCalendarEvents.length);
-    console.log('📰 Newsletter events found:', newsletterEvents.length);
+    safeLog('📘 Blue cohort calendar events:', blueCalendarEvents.length);
+    safeLog('📙 Gold cohort calendar events:', goldCalendarEvents.length);
+    safeLog('📰 Newsletter events found:', newsletterEvents.length);
     
     // Generate analysis for Blue cohort
     const blueAnalysis = await generateCohortSpecificAnalysis(
@@ -667,7 +680,7 @@ export async function analyzeCohortMyWeekWithAI(
       date: today
     });
     
-    console.log(`✅ AI summaries cached for ${today} (${result.processingTime}ms)`);
+    safeLog(`✅ AI summaries cached for ${today} (${result.processingTime}ms)`);
     
     // Start pre-generation for tomorrow
     preGenerateIfNeeded(cohortEvents, newsletterData);
@@ -675,7 +688,7 @@ export async function analyzeCohortMyWeekWithAI(
     return result;
 
   } catch (error) {
-    console.error('💥 Error in Cohort My Week AI analysis:', error);
+    safeError('💥 Error in Cohort My Week AI analysis:', error);
     
     // Fallback: return basic event lists without AI processing
     const blueEvents = filterCalendarEventsForWeek({ blue: cohortEvents.blue || [] }, weekStart, weekEnd).map(event => {
@@ -822,11 +835,11 @@ Return ONLY a JSON object with this exact structure:
   "aiSummary": "This week's focus: [clear, encouraging summary in 200-230 chars]"
 }`;
 
-  console.log(`🤖 Sending ${cohortName} cohort analysis to AI...`);
+  safeLog(`🤖 Sending ${cohortName} cohort analysis to AI...`);
   
   const ai = await runAI({ prompt, reasoningEffort: 'low', verbosity: 'low', temperature: 0.1 });
   const response = ai.text;
-  console.log(`📦 Raw AI response for ${cohortName} cohort length:`, response.length);
+  safeLog(`📦 Raw AI response for ${cohortName} cohort length:`, response.length);
   
   // Clean up the response - same logic as main analyzer
   let cleanedResponse = response;
@@ -843,20 +856,20 @@ Return ONLY a JSON object with this exact structure:
   
   // Basic validation - ensure we have a complete JSON object
   if (!cleanedResponse.startsWith('{') || !cleanedResponse.endsWith('}')) {
-    console.error(`❌ AI response for ${cohortName} does not appear to be a complete JSON object`);
-    console.log('🔍 Response start:', cleanedResponse.substring(0, 100));
-    console.log('🔍 Response end:', cleanedResponse.substring(Math.max(0, cleanedResponse.length - 100)));
+    safeError(`❌ AI response for ${cohortName} does not appear to be a complete JSON object`);
+    safeLog('🔍 Response start:', cleanedResponse.substring(0, 100));
+    safeLog('🔍 Response end:', cleanedResponse.substring(Math.max(0, cleanedResponse.length - 100)));
     throw new Error(`AI response for ${cohortName} is not a complete JSON object`);
   }
   
-  console.log('🔍 Attempting to parse AI response...');
+  safeLog('🔍 Attempting to parse AI response...');
   
   let parsed;
   try {
     parsed = JSON.parse(cleanedResponse);
   } catch (parseError) {
-    console.error('❌ JSON parsing failed:', parseError);
-    console.log('🔍 Problematic response excerpt:', cleanedResponse.substring(0, 500) + '...');
+    safeError('❌ JSON parsing failed:', parseError);
+    safeLog('🔍 Problematic response excerpt:', cleanedResponse.substring(0, 500) + '...');
     throw new Error(`Failed to parse AI response as JSON: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`);
   }
   
