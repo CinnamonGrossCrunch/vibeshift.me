@@ -359,7 +359,7 @@ function filterEventsByDateRange(
 ): CalendarEvent[] {
   const now = new Date();
   const horizon = addDays(now, daysAhead);
-  const pastLimit = addDays(now, -30); // Show events from 30 days ago
+  const pastLimit = addDays(now, -120); // Show events from 120 days ago (matches calendar.ts)
 
   const filteredEvents = events.filter(event => {
     const start = new Date(event.start);
@@ -528,7 +528,7 @@ async function fetchCampusGroupsEvents(): Promise<CalendarEvent[]> {
  * Main function to fetch events for both cohorts plus original calendar
  */
 export async function getCohortEvents(
-  daysAhead = 30,
+  daysAhead = 150,
   limit = 150
 ): Promise<CohortEvents> {
   console.log('Fetching events for both cohorts, original calendar, and UC Launch...');

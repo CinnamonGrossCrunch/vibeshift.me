@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     
     // Get query parameters
     const { searchParams } = new URL(request.url);
-    const daysAhead = parseInt(searchParams.get('daysAhead') || '45');
+    const daysAhead = parseInt(searchParams.get('daysAhead') || '150');
     const limit = parseInt(searchParams.get('limit') || '150');
     
     const cohortEvents = await getCohortEvents(daysAhead, limit);

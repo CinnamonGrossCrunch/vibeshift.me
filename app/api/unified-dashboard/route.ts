@@ -119,7 +119,7 @@ export async function GET() {
       (async () => {
         const calendarStart = Date.now();
         
-        const cohortEvents = await getCohortEvents(45, 150); // Same parameters as calendar API
+        const cohortEvents = await getCohortEvents(150, 150); // Extended to 150 days ahead to show December events
         
         return {
           data: cohortEvents,
