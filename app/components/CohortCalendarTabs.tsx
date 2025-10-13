@@ -266,15 +266,15 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
       return generatedContent;
     }
 
-    // Final fallback - return the first event on the same date with generated URL
-    const fallbackEvent = sameDateEvents[0] as CalendarEvent;
-    if (!fallbackEvent) return null; // Safety check (should never happen)
+    // Final fallback - return the first event on the same date
+    if (sameDateEvents.length > 0) {
+      const fallbackEvent = sameDateEvents[0] as CalendarEvent;
+      console.log(`No good title match found, returning first event on same date: ${fallbackEvent.title}`);
+      return fallbackEvent;
+    }
     
-    console.log(`No good title match found, returning first event on same date: ${fallbackEvent.title}`);
-    return {
-      ...fallbackEvent,
-      url: fallbackEvent.url || generatedContent?.url,
-    };
+    // Should never reach here, but return null as ultimate fallback
+    return null;
   };
 
   const handleEventClick = (event: CalendarEvent) => {
