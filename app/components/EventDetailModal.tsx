@@ -5,14 +5,7 @@ import { format } from 'date-fns';
 import type { CalendarEvent } from '@/lib/icsUtils';
 
 type Props = {
-  event: CalendarEven  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm [&>div]:relative [&>div]:shadow-[0_0_0_1px_rgba(59,130,246,0.4),0_0_18px_4px_rgba(59,130,246,0.25)] [&>div]:transition-shadow">
-      <div
-        ref={modalRef}
-        className="bg-violet-300/10 backdrop-blur-lg rounded-2xl shadow-2xl max-w-3xl w-full max-h-[85vh] overflow-hidden flex flex-col"
-      >
-        {/* Header */}
-        <div className="flex items-start justify-between p-6 flex-shrink-0">;
+  event: CalendarEvent | null;
   originalEvent?: CalendarEvent | null; // Rich content from original calendar.ics when matched
   onClose: () => void;
   onNext?: () => void; // Navigate to next event
