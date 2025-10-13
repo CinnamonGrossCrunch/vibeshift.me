@@ -9,6 +9,20 @@ import { organizeNewsletterWithAI } from '@/lib/openai-organizer';
 import { analyzeCohortMyWeekWithAI, type CohortMyWeekAnalysis } from '@/lib/my-week-analyzer';
 import { getCohortEvents, type CalendarEvent } from '@/lib/icsUtils';
 
+// Safe console.log that doesn't interfere with JSON responses in production
+const safeLog = (...args: unknown[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log(...args);
+  }
+};
+
+const safeError = (...args: unknown[]) => {
+  // Always log errors, but ensure they don't leak into response
+  if (typeof process !== 'undefined' && process.stderr) {
+    console.error(...args);
+  }
+};
+
 export interface UnifiedDashboardData {
   // Newsletter data for NewsletterWidget
   newsletterData: {
@@ -130,12 +144,12 @@ export async function GET() {
     
     // Handle any failures in data fetching
     if (newsletterResult.status === 'rejected') {
-      console.error('❌ Newsletter fetch failed:', newsletterResult.reason);
+      safeError('❌ Newsletter fetch failed:', newsletterResult.reason);
       throw new Error(`Newsletter fetch failed: ${newsletterResult.reason}`);
     }
     
     if (calendarResult.status === 'rejected') {
-      console.error('❌ Calendar fetch failed:', calendarResult.reason);
+      safeError('❌ Calendar fetch failed:', calendarResult.reason);
       throw new Error(`Calendar fetch failed: ${calendarResult.reason}`);
     }
     
@@ -153,7 +167,7 @@ export async function GET() {
       myWeekData = await analyzeCohortMyWeekWithAI(cohortEvents, newsletterData);
       myWeekTime = Date.now() - myWeekStart;
     } catch (error) {
-      console.error('❌ My Week analysis failed:', error);
+      safeError('❌ My Week analysis failed:', error);
       // Provide fallback data with correct structure
       myWeekData = {
         weekStart: new Date().toISOString(),
@@ -204,7 +218,7 @@ export async function GET() {
     return NextResponse.json(response, { status: 200 });
     
   } catch (error) {
-    console.error('💥 Unified Dashboard API Error:', error);
+    safeError('💥 Unified Dashboard API Error:', error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     
     return NextResponse.json(

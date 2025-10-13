@@ -8,9 +8,22 @@ export const revalidate = 3600;
 import { NextResponse, NextRequest } from 'next/server';
 import { getCohortEvents } from '@/lib/icsUtils';
 
+// Safe logging that doesn't interfere with JSON responses in production
+const safeLog = (...args: unknown[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log(...args);
+  }
+};
+
+const safeError = (...args: unknown[]) => {
+  if (typeof process !== 'undefined' && process.stderr) {
+    console.error(...args);
+  }
+};
+
 export async function GET(request: NextRequest) {
   try {
-    console.log('Calendar API: Starting cohort events request');
+    safeLog('Calendar API: Starting cohort events request');
     
     // Get query parameters
     const { searchParams } = new URL(request.url);
@@ -18,7 +31,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '150');
     
     const cohortEvents = await getCohortEvents(daysAhead, limit);
-    console.log(`Calendar API: Found Blue: ${cohortEvents.blue.length}, Gold: ${cohortEvents.gold.length}, Original: ${cohortEvents.original.length} events`);
+    safeLog(`Calendar API: Found Blue: ${cohortEvents.blue.length}, Gold: ${cohortEvents.gold.length}, Original: ${cohortEvents.original.length} events`);
     
     return NextResponse.json(cohortEvents, { 
       status: 200,
@@ -27,7 +40,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (err: unknown) {
-    console.error('Calendar API Error:', err);
+    safeError('Calendar API Error:', err);
     const errorMessage = err instanceof Error ? err.message : 'Unknown error';
     return NextResponse.json(
       { 
