@@ -5,7 +5,14 @@ import { format } from 'date-fns';
 import type { CalendarEvent } from '@/lib/icsUtils';
 
 type Props = {
-  event: CalendarEvent | null;
+  event: CalendarEven  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm [&>div]:relative [&>div]:shadow-[0_0_0_1px_rgba(59,130,246,0.4),0_0_18px_4px_rgba(59,130,246,0.25)] [&>div]:transition-shadow">
+      <div
+        ref={modalRef}
+        className="bg-violet-300/10 backdrop-blur-lg rounded-2xl shadow-2xl max-w-3xl w-full max-h-[85vh] overflow-hidden flex flex-col"
+      >
+        {/* Header */}
+        <div className="flex items-start justify-between p-6 flex-shrink-0">;
   originalEvent?: CalendarEvent | null; // Rich content from original calendar.ics when matched
   onClose: () => void;
   onNext?: () => void; // Navigate to next event
@@ -192,10 +199,10 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm [&>div]:relative [&>div]:shadow-[0_0_0_1px_rgba(59,130,246,0.4),0_0_18px_4px_rgba(59,130,246,0.25)] [&>div]:transition-shadow">
       <div
         ref={modalRef}
-        className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-3xl w-full max-h-[85vh] overflow-hidden flex flex-col"
+        className="bg-violet-300/10 backdrop-blur-lg rounded-2xl shadow-2xl max-w-3xl w-full max-h-[85vh] overflow-hidden flex flex-col"
       >
         {/* Header */}
-        <div className="flex items-start justify-between p-6 border-b border-slate-200 dark:border-slate-700 flex-shrink-0">
+        <div className="flex items-start justify-between p-6 flex-shrink-0">
           <div className="flex-1 pr-4">
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white leading-tight">
               {safeStringify(displayEvent.title)}
