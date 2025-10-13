@@ -277,11 +277,11 @@ ${rawContent}`;
             : [],
         edgeCasesHandled: organizedData.debugInfo?.edgeCasesHandled,
         totalSections: organizedData.sections?.length || 0,
-    processingTime,
-    // attach minimal ai meta
-    model: ai.model,
-    modelsTried: ai.modelsTried,
-    modelLatency: ai.ms
+        processingTime,
+        // attach minimal ai meta
+        model: ai.model,
+        modelsTried: ai.modelsTried,
+        modelLatency: ai.ms
       }
     };
 
