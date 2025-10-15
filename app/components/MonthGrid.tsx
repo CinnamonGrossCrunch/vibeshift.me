@@ -202,37 +202,7 @@ export default function MonthGrid({
             }
           }
           
-          // Fallback to title-based detection for backwards compatibility
-          const title = event.title;
-          
-          // EWMBA 201 (Microeconomics) - Dark Green with 50% opacity
-          if (title.includes('EWMBA 201') || title.includes('Microeconomics')) {
-            return `${glassBase} bg-green-800/50 border-green-700/30 text-white ${hoverGold}`;
-          }
-          
-          // EWMBA 202 (Data & Decisions) - Dark Blue with glass effect
-          if (title.includes('EWMBA 202') || title.includes('Data & Decisions')) {
-            return `${glassBase} bg-blue-800/50 border-blue-700/30 text-white ${hoverGold}`;
-          }
-          
-          // EWMBA 205 (Leading People) - Dark Red with 50% opacity  
-          if (title.includes('EWMBA 205') || title.includes('Leading People')) {
-            return `${glassBase} bg-red-800/50 border-red-700/30 text-white ${hoverGold}`;
-          }
-          
-          // EWMBA 208 (Marketing) - Pastel Orange with glass effect
-          if (title.includes('EWMBA 208') || title.includes('Marketing')) {
-            return `${glassBase} bg-orange-400/50 border-orange-300/40 text-white ${hoverGold}`;
-          }
-          
-          // Other courses - keeping existing colors
-          if (title.includes('EWMBA 203')) return `bg-teal-500/10 border-teal-500/30 text-white ${hoverGold}`;
-          if (title.includes('EWMBA 204')) return `bg-pink-500/10 border-pink-500/30 text-white ${hoverGold}`;
-          if (title.includes('EWMBA 206')) return `bg-indigo-500/10 border-indigo-500/30 text-white ${hoverGold}`;
-          if (title.includes('EWMBA 207')) return `bg-emerald-500/10 border-emerald-500/30 text-white ${hoverGold}`;
-          if (title.includes('EWMBA 209')) return `bg-purple-500/10 border-purple-500/30 text-white ${hoverGold}`;
-          if (title.includes('EWMBA 210')) return `bg-cyan-500/10 border-cyan-500/30 text-white ${hoverGold}`;
-          
+          // Default styling - no title-based fallbacks to avoid misclassification
           return `bg-slate-100 border-slate-200 text-slate-900 ${hoverGold}`;
         };
         

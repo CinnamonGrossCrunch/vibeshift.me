@@ -516,3 +516,24 @@ body {
   backdrop-filter: none !important;
   background: rgba(255, 255, 255, 0.2) !important;
 }
+
+/* Weather Widget Animations */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  75% { transform: rotate(-5deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-wiggle {
+  animation: wiggle 3s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out;
+}

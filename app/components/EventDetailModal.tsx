@@ -191,7 +191,7 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
         className="bg-slate-900/60 backdrop-blur-3xl rounded-2xl shadow-2xl max-w-3xl w-full max-h-[85vh] overflow-hidden flex flex-col"
       >
         {/* Header */}
-        <div className="flex items-start justify-between p-6 flex-shrink-0">
+        <div className="flex items-start justify-between px-6 py-4 flex-shrink-0">
           <div className="flex-1 pr-4">
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white leading-tight">
               {safeStringify(displayEvent.title)}
@@ -254,7 +254,7 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto flex-1 space-y-4 scrollbar-thin scrollbar-thumb-slate-400 dark:scrollbar-thumb-slate-600 scrollbar-track-transparent hover:scrollbar-thumb-slate-500 dark:hover:scrollbar-thumb-slate-500"
+        <div className="px-6 overflow-y-auto flex-1 space-y-4 scrollbar-thin scrollbar-thumb-slate-400 dark:scrollbar-thumb-slate-600 scrollbar-track-transparent hover:scrollbar-thumb-slate-500 dark:hover:scrollbar-thumb-slate-500"
           style={{
             scrollbarWidth: 'thin',
             scrollbarColor: 'rgb(148 163 184) transparent'
@@ -276,19 +276,14 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
             </div>
           )}
 
-          {/* Event UID for debugging if needed */}
-          {displayEvent.uid && (
-            <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
-              <p className="text-xs text-slate-500 dark:text-slate-500">
-                Event ID: {displayEvent.uid}
-              </p>
-            </div>
-          )}
+          
           {/* Location */}
           {displayEvent.location && (
             <div>
-              <h3 className="text-sm font-medium text-slate-900 dark:text-white mb-1">📍 Location</h3>
-              <p className="text-sm text-slate-600 dark:text-slate-300">{safeStringify(displayEvent.location)}</p>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="text-sm font-medium text-slate-900 dark:text-white">📍 Location:</div>
+                <div className="text-sm text-slate-600 dark:text-slate-300">{safeStringify(displayEvent.location)}</div>
+              </div>
             </div>
           )}
         </div>

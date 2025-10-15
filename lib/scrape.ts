@@ -461,4 +461,3 @@ function extractContentFromTextBlock($: cheerio.CheerioAPI, textContent: cheerio
     html: cleanHtml(remainingHtml || '')
   };
 }
-

@@ -55,17 +55,17 @@ const COHORT_FILES = {
     'DataDecisions-Blue.ics',
     'Marketing-Blue-Final.ics',
     'teams@Haas.ics'
+    // Removed Marketing-Blue-bCourses.ics - external feed causing event override
   ],
   gold: [
-    'ewmba201a_micro_gold_fall2025.ics', 
+    'ewmba201a_micro_gold_fall2025.ics',
     'ewmba_leadingpeople_gold_fall2025.ics',
     'DataDecisions-Gold.ics',
     'Marketing-Gold-Final.ics',
     'teams@Haas.ics'
+    // Removed Marketing-Gold-bCourses.ics - external feed causing event override
   ]
-};
-
-/**
+};/**
  * Fetch ICS data from either external URL or local file
  */
 async function fetchIcsData(filename: string): Promise<string> {
@@ -325,43 +325,64 @@ async function fetchCohortEvents(cohort: 'blue' | 'gold'): Promise<CalendarEvent
     allEvents.push(...events);
   }
 
-  // Refined de-duplication:
-  //  - Single key per date+title
-  //  - Prefer events whose source is teams@Haas.ics over any other source
-  //  - If a non-teams event has Teams@Haas in title and a teams@Haas source version exists, drop the non-teams one
+  // Source priority for deduplication (lower index = higher priority)
+  const SOURCE_PRIORITY = [
+    'Marketing-Blue-Final.ics',
+    'Marketing-Gold-Final.ics',
+    'DataDecisions-Blue.ics',
+    'DataDecisions-Gold.ics',
+    'teams@Haas.ics',
+    'ewmba201a_micro_blue_fall2025.ics',
+    'ewmba201a_micro_gold_fall2025.ics',
+    'ewmba_leadingpeople_blue_fall2025.ics',
+    'ewmba_leadingpeople_gold_fall2025.ics',
+    'ewmba205_blue_fallA2025_v2.ics',
+    'ewmba205_gold_fallA2025_v2.ics',
+  ];
+
+  const sourceRank = (src?: string): number => {
+    if (!src) return Number.MAX_SAFE_INTEGER;
+    const index = SOURCE_PRIORITY.findIndex(priority => src.includes(priority));
+    return index === -1 ? Number.MAX_SAFE_INTEGER : index;
+  };
+
+  // UID-first deduplication with source priority
   const dedupPrefMap = new Map<string, CalendarEvent>();
+  const debug = process.env.CALENDAR_DEBUG === '1';
+
   for (const ev of allEvents) {
-    const key = `${ev.start.substring(0,10)}|${(ev.title || '').toLowerCase().trim()}`;
-    const isTeamsSource = (ev.source || '').toLowerCase().includes('teams@haas');
+    // Use UID if available for better deduplication, otherwise fall back to date+title
+    const key = ev.uid 
+      ? `uid:${ev.uid.trim().toLowerCase()}`
+      : `${ev.start.substring(0,10)}|${(ev.title || '').toLowerCase().trim()}`;
 
     const existing = dedupPrefMap.get(key);
+    
     if (!existing) {
-      // Nothing stored yet
       dedupPrefMap.set(key, ev);
+      if (debug && key.includes('marketing-case-preferences')) {
+        safeLog(`[DEDUPE] New event: ${ev.title} from ${ev.source}`);
+      }
       continue;
     }
 
-    const existingIsTeamsSource = (existing.source || '').toLowerCase().includes('teams@haas');
-
-    // If incoming is the authoritative teams source, always override
-    if (isTeamsSource && !existingIsTeamsSource) {
-      dedupPrefMap.set(key, ev);
-      continue;
+    // Choose winner based on source priority (lower rank = higher priority)
+    const incomingRank = sourceRank(ev.source);
+    const existingRank = sourceRank(existing.source);
+    const winner = incomingRank < existingRank ? ev : existing;
+    
+    if (debug && key.includes('marketing-case-preferences')) {
+      safeLog(`[DEDUPE] Conflict for: ${ev.title}`);
+      safeLog(`  Incoming: ${ev.source} (rank ${incomingRank})`);
+      safeLog(`  Existing: ${existing.source} (rank ${existingRank})`);
+      safeLog(`  Winner: ${winner.source}`);
     }
-
-    // If existing is teams source, keep it and ignore other copies
-    if (existingIsTeamsSource && !isTeamsSource) {
-      continue;
-    }
-
-    // If neither is teams source but one has teams title, keep the one already there
-    if (!isTeamsSource && !existingIsTeamsSource) {
-      continue; // first wins
-    }
+    
+    dedupPrefMap.set(key, winner);
   }
   const output = Array.from(dedupPrefMap.values());
   if (output.length !== allEvents.length) {
-    safeLog(`De-duplicated ${allEvents.length - output.length} events (post Teams@Haas preference) for ${cohort}`);
+    safeLog(`De-duplicated ${allEvents.length - output.length} events (post Teams@Haas + course-specific preference) for ${cohort}`);
   }
 
   safeLog(`Total ${cohort} cohort events (after dedupe + Teams@Haas preference): ${output.length}`);

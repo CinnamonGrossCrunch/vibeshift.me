@@ -5,6 +5,7 @@ import Image from "next/image";
 import MainDashboardTabs from "./components/MainDashboardTabs";
 import DashboardTabs2 from "./components/DashboardTabs2";
 import MyWeekWidget from "./components/MyWeekWidget";
+import WeatherWidget from "./components/WeatherWidget";
 import HaasResourcesWidget from "./components/HaasResourcesWidget";
 import HaasJourneyWidget from "./components/HaasJourneyWidget";
 import CohortToggleWidget from "./components/CohortToggleWidget";
@@ -219,18 +220,26 @@ export default function Home() {
             style={{ opacity: overlayOpacity / 100 }}
           />
         {/* Section A: Haas Journey (Full Width Row) */}
-        <div className="mb-0">
+        <div className="mb-10  border-b border-slate-200 dark:border-slate-700 ">
           <HaasJourneyWidget />
         </div>
         
-        {/* Section B: My Week Widget */}
-        <div className="mb-0">
-          <MyWeekWidget 
-            data={unifiedData?.myWeekData}
-            selectedCohort={selectedCohort}
-            cohortEvents={unifiedData?.cohortEvents}
-            newsletterData={unifiedData?.newsletterData}
-          />
+        {/* Section B: My Week Widget and Weather Widget */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-0">
+          {/* My Week Widget - Takes 2 columns */}
+          <div className="lg:col-span-2">
+            <MyWeekWidget 
+              data={unifiedData?.myWeekData}
+              selectedCohort={selectedCohort}
+              cohortEvents={unifiedData?.cohortEvents}
+              newsletterData={unifiedData?.newsletterData}
+            />
+          </div>
+          
+          {/* Weather Widget - Takes 1 column */}
+          <div className="lg:col-span-1 items-start">
+            <WeatherWidget />
+          </div>
         </div>
         
         {/* Section C: Dashboard Tabs */}
