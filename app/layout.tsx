@@ -13,8 +13,8 @@ const urbanist = Urbanist({
 });
 
 export const metadata: Metadata = {
-  title: "OskiHub",
-  description: "EWMBA Student Hub & Schedule Aggregator",
+  title: "OskiHub - EWMBA Dashboard",
+  description: "Your Haas daily dashboard: classes, events, and resources in one place.",
   icons: {
     icon: [
       { url: "/OskiHub.ico", sizes: "any", type: "image/x-icon" },
@@ -23,6 +23,28 @@ export const metadata: Metadata = {
     ],
     shortcut: "/OskiHub.ico",
     apple: "/OskiHub.ico",
+  },
+  openGraph: {
+    title: "OskiHub - EWMBA Dashboard",
+    description: "Your Haas daily dashboard: classes, events, and resources in one place.",
+    url: "https://oski.app",
+    siteName: "OskiHub",
+    images: [
+      {
+        url: "/OskiHubMetaCap.png",
+        width: 1200,
+        height: 630,
+        alt: "OskiHub Dashboard Preview",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "OskiHub - EWMBA Dashboard",
+    description: "Your Haas daily dashboard: classes, events, and resources in one place.",
+    images: ["/OskiHubMetaCap.png"],
   },
 };
 

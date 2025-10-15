@@ -6,19 +6,19 @@ import path from 'path';
 // Safe logging utilities to prevent console output contamination in production
 const safeLog = (...args: unknown[]) => {
   if (process.env.NODE_ENV === 'development') {
-    safeLog(...args);
+    console.log(...args);
   }
 };
 
 const safeError = (...args: unknown[]) => {
   if (typeof process !== 'undefined' && process.stderr) {
-    safeError(...args);
+    console.error(...args);
   }
 };
 
 const safeWarn = (...args: unknown[]) => {
   if (process.env.NODE_ENV === 'development') {
-    safeWarn(...args);
+    console.warn(...args);
   }
 };
 

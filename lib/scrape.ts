@@ -5,13 +5,13 @@ import sanitizeHtml from 'sanitize-html';
 // Safe logging utilities to prevent console output contamination in production
 const safeLog = (...args: unknown[]) => {
   if (process.env.NODE_ENV === 'development') {
-    safeLog(...args);
+    console.log(...args);
   }
 };
 
 const safeError = (...args: unknown[]) => {
   if (typeof process !== 'undefined' && process.stderr) {
-    safeError(...args);
+    console.error(...args);
   }
 };
 
@@ -461,3 +461,4 @@ function extractContentFromTextBlock($: cheerio.CheerioAPI, textContent: cheerio
     html: cleanHtml(remainingHtml || '')
   };
 }
+
