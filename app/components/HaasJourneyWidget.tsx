@@ -63,21 +63,21 @@ const HAAS_RESOURCES: ResourceItem[] = [
 
 // Centralized styling constants for easy maintenance
 const STYLES = {
-  container: "absolute,  px-0",
-  dropdownHeader: "flex items-center justify-end p-2 rounded-xl hover:bg-turbulence transition-all duration-600 cursor-pointer group",
+  container: "absolute, z-35 px-0",
+  dropdownHeader: "flex items-center justify-end p-2 rounded-xl hover:bg-turbulence transition-all duration-500 cursor-pointer group",
   dropdownTitle: "text-md font-semibold text-white transition-all duration-600 overflow-hidden text-center",
   dropdownIcon: "text-white material-icons transition-all duration-600 ease-in-out",
-  dropdownIconOpen: "",
-  dropdownContent: "overflow-hidden transition-all duration-1000 w-full",
-  grid: "flex justify-between gap-1 flex-wrap w-full",
+  dropdownIconOpen: "translate-x-3 translate-y-0",
+  dropdownContent: "-mr-3 -py-overflow-hidden transition-all duration-1000 w-full",
+  grid: "flex justify-between gap-2 flex-wrap w-full",
   resourceContainer: "border-white/30 rounded-md relative flex-1 min-w-0",
   resourceLink: "flex flex-col md:flex-row items-center justify-center gap-0.5 p-1 rounded-xl hover:bg-turbulence transition-all duration-100 group",
   iconContainer: "w-8 h-8 border-1 border-white/10 rounded-full flex items-center justify-center flex-shrink-0",
-  icon: "text-white/80 material-icons",
+  icon: "text-white/80 scale-140 material-icons",
   textContainer: "text-center md:text-left",
   resourceTitle: "text-sm font-light text-white/50 truncate mb-0",
-  resourceCta: "text-sm font-light text-white group-hover:text-blue-200 transition-colors whitespace-normal break-words",
-  tooltip: "absolute bottom-full left-1/2 -translate-x-1/2 mb-0 px-2 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50 whitespace-nowrap backdrop-blur-md bg-white/10 text-white text-xs font-light shadow-lg",
+  resourceCta: "text-xs font-light text-gray-400 group-hover:text-blue-200 transition-colors whitespace-normal break-words",
+  tooltip: "absolute bottom-full translate-y-18 mb-0 px-2 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none z-[9999] whitespace-nowrap text-violet-500 text-xs font-light shadow-lg bg-none",
   cascadeItem: "transform transition-all duration-1200 ease-out"
 } as const
 
@@ -153,10 +153,10 @@ export default function HaasJourneyWidget({ className = "" }: HaasJourneyWidgetP
             <h3 
             className={STYLES.dropdownTitle}
             style={{
-              maxWidth: isOpen ? '0px' : '200px',
+              
               opacity: isOpen ? 0 : 1,
-              marginLeft: isOpen ? '0px' : '0px',
-           
+              marginLeft: isOpen ? '-120px' : '0px',
+        
               color: '#ffffffff',
               textShadow: '0 0 12px #0063c0ff, 0 0 24px rgba(0, 50, 98, 0.8), 0 0 36px rgba(0, 50, 98, 0.6), 0 0 48px rgba(0, 50, 98, 0.4)',
               lineHeight: '1'

@@ -56,12 +56,12 @@ export async function organizeNewsletterWithAI(
   const startTime = Date.now();
 
   try {
-    // Convert raw sections to text for AI processing
+    // Convert raw sections to HTML for AI processing - PRESERVE ALL HTML INCLUDING LINKS
     const rawContent = rawSections.map(section => {
       const items = section.items?.map((item: ParsedItem) => {
-        const cleanContent = item.html?.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-        return `${item.title}: ${cleanContent}`;
-      }).join('\n');
+        // Send the actual HTML content to preserve hyperlinks
+        return `${item.title}:\n${item.html}`;
+      }).join('\n\n');
       
       return `[${section.sectionTitle}]\n${items}`;
     }).join('\n\n');

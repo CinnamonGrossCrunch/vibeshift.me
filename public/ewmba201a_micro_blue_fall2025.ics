@@ -323,64 +323,6 @@ DESCRIPTION:In-person exam during regular class time. See syllabus for allo
 
 END:VEVENT
 
-BEGIN:VEVENT
 
-UID:marketing-case-preferences-2025@vibeshift.me
-
-DTSTAMP:20250827T075452Z
-
-SUMMARY:Team Preferences for Case Preparation & Leadership Assignment
-
-DTSTART;TZID=America/Los_Angeles:20251017T235900
-
-DTEND;TZID=America/Los_Angeles:20251017T235900
-
-LOCATION:bCourses
-
-DESCRIPTION:We will be using several cases to illustrate key marketing conc
-
- epts this semester and deepen your understanding of the real-world busines
-
- s situations where marketers apply them. All of the cases are in the Study
-
- .Net reader. All are required reading and students should be prepared to d
-
- iscuss them in class.\n\nThis is your chance to decide as a team which cas
-
- e you want to focus on for the Case Preparation & Leadership Assignment. T
-
- wo teams will be responsible for: (1) leading the class discussion of the 
-
- key issues in the case\, (2) writing a 3 page recap of their findings and 
-
- recommendations\, and (3) posting and monitoring a discussion board thread
-
-  about the aspect of the case they are focusing on. One team will tackle t
-
- he case from a company/competitive perspective and the other from a custom
-
- er/consumer point of view.\n\nClick here (https://docs.google.com/forms/d
-
- /e/1FAIpQLSfAx2ONcz6CF1ghWfKD8t6iBEygSTZaikBwqak3Iy22MedhSg/viewform?usp
-
- =sharing&ouid=113674834595072819528) to see the questions to be addressed 
-
- by the team responsible for our discussion of each case. Then\, agree as a
-
-  team on your top 3 choices and fill out this short preferences survey (ht
-
- tps://docs.google.com/forms/d/e/1FAIpQLSfAx2ONcz6CF1ghWfKD8t6iBEygSTZaikB
-
- wqak3Iy22MedhSg/viewform?usp=header). After submitting your response\, hav
-
- e one team member upload the confirmation page to bCourses.\n\nTeams will 
-
- be assigned a case if they do not submit their preferences by Friday\, Oct
-
-  17.\n\nDue: Friday Oct 17 by 11:59pm\nPoints: 0\nAvailable: Oct 8 at 12am
-
-  - Oct 17 at 11:59pm
-
-END:VEVENT
 
 END:VCALENDAR

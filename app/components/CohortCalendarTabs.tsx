@@ -357,7 +357,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
             >
               <button
                 role="tab"
-                aria-selected={selectedCohort === 'blue'}
+                aria-selected={selectedCohort === 'blue' ? 'true' : 'false'}
                 aria-controls="calendar-content"
                 onClick={() => handleCohortChange('blue')}
                 className={`px-2 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
@@ -374,7 +374,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
               </button>
               <button
                 role="tab"
-                aria-selected={selectedCohort === 'gold'}
+                aria-selected={selectedCohort === 'gold' ? 'true' : 'false'}
                 aria-controls="calendar-content"
                 onClick={() => handleCohortChange('gold')}
                 className={`relative px-2 py-1 rounded-full text-xs font-semibold transition-all duration-200 focus:outline-none
@@ -454,6 +454,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
                       checked={showGreekTheater}
                       onChange={(e) => setShowGreekTheater(e.target.checked)}
                       className="sr-only"
+                      aria-label="Toggle Greek Theater events"
                     />
                     <div className={`w-10 h-6 rounded-full transition-colors duration-200 ${
                       showGreekTheater ? 'bg-blue-500' : 'bg-slate-300 dark:bg-slate-600'
@@ -483,6 +484,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
                       checked={showUCLaunch}
                       onChange={(e) => setShowUCLaunch(e.target.checked)}
                       className="sr-only"
+                      aria-label="Toggle UC Launch Accelerator events"
                     />
                     <div className={`w-10 h-6 rounded-full transition-colors duration-200 ${
                       showUCLaunch ? 'bg-blue-500' : 'bg-slate-300 dark:bg-slate-600'
@@ -512,6 +514,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
                       checked={showCalBears}
                       onChange={(e) => setShowCalBears(e.target.checked)}
                       className="sr-only"
+                      aria-label="Toggle Cal Bears events"
                     />
                     <div className={`w-10 h-6 rounded-full transition-colors duration-200 ${
                       showCalBears ? 'bg-blue-500' : 'bg-slate-300 dark:bg-slate-600'
@@ -539,6 +542,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
                       checked={showCampusGroups}
                       onChange={(e) => setShowCampusGroups(e.target.checked)}
                       className="sr-only"
+                      aria-label="Toggle Campus Groups events"
                     />
                     <div className={`w-10 h-6 rounded-full transition-colors duration-200 ${
                       showCampusGroups ? 'bg-blue-500' : 'bg-slate-300 dark:bg-slate-600'

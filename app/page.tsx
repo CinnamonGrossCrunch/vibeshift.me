@@ -6,6 +6,8 @@ import MainDashboardTabs from "./components/MainDashboardTabs";
 import DashboardTabs2 from "./components/DashboardTabs2";
 import MyWeekWidget from "./components/MyWeekWidget";
 import WeatherWidget from "./components/WeatherWidget";
+import TravelTimeWidget from "./components/TravelTimeWidget";
+import CurrentTimeWidget from "./components/CurrentTimeWidget";
 import HaasResourcesWidget from "./components/HaasResourcesWidget";
 import HaasJourneyWidget from "./components/HaasJourneyWidget";
 import CohortToggleWidget from "./components/CohortToggleWidget";
@@ -210,7 +212,7 @@ export default function Home() {
             </div>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-0 relative">
+      <main className="max-w-7xl mx-auto px-3 sm:px-1 lg:px-3 py-0 relative">
         {/* Current Time Debug Display */}
         {/* <CurrentTimeDisplay /> */}
       
@@ -220,14 +222,28 @@ export default function Home() {
             style={{ opacity: overlayOpacity / 100 }}
           />
         {/* Section A: Haas Journey (Full Width Row) */}
-        <div className="mb-10  border-b border-slate-200 dark:border-slate-700 ">
+        <div className="mb-0  border-b border-slate-200 dark:border-slate-700 ">
           <HaasJourneyWidget />
         </div>
-        
+      
+  
         {/* Section B: My Week Widget and Weather Widget */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-0">
-          {/* My Week Widget - Takes 2 columns */}
-          <div className="lg:col-span-2">
+        <div className="flex flex-col lg:flex-row mt-2 lg:py-2 mb-0 gap-0 items-start">
+          {/* Weather Widget - Side by side on small/medium, right-aligned, above My Week */}
+          <div className="flex-shrink-0 flex items-start justify-end w-full lg:w-auto lg:order-2 lg:min-w-0 mb-0">
+            <div className="w-full lg:w-auto flex flex-row lg:flex-col gap-0 min-w-0 justify-end">
+              {/* Weather and Travel - side by side on small/medium, stacked on large */}
+              <WeatherWidget />
+              <TravelTimeWidget />
+            </div>
+          </div>
+          
+          {/* My Week Widget - Grows to fill available space, below weather on small/medium */}
+          <div className="flex-grow flex items-center min-w-0 w-full lg:order-1">
+                         {/* Current Time Widget - Above My Week */}
+        {/* <div className="mt-2 hidden sm:block">
+          <CurrentTimeWidget />
+        </div> */}
             <MyWeekWidget 
               data={unifiedData?.myWeekData}
               selectedCohort={selectedCohort}
@@ -235,17 +251,12 @@ export default function Home() {
               newsletterData={unifiedData?.newsletterData}
             />
           </div>
-          
-          {/* Weather Widget - Takes 1 column */}
-          <div className="lg:col-span-1 items-start">
-            <WeatherWidget />
-          </div>
         </div>
         
         {/* Section C: Dashboard Tabs */}
-        <div className="grid grid-cols-1 lg:grid-cols-8 gap-1 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-8 gap-1 mt-4 mb-6">
           {/* MainDashboardTabs - Columns 1-5 */}
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-6">
             <MainDashboardTabs 
               cohortEvents={{
                 blue: unifiedData?.cohortEvents?.blue || cohortEvents?.blue || [],
@@ -256,11 +267,12 @@ export default function Home() {
                 campusGroups: unifiedData?.cohortEvents?.campusGroups || cohortEvents?.campusGroups || []
               }}
               selectedCohort={selectedCohort}
+              dashboardData={unifiedData}
             />
           </div>
           
-          {/* DashboardTabs2 - Columns 6-8 */}
-          <div className="lg:col-span-3">
+          {/* DashboardTabs2 - Columns 6-8 - Hidden on small screens */}
+          <div className="hidden lg:block lg:col-span-2">
             <DashboardTabs2 dashboardData={unifiedData} />
           </div>
         </div>

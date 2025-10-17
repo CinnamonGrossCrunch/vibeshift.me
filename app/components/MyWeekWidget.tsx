@@ -294,7 +294,7 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
   }, {} as Record<string, WeeklyEvent[]>);
 
   return (
-    <div className="w-full rounded-xl mb-8 overflow-hidden">
+    <div className="w-full lg:mr-35 rounded-xl items-end overflow-hidden flex">
       {/* Main Layout: Left to Right Flow */}
       <div className="w-full rounded-2xl flex items-start gap-6">
         {/* Left Column: Current Date */}
@@ -324,13 +324,13 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
           )} */}
 
           {/* Events List */}
-          <div className="space-y-4 max-h-96 overflow-hidden">
+            <div className="space-y-4 max-h-96 max-w-auto overflow-hidden">
             {Object.entries(eventsByDate)
               .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
               .map(([date, events]) => (
                 <div key={date} className="flex ml-0 rounded-lg bg-glass bg-turbulence items-center gap-1 mb-1">
                   {/* Date Header */}
-                  <div className="text-center text-sm font-semibold text-slate-900 dark:text-white min-w-[100px] shrink-0">
+                  <div className="text-center text-sm font-semibold text-slate-900 dark:text-white px-2 shrink-0">
                     {formatDate(date)}
                   </div>
                   
@@ -339,7 +339,7 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
                     {events.map((event, index) => (
                       <div 
                         key={index} 
-                        className={`flex-0 items-center space-x-2 rounded-lg px-3 py-1 group cursor-pointer hover:opacity-80 transition-all ${getEventColor(event.type, event.priority)}`}
+                        className={`flex-0 items-center space-x-2 rounded-lg px-2 py-0.5 group cursor-pointer hover:opacity-80 transition-all ${getEventColor(event.type, event.priority)}`}
                         onClick={(e) => handleEventClick(e, event.title)}
                       >
                         {/* Event Content */}

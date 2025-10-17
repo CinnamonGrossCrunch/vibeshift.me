@@ -460,8 +460,8 @@ body {
 /* Additional glass utility classes for production builds */
 .glass-nav-button {
   background: rgba(255, 255, 255, 0.1) !important;
-  backdrop-filter: blur(8px) saturate(150%) !important;
   -webkit-backdrop-filter: blur(8px) saturate(150%) !important;
+  backdrop-filter: blur(8px) saturate(150%) !important;
 }
 
 .shadow-glass {
@@ -489,30 +489,36 @@ body {
 
 /* Device-specific optimizations */
 .device-mac .bg-glass {
+  -webkit-backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturate, 110%)) brightness(var(--glass-brightness, 125%)) !important;
   backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-saturate, 110%)) brightness(var(--glass-brightness, 125%)) !important;
 }
 
 .browser-safari .bg-glass {
   /* Reduce complexity for Safari */
+  -webkit-backdrop-filter: blur(8px) saturate(105%) !important;
   backdrop-filter: blur(8px) saturate(105%) !important;
 }
 
 .device-mobile .bg-glass {
   /* Simplified effects for mobile */
+  -webkit-backdrop-filter: blur(6px) !important;
   backdrop-filter: blur(6px) !important;
   background: rgba(255, 255, 255, 0.15) !important;
 }
 
 /* GPU-specific optimizations */
 .gpu-high .bg-glass {
+  -webkit-backdrop-filter: blur(20px) saturate(120%) brightness(140%) !important;
   backdrop-filter: blur(20px) saturate(120%) brightness(140%) !important;
 }
 
 .gpu-medium .bg-glass {
+  -webkit-backdrop-filter: blur(12px) saturate(110%) brightness(125%) !important;
   backdrop-filter: blur(12px) saturate(110%) brightness(125%) !important;
 }
 
 .gpu-low .bg-glass {
+  -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
   background: rgba(255, 255, 255, 0.2) !important;
 }

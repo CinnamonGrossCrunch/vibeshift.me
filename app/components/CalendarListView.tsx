@@ -308,7 +308,7 @@ export default function CalendarListView({
 
   return (
     <div 
-      className={`calendar-list-widget p-1 rounded-md border-2 border-transparent transition-all duration-500 ${
+      className={`calendar-list-widget p-1 rounded-md  bg-slate-500/10 border-transparent transition-all duration-500  ${
         isGlowing 
           ? ' border-blue-400 ring-4 ring-blue-400/80 ring-offset-4 ring-offset-white dark:ring-offset-slate-800 shadow-2xl shadow-blue-500/50 ' 
           : ''
@@ -323,7 +323,7 @@ export default function CalendarListView({
     >
       {/* Widget Header */}
       <div className="widget-header">
-        <header className="header-container mb-2 bg-berkeley-blue/90 dark:bg-berkeley-blue/80 w-full flex items-center justify-start px-0 py-0  rounded-tr-lg rounded-tl-none">
+        <header className="header-container mx-2 mt-1 mb-2 bg-berkeley-blue/90 dark:bg-berkeley-blue/80 w-full flex items-center justify-start px-0 py-0  rounded-tr-lg rounded-tl-none">
           <h3 className="text-white text-base urbanist-medium tracking-wide leading-none m-0 p-0">
             {title}
           </h3>
@@ -391,7 +391,7 @@ export default function CalendarListView({
           return (
             <div 
             key={ev.uid || `${ev.title}-${ev.start}`}
-            className="event-card flex-shrink-0 w-45 bg-glass bg-turbulence   p-2 rounded-lg  transition-all duration-200 ease-in-out cursor-pointer"
+            className="event-card bg-black/20 flex-shrink-0 w-45    p-2 rounded-lg  transition-all duration-200 ease-in-out cursor-pointer"
             onClick={() => handleEventClick(ev)}
             >
             <div className="event-content flex flex-col h-full">

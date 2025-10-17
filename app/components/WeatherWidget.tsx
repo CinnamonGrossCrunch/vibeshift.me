@@ -106,46 +106,74 @@ export default function WeatherWidget() {
   }
 
 return (
-    <div className="rounded-3xl items-start backdrop-blur-sm mt-0">
-        {/* UC Berkeley Header */}
-        <div className="flex justify-end mb-1">
-            <span className="text-xs font-bold"><span className="text-gray-200">UC Berkeley</span> <span className="text-gray-400">Weather</span></span>
-        </div>
+    <div className="-mt-2 flex flex-col justify-center backdrop-blur-sm w-1/2 lg:w-1/2 lg:ml-auto px-2 h-17 mb-0 lg:mb-1 backdrop-blur-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
+      {/* Small screens: All elements in one horizontal line */}
+      {/* Large screens: Header on top (right-aligned), content below in two columns */}
+      
+      {/* Header - hidden on small, shown on large */}
+      <div className="hidden lg:flex justify-end mb-0">
+        <span className="text-sm font-semibold whitespace-nowrap">
+          <span className="text-gray-200">UC Berkeley</span> <span className="text-gray-400">Weather</span>
+        </span>
+      </div>
+      
+      {/* Small screen: header stacked above, elements in horizontal row */}
+      <div className="flex flex-col lg:hidden justify-start gap-0">
+        {/* Header on top */}
+        <span className="text-sm font-semibold whitespace-nowrap mb-0">
+          <span className="text-gray-200">UC Berkeley</span> <span className="text-gray-400">Weather</span>
+        </span>
         
-        {/* Two Column Layout */}
-        <div className="flex items-end justify-end gap-3">
-            {/* Column 1: Temperature Data */}
-            <div className="flex flex-col  pr-0">
-                <div className="flex items-end gap-0">
-                    <div className="flex items-baseline gap-0">
-                        <span className="text-2xl font-semibold text-white">
-                            {weather.temperature}°
-                        </span>
-                        <span className="text-xs text-gray-600">F</span>
-                    </div>
-                    
-                    {/* High/Low */}
-                    <div className="flex flex-col items-center border-r border-gray-900/50 gap-0 pr-3">
-                        <div className="flex items-center gap-1">
-                            <span className="text-red-400/60 text-xs">↑</span>
-                            <span className="text-xs text-gray-400">{weather.high}°</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <span className="text-blue-400/60 text-xs">↓</span>
-                            <span className="text-xs text-gray-400">{weather.low}°</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        {/* All elements in horizontal row below */}
+        <div className="flex flex-row items-center justify-start gap-2">
+          <div className="flex items-baseline gap-0">
+            <span className="text-md font-semibold text-white">{weather.temperature}°</span>
+            <span className="text-xs text-gray-600 translate-y-1">F</span>
+          </div>
 
-            {/* Column 2: Weather Icon & Condition */}
-            <div className="flex flex-col items-center">
-                <i className="material-icons  text-gray-200" style={{ fontSize: '26px' }}>
-                    {weather.icon}
-                </i>
-                <p className="text-xs font-light text-end text-gray-300 mt-0">{weather.condition}</p>
-            </div>
+          <div className="flex flex-row items-center gap-1">
+            <i className="material-icons text-gray-200" style={{ fontSize: '20px' }}>
+              {weather.icon}
+            </i>
+            <p className="text-xs font-medium text-gray-400 mt-0">{weather.condition}</p>
+          </div>
         </div>
+      </div>
+      
+      {/* Large screen: two column layout */}
+      <div className="hidden lg:flex justify-end gap-1">
+        {/* Column 1: Temperature Data */}
+        <div className="flex flex-col pr-0">
+          <div className="flex gap-1">
+            <div className="flex items-baseline gap-0">
+              <span className="text-md font-semibold text-white">
+                {weather.temperature}°
+              </span>
+              <span className="text-xs text-gray-600 translate-y-1">F</span>
+            </div>
+            
+            {/* High/Low - vertical on large */}
+            <div className="flex flex-col gap-0">
+              <div className="flex items-center gap-1">
+                <span className="text-red-400/60 text-xs">↑</span>
+                <span className="text-xs text-gray-400">{weather.high}°</span>
+              </div>
+              <div className="flex items-center -mt-1 gap-1">
+                <span className="text-blue-400/60 text-xs">↓</span>
+                <span className="text-xs text-gray-400">{weather.low}°</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Column 2: Weather Icon & Condition */}
+        <div className="flex flex-row items-center gap-1">
+          <i className="material-icons text-gray-200" style={{ fontSize: '20px' }}>
+            {weather.icon}
+          </i>
+          <p className="text-xs font-medium text-gray-400 mt-0">{weather.condition}</p>
+        </div>
+      </div>
     </div>
 );
 }

@@ -4,56 +4,115 @@ import { useState } from 'react';
 import Image from "next/image";
 import CalendarListView from "./CalendarListView";
 import CohortCalendarWidget from "./CohortCalendarWidget";
+import NewsletterWidget from "./NewsletterWidget";
+import SlackWidget from "./SlackWidget";
 import type { CohortEvents } from '@/lib/icsUtils';
+import type { UnifiedDashboardData } from '@/app/api/unified-dashboard/route';
 
 type CohortType = 'blue' | 'gold';
 
 interface MainDashboardTabsProps {
   cohortEvents: CohortEvents;
   selectedCohort: CohortType;
+  dashboardData?: UnifiedDashboardData | null;
 }
 
 export default function MainDashboardTabs({ 
   cohortEvents, 
-  selectedCohort
+  selectedCohort,
+  dashboardData
 }: MainDashboardTabsProps) {
   const [activeTab, setActiveTab] = useState('OskiHub Cal');
-  const tabs = ['OskiHub Cal', 'Book A Space @ Haas'];
+  const cohortTabs = ['OskiHub Cal', 'Book A Space @ Haas'];
+  const dashboardTabs = ['Slack', 'Updates'];
+
+  // Helper function to get icon for each tab
+  const getTabIcon = (tab: string) => {
+    switch (tab) {
+      case 'OskiHub Cal':
+        return 'event';
+      case 'Book A Space @ Haas':
+        return 'meeting_room';
+      case 'Slack':
+        return 'forum';
+      case 'Updates':
+        return 'campaign';
+      default:
+        return 'tab';
+    }
+  };
 
   return (
     <div className="relative">
       {/* Tab Navigation */}
       <div className="flex items-end relative">
-        {tabs.map((tab, index) => (
+        {/* Cohort Tabs (left side) */}
+        {cohortTabs.map((tab, index) => (
           <button
             key={index}
             onClick={() => setActiveTab(tab)}
-            className={`relative  text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
+            className={`relative text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 overflow-hidden
               ${activeTab === tab
-                ? ' px-8 py-3 bg-violet-300/10 backdrop-blur-lg text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
-                : ' ml-3 mr-2 mb-2  px-10 py-2 bg-white/40 dark:bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-white/20 dark:supports-[backdrop-filter]:bg-slate-700/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full font-normal'
+                ? ' px-10 py-3 lg:px-8 bg-violet-300/10 backdrop-blur-lg text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
+                : ' ml-3 mr-2 mb-2 px-4 lg:px-10 py-2 bg-white/40 dark:bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-white/20 dark:supports-[backdrop-filter]:bg-slate-700/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full font-normal'
               }
-              ${activeTab === tab && index === tabs.length - 1 ? '' : ''}
-              ${tab === 'Book A Space @ Haas' && activeTab !== tab ? 'cursor-pointer' : ''}
             `}
             style={{
               ...(activeTab === tab && {
                 clipPath: index === 0 
                   ? 'polygon(0% 100%, 0% 0%, calc(100% - 30px) 0%, 100% 100%)'
                   : 'polygon(0% 100%, 30px 0%, calc(100% - 30px) 0%, 100% 100%)',
-                marginRight: index === tabs.length - 1 ? '0' : '-16px',
+                marginRight: index === cohortTabs.length - 1 ? '0' : '-16px',
               }),
               position: 'relative'
             }}
           >
-            <span className="block relative z-10">{tab || ' '}</span>
+            {/* Icon only on small screens */}
+            <span className="lg:hidden block relative z-10">
+              <i className="material-icons text-base">{getTabIcon(tab)}</i>
+            </span>
+            {/* Text only on large screens */}
+            <span className="hidden lg:block relative z-10 truncate">{tab || ' '}</span>
           </button>
         ))}
-        <div className="flex-grow h-px  mt-3"></div>
+        
+        {/* Spacer grows in the middle */}
+        <div className="flex-grow h-px mt-3"></div>
+        
+        {/* Dashboard Tabs (right side) - only on small screens */}
+        <div className="lg:hidden flex items-end">
+          {dashboardTabs.map((tab, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveTab(tab)}
+              className={`relative text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 overflow-hidden
+                ${activeTab === tab
+                  ? ' px-10 py-3 bg-violet-300/10 backdrop-blur-lg text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
+                  : ' ml-3 mr-2 mb-2 px-4 py-2 bg-white/40 dark:bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-white/20 dark:supports-[backdrop-filter]:bg-slate-700/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full font-normal'
+                }
+              `}
+              style={{
+                ...(activeTab === tab && {
+                  clipPath: index === dashboardTabs.length - 1 
+                    ? 'polygon(30px 0%, 100% 0%, 100% 100%, 0% 100%)'  // Rightmost - angled left edge
+                  : 'polygon(0% 100%, 30px 0%, calc(100% - 30px) 0%, 100% 100%)',
+                  marginLeft: index === dashboardTabs.length - 1 ? '-16px' : '0',
+                  marginRight: index === dashboardTabs.length - 1 ? '0' : '-16px',
+                }),
+                position: 'relative'
+              }}
+            >
+              {/* Icon only (always on small screens) */}
+              <span className="block relative z-10">
+                <i className="material-icons text-base">{getTabIcon(tab)}</i>
+              </span>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Content Pane */}
-      <div className="bg-violet-300/10 backdrop-blur-lg p-4 sm:p-6 rounded-r-4xl rounded-b-lg rounded-tr-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%] flex-1 min-h-[600px] overflow-y-auto">
+      <div className="bg-violet-300/10 backdrop-blur-lg sm:rounded-none sm:p-6 rounded-r-4xl rounded-b-lg rounded-tr-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%] flex-1 min-h-[600px] overflow-y-auto">
         {activeTab === 'OskiHub Cal' && (
           <div>
             {/* What's Next Widget - Horizontal Layout (PRESERVED) */}
@@ -118,6 +177,30 @@ export default function MainDashboardTabs({
               </a>
             </div>
            
+          </div>
+        )}
+        
+        {activeTab === 'Updates' && (
+          <div className="w-full">
+            {dashboardData?.newsletterData ? (
+              <NewsletterWidget data={dashboardData.newsletterData} />
+            ) : (
+              <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-200 dark:border-slate-700 text-center">
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-3 animate-pulse">
+                  <span className="text-lg">🔄</span>
+                </div>
+                <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-2">Loading Newsletter</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400">
+                  Fetching latest updates...
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+        
+        {activeTab === 'Slack' && (
+          <div className="w-full">
+            <SlackWidget />
           </div>
         )}
       </div>

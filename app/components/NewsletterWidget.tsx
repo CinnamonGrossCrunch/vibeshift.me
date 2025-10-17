@@ -475,9 +475,9 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
       // Additional pass to remove any remaining problematic list items
       const listItems: string[] = [];
       filteredContent.replace(/<li[^>]*>([\s\S]*?)<\/li>/g, (_liMatch: string, liContent: string) => {
-        // Ultra-strict empty content detection
+        // Ultra-strict empty content detection - check for empty but preserve original HTML
         const ultraCleanContent = liContent
-          .replace(/<[^>]*>/g, '') // Remove all HTML tags
+          .replace(/<[^>]*>/g, '') // Remove all HTML tags FOR CHECKING ONLY
           .replace(/&[a-zA-Z0-9#]+;/g, '') // Remove HTML entities
           .replace(/[\u0000-\u001F\u007F-\u009F]/g, '') // Remove control characters
           .replace(/[\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]/g, '') // Remove all Unicode spaces
@@ -485,6 +485,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
           .replace(/[^\w\s\-\.,!@#$%^&*()+=\[\]{}|\\:";'<>?/~`]/g, '') // Keep only basic printable characters
           .trim();
         
+        // If content is not empty, push the ORIGINAL liMatch with HTML intact
         if (ultraCleanContent && ultraCleanContent.length > 0) {
           listItems.push(_liMatch);
         }
@@ -544,9 +545,9 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
       // Collect only valid list items
       const listItems: string[] = [];
       filteredContent.replace(/<li[^>]*>([\s\S]*?)<\/li>/g, (_liMatch: string, liContent: string) => {
-        // Ultra-strict empty content detection
+        // Ultra-strict empty content detection - check for empty but preserve original HTML
         const ultraCleanContent = liContent
-          .replace(/<[^>]*>/g, '') // Remove all HTML tags
+          .replace(/<[^>]*>/g, '') // Remove all HTML tags FOR CHECKING ONLY
           .replace(/&[a-zA-Z0-9#]+;/g, '') // Remove HTML entities
           .replace(/[\u0000-\u001F\u007F-\u009F]/g, '') // Remove control characters
           .replace(/[\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]/g, '') // Remove all Unicode spaces
@@ -554,6 +555,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
           .replace(/[^\w\s\-\.,!@#$%^&*()+=\[\]{}|\\:";'<>?/~`]/g, '') // Keep only basic printable characters
           .trim();
         
+        // If content is not empty, push the ORIGINAL liContent with HTML intact
         if (ultraCleanContent && ultraCleanContent.length > 0) {
           listItems.push(liContent);
         }
@@ -682,7 +684,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
         .dark .newsletter-content a:hover { color: rgb(252 211 77) !important; }
       `}</style>
       {/* Header */}
-      <div className="rounded-t-3xl pt-2 px-3 pb-2 text-white relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>
+      <div className="rounded-t-xl sm:rounded-none pt-2 px-3 pb-2 text-white relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>
         {/* Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
@@ -693,15 +695,15 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
         <div className="relative z-10 select-none">
           <div className="flex items-start justify-between gap-1 sm:gap-2">
           <div className="flex-1 min-w-0">
-            <div className="flex items-center space-x-1 mb-1">
-              <h2 className="text-2xl sm:text-xl md:text-2xl lg:text-3xl urbanist-black whitespace-nowrap truncate">
+            <div className="flex items-center space-x-1 mb-0">
+              <h2 className="text-xl sm:text-xl md:text-xl lg:text-xl font-semibold urbanist-black whitespace-nowrap truncate">
                 <span style={{ color: 'white' }}>Bear</span>
                 <span className="ml-1" style={{ color: 'var(--berkeley-gold)' }}>Necessities</span>
               </h2>
             </div>
             
             {data.title && (
-              <p className="text-blue-100 text-xs urbanist-medium mb-0 truncate">{data.title}</p>
+              <p className="text-gray-400 text-xs urbanist-medium mb-0 truncate ">So A Bear Can Rest at Ease</p>
             )}
               <a
               className="text-gray-800 dark:text-gray-600 text-xs urbanist-regular transition-colors inline-block mb-0  select-text"
@@ -748,31 +750,28 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                         animationData={animationData}
                         loop={false}
                         autoplay={true}
-                        className="w-12 h-12 mx-auto"
+                        className="w-10 h-10 mx-auto"
                         />
                         </div>
                       ) : (
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto flex items-center justify-center">
+                      <div className="w-8 h-8 sm:w-8 sm:h-8 mx-auto flex items-center justify-center">
                         <span className="text-lg">✓</span>
                       </div>
                     )}
                   </div>
                   {showCaughtUpText && (
                     <div 
-                      className="text-xs px-2 urbanist-medium whitespace-nowrap flex items-center animate-smooth-fade-in" 
-                      style={{ 
-                        color: 'white'
-                      }}
-                    >
-                      You&apos;re All<br />Caught Up!
+                      className="text-xs px-2 text-gray-200 urbanist-medium whitespace-nowrap flex items-center animate-smooth-fade-in" 
+                      >
+                      Rest at Ease
                     </div>
                   )}
                
                 </div>
               ) : (
-                <div className=" rounded-xl sm:rounded-2xl p-1.5 sm:p-2 shadow-lg bg-gradient-to-b from-gray-900/50 to-gray-900/10 text-center" style={{ borderColor: 'var(--berkeley-gold)', boxShadow: '0 -2px 20px 2px rgba(255, 255, 255, 0.2)' }}>
+                <div className=" rounded-xl  p-1.5 sm:p-2 shadow-lg bg-gradient-to-b from-gray-900/50 to-gray-900/10 text-center" style={{ borderColor: 'var(--berkeley-gold)', boxShadow: '0 -2px 20px 2px rgba(255, 255, 255, 0.2)' }}>
                   <div className="text-xs urbanist-light mb-0 whitespace-nowrap" style={{ color: 'var(--berkeley-gold)' }}>Updates<br />To Review</div>
-                  <div className="text-xl sm:text-2xl urbanist-bold whitespace-nowrap" style={{ color: 'var(--berkeley-gold)' }}>
+                  <div className="text-xl sm:text-lg urbanist-bold whitespace-nowrap" style={{ color: 'var(--berkeley-gold)' }}>
                   {unopenedSectionsCount} of {data.sections.length}
                   </div>
                 </div>
@@ -784,7 +783,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
       </div>
 
       {/* Content Sections */}
-      <div className="bg-white dark:bg-slate-800 rounded-b-2xl shadow-xl border border-slate-200 dark:border-slate-700">
+      <div className="bg-white dark:bg-slate-800 rounded-b-xl shadow-xl overflow-hidden">
         {data.sections.map((sec, idx) => {
           const id = `${idx}-${sec.sectionTitle}`;
           const isOpen = !!open[id];
@@ -808,16 +807,16 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                   // Also close all item dropdowns when switching sections
                   setItemOpen({});
                 }}
-                className={`section-button w-full text-left px-2.5 py-2 bg-gradient-to-r from-slate-50 to-blue-50 hover:from-blue-50 hover:to-amber-50 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 transition-all duration-300 ease-in-out flex items-center justify-between group`}
+                className={`section-button w-full text-left px-2.5 py-1 bg-gradient-to-r from-slate-50 to-blue-50 hover:from-blue-50 hover:to-amber-50 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 transition-all duration-300 ease-in-out flex items-center justify-between group`}
               >
                 <div className="flex items-center space-x-3">
                   {allItemsInSectionVisited(idx) ? (
                     <div className="w-3 h-3 bg-green-500 rounded-full border-2 border-green-300 shadow-lg shadow-green-500/30 mr-2"></div>
                   ) : (
-                    <div className="w-3 h-3 rounded-full border-2 border-yellow-300 shadow-lg animate-pulse mr-2" style={{ backgroundColor: 'var(--berkeley-gold)', boxShadow: '0 10px 15px -3px rgba(251, 181, 21, 0.4)' }}></div>
+                    <div className="w-3 h-3 rounded-full border-2 border-violet-300 shadow-lg animate-pulse mr-2" style={{ backgroundColor: 'rgb(139, 92, 246)', boxShadow: '0 10px 15px -3px rgba(139, 92, 246, 0.4)' }}></div>
                   )}
-                  <h3 className="text-sm urbanist-semibold text-slate-900 dark:text-white transition-colors group-hover:transition-colors" 
-                      onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'var(--berkeley-gold)'}
+                    <h3 className="text-sm urbanist-semibold text-slate-900 dark:text-white transition-colors group-hover:transition-colors" 
+                      onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'rgb(139, 92, 246)'}
                       onMouseLeave={(e) => (e.target as HTMLElement).style.color = ''}>
                     {sec.sectionTitle}
                   </h3>
@@ -859,7 +858,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
               >
                 <div className="expandable-content">
                   <div className={`border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 ${idx === data.sections.length - 1 ? 'rounded-b-2xl' : ''}`}>
-                    <div className={`px-1 py-3 ${idx === data.sections.length - 1 ? 'pb-6 rounded-b-2xl' : ''}`}>
+                    <div className={`px-1 py-1  ${idx === data.sections.length - 1 ? 'pb-6 rounded-b-2xl' : ''}`}>
                       {createSubsections(sec.items).map((subsection, j) => {
                         const itemKey = `${idx}-${j}`;
                         const itemId = `${id}-item-${j}`;
@@ -869,7 +868,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                         return (
                           <div key={itemId} className="relative">
                             {/* Subsection container */}
-                            <div className="ml-2 text-sm border border-slate-200 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700/50 shadow-sm">
+                            <div className="ml-2 mb-0.5 text-sm rounded-lg bg-white dark:bg-slate-700/50 shadow-sm">
                               <button
                                 onClick={() => {
                                   // Auto-collapse: close all other items in this section
@@ -883,12 +882,12 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                                   }
                                   setItemOpen(newItemOpen);
                                 }}
-                                className="item-button w-full text-left px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-600/50 transition-all duration-300 ease-in-out flex items-center justify-between group rounded-lg"
+                                className="item-button w-full  text-left px-2 py-1 hover:bg-slate-50 dark:hover:bg-slate-600/50 transition-all duration-300 ease-in-out flex items-center justify-between group rounded-lg"
                               >
-                                <div className="flex items-center space-x-3">
+                                <div className="flex items-center space-x-2 truncate">
                                   {/* Pulsing yellow/green indicator only */}
                                   <div 
-                                    className="flex-shrink-0 cursor-pointer transition-all duration-300"
+                                    className="flex-shrink-0  cursor-pointer transition-all duration-300"
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       if (!isItemVisited) {
@@ -905,8 +904,9 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                                            onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = 'var(--berkeley-gold)'}></div>
                                     )}
                                   </div>
-                                  
-                                  <h4 className="text-sm urbanist-medium text-slate-800 dark:text-slate-200 transition-colors"
+
+                                  <h4 className="text-xs urbanist-medium text-slate-800 dark:text-slate-200 transition-colors truncate overflow-hidden"
+                                      style={{ textOverflow: 'ellipsis' }}
                                       onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'var(--berkeley-gold)'}
                                       onMouseLeave={(e) => (e.target as HTMLElement).style.color = ''}>
                                     {subsection.title}
@@ -920,8 +920,8 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                                 }`}
                               >
                                 <div className="expandable-content">
-                                  <div className="border-t border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 rounded-b-lg">
-                                    <div className="px-6 py-4 cursor-pointer"
+                                  <div className="border-t  border-slate-200 dark:border-slate-600 bg-slate-900 rounded-b-lg">
+                                    <div className="px-3 py-0.5 cursor-pointer"
                                       onClick={() => {
                                         if (!isItemVisited) {
                                           setItemVisited(new Set([...itemVisited, itemKey]));
@@ -931,7 +931,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                                       {/* Content with enhanced visual hierarchy */}
                                       <div>
                                         <div
-                                          className="newsletter-content text-sm urbanist-regular text-slate-700 dark:text-slate-300"
+                                          className="newsletter-content  urbanist-regular text-slate-700 dark:text-slate-300"
                                           dangerouslySetInnerHTML={{ __html: addSmartBullets(subsection.content) }}
                                         />
                                       </div>
@@ -1023,7 +1023,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
         */}
         
         {/* Copyright Footer */}
-        <div className="border-t border-slate-200 dark:border-slate-700 py-2 px-4 rounded-b-2xl relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>
+        <div className="border-t border-slate-200 dark:border-slate-700 py-1 px-4 rounded-b-xl relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>
         
           
           {/* Content Overlay */}
