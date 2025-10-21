@@ -2,6 +2,8 @@
 export const runtime = 'nodejs';
 // Cache on the server for some time to reduce upstream load
 export const revalidate = 3600;
+// Force dynamic rendering - don't try to prerender during build
+export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
 import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
@@ -18,7 +20,7 @@ const safeLog = (...args: unknown[]) => {
 
 const safeError = (...args: unknown[]) => {
   // Always log errors, but ensure they don't leak into response
-  if (typeof process !== 'undefined' && process.stderr) {
+  if (process.env.NODE_ENV === 'development') {
     console.error(...args);
   }
 };

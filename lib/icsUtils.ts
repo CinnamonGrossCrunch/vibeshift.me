@@ -11,7 +11,7 @@ const safeLog = (...args: unknown[]) => {
 };
 
 const safeError = (...args: unknown[]) => {
-  if (typeof process !== 'undefined' && process.stderr) {
+  if (process.env.NODE_ENV === 'development') {
     console.error(...args);
   }
 };
