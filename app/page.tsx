@@ -187,7 +187,7 @@ export default function Home() {
           style={{ scrollbarGutter: 'stable both-edges' }}>
         {/* Header */}
         <div className={getPerformanceClasses(
-          `w-full sticky top-0 z-30 bg-black/10 backdrop-blur-lg relative overflow-hidden py-1 mb-0`,
+          `w-full sticky top-0 z-30 bg-black/10 border-b border-slate-700 backdrop-blur-lg relative overflow-hidden py-1 mb-0`,
           capabilities
         )}>
           {/* Animated black overlay - z-index 20 (middle layer) */}
@@ -243,7 +243,7 @@ export default function Home() {
         </div> {/* Close Header */}
         
       {/* Main Content */}
-      <main className="max-w-[90rem] mx-auto px-3 sm:px-0 lg:px-1 py-0 relative">
+      <main className="max-w-[90rem] mx-auto px-3  sm:px-0 lg:px-1 py-0 relative">
         {/* Current Time Debug Display */}
         {/* <CurrentTimeDisplay /> */}
       

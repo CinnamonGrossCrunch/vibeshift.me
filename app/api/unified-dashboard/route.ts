@@ -1,9 +1,7 @@
 // Node runtime required for OpenAI and cheerio
 export const runtime = 'nodejs';
-// Cache on the server for some time to reduce upstream load
+// Use ISR with 1 hour revalidation - caches response but rebuilds every hour
 export const revalidate = 3600;
-// Force dynamic rendering - don't try to prerender during build
-export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
 import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
@@ -217,7 +215,12 @@ export async function GET() {
       // @ts-expect-error augment for debug
       response.myWeekData.aiMeta = (myWeekData as CohortMyWeekAnalysis).aiMeta;
     
-    return NextResponse.json(response, { status: 200 });
+    return NextResponse.json(response, { 
+      status: 200,
+      headers: {
+        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+      }
+    });
     
   } catch (error) {
     safeError('💥 Unified Dashboard API Error:', error);

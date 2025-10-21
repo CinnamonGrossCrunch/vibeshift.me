@@ -308,7 +308,7 @@ export default function MonthGrid({
                   {/* Quiz indicator above course name */}
                   {eventHasQuiz && (
                     <div className="mb-0.5">
-                      <span className="font-bold text-red-500 text-[9px] px-1 bg-red-900/30 rounded whitespace-nowrap inline-block">
+                      <span className="font-bold text-white text-[9px] px-1 bg-red-600  rounded whitespace-nowrap ">
                         QUIZ
                       </span>
                     </div>
