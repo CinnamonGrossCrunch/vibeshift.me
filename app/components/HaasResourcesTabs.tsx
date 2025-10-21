@@ -41,7 +41,7 @@ export default function HaasResourcesTabs({ resourcesData, title }: Props) {
         {/* Collapse All Button */}
         <button
           onClick={toggleAll}
-          className="text-xs font-medium hover:opacity-80 transition-opacity text-slate-600 dark:text-slate-400"
+          className="text-xs font-medium hover:opacity-80 transition-opacity text-slate-400"
         >
           {expandedCategories.size > 0 ? 'Collapse All' : 'Collapse All'}
         </button>
@@ -54,10 +54,10 @@ export default function HaasResourcesTabs({ resourcesData, title }: Props) {
             const isFirst = index === 0;
             const isLast = index === Object.entries(resourcesData.categories).length - 1;
             return (
-            <div key={categoryKey} className={`border border-slate-100/50 dark:border-slate-500/10 bg-glass  hover:from-blue-50 hover:to-amber-50  dark:hover:from-slate-700 dark:hover:to-slate-600 overflow-hidden ${isFirst ? 'rounded-t-2xl' : ''} ${isLast ? 'rounded-b-2xl' : ''}`}>
+            <div key={categoryKey} className={`border border-slate-500/10  hover:from-slate-700 hover:to-slate-600 overflow-hidden ${isFirst ? 'rounded-t-2xl' : ''} ${isLast ? 'rounded-b-2xl' : ''}`}>
               <button
                 onClick={() => toggleCategory(categoryKey)}
-                className="w-full flex items-center justify-between py-1 px-3  hover:from-blue-50 hover:to-amber-50 dark:hover:from-slate-700 dark:hover:to-slate-600 transition-all duration-300 ease-in-out"
+                className="w-full flex items-center justify-between py-1 px-3 hover:from-slate-700 hover:to-slate-600 transition-all duration-300 ease-in-out"
               >
                 <div className="flex items-center gap-3">
                   <div className="text-left">
@@ -112,7 +112,7 @@ export default function HaasResourcesTabs({ resourcesData, title }: Props) {
                               </svg>
                             </a>
                           ) : (
-                            <span className="text-slate-700 dark:text-slate-300">{item.text}</span>
+                            <span className="text-slate-300">{item.text}</span>
                           )}
                         </li>
                       ))}

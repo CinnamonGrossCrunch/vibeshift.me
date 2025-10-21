@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from "next/image";
 import CalendarListView from "./CalendarListView";
 import CohortCalendarWidget from "./CohortCalendarWidget";
@@ -25,6 +25,26 @@ export default function MainDashboardTabs({
   const [activeTab, setActiveTab] = useState('OskiHub Cal');
   const cohortTabs = ['OskiHub Cal', 'Book A Space @ Haas'];
   const dashboardTabs = ['Slack', 'Updates'];
+
+  // Reset to first cohort tab when screen size changes and active tab is not available
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const isLargeScreen = window.matchMedia('(min-width: 1024px)').matches;
+      
+      // If we're on a large screen and the active tab is one of the dashboard tabs (Slack/Updates)
+      // that are hidden on large screens, switch back to the first cohort tab
+      if (isLargeScreen && dashboardTabs.includes(activeTab)) {
+        setActiveTab('OskiHub Cal');
+      }
+    };
+    
+    // Check on mount
+    checkScreenSize();
+    
+    // Listen for window resize
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, [activeTab, dashboardTabs]);
 
   // Helper function to get icon for each tab
   const getTabIcon = (tab: string) => {
@@ -51,10 +71,10 @@ export default function MainDashboardTabs({
           <button
             key={index}
             onClick={() => setActiveTab(tab)}
-            className={`relative text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 overflow-hidden
+            className={`relative  transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 overflow-hidden
               ${activeTab === tab
-                ? ' px-10 py-3 lg:px-8 bg-violet-300/10 backdrop-blur-lg text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
-                : ' ml-3 mr-2 mb-2 px-4 lg:px-10 py-2 bg-white/40 dark:bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-white/20 dark:supports-[backdrop-filter]:bg-slate-700/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full font-normal'
+                ? ' text-center text-md px-10 py-3 lg:px-8 bg-violet-300/10 backdrop-blur-lg text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
+                : ' text-center text-sm ml-3 mr-4 mb-2 px-5 lg:px-10 py-2 tab-inactive backdrop-blur-md text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full font-normal'
               }
             `}
             style={{
@@ -68,8 +88,8 @@ export default function MainDashboardTabs({
             }}
           >
             {/* Icon only on small screens */}
-            <span className="lg:hidden block relative z-10">
-              <i className="material-icons text-base">{getTabIcon(tab)}</i>
+            <span className="lg:hidden flex items-end justify-center relative z-10 h-full pb-1">
+              <i className={`material-icons ${activeTab === tab ? 'text-xl' : 'text-base'}`}>{getTabIcon(tab)}</i>
             </span>
             {/* Text only on large screens */}
             <span className="hidden lg:block relative z-10 truncate">{tab || ' '}</span>
@@ -85,10 +105,10 @@ export default function MainDashboardTabs({
             <button
               key={index}
               onClick={() => setActiveTab(tab)}
-              className={`relative text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 overflow-hidden
+              className={`relative transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 overflow-hidden
                 ${activeTab === tab
-                  ? ' px-10 py-3 bg-violet-300/10 backdrop-blur-lg text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
-                  : ' ml-3 mr-2 mb-2 px-4 py-2 bg-white/40 dark:bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-white/20 dark:supports-[backdrop-filter]:bg-slate-700/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full font-normal'
+                  ? 'text-center px-10 text-md py-3 bg-violet-300/10 backdrop-blur-lg text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
+                  : ' text-center ml-4 text-sm mr-3 mb-2 px-5 py-2 tab-inactive backdrop-blur-md text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full font-normal'
                 }
               `}
               style={{
@@ -103,8 +123,8 @@ export default function MainDashboardTabs({
               }}
             >
               {/* Icon only (always on small screens) */}
-              <span className="block relative z-10">
-                <i className="material-icons text-base">{getTabIcon(tab)}</i>
+              <span className="flex items-end justify-center relative z-10 h-full pb-1">
+                <i className={`material-icons ${activeTab === tab ? 'text-xl' : 'text-base'}`}>{getTabIcon(tab)}</i>
               </span>
             </button>
           ))}
@@ -112,7 +132,11 @@ export default function MainDashboardTabs({
       </div>
 
       {/* Content Pane */}
-      <div className="bg-violet-300/10 backdrop-blur-lg sm:rounded-none sm:p-6 rounded-r-4xl rounded-b-lg rounded-tr-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%] flex-1 min-h-[600px] overflow-y-auto">
+      <div className={`bg-violet-300/10 backdrop-blur-lg rounded-b-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%] flex-1 min-h-[600px] overflow-y-auto p-4 sm:p-6
+        ${activeTab === 'OskiHub Cal' ? 'rounded-tr-3xl lg:rounded-r-3xl' : ''}
+        ${activeTab === 'Updates' ? 'rounded-tl-3xl lg:rounded-r-3xl' : ''}
+        ${activeTab === 'Book A Space @ Haas' || activeTab === 'Slack' ? 'rounded-t-3xl lg:rounded-r-3xl' : ''}
+      `}>
         {activeTab === 'OskiHub Cal' && (
           <div>
             {/* What's Next Widget - Horizontal Layout (PRESERVED) */}
@@ -154,24 +178,28 @@ export default function MainDashboardTabs({
                   alt="EMS Space Booking System" 
                   width={900}
                   height={600}
-                  className="opacity-80 max-w-4xl w-full h-auto rounded-4xl shadow-lg transition-all duration-300 group-hover:opacity-80"
+                  className="opacity-80 max-w-xl w-full h-auto rounded-2xl shadow-lg transition-all duration-300 group-hover:opacity-80"
                   style={{
-                    border: '2px dashed #FDB515',
-                    boxShadow: '0 0 20px rgba(253, 181, 21, 0.3), 0 0 40px rgba(253, 181, 21, 0.2), 0 0 60px rgba(253, 181, 21, 0.1)'
+                    border: '1px dashed #ffffffff',
+                    boxShadow: '0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(255, 255, 255, 0.2), 0 0 60px rgba(255, 255, 255, 0.1)'
                   }}
                 />
                 {/* Hover overlay - positioned above image */}
-                <div className="absolute inset-0 bg-blue-800/80 opacity-0 group-hover:opacity-100 transition-all duration-150 rounded-4xl flex items-center justify-center z-10">
+                <div className="absolute inset-0 bg-blue-800/80 opacity-0 group-hover:opacity-100 transition-all duration-150 rounded-2xl flex items-center justify-center z-10">
                   <div className="text-white text-center px-6">
-                    <p className="text-4xl font-light urbanist-light drop-shadow-lg">Login to<br />Haas EMS<br />through CalNet</p>
+                    <p className="text-4xl font-light urbanist-light drop-shadow-lg">
+                            <i className="material-icons w-8 align-middle ml-2">open_in_new</i> <br></br>
+                      Login to<br />Haas EMS<br />through CalNet
+                  
+                    </p>
                   </div>
                 </div>
                 {/* Hover border effect overlay */}
                 <div 
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-4xl pointer-events-none z-20"
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl pointer-events-none z-20"
                   style={{
                     border: '4px dashed #003262',
-                    boxShadow: '0 0 20px rgba(0, 50, 98, 0.5), 0 0 40px rgba(0, 50, 98, 0.3), 0 0 60px rgba(0, 50, 98, 0.2)'
+                    boxShadow: '0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)'
                   }}
                 />
               </a>
@@ -185,12 +213,12 @@ export default function MainDashboardTabs({
             {dashboardData?.newsletterData ? (
               <NewsletterWidget data={dashboardData.newsletterData} />
             ) : (
-              <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-200 dark:border-slate-700 text-center">
-                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-3 animate-pulse">
+              <div className="bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-700 text-center">
+                <div className="w-12 h-12 bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-3 animate-pulse">
                   <span className="text-lg">🔄</span>
                 </div>
-                <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-2">Loading Newsletter</h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+                <h3 className="text-base font-semibold text-white mb-2">Loading Newsletter</h3>
+                <p className="text-sm text-slate-400">
                   Fetching latest updates...
                 </p>
               </div>

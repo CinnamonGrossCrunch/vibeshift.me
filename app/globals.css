@@ -3,6 +3,35 @@
 
 /* Fonts are now loaded via next/font in layout.tsx - removed @import urls */
 
+/* ============================================================================
+   DESIGN TOKENS - Surface & Text Colors
+   ============================================================================ */
+:root {
+  /* Light mode tokens */
+  --surface-0: #ffffff;
+  --surface-1: #f8fafc;
+  --surface-2: #f1f5f9;
+  --text-1: #0f172a;
+  --text-2: #334155;
+  --border-1: #e2e8f0;
+  
+  /* Berkeley brand colors */
+  --berkeley-blue: #003262;
+  --berkeley-gold: #FDB515;
+}
+
+:root.dark,
+:root[data-theme="dark"],
+html.dark {
+  /* Dark mode tokens */
+  --surface-0: #0b0b0c;   /* page bg */
+  --surface-1: #121214;   /* cards */
+  --surface-2: #18181b;   /* nested cards / dropdowns */
+  --text-1: #e9eaec;      /* headings */
+  --text-2: #c7c9cf;      /* body text */
+  --border-1: #2a2a2d;    /* borders */
+}
+
 /* Force dark mode globally - multiple enforcement strategies */
 html,
 html[data-theme],
@@ -87,6 +116,23 @@ body {
   font-weight: 300 !important;
 }
 
+/* Custom Tab Styles */
+.tab-inactive {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.dark .tab-inactive {
+  background-color: rgba(63, 34, 72, 0.09); /* Change this color - default: slate-700/60 */
+  border: 2px solid rgba(155, 155, 155, 0.096);
+  box-shadow: inset 0 2px 4px 0 rgba(59, 126, 161, 0.3), inset 0 1px 2px 0 rgba(59, 126, 161, 0.4);
+}
+
+.oski-shadow
+{
+  background-color: rgba(63, 34, 72, 0.09); /* Change this color - default: slate-700/60 */
+  border: 2px solid rgba(155, 155, 155, 0.096);
+  box-shadow: inset 0 2px 4px 0 rgba(59, 126, 161, 0.3), inset 0 1px 2px 0 rgba(59, 126, 161, 0.4);
+}
 /* Custom scale utilities */
 .scale-100 {
   transform: scale(1) !important;

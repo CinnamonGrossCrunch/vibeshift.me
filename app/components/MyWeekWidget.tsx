@@ -212,22 +212,22 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
     // High priority items get stronger colors
     if (priority === 'high') {
       switch (type) {
-        case 'assignment': return 'bg-red-100 dark:bg-red-900/30 border-red-300 dark:border-red-700';
-        case 'exam': return 'bg-orange-100 dark:bg-orange-900/30 border-orange-300 dark:border-orange-700';
-        default: return 'bg-red-100 dark:bg-red-900/30 border-red-300 dark:border-red-700';
+        case 'assignment': return 'bg-red-900/40 border border-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-300/50';
+        case 'exam': return 'bg-orange-900/40 border border-orange-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-orange-300/50';
+        default: return 'bg-red-900/40 border border-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-300/50';
       }
     }
     
     // Regular colors for medium/low priority
     switch (type) {
-      case 'assignment': return 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800';
-      case 'class': return 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800';
-      case 'exam': return 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800';
-      case 'administrative': return 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800';
-      case 'social': return 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800';
-      case 'newsletter': return 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700';
-      case 'other': return 'bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700';
-      default: return 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700';
+      case 'assignment': return 'bg-amber-900/40 border border-amber-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-amber-300/50';
+      case 'class': return 'bg-blue-900/40 border border-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-300/50';
+      case 'exam': return 'bg-orange-900/40 border border-orange-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-orange-300/50';
+      case 'administrative': return 'bg-purple-900/40 border border-purple-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-purple-300/50';
+      case 'social': return 'bg-green-900/40 border border-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-green-300/50';
+      case 'newsletter': return 'bg-slate-800 border border-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-300/50';
+      case 'other': return 'bg-gray-800 border border-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gray-300/50';
+      default: return 'bg-slate-800 border border-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-300/50';
     }
   };
 
@@ -244,10 +244,10 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
     return (
       <div className="p-6 ">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">My Week</h3>
+          <h3 className="text-lg font-semibold text-white">My Week</h3>
           <div className="w-4 h-4 border-2 border-slate-300 border-t-berkeley-blue rounded-full animate-spin"></div>
         </div>
-        <p className="text-sm text-slate-600 dark:text-slate-400">Analyzing your week...</p>
+        <p className="text-sm text-slate-400">Analyzing your week...</p>
       </div>
     );
   }
@@ -255,11 +255,11 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
   if (error) {
     return (
       <div className="p-6 ">
-        <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
+        <div className="w-12 h-12 bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
           <span className="text-lg">⚠️</span>
         </div>
-        <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-2 text-center">Unable to Load Week</h3>
-        <p className="text-sm text-slate-600 dark:text-slate-400 text-center">{error}</p>
+        <h3 className="text-base font-semibold text-white mb-2 text-center">Unable to Load Week</h3>
+        <p className="text-sm text-slate-400 text-center">{error}</p>
       </div>
     );
   }
@@ -274,11 +274,11 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
   if (!weekData || !currentEvents?.length) {
     return (
       <div className="p-6 ">
-        <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
+        <div className="w-12 h-12 bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
           <span className="text-lg">📅</span>
         </div>
-        <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-2 text-center">My Week - {selectedCohort.charAt(0).toUpperCase() + selectedCohort.slice(1)} Cohort</h3>
-        <p className="text-sm text-slate-600 dark:text-slate-400 text-center">No events found for the {selectedCohort} cohort this week.</p>
+        <h3 className="text-base font-semibold text-white mb-2 text-center">My Week - {selectedCohort.charAt(0).toUpperCase() + selectedCohort.slice(1)} Cohort</h3>
+        <p className="text-sm text-slate-400 text-center">No events found for the {selectedCohort} cohort this week.</p>
       </div>
     );
   }
@@ -300,10 +300,10 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
         {/* Left Column: Current Date */}
 
         <div className="text-start mt-0 shrink-0 overflow-hidden min-w-0">
-          <div className="text-2xl font-extralight text-slate-600 dark:text-slate-400 mt-0 px-2 mb-1">
+          <div className="text-2xl font-extralight text-slate-400 mt-0 px-2 mb-1">
             My Week
           </div>
-                <div className="text-5xl mx-2 font-medium text-slate-900 dark:text-white">
+                <div className="text-5xl mx-2 font-medium text-white">
                 {new Date().toLocaleDateString('en-US', { month: 'short' })}{' '}
                 <span className="text-white/60">{new Date().toLocaleDateString('en-US', { day: 'numeric' })}</span>
                 </div>
@@ -316,7 +316,7 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
             <div className="flex items-start backdrop-blur-md bg-turbulence gap-3 rounded-2xl p-1 mb-1">
               <div className="w-1 h-full rounded-full min-h-[60px] mt-0"></div>
               <div className=" rounded-2xl">
-                <p className="text-md font-medium text-slate-700 dark:text-slate-300 leading-loose">
+                <p className="text-md font-medium text-slate-300 leading-loose">
                   {currentSummary}
                 </p>
               </div>
@@ -330,7 +330,7 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
               .map(([date, events]) => (
                 <div key={date} className="flex ml-0 rounded-lg bg-glass bg-turbulence items-center gap-1 mb-1">
                   {/* Date Header */}
-                  <div className="text-center text-sm font-semibold text-slate-900 dark:text-white px-2 shrink-0">
+                  <div className="text-center text-sm font-semibold text-slate-100 px-2 shrink-0">
                     {formatDate(date)}
                   </div>
                   
@@ -339,18 +339,18 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
                     {events.map((event, index) => (
                       <div 
                         key={index} 
-                        className={`flex-0 items-center space-x-2 rounded-lg px-2 py-0.5 group cursor-pointer hover:opacity-80 transition-all ${getEventColor(event.type, event.priority)}`}
+                        className={`flex-0 items-center space-x-2 rounded-lg px-2 py-0.5 group cursor-pointer hover:opacity-80 hover:brightness-110 transition-all ${getEventColor(event.type, event.priority)}`}
                         onClick={(e) => handleEventClick(e, event.title)}
                       >
                         {/* Event Content */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-baseline space-x-2">
-                            <h4 className={`text-xs font-light group-hover:opacity-80 transition-opacity truncate`}>
+                            <h4 className={`text-xs font-light text-slate-100 group-hover:opacity-80 transition-opacity truncate`}>
                               {event.title}
                             </h4>
 
                             {/* Time and Location */}
-                            {/* <div className="flex items-baseline space-x-2 text-xs text-slate-600 dark:text-slate-400">
+                            {/* <div className="flex items-baseline space-x-2 text-xs text-slate-400">
                               {event.time && (
                                 <span>{event.time}</span>
                               )}

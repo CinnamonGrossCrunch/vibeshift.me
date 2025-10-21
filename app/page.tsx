@@ -40,6 +40,9 @@ export default function Home() {
   // New unified dashboard data for the top-level MyWeekWidget and DashboardTabs2
   const [unifiedData, setUnifiedData] = useState<UnifiedDashboardData | null>(null);
   // Remove unused unifiedLoading variable since we use loading instead
+  
+  // Dynamic layout state - track if DashboardTabs2 is taller than MainDashboardTabs
+  const [isDash2Taller, setIsDash2Taller] = useState(false);
 
   // Load cohort preference from localStorage on mount, but default to blue
   useEffect(() => {
@@ -120,23 +123,49 @@ export default function Home() {
     setSelectedCohort(cohort);
   };
   
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-amber-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative">
-      {/* Background Image */}
-      <div 
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat opacity-80"
-        style={{ 
-          backgroundImage: "url('/haas bkg 2.png')",
-          backgroundAttachment: 'fixed',
-          backgroundSize: 'cover'
-        }}
-      ></div>
+  // Check heights after data loads and on resize
+  useEffect(() => {
+    const checkHeights = () => {
+      const mainDash = document.getElementById('main-dashboard-tabs');
+      const dash2 = document.getElementById('dashboard-tabs-2');
       
-      {/* Animated logo - z-index 100 (highest layer) - fixed positioning outside header stacking context */}
-      <div className="fixed top-0 left-0 z-[100] pointer-events-none" style={{ paddingTop: 'max(0.5rem, 0.5rem)', paddingLeft: 'max(0.75rem, calc((100vw - 80rem) / 2 + 0.75rem + 0.25rem))' }}>
-        <div className="rounded-lg opacity-100 overflow-visible flex items-center justify-center filter brightness-100 transition-all h-8 sm:h-10 md:h-14">
-          {/* Logo placeholder to prevent layout shift */}
-          <div className="h-8 sm:h-10 md:h-14 w-[120px] pointer-events-auto">
+      if (mainDash && dash2) {
+        const mainHeight = mainDash.offsetHeight;
+        const dash2Height = dash2.offsetHeight;
+        // Only consider Dash2 "taller" if it exceeds MainDash by more than 10px (buffer for rounding)
+        setIsDash2Taller(dash2Height > mainHeight + 10);
+      }
+    };
+    
+    // Check on mount and when data changes
+    if (!loading) {
+      // Multiple delays to catch content as it renders
+      setTimeout(checkHeights, 100);
+      setTimeout(checkHeights, 500);
+      setTimeout(checkHeights, 1000);
+      setTimeout(checkHeights, 2000);
+    }
+    
+    // Check on window resize
+    window.addEventListener('resize', checkHeights);
+    return () => window.removeEventListener('resize', checkHeights);
+  }, [loading, unifiedData]);
+  
+  return (
+    <div className="relative z-0 min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      {/* Background Image Layer */}
+      <div className="fixed inset-0 -z-10 pointer-events-none bg-[url('/haas_bkg_2.png')] bg-cover bg-center bg-no-repeat bg-fixed"></div>
+      
+      {/* Dark Overlay - Fallback for browsers without mix-blend support */}
+      <div className="fixed inset-0 -z-10 pointer-events-none bg-black/50 supports-[mix-blend-mode:multiply]:hidden"></div>
+      
+      {/* Dark Overlay - Gradient blend for browsers with support */}
+      <div className="fixed inset-0 -z-10 pointer-events-none bg-gradient-to-b from-black/60 via-black/50 to-black/60 mix-blend-multiply hidden supports-[mix-blend-mode:multiply]:block"></div>
+      
+      {/* Animated logo - z-index 100 (highest layer) - anchored to top with max-w-[90rem] alignment */}
+      <div className="fixed top-0 left-0 right-0 z-[100] pointer-events-none">
+        <div className="max-w-[90rem] mx-auto px-3 sm:px-4 lg:px-6 py-2">
+          <div className="h-8 sm:h-14 md:h-14 w-[120px] pointer-events-auto">
             {showLogo && (
               <AnimatedLogo
                 videoSrc="/oskihub_anim.mp4"
@@ -144,7 +173,7 @@ export default function Home() {
                 alt="OskiHub Logo"
                 width={120}
                 height={56}
-                className="h-8 sm:h-10 md:h-14 w-auto object-contain"
+                className="h-8 sm:h-14 md:h-14 w-auto object-contain"
                 playOnce={true}
               />
             )}
@@ -153,7 +182,9 @@ export default function Home() {
       </div>
 
       {/* Content Overlay */}
-      <div className="fixed inset-0 z-50 overflow-auto">
+      <div
+          className="fixed inset-0 z-50 overflow-auto"
+          style={{ scrollbarGutter: 'stable both-edges' }}>
         {/* Header */}
         <div className={getPerformanceClasses(
           `w-full sticky top-0 z-30 bg-black/10 backdrop-blur-lg relative overflow-hidden py-1 mb-0`,
@@ -170,18 +201,19 @@ export default function Home() {
         {/* Loading spinner - centered on page */}
         {loading && (
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
-            <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-2 border-t-violet-900/50 border-r-violet-900/50 border-b-violet-900/50 border-l-slate-900/50 rounded-full animate-spin [animation-duration:.5s]"></div>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-10 md:h-10 border-2 border-t-violet-900/50 border-r-violet-900/50 border-b-violet-900/50 border-l-slate-900/50 rounded-full animate-spin [animation-duration:.5s]"></div>
           </div>
         )}
-        
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-2 relative z-10">
-          <div className="flex items-center h-10 sm:h-11 md:h-12">
+
+        <div className="max-w-[90rem] mx-auto px-3 sm:px-4 lg:px-6 py-2 relative z-10">
+          <div className="flex items-center h-10 sm:h-12 md:h-12">
             {/* Left section - Logos */}
             <div className="flex-1 flex items-center gap-1 sm:gap-2 h-full px-1">
           
               {/* Spacer to reserve space for absolutely positioned logo */}
               <div className="w-[120px] h-full"></div>
-           <div className="flex-1 flex items-left justify-start h-full px-0">
+           {/* Beta Badge - Hidden for now */}
+           {/* <div className="flex-1 flex items-left justify-start h-full px-0">
               <div className="relative rounded-lg px-0 sm:px-3 md:px-4 overflow-hidden flex items-center justify-center h-full">
           <Image 
             src="/Beta.svg" 
@@ -192,14 +224,14 @@ export default function Home() {
             className="h-4 sm:h-5 md:h-7 w-auto mx-0 opacity-100 object-contain hover:invert filter brightness-20 hover:brightness-0 transition-all cursor-pointer"
           /> 
               </div>
-            </div>
+            </div> */}
             
             {/* Center section */}
             
+            </div> {/* Close Left section */}
+            
             {/* Right section - Cohort Toggle */}
-        
-            </div>
-               <div className="flex-1 flex items-center justify-end h-full px-1">
+            <div className="flex-1 flex items-center justify-end h-full px-1">
               <CohortToggleWidget 
           selectedCohort={selectedCohort}
           onCohortChange={handleCohortChange}
@@ -208,11 +240,10 @@ export default function Home() {
             </div>
           </div>
         </div>
+        </div> {/* Close Header */}
         
-            </div>
-
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-3 sm:px-1 lg:px-3 py-0 relative">
+      <main className="max-w-[90rem] mx-auto px-3 sm:px-0 lg:px-1 py-0 relative">
         {/* Current Time Debug Display */}
         {/* <CurrentTimeDisplay /> */}
       
@@ -222,7 +253,7 @@ export default function Home() {
             style={{ opacity: overlayOpacity / 100 }}
           />
         {/* Section A: Haas Journey (Full Width Row) */}
-        <div className="mb-0  border-b border-slate-200 dark:border-slate-700 ">
+        <div className="mb-0 border-b border-slate-700">
           <HaasJourneyWidget />
         </div>
       
@@ -254,37 +285,45 @@ export default function Home() {
         </div>
         
         {/* Section C: Dashboard Tabs */}
-        <div className="grid grid-cols-1 lg:grid-cols-8 gap-1 mt-4 mb-6">
-          {/* MainDashboardTabs - Columns 1-5 */}
-          <div className="lg:col-span-6">
-            <MainDashboardTabs 
-              cohortEvents={{
-                blue: unifiedData?.cohortEvents?.blue || cohortEvents?.blue || [],
-                gold: unifiedData?.cohortEvents?.gold || cohortEvents?.gold || [],
-                original: unifiedData?.cohortEvents?.original || cohortEvents?.original || [],
-                launch: unifiedData?.cohortEvents?.launch || cohortEvents?.launch || [],
-                calBears: unifiedData?.cohortEvents?.calBears || cohortEvents?.calBears || [],
-                campusGroups: unifiedData?.cohortEvents?.campusGroups || cohortEvents?.campusGroups || []
-              }}
-              selectedCohort={selectedCohort}
-              dashboardData={unifiedData}
-            />
+        <div className="grid grid-cols-1 lg:grid-cols-8 lg:auto-rows-min gap-1 mt-4 mb-6">
+          {/* Left Column: MainDashboardTabs - Always 6 columns on large screens */}
+          <div className="lg:col-span-6 lg:row-span-1">
+            <div id="main-dashboard-tabs">
+              <MainDashboardTabs 
+                cohortEvents={{
+                  blue: unifiedData?.cohortEvents?.blue || cohortEvents?.blue || [],
+                  gold: unifiedData?.cohortEvents?.gold || cohortEvents?.gold || [],
+                  original: unifiedData?.cohortEvents?.original || cohortEvents?.original || [],
+                  launch: unifiedData?.cohortEvents?.launch || cohortEvents?.launch || [],
+                  calBears: unifiedData?.cohortEvents?.calBears || cohortEvents?.calBears || [],
+                  campusGroups: unifiedData?.cohortEvents?.campusGroups || cohortEvents?.campusGroups || []
+                }}
+                selectedCohort={selectedCohort}
+                dashboardData={unifiedData}
+              />
+            </div>
           </div>
           
-          {/* DashboardTabs2 - Columns 6-8 - Hidden on small screens */}
-          <div className="hidden lg:block lg:col-span-2">
-            <DashboardTabs2 dashboardData={unifiedData} />
+          {/* Right Column: DashboardTabs2 - Hidden on small screens, spans 2 rows conditionally */}
+          <div className={`hidden lg:block lg:col-span-2 ${isDash2Taller ? 'lg:row-span-2' : 'lg:row-span-1'}`}>
+            <div id="dashboard-tabs-2" className="lg:min-h-full">
+              <DashboardTabs2 dashboardData={unifiedData} />
+            </div>
           </div>
-        </div>
-        
-        {/* Section C: Haas Resources Widget - Full width */}
-        
-        <div className="mt-1">
           
-          <HaasResourcesWidget />
+          {/* Haas Resources Widget - Dynamic width: 6 cols if Dash2 is taller, otherwise full 8 cols in new row */}
+          {isDash2Taller ? (
+            <div className="lg:col-span-6 lg:row-span-1 mt-1 lg:mt-0">
+              <HaasResourcesWidget />
+            </div>
+          ) : (
+            <div className="lg:col-span-8 lg:row-span-1 mt-1 lg:mt-0">
+              <HaasResourcesWidget />
+            </div>
+          )}
         </div>
       </main>
-      </div>
     </div>
+  </div>
   );
 }

@@ -66,7 +66,7 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
             <button
               key={index}
               disabled
-              className="ml-3 mr-2 mb-2 px-10 py-2 bg-white/40 dark:bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-white/20 dark:supports-[backdrop-filter]:bg-slate-700/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full opacity-50"
+              className="ml-3 mr-2 mb-2 px-10 py-2 bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-slate-700/10 text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full opacity-50"
             >
               <span className="block relative z-10">{tab}</span>
             </button>
@@ -74,13 +74,13 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
         </div>
 
         {/* Loading Content */}
-        <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-400/10 p-4 sm:p-6 rounded-l-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
-          <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-200 dark:border-slate-700 text-center">
-            <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-3 animate-pulse">
+        <div className="bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-slate-400/10 p-4 sm:p-6 rounded-l-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
+          <div className="bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-700 text-center">
+            <div className="w-12 h-12 bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-3 animate-pulse">
               <span className="text-lg">🔄</span>
             </div>
-            <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-2">Loading Dashboard</h3>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
+            <h3 className="text-base font-semibold text-white mb-2">Loading Dashboard</h3>
+            <p className="text-sm text-slate-400">
               Fetching newsletter, calendar, and AI analysis...
             </p>
           </div>
@@ -100,7 +100,7 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
             <button
               key={index}
               disabled
-              className="ml-3 mr-2 mb-2 px-10 py-2 bg-white/40 dark:bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-white/20 dark:supports-[backdrop-filter]:bg-slate-700/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full opacity-50"
+              className="ml-3 mr-2 mb-2 px-10 py-2 bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-slate-700/10 text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full opacity-50"
             >
               <span className="block relative z-10">{tab}</span>
             </button>
@@ -108,18 +108,18 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
         </div>
 
         {/* Error Content */}
-        <div className="bg-white/40 dark:bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-white/30 dark:supports-[backdrop-filter]:bg-slate-400/10 p-4 sm:p-6 rounded-l-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
-          <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-200 dark:border-slate-700 text-center">
-            <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
+        <div className="bg-slate-100/50 backdrop-blur-sm supports-[backdrop-filter]:bg-slate-400/10 p-4 sm:p-6 rounded-l-4xl rounded-b-lg shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%]">
+          <div className="bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-700 text-center">
+            <div className="w-12 h-12 bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
               <span className="text-lg">⚠️</span>
             </div>
-            <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-2">Dashboard Unavailable</h3>
-            <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
+            <h3 className="text-base font-semibold text-white mb-2">Dashboard Unavailable</h3>
+            <p className="text-sm text-slate-400 mb-3">
               {error || 'Unable to load dashboard content at this time.'}
             </p>
             <Link
               href="/api/unified-dashboard"
-              className="inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+              className="inline-flex items-center text-sm text-blue-400 hover:text-blue-300"
             >
               Try API Route →
             </Link>
@@ -141,8 +141,8 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
             onClick={() => setActiveTab(tab)}
             className={`relative text-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
               ${activeTab === tab
-                ? ' px-8 py-3 bg-violet-300/10 backdrop-blur-lg text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
-                : ' ml-3 mr-2 mb-2  px-10 py-2 bg-white/40 dark:bg-slate-100/50 backdrop-blur-md supports-[backdrop-filter]:bg-white/20 dark:supports-[backdrop-filter]:bg-slate-700/10 text-slate-900 dark:text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full font-normal'
+                ? ' px-8 py-3 bg-violet-300/10 backdrop-blur-lg text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
+                : ' ml-3 mr-2 mb-2  px-10 py-2 tab-inactive backdrop-blur-md text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full font-normal'
               }
             `}
             style={{
@@ -162,7 +162,10 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
       </div>
 
       {/* Content Pane */}
-      <div className="bg-violet-300/10 backdrop-blur-lg p-4 sm:p-6 rounded-l-4xl rounded-b-lg rounded-tl-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%] flex-1 min-h-[600px] overflow-y-auto">
+      <div className={`bg-violet-300/10 backdrop-blur-lg p-4 sm:p-6 rounded-b-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%] flex-1 min-h-[1050px] overflow-y-auto
+        ${activeTab === 'Updates' ? 'rounded-l-4xl rounded-tl-3xl' : ''}
+        ${activeTab === 'Slack' ? 'rounded-l-4xl rounded-t-3xl' : ''}
+      `}>
         {activeTab === 'Updates' && (
           <div className="w-full">
             <NewsletterWidget data={dashboardData.newsletterData} />
@@ -179,7 +182,7 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
       {/* Processing Info (optional debug display) - COMMENTED OUT */}
       {/* 
       {dashboardData.processingInfo && (
-        <div className="mt-2 text-xs text-slate-500 dark:text-slate-400 text-center">
+        <div className="mt-2 text-xs text-slate-400 text-center">
           Loaded in {dashboardData.processingInfo.totalTime}ms
         </div>
       )}

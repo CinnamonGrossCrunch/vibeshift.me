@@ -41,37 +41,38 @@ export default function HaasResourcesWidget({
   }, []);
 
   return (
-    <section className="rounded-2xl p-4 bg-glass bg-turbulence shadow-glass">
+    <section className="rounded-2xl p-4 bg-black/20 backdrop-blur-lg shadow-glass">
       {loading ? (
         <>
           <header className="flex items-center justify-between mb-4 p-5">
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+            <h3 className="text-lg font-bold text-white">
               <span className="text-white">Haas</span>{' '}
               <span className="text-white/80">Resources</span>
             </h3>
           </header>
           <div className="text-center py-4">
             <div className="w-4 h-4 border-2 border-slate-300 border-t-berkeley-blue rounded-full animate-spin mx-auto mb-3"></div>
-            <p className="text-sm text-slate-600 dark:text-slate-400">Loading resources...</p>
+            <p className="text-sm text-slate-400">Loading resources...</p>
           </div>
         </>
       ) : error ? (
         <>
           <header className="flex items-center justify-between mb-4 p-5">
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+            <h3 className="text-lg font-bold text-white">
               <span className="text-white">Haas</span>{' '}
               <span className="text-white/80">Resources</span>
             </h3>
           </header>
           <div className="text-center py-4 ">
-            <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
               <span className="text-lg">📚</span>
             </div>
-            <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">Resources Unavailable</p>
-            <p className="text-xs text-slate-500 dark:text-slate-500">{error}</p>
+            <p className="text-sm text-slate-400 mb-2">Resources Unavailable</p>
+            <p className="text-xs text-slate-500">{error}</p>
           </div>
         </>
       ) : (
+        
         resourcesData && <HaasResourcesTabs resourcesData={resourcesData} title={title} />
       )}
     </section>

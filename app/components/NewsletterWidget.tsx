@@ -1,7 +1,37 @@
+// ============================================================================
+// NEWSLETTER WIDGET COMPONENT
+// ============================================================================
+// 
+// This component displays the Bear Necessities newsletter in an interactive
+// accordion-style layout with progress tracking and completion animations.
+//
+// MAIN SECTIONS:
+// 1. Type Definitions - TypeScript interfaces for component props
+// 2. State Management - React state for UI interactions and animations
+// 3. Effects - Initialization and animation triggers
+// 4. Helper Functions - Subsection creation and content processing
+// 5. Animation & Progress - Cascade animations and completion tracking
+// 6. Utility Functions - Testing and debugging helpers
+// 7. Content Formatting - HTML processing and smart bullet rendering
+// 8. JSX Render - Main component UI (Header, Content, Footer)
+//
+// KEY FEATURES:
+// - Collapsible sections with automatic scrolling
+// - Read/unread tracking for all subsections
+// - Completion animations (Lottie) when all sections are read
+// - Smart HTML processing with bullet points and link styling
+// - Responsive design with dark mode support
+//
+// ============================================================================
+
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Lottie from 'lottie-react';
+
+// ============================================================================
+// TYPE DEFINITIONS
+// ============================================================================
 
 type Item = { title: string; html: string };
 type Section = { sectionTitle: string; items: Item[] };
@@ -18,7 +48,16 @@ type Payload = {
   };
 };
 
+// ============================================================================
+// MAIN COMPONENT
+// ============================================================================
+
 export default function NewsletterWidget({ data }: { data: Payload }) {
+  
+  // ==========================================================================
+  // STATE MANAGEMENT
+  // ==========================================================================
+  
   // Initialize all sections as open by default
   const [open, setOpen] = useState<Record<string, boolean>>(() => {
     const initialOpen: Record<string, boolean> = {};
@@ -36,6 +75,10 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
   const [sectionScaleStates, setSectionScaleStates] = useState<Record<number, boolean>>({});
   const [cascadeComplete, setCascadeComplete] = useState(false);
   const [triggerTopLevelAnimation, setTriggerTopLevelAnimation] = useState(false);
+
+  // ==========================================================================
+  // EFFECTS - INITIALIZATION & ANIMATION
+  // ==========================================================================
 
   // Load animation data dynamically
   useEffect(() => {
@@ -57,6 +100,10 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     });
     setItemOpen(initialItemOpen);
   }, [data.sections]);
+
+  // ==========================================================================
+  // HELPER FUNCTIONS - SUBSECTION CREATION & CONTENT PROCESSING
+  // ==========================================================================
 
   // Function to split items by <strong> tags to create subsections
   const createSubsections = (items: Item[]) => {
@@ -203,6 +250,10 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     return uniqueSubsections;
   };
 
+  // ==========================================================================
+  // ANIMATION & PROGRESS TRACKING
+  // ==========================================================================
+
   // Check if all items in a section have been visited
   // Trigger cascade animation sequence when a section completes
   const triggerCascadeAnimation = useCallback(() => {
@@ -280,6 +331,10 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
   // Calculate progress metrics - only count sections as "read" when ALL subsections are visited
   const unopenedSectionsCount = data.sections.filter((_, index) => !allItemsInSectionVisited(index)).length;
 
+  // ==========================================================================
+  // UTILITY FUNCTIONS - TESTING & DEBUGGING
+  // ==========================================================================
+
   // Functions to mark all subsections as read/unread (for testing)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const markAllAsRead = () => {
@@ -333,6 +388,10 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
       setShowCaughtUpText(false);
     }
   }, [triggerTopLevelAnimation, unopenedSectionsCount]);
+
+  // ==========================================================================
+  // CONTENT FORMATTING - HTML PROCESSING & SMART BULLETS
+  // ==========================================================================
 
   // Smart bulleting function with enhanced HTML hierarchy
   const addSmartBullets = (html: string) => {
@@ -655,8 +714,13 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     return processedHtml;
   };
 
+  // ==========================================================================
+  // JSX RENDER - MAIN COMPONENT UI
+  // ==========================================================================
+
   return (
     <div className="max-w-4xl mx-auto dark">
+      {/* CSS Styles */}
       <style jsx>{`
         .newsletter-content h1 { font-size: 1rem; font-weight: 700; color: rgb(15 23 42); margin-bottom: 0.75rem; margin-top: 0.5rem; }
         .newsletter-content h2 { font-size: 0.875rem; font-weight: 600; color: rgb(30 41 59); margin-bottom: 0.5rem; margin-top: 0.5rem; }
@@ -683,6 +747,11 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
         .dark .newsletter-content a { color: rgb(251 191 36) !important; }
         .dark .newsletter-content a:hover { color: rgb(252 211 77) !important; }
       `}</style>
+      
+      {/* =================================================================== */}
+      {/* HEADER SECTION                                                      */}
+      {/* =================================================================== */}
+      
       {/* Header */}
       <div className="rounded-t-xl sm:rounded-none pt-2 px-3 pb-2 text-white relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>
         {/* Background Image */}
@@ -782,8 +851,15 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
         </div>
       </div>
 
+      {/* =================================================================== */}
+      {/* CONTENT SECTIONS - ACCORDION LAYOUT                                */}
+      {/* =================================================================== */}
+
       {/* Content Sections */}
-      <div className="bg-white dark:bg-slate-800 rounded-b-xl shadow-xl overflow-hidden">
+      <div 
+        className="rounded-b-xl shadow-xl overflow-hidden"
+        style={{ backgroundColor: 'var(--surface-1)' }}
+      >
         {data.sections.map((sec, idx) => {
           const id = `${idx}-${sec.sectionTitle}`;
           const isOpen = !!open[id];
@@ -795,7 +871,11 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
           const sectionTotalCount = createSubsections(sec.items).length;
           
           return (
-            <div key={id} className={`border-b border-slate-200 dark:border-slate-700 ${idx === data.sections.length - 1 ? 'border-b-0' : ''}`}>
+            <div 
+              key={id} 
+              className={`${idx === data.sections.length - 1 ? '' : ''}`}
+              style={{ borderBottom: idx === data.sections.length - 1 ? 'none' : '1px solid var(--border-1)' }}
+            >
               <button
                 onClick={() => {
                   // Auto-collapse: close all other sections
@@ -807,7 +887,11 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                   // Also close all item dropdowns when switching sections
                   setItemOpen({});
                 }}
-                className={`section-button w-full text-left px-2.5 py-1 bg-gradient-to-r from-slate-50 to-blue-50 hover:from-blue-50 hover:to-amber-50 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600 transition-all duration-300 ease-in-out flex items-center justify-between group`}
+                className={`section-button w-full text-left px-2.5 py-1 hover:brightness-105 dark:hover:brightness-110 transition-all duration-300 ease-in-out flex items-center justify-between group`}
+                style={{ 
+                  backgroundColor: 'var(--surface-1)',
+                  backgroundImage: 'linear-gradient(to right, var(--surface-2), var(--surface-1))'
+                }}
               >
                 <div className="flex items-center space-x-3">
                   {allItemsInSectionVisited(idx) ? (
@@ -815,16 +899,20 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                   ) : (
                     <div className="w-3 h-3 rounded-full border-2 border-violet-300 shadow-lg animate-pulse mr-2" style={{ backgroundColor: 'rgb(139, 92, 246)', boxShadow: '0 10px 15px -3px rgba(139, 92, 246, 0.4)' }}></div>
                   )}
-                    <h3 className="text-sm urbanist-semibold text-slate-900 dark:text-white transition-colors group-hover:transition-colors" 
+                    <h3 className="text-sm urbanist-semibold transition-colors group-hover:transition-colors" 
+                      style={{ color: 'var(--text-1)' }}
                       onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'rgb(139, 92, 246)'}
-                      onMouseLeave={(e) => (e.target as HTMLElement).style.color = ''}>
+                      onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'var(--text-1)'}>
                     {sec.sectionTitle}
                   </h3>
                 </div>
                 <div className="flex items-center justify-center">
-                  <div className="text-xs text-slate-500 dark:text-slate-400 flex items-center justify-center">
+                  <div className="text-xs flex items-center justify-center" style={{ color: 'var(--text-2)' }}>
                     {sectionVisitedCount === sectionTotalCount ? (
-                      <div className="w-20 h-8 rounded-lg flex items-center justify-center">
+                      <div 
+                        className="w-20 h-8 rounded-lg flex items-center justify-center"
+                        style={{ backgroundColor: 'var(--berkeley-blue)', color: 'var(--berkeley-gold)' }}
+                      >
                         {animationData ? (
                           <div 
                             className={`transition-transform duration-[200ms] brightness-[.9] contrast-[2.5] ease-in-out ${sectionScaleStates[idx] ? 'brightness-[1.5]' : 'brightness-100'} flex items-center justify-center`}
@@ -868,7 +956,14 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                         return (
                           <div key={itemId} className="relative">
                             {/* Subsection container */}
-                            <div className="ml-2 mb-0.5 text-sm rounded-lg bg-white dark:bg-slate-700/50 shadow-sm">
+                            <div 
+                              className="ml-2 mb-0.5 text-sm rounded-lg shadow-sm"
+                              style={{ 
+                                backgroundColor: 'var(--surface-1)',
+                                borderColor: 'var(--border-1)',
+                                borderWidth: '1px'
+                              }}
+                            >
                               <button
                                 onClick={() => {
                                   // Auto-collapse: close all other items in this section
@@ -882,12 +977,12 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                                   }
                                   setItemOpen(newItemOpen);
                                 }}
-                                className="item-button w-full  text-left px-2 py-1 hover:bg-slate-50 dark:hover:bg-slate-600/50 transition-all duration-300 ease-in-out flex items-center justify-between group rounded-lg"
+                                className="item-button w-full text-left px-2 py-1 hover:brightness-105 dark:hover:brightness-110 transition-all duration-300 ease-in-out flex items-center justify-between group rounded-lg"
                               >
                                 <div className="flex items-center space-x-2 truncate">
                                   {/* Pulsing yellow/green indicator only */}
                                   <div 
-                                    className="flex-shrink-0  cursor-pointer transition-all duration-300"
+                                    className="flex-shrink-0 cursor-pointer transition-all duration-300"
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       if (!isItemVisited) {
@@ -905,10 +1000,13 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                                     )}
                                   </div>
 
-                                  <h4 className="text-xs urbanist-medium text-slate-800 dark:text-slate-200 transition-colors truncate overflow-hidden"
-                                      style={{ textOverflow: 'ellipsis' }}
+                                  <h4 className="text-xs urbanist-medium transition-colors truncate overflow-hidden"
+                                      style={{ 
+                                        textOverflow: 'ellipsis',
+                                        color: 'var(--text-1)'
+                                      }}
                                       onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'var(--berkeley-gold)'}
-                                      onMouseLeave={(e) => (e.target as HTMLElement).style.color = ''}>
+                                      onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'var(--text-1)'}>
                                     {subsection.title}
                                   </h4>
                                 </div>
@@ -920,7 +1018,13 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                                 }`}
                               >
                                 <div className="expandable-content">
-                                  <div className="border-t  border-slate-200 dark:border-slate-600 bg-slate-900 rounded-b-lg">
+                                  <div 
+                                    className="rounded-b-lg"
+                                    style={{ 
+                                      borderTop: '1px solid var(--border-1)',
+                                      backgroundColor: 'var(--surface-2)'
+                                    }}
+                                  >
                                     <div className="px-3 py-0.5 cursor-pointer"
                                       onClick={() => {
                                         if (!isItemVisited) {
@@ -931,7 +1035,8 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                                       {/* Content with enhanced visual hierarchy */}
                                       <div>
                                         <div
-                                          className="newsletter-content  urbanist-regular text-slate-700 dark:text-slate-300"
+                                          className="newsletter-content urbanist-regular"
+                                          style={{ color: 'var(--text-2)' }}
                                           dangerouslySetInnerHTML={{ __html: addSmartBullets(subsection.content) }}
                                         />
                                       </div>
@@ -1021,6 +1126,10 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
           </div>
         )}
         */}
+        
+        {/* =================================================================== */}
+        {/* FOOTER SECTION                                                      */}
+        {/* =================================================================== */}
         
         {/* Copyright Footer */}
         <div className="border-t border-slate-200 dark:border-slate-700 py-1 px-4 rounded-b-xl relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>

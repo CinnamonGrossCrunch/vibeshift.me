@@ -15,6 +15,18 @@ DESCRIPTION:Topic 1: Course Introduction\n\nREADING:\n• Review Chapters
  EPARATION:\n• Complete reading assignments before class
 END:VEVENT
 BEGIN:VEVENT
+UID:2025-10-20-gold-dnd-quiz1@Oski.app
+DTSTAMP:20251013T060449Z
+DTSTART:20251019T070000Z
+DTEND:20251019T070000Z
+SUMMARY:Data & Decisions (Gold) — Quiz 1 DUE
+DESCRIPTION:QUIZ: Quiz 1 (covers Chapter 13)\n\nDue at midnight Sunday be
+ fore class.\n\nQuiz can be found here:\nhttps://www.gradescope.com/course
+ s/1164266\n\nMaterial covered in recorded lectures:\nhttps://bcourses.ber
+ keley.edu/courses/1545042/external_tools/90481
+URL:https://www.gradescope.com/courses/1164266
+END:VEVENT
+BEGIN:VEVENT
 UID:2025-10-21-gold-dnd@Oski.app
 DTSTAMP:20251013T060449Z
 DTSTART:20251022T011000Z
@@ -24,9 +36,21 @@ SUMMARY:Data & Decisions (Gold) — Sampling Variation & Confidence Interva
 LOCATION:Chou Hall N370\, Berkeley Haas
 DESCRIPTION:Topic 2: Sampling Variation and Quality\, Confidence Interval
  s\n\nREADING:\n• Chapter 14 (Sections 1 and 2): Sampling Variation and Q
- uality\n• Chapter 15: Confidence Intervals\n\nQUIZ: Quiz 1 (covers Chapt
- er 13)\n\nIN-CLASS EXERCISE:\n• Exercise 1 (BRING LAPTOP)\n\nPREPARATION
- :\n• Complete reading assignments\n• Be ready for in-class exercise
+ uality\n• Chapter 15: Confidence Intervals\n\nIN-CLASS EXERCISE:\n• Exer
+ cise 1 (BRING LAPTOP)\n\nPREPARATION:\n• Complete reading assignments\n•
+  Be ready for in-class exercise
+END:VEVENT
+BEGIN:VEVENT
+UID:2025-10-27-gold-dnd-quiz2@Oski.app
+DTSTAMP:20251013T060449Z
+DTSTART:20251026T070000Z
+DTEND:20251026T070000Z
+SUMMARY:Data & Decisions (Gold) — Quiz 2 DUE
+DESCRIPTION:QUIZ: Quiz 2 (covers Chapter 14 Sec. 1-2\, Chapter 15)\n\nDue
+  at midnight Sunday before class.\n\nQuiz can be found here:\nhttps://ww
+ w.gradescope.com/courses/1164266\n\nMaterial covered in recorded lectures
+ :\nhttps://bcourses.berkeley.edu/courses/1545042/external_tools/90481
+URL:https://www.gradescope.com/courses/1164266
 END:VEVENT
 BEGIN:VEVENT
 UID:2025-10-28-gold-dnd@Oski.app
@@ -37,8 +61,20 @@ SUMMARY:Data & Decisions (Gold) — Statistical Tests & Comparison
 LOCATION:Chou Hall N370\, Berkeley Haas
 DESCRIPTION:Topic 3: Statistical Tests\, Comparison\n\nREADING:\n• Chapte
  r 16: Statistical Tests\n• Chapter 17 (Sections 1\, 2\, 3\, and 5): Comp
- arison\n\nQUIZ: Quiz 2 (covers Chapter 14 Sec. 1-2\, Chapter 15)\n\nPREP
- ARATION:\n• Complete reading assignments before class
+ arison\n\nPREPARATION:\n• Complete reading assignments before class
+END:VEVENT
+BEGIN:VEVENT
+UID:2025-11-03-gold-dnd-quiz3@Oski.app
+DTSTAMP:20251013T060449Z
+DTSTART:20251102T070000Z
+DTEND:20251102T070000Z
+SUMMARY:Data & Decisions (Gold) — Quiz 3 DUE
+DESCRIPTION:QUIZ: Quiz 3 (covers Chapter 16\, Chapter 17 Sec. 1-3 & 5)\n\
+ nDue at midnight Sunday before class.\n\nQuiz can be found here:\nhttps:
+ //www.gradescope.com/courses/1164266\n\nMaterial covered in recorded lec
+ tures:\nhttps://bcourses.berkeley.edu/courses/1545042/external_tools/904
+ 81
+URL:https://www.gradescope.com/courses/1164266
 END:VEVENT
 BEGIN:VEVENT
 UID:2025-11-04-gold-dnd@Oski.app
@@ -49,8 +85,19 @@ SUMMARY:Data & Decisions (Gold) — Linear & Curved Patterns
 LOCATION:Chou Hall N370\, Berkeley Haas
 DESCRIPTION:Topic 4: Linear Patterns\, Curved Patterns\n\nREADING:\n• Cha
  pter 19: Linear Patterns\n• Chapter 20 (Sections 1 and 4): Curved Patter
- ns\n\nQUIZ: Quiz 3 (covers Chapter 16\, Chapter 17 Sec. 1-3 & 5)\n\nPREP
- ARATION:\n• Complete reading assignments before class
+ ns\n\nPREPARATION:\n• Complete reading assignments before class
+END:VEVENT
+BEGIN:VEVENT
+UID:2025-11-09-gold-dnd-quiz4@Oski.app
+DTSTAMP:20251013T060449Z
+DTSTART:20251109T080000Z
+DTEND:20251109T080000Z
+SUMMARY:Data & Decisions (Gold) — Quiz 4 DUE
+DESCRIPTION:QUIZ: Quiz 4 (covers Chapter 19\, Chapter 20 Sec. 1 & 4)\n\nD
+ ue at midnight Sunday before class.\n\nQuiz can be found here:\nhttps://
+ www.gradescope.com/courses/1164266\n\nMaterial covered in recorded lectu
+ res:\nhttps://bcourses.berkeley.edu/courses/1545042/external_tools/90481
+URL:https://www.gradescope.com/courses/1164266
 END:VEVENT
 BEGIN:VEVENT
 UID:2025-11-10-gold-dnd@Oski.app
@@ -60,9 +107,21 @@ DTEND:20251111T053000Z
 SUMMARY:Data & Decisions (Gold) — Simple Regression Model
 LOCATION:Chou Hall N370\, Berkeley Haas
 DESCRIPTION:Topic 5: Simple Regression Model\n\nREADING:\n• Chapter 21: S
- imple Regression Model\n\nQUIZ: Quiz 4 (covers Chapter 19\, Chapter 20 S
- ec. 1 & 4)\n\nIN-CLASS EXERCISE:\n• Exercise 2 (BRING LAPTOP)\n\nPREPARA
- TION:\n• Complete reading assignments\n• Be ready for in-class exercise
+ imple Regression Model\n\nIN-CLASS EXERCISE:\n• Exercise 2 (BRING LAPTOP
+ )\n\nPREPARATION:\n• Complete reading assignments\n• Be ready for in-cla
+ ss exercise
+END:VEVENT
+BEGIN:VEVENT
+UID:2025-11-17-gold-dnd-quiz5@Oski.app
+DTSTAMP:20251013T060449Z
+DTSTART:20251116T080000Z
+DTEND:20251116T080000Z
+SUMMARY:Data & Decisions (Gold) — Quiz 5 DUE
+DESCRIPTION:QUIZ: Quiz 5 (covers Chapter 21)\n\nDue at midnight Sunday be
+ fore class.\n\nQuiz can be found here:\nhttps://www.gradescope.com/cours
+ es/1164266\n\nMaterial covered in recorded lectures:\nhttps://bcourses.be
+ rkeley.edu/courses/1545042/external_tools/90481
+URL:https://www.gradescope.com/courses/1164266
 END:VEVENT
 BEGIN:VEVENT
 UID:2025-11-18-gold-dnd@Oski.app
@@ -72,9 +131,21 @@ DTEND:20251119T053000Z
 SUMMARY:Data & Decisions (Gold) — Multiple Regression
 LOCATION:Chou Hall N370\, Berkeley Haas
 DESCRIPTION:Topic 6: Multiple Regression\n\nREADING:\n• Chapter 23: Multi
- ple Regression\n\nQUIZ: Quiz 5 (covers Chapter 21)\n\nIN-CLASS EXERCISE:
- \n• Ungraded Exercise 3 (BRING LAPTOP)\n\nPREPARATION:\n• Complete readi
- ng assignments\n• Be ready for in-class exercise
+ ple Regression\n\nIN-CLASS EXERCISE:\n• Ungraded Exercise 3 (BRING LAPTO
+ P)\n\nPREPARATION:\n• Complete reading assignments\n• Be ready for in-cl
+ ass exercise
+END:VEVENT
+BEGIN:VEVENT
+UID:2025-11-23-gold-dnd-quiz6@Oski.app
+DTSTAMP:20251013T060449Z
+DTSTART:20251123T080000Z
+DTEND:20251123T080000Z
+SUMMARY:Data & Decisions (Gold) — Quiz 6 DUE
+DESCRIPTION:QUIZ: Quiz 6 (covers Chapter 23)\n\nDue at midnight Sunday be
+ fore class.\n\nQuiz can be found here:\nhttps://www.gradescope.com/cours
+ es/1164266\n\nMaterial covered in recorded lectures:\nhttps://bcourses.be
+ rkeley.edu/courses/1545042/external_tools/90481
+URL:https://www.gradescope.com/courses/1164266
 END:VEVENT
 BEGIN:VEVENT
 UID:2025-11-24-gold-dnd@Oski.app
@@ -84,9 +155,21 @@ DTEND:20251125T053000Z
 SUMMARY:Data & Decisions (Gold) — Building Regression Models
 LOCATION:Chou Hall N370\, Berkeley Haas
 DESCRIPTION:Topic 7: Building Regression Models\n\nREADING:\n• Chapter 24
- : Building Regression Models\n\nQUIZ: Quiz 6 (covers Chapter 23)\n\nIN-C
- LASS EXERCISE:\n• Exercise 4 (BRING LAPTOP)\n\nPREPARATION:\n• Complete 
- reading assignments\n• Be ready for in-class exercise
+ : Building Regression Models\n\nIN-CLASS EXERCISE:\n• Exercise 4 (BRING 
+ LAPTOP)\n\nPREPARATION:\n• Complete reading assignments\n• Be ready for i
+ n-class exercise
+END:VEVENT
+BEGIN:VEVENT
+UID:2025-12-01-gold-dnd-quiz7@Oski.app
+DTSTAMP:20251013T060449Z
+DTSTART:20251130T080000Z
+DTEND:20251130T080000Z
+SUMMARY:Data & Decisions (Gold) — Quiz 7 DUE
+DESCRIPTION:QUIZ: Quiz 7 (covers Chapter 24)\n\nDue at midnight Sunday be
+ fore class.\n\nQuiz can be found here:\nhttps://www.gradescope.com/cours
+ es/1164266\n\nMaterial covered in recorded lectures:\nhttps://bcourses.be
+ rkeley.edu/courses/1545042/external_tools/90481
+URL:https://www.gradescope.com/courses/1164266
 END:VEVENT
 BEGIN:VEVENT
 UID:2025-12-02-gold-dnd@Oski.app
@@ -96,8 +179,8 @@ DTEND:20251203T053000Z
 SUMMARY:Data & Decisions (Gold) — Predictive Analytics
 LOCATION:Chou Hall N370\, Berkeley Haas
 DESCRIPTION:Topic 8: Predictive Analytics\n\nREADING:\n• No reading assig
- ned this week\n\nQUIZ: Quiz 7 (covers Chapter 24)\n\nPREPARATION:\n• Rev
- iew previous materials and prepare for quiz
+ ned this week\n\nPREPARATION:\n• Review previous materials and prepare fo
+ r quiz
 END:VEVENT
 BEGIN:VEVENT
 UID:2025-12-09-gold-dnd@Oski.app

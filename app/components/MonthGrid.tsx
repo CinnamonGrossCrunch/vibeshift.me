@@ -44,10 +44,10 @@ export default function MonthGrid({
   return (
     <div>
       {/* Remove any potential navigation wrapper */}
-      <div className="grid grid-cols-7 gap-px bg-white/10 dark:bg-slate-700/10 drop-shadow-">
+      <div className="grid grid-cols-7 gap-px bg-slate-700/10 drop-shadow-">
       {/* Weekday headers */}
       {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map((d) => (
-        <div key={d} className="bg-white/5 text-xs text-center font-light uppercase text-slate-700 dark:text-slate-300">
+        <div key={d} className="bg-white/5 text-xs text-center font-light uppercase text-slate-300">
           {d}
         </div>
       ))}
@@ -225,12 +225,12 @@ export default function MonthGrid({
         return (
             <div
             key={day.toISOString()}
-            className={`h-28 p-1 flex flex-col dark:border-slate overflow-auto ${
+            className={`h-28 p-1 flex flex-col overflow-auto ${
               isSameMonth(day, currentMonth) ? 'bg-slate-600/10' : 'bg-transparent opacity-40'
             } ${isToday ? 'rounded-sm  ring-1 ring-yellow-400 '  : ''}`}
             >
             <div className={`text-xs font-light mb-0 flex-shrink-0 flex items-center gap-1 ${
-              isToday ? 'text-yellow-500 font-bold' : 'text-slate-900 dark:text-white'
+              isToday ? 'text-yellow-500 font-bold' : 'text-white'
             }`}>
               {format(day, 'd')}
               {showGreekTheater && hasGreekEvent && (
@@ -308,7 +308,7 @@ export default function MonthGrid({
                   {/* Quiz indicator above course name */}
                   {eventHasQuiz && (
                     <div className="mb-0.5">
-                      <span className="font-bold text-red-500 text-[9px] px-1 bg-red-100 dark:bg-red-900/30 rounded whitespace-nowrap inline-block">
+                      <span className="font-bold text-red-500 text-[9px] px-1 bg-red-900/30 rounded whitespace-nowrap inline-block">
                         QUIZ
                       </span>
                     </div>

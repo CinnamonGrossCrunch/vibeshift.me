@@ -124,7 +124,7 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
                 href={part}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#FDB515] dark:text-[#FDB515] hover:text-[#CC9500] dark:hover:text-[#FFD700] break-all inline-block"
+                className="text-[#FDB515] hover:text-[#FFD700] break-all inline-block"
               >
                 {part}
               </a>
@@ -141,21 +141,21 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
                 const hasActualQuiz = /QUIZ:\s*Quiz\s+\d+/i.test(line);
                 if (hasActualQuiz) {
                   return (
-                    <div key={`line-${index}-${lineIndex}`} className="font-bold text-red-600 dark:text-red-500 mt-3 first:mt-0">
+                    <div key={`line-${index}-${lineIndex}`} className="font-bold bg-white text-red-500 mt-3 first:mt-0">
                       {line}
                     </div>
                   );
                 }
                 // "No quiz" - use normal styling
                 return (
-                  <div key={`line-${index}-${lineIndex}`} className="font-semibold text-slate-900 dark:text-white mt-3 first:mt-0">
+                  <div key={`line-${index}-${lineIndex}`} className="font-semibold text-white mt-3 first:mt-0">
                     {line}
                   </div>
                 );
               }
               // Other section headers (READING, PREPARATION, etc.)
               return (
-                <div key={`line-${index}-${lineIndex}`} className="font-semibold text-slate-900 dark:text-white mt-3 first:mt-0">
+                <div key={`line-${index}-${lineIndex}`} className="font-semibold text-white mt-3 first:mt-0">
                   {line}
                 </div>
               );
@@ -163,14 +163,14 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
             // Check if line is a bullet point
             if (line.trim().startsWith('•')) {
               return (
-                <div key={`line-${index}-${lineIndex}`} className="ml-4 text-slate-600 dark:text-slate-300">
+                <div key={`line-${index}-${lineIndex}`} className="ml-4 text-slate-300">
                   {line}
                 </div>
               );
             }
             // Regular line
             return line.trim() ? (
-              <div key={`line-${index}-${lineIndex}`} className="text-slate-600 dark:text-slate-300">
+              <div key={`line-${index}-${lineIndex}`} className="text-slate-300">
                 {line}
               </div>
             ) : (
@@ -193,10 +193,10 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
         {/* Header */}
         <div className="flex items-start justify-between px-6 py-4 flex-shrink-0">
           <div className="flex-1 pr-4">
-            <h2 className="text-xl font-semibold text-slate-900 dark:text-white leading-tight">
+            <h2 className="text-xl font-semibold text-white leading-tight">
               {safeStringify(displayEvent.title)}
             </h2>
-            <p className="text-sm text-slate-600 dark:text-slate-200 mt-1">
+            <p className="text-sm text-slate-200 mt-1">
               {formatDateTime()}
             </p>
             {/* Show indicator when displaying rich content from original calendar */}
@@ -211,8 +211,8 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
               disabled={!hasPrevious}
               className={`p-2 rounded-lg transition-colors ${
                 hasPrevious 
-                  ? 'hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300' 
-                  : 'text-slate-300 dark:text-slate-600 cursor-not-allowed'
+                  ? 'hover:bg-slate-700 text-slate-300' 
+                  : 'text-slate-600 cursor-not-allowed'
               }`}
               aria-label="Previous event"
               title="Previous event (←)"
@@ -228,8 +228,8 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
               disabled={!hasNext}
               className={`p-2 rounded-lg transition-colors ${
                 hasNext 
-                  ? 'hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300' 
-                  : 'text-slate-300 dark:text-slate-600 cursor-not-allowed'
+                  ? 'hover:bg-slate-700 text-slate-300' 
+                  : 'text-slate-600 cursor-not-allowed'
               }`}
               aria-label="Next event"
               title="Next event (→)"
@@ -242,11 +242,11 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors ml-2"
+              className="p-2 hover:bg-slate-700 rounded-lg transition-colors ml-2"
               aria-label="Close"
               title="Close (Esc)"
             >
-              <svg className="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -254,7 +254,7 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
         </div>
 
         {/* Content */}
-        <div className="px-6 overflow-y-auto flex-1 space-y-4 scrollbar-thin scrollbar-thumb-slate-400 dark:scrollbar-thumb-slate-600 scrollbar-track-transparent hover:scrollbar-thumb-slate-500 dark:hover:scrollbar-thumb-slate-500"
+        <div className="px-6 overflow-y-auto flex-1 space-y-4 scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent hover:scrollbar-thumb-slate-500"
           style={{
             scrollbarWidth: 'thin',
             scrollbarColor: 'rgb(148 163 184) transparent'
@@ -269,8 +269,8 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
           {/* Description */}
           {displayEvent.description && (
             <div>
-              <h3 className="text-xl font-medium text-slate-900 dark:text-white mb-2"></h3>
-              <div className="text-md text-slate-600 dark:text-slate-300 whitespace-pre-wrap leading-relaxed">
+              <h3 className="text-xl font-medium text-white mb-2"></h3>
+              <div className="text-md text-slate-300 whitespace-pre-wrap leading-relaxed">
                 {renderTextWithLinks(displayEvent.description)}
               </div>
             </div>
@@ -281,15 +281,15 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
           {displayEvent.location && (
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <div className="text-sm font-medium text-slate-900 dark:text-white">📍 Location:</div>
-                <div className="text-sm text-slate-600 dark:text-slate-300">{safeStringify(displayEvent.location)}</div>
+                <div className="text-sm font-medium text-white">📍 Location:</div>
+                <div className="text-sm text-slate-300">{safeStringify(displayEvent.location)}</div>
               </div>
             </div>
           )}
         </div>
 
         {/* Footer with action buttons */}
-        <div className="flex gap-2 p-6 border-t border-slate-200 dark:border-slate-700 flex-shrink-0">
+        <div className="flex gap-2 p-6 border-t border-slate-700 flex-shrink-0">
           {displayEvent.url && (
             <a
               href={displayEvent.url}
@@ -305,7 +305,7 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
           )}
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors"
           >
             Close
           </button>
