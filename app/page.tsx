@@ -187,7 +187,7 @@ export default function Home() {
           style={{ scrollbarGutter: 'stable both-edges' }}>
         {/* Header */}
         <div className={getPerformanceClasses(
-          `w-full sticky top-0 z-30 bg-black/10 border-b border-slate-700 backdrop-blur-lg relative overflow-hidden py-1 mb-0`,
+          `w-full sticky top-0 z-30 bg-black/10 border-b border-red-600 backdrop-blur-lg relative overflow-hidden py-1 mb-0`,
           capabilities
         )}>
           {/* Animated black overlay - z-index 20 (middle layer) */}

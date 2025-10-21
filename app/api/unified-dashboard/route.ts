@@ -2,6 +2,8 @@
 export const runtime = 'nodejs';
 // Use ISR with 1 hour revalidation - caches response but rebuilds every hour
 export const revalidate = 3600;
+// Force dynamic to prevent prerendering during build
+export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
 import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
