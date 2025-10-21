@@ -1,9 +1,9 @@
 // Node runtime required for OpenAI and cheerio
 export const runtime = 'nodejs';
-// Use ISR with 1 hour revalidation - caches response but rebuilds every hour
-export const revalidate = 3600;
-// Force dynamic to prevent prerendering during build
+// Force dynamic to prevent ANY prerendering during build - absolutely critical for Vercel
 export const dynamic = 'force-dynamic';
+// Revalidate doesn't work with force-dynamic, but we'll use Cache-Control headers instead
+export const fetchCache = 'force-no-store';
 
 import { NextResponse } from 'next/server';
 import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
@@ -105,6 +105,20 @@ export interface UnifiedDashboardData {
 }
 
 export async function GET() {
+  // CRITICAL: Prevent execution during Vercel build
+  // Vercel sets CI=true during builds
+  if (process.env.CI === 'true' || process.env.VERCEL_ENV === undefined) {
+    return NextResponse.json(
+      { error: 'Build-time execution prevented' },
+      { 
+        status: 503,
+        headers: {
+          'Cache-Control': 'no-store, must-revalidate',
+        }
+      }
+    );
+  }
+
   const startTime = Date.now();
   
   try {
