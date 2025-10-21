@@ -45,7 +45,9 @@ export async function organizeNewsletterWithAI(
 ): Promise<OrganizedNewsletter> {
   
   if (!process.env.OPENAI_API_KEY) {
-    console.warn('OpenAI API key not found, falling back to original parsing');
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('OpenAI API key not found, falling back to original parsing');
+    }
     return {
       sourceUrl,
       title,
@@ -227,8 +229,10 @@ ${rawContent}`;
     try {
       organizedData = JSON.parse(cleanedResponse);
     } catch (parseError) {
-      console.error('❌ Failed to parse AI response:', parseError);
-      console.error('🔍 Problematic response:', cleanedResponse.substring(0, 500));
+      if (process.env.NODE_ENV === 'development') {
+        console.error('❌ Failed to parse AI response:', parseError);
+        console.error('🔍 Problematic response:', cleanedResponse.substring(0, 500));
+      }
       throw new Error('Invalid JSON response from AI');
     }
 
@@ -267,7 +271,9 @@ ${rawContent}`;
     return result;
 
   } catch (error) {
-    console.error('💥 Error in AI organization:', error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('💥 Error in AI organization:', error);
+    }
     
     // Fallback: return original sections in organized format
     const fallbackSections: OrganizedSection[] = rawSections.map((section: ParsedSection) => ({
