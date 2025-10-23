@@ -11,6 +11,8 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
+    "verify-build": "node scripts/verify-no-api-leakage.js",
+    "build:safe": "npm run build && npm run verify-build",
     "mcp:start": "node lib/mcp-server.js",
     "mcp:dev": "nodemon lib/mcp-server.js",
     "worktree:list": "git worktree list",
