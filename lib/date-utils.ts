@@ -43,15 +43,11 @@ export function getConsistentWeekRange(): { start: Date; end: Date } {
   const today = getConsistentToday(); // Already in Berkeley timezone
   const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
   
-  // Calculate the start of the week (Sunday)
-  const start = new Date(today);
-  start.setDate(today.getDate() - dayOfWeek);
-  start.setHours(0, 0, 0, 0);
+  // Calculate the start of the week (Sunday) in Berkeley time
+  const start = new Date(today.getFullYear(), today.getMonth(), today.getDate() - dayOfWeek, 0, 0, 0, 0);
   
-  // Calculate the end as next Monday at 00:00:00 (exclusive)
-  const end = new Date(start);
-  end.setDate(start.getDate() + 8); // 8 days later = next Monday
-  end.setHours(0, 0, 0, 0);
+  // Calculate the end as next Sunday at 00:00:00 (exclusive) = 7 days later
+  const end = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 7, 0, 0, 0, 0);
   
   return { start, end };
 }

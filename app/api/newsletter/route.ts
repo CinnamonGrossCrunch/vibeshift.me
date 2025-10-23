@@ -17,9 +17,13 @@ const safeLog = (...args: unknown[]) => {
 };
 
 export async function GET() {
-  // CRITICAL: Prevent execution during Vercel build
-  // Vercel sets CI=true during builds
-  if (process.env.CI === 'true' || process.env.VERCEL_ENV === undefined) {
+  // CRITICAL: Prevent execution during Vercel build ONLY (not local development)
+  // During Vercel build: CI=true and VERCEL_ENV is not set
+  // During local dev: Neither CI nor VERCEL_ENV are set
+  // During runtime: VERCEL_ENV is set (development/preview/production)
+  const isVercelBuild = process.env.CI === 'true' && !process.env.VERCEL_ENV;
+  
+  if (isVercelBuild) {
     return NextResponse.json(
       { error: 'Build-time execution prevented' },
       { 

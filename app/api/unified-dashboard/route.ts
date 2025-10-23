@@ -105,9 +105,13 @@ export interface UnifiedDashboardData {
 }
 
 export async function GET() {
-  // CRITICAL: Prevent execution during Vercel build
-  // Vercel sets CI=true during builds
-  if (process.env.CI === 'true' || process.env.VERCEL_ENV === undefined) {
+  // CRITICAL: Prevent execution during Vercel build ONLY (not local development)
+  // During Vercel build: CI=true and NEXT_PHASE='phase-production-build'
+  // During local dev: Neither CI nor NEXT_PHASE are set
+  // During runtime: VERCEL_ENV is set (development/preview/production)
+  const isVercelBuild = process.env.CI === 'true' && !process.env.VERCEL_ENV;
+  
+  if (isVercelBuild) {
     return NextResponse.json(
       { error: 'Build-time execution prevented' },
       { 
