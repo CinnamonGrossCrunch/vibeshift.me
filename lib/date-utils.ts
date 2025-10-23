@@ -63,7 +63,7 @@ export function getConsistentWeekRange(): { start: Date; end: Date } {
   const start = new Date(today.getFullYear(), today.getMonth(), today.getDate() - dayOfWeek, 0, 0, 0, 0);
   
   // Calculate the end as next Sunday at 00:00:00 (exclusive) = 7 days later
-  const end = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 7, 0, 0, 0, 0);
+  const end = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 8, 0, 0, 0, 0);
   
   return { start, end };
 }

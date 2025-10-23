@@ -1,5 +1,6 @@
 // Node runtime required for OpenAI
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { analyzeMyWeekWithAI } from '@/lib/my-week-analyzer';

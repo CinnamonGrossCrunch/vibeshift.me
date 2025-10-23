@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { organizeNewsletterWithAI } from '@/lib/openai-organizer';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: Request) {
   try {
     const { sections, sourceUrl, title } = await request.json();

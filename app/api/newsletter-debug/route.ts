@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
 import { organizeNewsletterWithAI } from '@/lib/openai-organizer';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     console.log('Debug API: Starting newsletter analysis with AI debugging');

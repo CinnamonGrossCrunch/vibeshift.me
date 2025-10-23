@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { runAI, MODEL_CHAIN } from '@/lib/aiClient';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 interface AIResult {
   text: string;
