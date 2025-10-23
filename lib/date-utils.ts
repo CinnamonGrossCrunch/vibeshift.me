@@ -26,6 +26,7 @@ export function getConsistentToday(): Date {
 /**
  * Parse a date string in a way that's consistent between server and client
  * Handles timezone edge cases that can cause date shifting
+ * NOTE: This is for user-input dates, NOT for ICS/calendar dates which should use parseICSDate
  */
 export function parseConsistentDate(dateString: string): Date {
   const dateUTC = new Date(dateString);
@@ -33,6 +34,21 @@ export function parseConsistentDate(dateString: string): Date {
   const dateBerkeley = toZonedTime(dateUTC, BERKELEY_TZ);
   // Return normalized date to avoid timezone shifting
   return new Date(dateBerkeley.getFullYear(), dateBerkeley.getMonth(), dateBerkeley.getDate());
+}
+
+/**
+ * Parse an ICS/calendar ISO date string (e.g., "2025-10-19T07:00:00.000Z")
+ * ICS dates are stored in UTC but represent local time events
+ * This extracts just the date portion in Berkeley timezone
+ */
+export function parseICSDate(isoString: string): Date {
+  // Parse the UTC timestamp
+  const utcDate = new Date(isoString);
+  // Convert to Berkeley timezone
+  const berkeleyDate = toZonedTime(utcDate, BERKELEY_TZ);
+  // Return as a simple Date object with just year/month/day
+  // Using Date constructor to avoid timezone issues
+  return new Date(Date.UTC(berkeleyDate.getFullYear(), berkeleyDate.getMonth(), berkeleyDate.getDate()));
 }
 
 /**
@@ -66,8 +82,9 @@ export function formatConsistentDate(dateString: string): string {
 
 /**
  * Check if a date string falls within a week range, handling timezone consistently
+ * For ICS/calendar dates (ISO strings)
  */
 export function isDateInWeekRange(dateString: string, weekStart: Date, weekEnd: Date): boolean {
-  const eventDate = parseConsistentDate(dateString);
+  const eventDate = parseICSDate(dateString);
   return eventDate >= weekStart && eventDate < weekEnd;
 }

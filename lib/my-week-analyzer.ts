@@ -1,5 +1,5 @@
 import { runAI } from './aiClient';
-import { getConsistentToday, getConsistentWeekRange, parseConsistentDate, isDateInWeekRange } from './date-utils';
+import { getConsistentToday, getConsistentWeekRange, parseICSDate, isDateInWeekRange } from './date-utils';
 
 // Safe console logging - prevents JSON contamination in production
 const safeLog = (...args: unknown[]) => {
@@ -240,7 +240,7 @@ function filterCalendarEventsForWeek(cohortEvents: CohortEvents, weekStart: Date
     
     // Parse the event date more carefully to avoid timezone issues
     const isInRange = isDateInWeekRange(event.start, weekStart, weekEnd);
-    const eventDate = parseConsistentDate(event.start);
+    const eventDate = parseICSDate(event.start);
     
     if (isInRange) {
       safeLog(`✅ Including event: ${event.title} on ${eventDate.toDateString()}`);
@@ -373,7 +373,7 @@ export async function analyzeMyWeekWithAI(
   
   // Prepare content for AI analysis
   const calendarContent = calendarEvents.map(event => {
-    const eventDate = parseConsistentDate(event.start);
+    const eventDate = parseICSDate(event.start);
     const originalEventDate = new Date(event.start);
     // Format date as YYYY-MM-DD using LOCAL time components (not UTC)
     const formattedDate = `${eventDate.getFullYear()}-${String(eventDate.getMonth() + 1).padStart(2, '0')}-${String(eventDate.getDate()).padStart(2, '0')}`;
@@ -533,7 +533,7 @@ Analyze the content and provide the weekly summary:`;
     
     // Fallback: return basic event list without AI processing
     const basicEvents: WeeklyEvent[] = calendarEvents.map(event => {
-      const eventDate = parseConsistentDate(event.start);
+      const eventDate = parseICSDate(event.start);
       const originalEventDate = new Date(event.start);
       const { type, priority } = categorizeEvent(
         event.summary || event.title || 'Calendar Event',
@@ -696,7 +696,7 @@ export async function analyzeCohortMyWeekWithAI(
     
     // Fallback: return basic event lists without AI processing
     const blueEvents = filterCalendarEventsForWeek({ blue: cohortEvents.blue || [] }, weekStart, weekEnd).map(event => {
-      const eventDate = parseConsistentDate(event.start);
+      const eventDate = parseICSDate(event.start);
       const originalEventDate = new Date(event.start);
       const { type, priority } = categorizeEvent(
         event.summary || event.title || 'Calendar Event',
@@ -716,7 +716,7 @@ export async function analyzeCohortMyWeekWithAI(
     });
 
     const goldEvents = filterCalendarEventsForWeek({ gold: cohortEvents.gold || [] }, weekStart, weekEnd).map(event => {
-      const eventDate = parseConsistentDate(event.start);
+      const eventDate = parseICSDate(event.start);
       const originalEventDate = new Date(event.start);
       const { type, priority } = categorizeEvent(
         event.summary || event.title || 'Calendar Event',
@@ -767,7 +767,7 @@ async function generateCohortSpecificAnalysis(
   
   // Prepare content for AI analysis
   const calendarContent = calendarEvents.map(event => {
-    const eventDate = parseConsistentDate(event.start);
+    const eventDate = parseICSDate(event.start);
     const originalEventDate = new Date(event.start);
     return `Date: ${eventDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} (${eventDate.toISOString().split('T')[0]})
 Time: ${originalEventDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
