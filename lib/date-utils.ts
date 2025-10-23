@@ -1,16 +1,26 @@
+import { toZonedTime } from 'date-fns-tz';
+
 /**
  * Utility functions for handling dates consistently between server and client
  * Addresses SSR/CSR hydration mismatches common in Next.js deployments
+ * 
+ * All date operations use America/Los_Angeles timezone (PST/PDT) since this is
+ * for UC Berkeley EWMBA program. Vercel serverless functions run in UTC, so we
+ * must explicitly convert to Berkeley time.
  */
 
+const BERKELEY_TZ = 'America/Los_Angeles';
+
 /**
- * Get a consistent "today" date that works the same on server and client
- * Avoids timezone-related SSR/CSR mismatches
+ * Get a consistent "today" date in Berkeley timezone
+ * Converts server UTC time to PST/PDT to avoid one-day-ahead bugs
  */
 export function getConsistentToday(): Date {
-  const now = new Date();
-  // Create a date in local timezone but normalized to midnight
-  return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const nowUTC = new Date();
+  // Convert UTC to Berkeley time (PST/PDT depending on DST)
+  const nowBerkeley = toZonedTime(nowUTC, BERKELEY_TZ);
+  // Normalize to midnight in Berkeley timezone
+  return new Date(nowBerkeley.getFullYear(), nowBerkeley.getMonth(), nowBerkeley.getDate());
 }
 
 /**
@@ -18,16 +28,19 @@ export function getConsistentToday(): Date {
  * Handles timezone edge cases that can cause date shifting
  */
 export function parseConsistentDate(dateString: string): Date {
-  const date = new Date(dateString);
+  const dateUTC = new Date(dateString);
+  // Convert to Berkeley timezone before normalizing
+  const dateBerkeley = toZonedTime(dateUTC, BERKELEY_TZ);
   // Return normalized date to avoid timezone shifting
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  return new Date(dateBerkeley.getFullYear(), dateBerkeley.getMonth(), dateBerkeley.getDate());
 }
 
 /**
- * Get week range starting from Sunday in a timezone-consistent way
+ * Get week range starting from Sunday in Berkeley timezone
+ * Ensures week calculations happen in PST/PDT, not UTC
  */
 export function getConsistentWeekRange(): { start: Date; end: Date } {
-  const today = getConsistentToday();
+  const today = getConsistentToday(); // Already in Berkeley timezone
   const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
   
   // Calculate the start of the week (Sunday)
