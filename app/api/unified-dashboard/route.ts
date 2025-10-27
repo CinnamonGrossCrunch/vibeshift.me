@@ -132,7 +132,7 @@ export async function GET() {
       (async () => {
         // Start all data fetching operations in parallel with individual timeouts
         const [newsletterResult, calendarResult] = await Promise.allSettled([
-          // Newsletter data fetch and AI organization with 35s timeout
+          // Newsletter data fetch and AI organization with 180s timeout (AI can take 2+ minutes)
           Promise.race([
             (async () => {
               const newsletterStart = Date.now();
@@ -165,9 +165,9 @@ export async function GET() {
             })(),
             new Promise<never>((_, reject) => 
               setTimeout(() => {
-                console.error('❌ [API] Newsletter timeout after 35 seconds!');
-                reject(new Error('Newsletter timeout (35s)'));
-              }, 35000)
+                console.error('❌ [API] Newsletter timeout after 180 seconds!');
+                reject(new Error('Newsletter timeout (180s)'));
+              }, 180000)
             )
           ]),
           
