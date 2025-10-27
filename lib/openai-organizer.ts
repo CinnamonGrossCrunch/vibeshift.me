@@ -44,7 +44,11 @@ export async function organizeNewsletterWithAI(
   title?: string
 ): Promise<OrganizedNewsletter> {
   
+  console.log('🤖 [AI] Starting newsletter AI organization...');
+  console.log('🤖 [AI] Input sections:', rawSections.length);
+  
   if (!process.env.OPENAI_API_KEY) {
+    console.warn('⚠️ [AI] OpenAI API key not found, falling back to original parsing');
     if (process.env.NODE_ENV === 'development') {
       console.warn('OpenAI API key not found, falling back to original parsing');
     }
@@ -56,6 +60,7 @@ export async function organizeNewsletterWithAI(
   }
 
   const startTime = Date.now();
+  console.log('🤖 [AI] Start time:', new Date(startTime).toISOString());
 
   try {
     // Convert raw sections to HTML for AI processing - PRESERVE ALL HTML INCLUDING LINKS
@@ -200,6 +205,12 @@ ${rawContent}`;
 
   const ai = await runAI({ prompt, reasoningEffort: 'minimal', verbosity: 'low', temperature: 0.1, maxOutputTokens: 4000 });
   const response = ai.text;
+  
+  console.log('🤖 [AI] AI response received');
+  console.log('🤖 [AI] Model used:', ai.model);
+  console.log('🤖 [AI] Models tried:', ai.modelsTried?.join(', ') || 'N/A');
+  console.log('🤖 [AI] Latency:', ai.ms, 'ms');
+  console.log('🤖 [AI] Response length:', response.length, 'characters');
 
     // Remove any markdown code blocks if present
     let cleanedResponse = response;
@@ -237,6 +248,8 @@ ${rawContent}`;
     }
 
     const processingTime = Date.now() - startTime;
+    console.log('✅ [AI] AI processing completed in', processingTime, 'ms');
+    console.log('✅ [AI] Organized sections:', organizedData.sections?.length || 0);
     // console.log(`⏱️ AI processing completed in ${processingTime}ms`);
 
     // Validate structure
@@ -271,6 +284,13 @@ ${rawContent}`;
     return result;
 
   } catch (error) {
+    console.error('❌ [AI] Error in AI organization:', error);
+    console.error('❌ [AI] Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      time: Date.now() - startTime + 'ms'
+    });
+    
     if (process.env.NODE_ENV === 'development') {
       console.error('💥 Error in AI organization:', error);
     }

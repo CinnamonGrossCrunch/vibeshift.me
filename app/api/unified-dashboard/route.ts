@@ -136,17 +136,27 @@ export async function GET() {
           Promise.race([
             (async () => {
               const newsletterStart = Date.now();
+              console.log('📰 [API] Starting newsletter fetch pipeline...');
               
+              console.log('📰 [API] Step 1/3: Getting latest newsletter URL...');
               const latest = await getLatestNewsletterUrl();
+              console.log('📰 [API] Step 1/3 completed:', Date.now() - newsletterStart, 'ms');
               
+              console.log('📰 [API] Step 2/3: Scraping newsletter content...');
+              const scrapeStart = Date.now();
               const rawData = await scrapeNewsletter(latest);
+              console.log('📰 [API] Step 2/3 completed:', Date.now() - scrapeStart, 'ms');
               
+              console.log('📰 [API] Step 3/3: Organizing with AI...');
+              const aiStart = Date.now();
               // Use OpenAI to organize the content intelligently
               const organizedData = await organizeNewsletterWithAI(
                 rawData.sections, 
                 rawData.sourceUrl, 
                 rawData.title
               );
+              console.log('📰 [API] Step 3/3 completed:', Date.now() - aiStart, 'ms');
+              console.log('✅ [API] Newsletter pipeline completed:', Date.now() - newsletterStart, 'ms total');
               
               return {
                 data: organizedData,
@@ -154,7 +164,10 @@ export async function GET() {
               };
             })(),
             new Promise<never>((_, reject) => 
-              setTimeout(() => reject(new Error('Newsletter timeout (35s)')), 35000)
+              setTimeout(() => {
+                console.error('❌ [API] Newsletter timeout after 35 seconds!');
+                reject(new Error('Newsletter timeout (35s)'));
+              }, 35000)
             )
           ]),
           

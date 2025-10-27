@@ -107,10 +107,14 @@ async function fetchText(url: string): Promise<string> {
 }
 
 export async function getLatestNewsletterUrl(): Promise<string> {
+  console.log('🔍 [SCRAPE] Starting newsletter URL fetch...');
   const archiveUrl =
     'https://us7.campaign-archive.com/home/?u=af08d0494e1eb953ae69deb12&id=82d127382b';
 
+  console.log('🔍 [SCRAPE] Fetching archive page:', archiveUrl);
   const html = await fetchText(archiveUrl);
+  console.log('🔍 [SCRAPE] Archive page fetched, HTML length:', html.length);
+  
   const $ = cheerio.load(html);
 
   // Robust first-link selection:
@@ -121,12 +125,21 @@ export async function getLatestNewsletterUrl(): Promise<string> {
     $('.campaigns a[href]').first().attr('href') ||
     $('a[href]').first().attr('href');
 
-  if (!href) throw new Error('No campaign link found on archive page.');
-  return toAbsoluteUrl(href, archiveUrl);
+  console.log('🔍 [SCRAPE] Latest newsletter URL found:', href);
+  if (!href) {
+    console.error('❌ [SCRAPE] No campaign link found on archive page!');
+    throw new Error('No campaign link found on archive page.');
+  }
+  const finalUrl = toAbsoluteUrl(href, archiveUrl);
+  console.log('✅ [SCRAPE] Final newsletter URL:', finalUrl);
+  return finalUrl;
 }
 
 export async function scrapeNewsletter(url: string): Promise<NewsletterPayload> {
+  console.log('🔍 [SCRAPE] Starting newsletter scraping from:', url);
   const html = await fetchText(url);
+  console.log('🔍 [SCRAPE] Newsletter HTML fetched, length:', html.length);
+  
   const $ = cheerio.load(html);
 
   safeLog('📰 Newsletter scraping started');
