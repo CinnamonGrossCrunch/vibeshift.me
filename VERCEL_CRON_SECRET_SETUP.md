@@ -52,7 +52,7 @@ Once added, your two cron jobs will activate:
 ### Option 2: Manual Test (After Adding Secret)
 Run this in PowerShell to test the endpoint:
 ```powershell
-Invoke-WebRequest -Uri "https://vibeshift.me/api/cron/refresh-cache" `
+Invoke-WebRequest -Uri "https://www.oski.app/api/cron/refresh-cache" `
   -Headers @{"Authorization"="Bearer b5f6eb7aef6326b4881fdc9e48f9ec367bf45b41354bdc44e83caf8359ebfd52"} `
   -Method GET -TimeoutSec 90
 ```
@@ -95,7 +95,7 @@ This secret is used to:
 - ✅ Check Vercel logs for error messages
 
 ### Manual Test Failing?
-- Ensure you're using the production URL (`vibeshift.me`)
+- Ensure you're using the production URL (`www.oski.app`)
 - Check the Authorization header matches exactly
 - Verify the cron route is deployed (should be in latest deployment)
 
