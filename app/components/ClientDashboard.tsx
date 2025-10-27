@@ -16,13 +16,15 @@ import type { UnifiedDashboardData } from '@/app/api/unified-dashboard/route';
 type CohortType = 'blue' | 'gold';
 
 interface ClientDashboardProps {
-  initialData: UnifiedDashboardData;
+  initialData: UnifiedDashboardData | null;
 }
 
 export default function ClientDashboard({ initialData }: ClientDashboardProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { glassEffectClass, capabilities, shouldUseReducedMotion } = usePerformance();
   const [selectedCohort, setSelectedCohort] = useState<CohortType>('blue');
+  const [dashboardData, setDashboardData] = useState<UnifiedDashboardData | null>(initialData);
+  const [loading, setLoading] = useState(!initialData);
   
   // Header animation states
   const [showLogo, setShowLogo] = useState(false);
@@ -30,6 +32,22 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
   
   // Dynamic layout state - track if DashboardTabs2 is taller than MainDashboardTabs
   const [isDash2Taller, setIsDash2Taller] = useState(false);
+
+  // Fetch data if not provided (client-side fetching)
+  useEffect(() => {
+    if (!initialData) {
+      fetch('/api/unified-dashboard')
+        .then(res => res.json())
+        .then(data => {
+          setDashboardData(data);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error('Error fetching dashboard data:', error);
+          setLoading(false);
+        });
+    }
+  }, [initialData]);
 
   // Load cohort preference from localStorage on mount, but default to blue
   useEffect(() => {
@@ -193,12 +211,20 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
           
           {/* My Week Widget - Grows to fill available space, below weather on small/medium */}
           <div className="flex-grow flex items-center min-w-0 w-full lg:order-1">
-            <MyWeekWidget 
-              data={initialData.myWeekData}
-              selectedCohort={selectedCohort}
-              cohortEvents={initialData.cohortEvents}
-              newsletterData={initialData.newsletterData}
-            />
+            {!loading && dashboardData && (
+              <MyWeekWidget 
+                data={dashboardData.myWeekData}
+                selectedCohort={selectedCohort}
+                cohortEvents={dashboardData.cohortEvents}
+                newsletterData={dashboardData.newsletterData}
+              />
+            )}
+            {loading && (
+              <div className="text-center w-full py-8">
+                <div className="animate-spin h-8 w-8 border-4 border-berkeley-blue border-t-transparent rounded-full mx-auto"></div>
+                <p className="mt-4 text-sm">Loading dashboard...</p>
+              </div>
+            )}
           </div>
         </div>
         
@@ -207,25 +233,29 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
           {/* Left Column: MainDashboardTabs - Always 6 columns on large screens */}
           <div className="lg:col-span-6 lg:row-span-1">
             <div id="main-dashboard-tabs">
-              <MainDashboardTabs 
-                cohortEvents={{
-                  blue: initialData.cohortEvents?.blue || [],
-                  gold: initialData.cohortEvents?.gold || [],
-                  original: initialData.cohortEvents?.original || [],
-                  launch: initialData.cohortEvents?.launch || [],
-                  calBears: initialData.cohortEvents?.calBears || [],
-                  campusGroups: initialData.cohortEvents?.campusGroups || []
-                }}
-                selectedCohort={selectedCohort}
-                dashboardData={initialData}
-              />
+              {!loading && dashboardData && (
+                <MainDashboardTabs 
+                  cohortEvents={{
+                    blue: dashboardData.cohortEvents?.blue || [],
+                    gold: dashboardData.cohortEvents?.gold || [],
+                    original: dashboardData.cohortEvents?.original || [],
+                    launch: dashboardData.cohortEvents?.launch || [],
+                    calBears: dashboardData.cohortEvents?.calBears || [],
+                    campusGroups: dashboardData.cohortEvents?.campusGroups || []
+                  }}
+                  selectedCohort={selectedCohort}
+                  dashboardData={dashboardData}
+                />
+              )}
             </div>
           </div>
           
           {/* Right Column: DashboardTabs2 - Hidden on small screens, spans 2 rows conditionally */}
           <div className={`hidden lg:block lg:col-span-2 ${isDash2Taller ? 'lg:row-span-2' : 'lg:row-span-1'}`}>
             <div id="dashboard-tabs-2" className="lg:min-h-full">
-              <DashboardTabs2 dashboardData={initialData} />
+              {!loading && dashboardData && (
+                <DashboardTabs2 dashboardData={dashboardData} />
+              )}
             </div>
           </div>
           
