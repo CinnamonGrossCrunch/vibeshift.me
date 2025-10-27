@@ -774,16 +774,30 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
             {data.title && (
               <p className="text-gray-400 text-xs urbanist-medium mb-0 truncate ">So A Bear Can Rest at Ease</p>
             )}
+              {data.sourceUrl && (
               <a
-              className="text-gray-800 dark:text-gray-600 text-xs urbanist-regular transition-colors inline-block mb-0  select-text"
-              onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'var(--berkeley-gold)'}
-              onMouseLeave={(e) => (e.target as HTMLElement).style.color = ''}
-              href={data.sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View original Newsletter
-            </a>
+                className="text-gray-800 dark:text-gray-600 text-xs urbanist-regular transition-colors inline-block mb-0  select-text"
+                onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'var(--berkeley-gold)'}
+                onMouseLeave={(e) => (e.target as HTMLElement).style.color = ''}
+                href={data.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View original Newsletter
+              </a>
+            )}
+            {!data.sourceUrl && (
+              <a
+                className="text-gray-800 dark:text-gray-600 text-xs urbanist-regular transition-colors inline-block mb-0  select-text"
+                onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'var(--berkeley-gold)'}
+                onMouseLeave={(e) => (e.target as HTMLElement).style.color = ''}
+                href="https://us7.campaign-archive.com/home/?u=af08d0494e1eb953ae69deb12&id=82d127382b"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Newsletter Archive
+              </a>
+            )}
             
             {/* 
             <button
