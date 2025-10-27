@@ -35,6 +35,16 @@ export interface OrganizedNewsletter {
   };
 }
 
+// Simple in-memory cache for organized newsletters
+interface NewsletterCache {
+  sourceUrl: string;
+  timestamp: number;
+  data: OrganizedNewsletter;
+}
+
+const newsletterCacheHolder: { current: NewsletterCache | null } = { current: null };
+const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
 /**
  * Uses OpenAI to intelligently reorganize newsletter content into proper sections
  */
@@ -46,6 +56,16 @@ export async function organizeNewsletterWithAI(
   
   console.log('🤖 [AI] Starting newsletter AI organization...');
   console.log('🤖 [AI] Input sections:', rawSections.length);
+  console.log('🤖 [AI] Source URL:', sourceUrl);
+  
+  // Check cache first
+  if (newsletterCacheHolder.current && 
+      newsletterCacheHolder.current.sourceUrl === sourceUrl && 
+      Date.now() - newsletterCacheHolder.current.timestamp < CACHE_DURATION) {
+    console.log('✅ [AI] Using cached newsletter (age:', 
+      Math.round((Date.now() - newsletterCacheHolder.current.timestamp) / 1000 / 60), 'minutes)');
+    return newsletterCacheHolder.current.data;
+  }
   
   if (!process.env.OPENAI_API_KEY) {
     console.warn('⚠️ [AI] OpenAI API key not found, falling back to original parsing');
@@ -73,66 +93,20 @@ export async function organizeNewsletterWithAI(
       return `[${section.sectionTitle}]\n${items}`;
     }).join('\n\n');
 
-    // Enhanced prompt for the AI
-    const prompt = `You are a newsletter content organizer for UC Berkeley EWMBA students. Transform the following newsletter content into a clean, structured format.
+    console.log('🤖 [AI] Raw content length:', rawContent.length, 'characters');
 
-**REQUIREMENTS:**
+    // Optimized, concise prompt
+    const prompt = `Transform this UC Berkeley EWMBA newsletter into structured JSON format.
 
-1. CONTENT PRESERVATION: Preserve ALL content - do not truncate, summarize, or remove any information
-2. HYPERLINK PRESERVATION: 
-   - **CRITICAL: PRESERVE ALL HYPERLINKS** - Never remove or modify any <a href="..."> tags or URLs
-   - Maintain exact link text and destination URLs without any changes
-   - Keep target="_blank" attributes when present
-   - If hyperlinks exist in content, they MUST appear in the final output
+**CRITICAL RULES:**
+1. Preserve ALL content - no truncation or summarization
+2. Keep ALL hyperlinks intact with exact URLs - NEVER remove <a href> tags
+3. Use existing section structure: "This Week", "Announcements", "Saturday Scoop", "Events", "Career Corner", "PO Tips and Tidbits"
+4. Format headers with <h4> for titles, <h5> for subheadings
+5. Use <ul>/<li> for lists, <p> for paragraphs
+6. Convert bold text in paragraphs to normal weight (keep semantic headers only)
 
-3. SECTION ORGANIZATION:
-   - Group related content logically into the existing section structure
-   - Common sections: "This Week", "Announcements", "Saturday Scoop", "Events", "Career Corner", "PO Tips and Tidbits"
-   - If content doesn't fit existing sections, create appropriate new sections
-   - Split long content into multiple focused subsections within sections
-
-4. FORMATTING GUIDELINES:
-   - **HEADERS**: Use <h4> tags for main item titles only (not bold)
-   - **SUBHEADINGS**: Use <h5> tags for subsection headers within items
-   - **LISTS**: Use proper <ul> and <li> tags for bullet points
-   - **PARAGRAPHS**: Use <p> tags for paragraph content
-   - **BODY TEXT**: Convert ANY bold/strong formatting in the middle of paragraphs to normal font weight
-   - **HYPERLINKS - CRITICAL**: Preserve ALL hyperlinks exactly as they are - NEVER remove, modify, or strip any <a href="..."> tags
-
-5. CONTENT STRUCTURE:
-   - Create clear, scannable sections with proper hierarchy
-   - Break down complex announcements into logical subsections
-   - Use descriptive, action-oriented headings
-   - Ensure proper spacing and readability
-
-6. SPECIAL FORMATTING RULES:
-   
-   **Headers and Subheadings:**
-   - Use <h4> for: Main item titles at the start of each content block
-   - Use <h5> for: Subsection headers like "Things to keep in mind", "Important dates", etc.
-   - Do NOT use bold (**text**) or <strong> tags for headers - use proper HTML heading tags
-   
-   **Body Text:**
-   - Convert to normal weight: Any bold text in the middle of sentences or paragraphs
-   - Exception: Keep bold ONLY for true emphasis within sentences (very sparingly)
-   - Remove unnecessary bold formatting that was used for visual separation
-   
-   **Lists and Structure:**
-   - Use <ul> and <li> for bullet point lists
-   - Use <ol> and <li> for numbered lists
-   - Maintain proper nesting for sub-lists
-   - Group related bullet points together
-
-7. CONTENT ORGANIZATION LOGIC:
-   - **ANNOUNCEMENTS**: Important updates, policy changes, deadline reminders
-   - **EVENTS**: Social gatherings, networking, extracurricular activities  
-   - **ACADEMIC**: Course-related info, registration, academic deadlines
-   - **CAREER**: Job opportunities, career services, professional development
-   - **COMPLEX CONTENT**: Break down any single item >300 words into logical subsections
-
-8. OUTPUT FORMAT:
-   Return ONLY a JSON object with this structure:
-
+**OUTPUT FORMAT:**
 {
   "sections": [
     {
@@ -140,70 +114,23 @@ export async function organizeNewsletterWithAI(
       "items": [
         {
           "title": "Item Title",
-          "html": "<h4>Item Title</h4><h5>Subheading</h5><p>Content with <a href='exact-url' target='_blank'>preserved links</a></p><ul><li>Bullet points</li></ul>"
+          "html": "<h4>Item Title</h4><p>Content with <a href='url'>links</a></p>"
         }
       ]
     }
   ],
   "debugInfo": {
-    "reasoning": "Explanation of organization decisions",
-    "sectionDecisions": "How sections were structured", 
-    "edgeCasesHandled": "Special cases addressed",
-    "totalSections": ${rawSections.length},
-    "preservedHyperlinks": "List of all hyperlinks preserved"
+    "reasoning": "Brief explanation",
+    "totalSections": ${rawSections.length}
   }
 }
 
-**EXAMPLE FORMATTING:**
-For complex content like "Fall 2025 Electives Reminder":
-{
-  "title": "Fall 2025 Electives Reminder",
-  "html": "<h4>Fall 2025 Electives Reminder</h4><h5>Drop Only ends Monday Sep 8, 11:59PM PT</h5><h5>Things to keep in mind:</h5><ul><li>Any enrollment changes to your schedule must be made in <a href=\"https://calcentral.berkeley.edu\" target=\"_blank\">OLR</a>.</li><li>Final enrollment changes in CalCentral will be processed on Sep 9, after which you should confirm your class schedule accuracy.</li><li>Bills, transcripts, and <a href=\"https://bcourses.berkeley.edu\">bCourses</a> enrollments are generated by enrollment in CalCentral.</li></ul><h5>Go Beyond Yourself</h5><ul><li>Please drop any course enrollments you do not wish to take in consideration of students on the waitlist.</li><li>In addition, also drop yourself from any waitlists that you do not want.</li><li>As other students drop, you may be enrolled off the waitlist during Drops Only! So check your <a href=\"https://calcentral.berkeley.edu/dashboard\">OLR status</a> before the Drop Only Round closes.</li></ul>"
-}
+Return ONLY valid JSON, no markdown formatting.
 
-**DEBUG INFO REQUIREMENTS:**
-{
-  "debugInfo": {
-    "reasoning": "Organized content into 6 main sections focusing on...",
-    "sectionDecisions": [
-      "Grouped academic content in Announcements section",
-      "Moved social events to Events section",
-      "Separated career-related items into Career Corner"
-    ],
-    "edgeCasesHandled": [
-      "List any specific formatting issues, heading conversions, or complex content restructuring you performed",
-      "Document how you split long announcements into multiple focused subsections", 
-      "Mention how you ensured proper spacing between sentences and created logical bullet point structure",
-      "Document any hyperlinks that were preserved and how you maintained their exact format"
-    ],
-    "totalSections": ${rawSections.length},
-    "preservedHyperlinks": "List of all hyperlinks preserved"
-  }
-}
-
-FINAL CHECKS:
-- **CRITICAL**: ALL content must be preserved and properly categorized (no truncation!)
-- **SECTION COUNT VERIFICATION**: Output section count MUST match input section count exactly
-- **HYPERLINKS**: Double-check that ALL <a href="..."> tags from the original content are preserved exactly
-- **LINK VERIFICATION**: Ensure no URLs or link text have been modified or removed
-- **CONTENT VERIFICATION**: Every piece of original content must appear in the output
-- Proper spacing between all sentences and paragraphs
-- Bold formatting only at line beginnings for headers/subsections
-- All hyperlinks maintained exactly as provided with original URLs and link text
-- Proper HTML structure with semantic tags
-- Content grouped logically to match our existing section organization
-- Clean, readable format that adheres to our established UI patterns
-
-HYPERLINK PRESERVATION PRIORITY: This is CRITICAL - any missing or modified hyperlinks will break the user experience. Treat hyperlink preservation as the highest priority alongside content preservation.
-
-SECTION PRESERVATION PRIORITY: This is CRITICAL - removing any sections will lose important information. Every original section must be preserved in the output.
-
-IMPORTANT: Return ONLY the JSON object, no additional text, explanations, or markdown formatting. Start with { and end with }.
-
-Raw newsletter content to organize:
+Newsletter content:
 ${rawContent}`;
 
-  const ai = await runAI({ prompt, reasoningEffort: 'minimal', verbosity: 'low', temperature: 0.1, maxOutputTokens: 4000 });
+  const ai = await runAI({ prompt, reasoningEffort: 'minimal', verbosity: 'low', temperature: 0.1, maxOutputTokens: 8000 });
   const response = ai.text;
   
   console.log('🤖 [AI] AI response received');
@@ -280,6 +207,14 @@ ${rawContent}`;
     //   hasDebugInfo: !!result.aiDebugInfo,
     //   processingTime: result.aiDebugInfo?.processingTime
     // });
+
+    // Cache the result
+    newsletterCacheHolder.current = {
+      sourceUrl,
+      timestamp: Date.now(),
+      data: result
+    };
+    console.log('💾 [AI] Newsletter cached for 24 hours');
 
     return result;
 
