@@ -21,16 +21,16 @@
   ],
   "functions": {
     "app/api/newsletter/route.ts": {
-      "maxDuration": 60
+      "maxDuration": 300
     },
     "app/api/unified-dashboard/route.ts": {
-      "maxDuration": 60
+      "maxDuration": 300
     },
     "app/api/cron/refresh-cache/route.ts": {
-      "maxDuration": 60
+      "maxDuration": 300
     },
     "app/api/cron/refresh-newsletter/route.ts": {
-      "maxDuration": 60
+      "maxDuration": 300
     }
   },
   "headers": [
