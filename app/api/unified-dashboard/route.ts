@@ -119,7 +119,7 @@ export async function GET() {
   }
 
   const startTime = Date.now();
-  const INTERNAL_TIMEOUT = 55000; // 55 seconds - 5 second buffer before Vercel's 60s hard limit
+  const INTERNAL_TIMEOUT = 200000; // 200 seconds - allow newsletter AI processing (up to 180s) + calendar/weather
   
   // Create overall timeout promise
   const timeoutPromise = new Promise<never>((_, reject) => 
