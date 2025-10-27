@@ -627,7 +627,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
         counter++;
         return `<div class="flex items-center space-x-3 my-2">
           <div class="flex-shrink-0">
-            <div class="w-5 h-5 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full flex items-center justify-center">
+            <div class="w-5 h-5 bg-slate-500/10 border-transparent text-blue-700 dark:text-blue-300 rounded-full flex items-center justify-center">
               <span class="text-xs urbanist-medium">${counter}</span>
             </div>
           </div>
@@ -753,7 +753,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
       {/* =================================================================== */}
       
       {/* Header */}
-      <div className="rounded-t-xl sm:rounded-none pt-2 px-3 pb-2 text-white relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>
+      <div className="rounded-t-xl  pt-2 px-3 pb-2 text-white relative overflow-hidden bg-slate-500/10 border-transparent">
         {/* Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
@@ -846,7 +846,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                     <div 
                       className="text-xs px-2 text-gray-200 urbanist-medium whitespace-nowrap flex items-center animate-smooth-fade-in" 
                       >
-                      Rest at Ease
+                      Caught Up!
                     </div>
                   )}
                
@@ -909,13 +909,13 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
               >
                 <div className="flex items-center space-x-3">
                   {allItemsInSectionVisited(idx) ? (
-                    <div className="w-3 h-3 bg-green-500 rounded-full border-2 border-green-300 shadow-lg shadow-green-500/30 mr-2"></div>
-                  ) : (
-                    <div className="w-3 h-3 rounded-full border-2 border-violet-300 shadow-lg animate-pulse mr-2" style={{ backgroundColor: 'rgb(139, 92, 246)', boxShadow: '0 10px 15px -3px rgba(139, 92, 246, 0.4)' }}></div>
+                    <div className="w-3 h-3 rounded-full border-2 border-violet-300 shadow-lg  mr-2" style={{ backgroundColor: 'rgb(139, 92, 246)', boxShadow: '0 10px 15px -3px rgba(139, 92, 246, 0.4)' }}>
+                  </div>) : (<div className="w-3 h-3 bg-blue-400 rounded-full border-2 border-green-300 shadow-lg shadow-green-500/30 mr-2 animate-pulse"></div>
+                    
                   )}
                     <h3 className="text-sm urbanist-semibold transition-colors group-hover:transition-colors" 
                       style={{ color: 'var(--text-1)' }}
-                      onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'rgb(139, 92, 246)'}
+                      onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'rgba(255, 255, 255, 1)'}
                       onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'var(--text-1)'}>
                     {sec.sectionTitle}
                   </h3>
@@ -925,7 +925,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                     {sectionVisitedCount === sectionTotalCount ? (
                       <div 
                         className="w-20 h-8 rounded-lg flex items-center justify-center"
-                        style={{ backgroundColor: 'var(--berkeley-blue)', color: 'var(--berkeley-gold)' }}
+                        style={{  color: 'var(--berkeley-gold)' }}
                       >
                         {animationData ? (
                           <div 
@@ -944,8 +944,8 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                         )}
                       </div>
                     ) : (
-                      <div className="w-20 h-8 rounded-lg flex items-center justify-center urbanist-medium text-xs "
-                           style={{ backgroundColor: 'var(--berkeley-blue)', color: 'var(--berkeley-gold)' }}>
+                      <div className="w-20 h-8 rounded-lg flex items-center justify-center urbanist-medium text-xs bg-glass"
+                          >
                         {sectionTotalCount - sectionVisitedCount}/{sectionTotalCount} Unread
                       </div>
                     )}
@@ -959,7 +959,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                 }`}
               >
                 <div className="expandable-content">
-                  <div className={`border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 ${idx === data.sections.length - 1 ? 'rounded-b-2xl' : ''}`}>
+                  <div className={`border-t border-slate-700 bg-gradient-to-b from-slate-900/90 to-slate-800/70 ${idx === data.sections.length - 1 ? 'rounded-b-2xl' : ''}`}>
                     <div className={`px-1 py-1  ${idx === data.sections.length - 1 ? 'pb-6 rounded-b-2xl' : ''}`}>
                       {createSubsections(sec.items).map((subsection, j) => {
                         const itemKey = `${idx}-${j}`;
@@ -971,7 +971,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                           <div key={itemId} className="relative">
                             {/* Subsection container */}
                             <div 
-                              className="ml-2 mb-0.5 text-sm rounded-lg shadow-sm"
+                              className="ml-1 mb-0.5 text-sm rounded-lg shadow-sm "
                               style={{ 
                                 backgroundColor: 'var(--surface-1)',
                                 borderColor: 'var(--border-1)',
@@ -1005,13 +1005,10 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                                     }}
                                   >
                                     {isItemVisited || isItemOpen ? (
-                                      <div className="w-3 h-3 bg-green-500 rounded-full border-2 border-green-300 shadow-lg shadow-green-500/30"></div>
-                                    ) : (
-                                      <div className="w-3 h-3 rounded-full border-2 border-yellow-300 shadow-lg animate-pulse hover:animate-none transition-colors" 
-                                           style={{ backgroundColor: 'var(--berkeley-gold)', boxShadow: '0 10px 15px -3px rgba(251, 181, 21, 0.4)' }}
-                                           onMouseEnter={(e) => (e.target as HTMLElement).style.backgroundColor = '#E5A914'}
-                                           onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = 'var(--berkeley-gold)'}></div>
-                                    )}
+                                         <div className="w-3 h-3 rounded-full border-2 border-violet-300 shadow-lg  mr-2" style={{ backgroundColor: 'rgb(139, 92, 246)', boxShadow: '0 10px 15px -3px rgba(139, 92, 246, 0.4)' }}>
+                                         </div>):  (<div className="w-3 h-3 bg-blue-400 rounded-full border-2 border-green-300 shadow-lg shadow-green-500/30 mr-2 animate-pulse"></div>
+                    
+                  )}
                                   </div>
 
                                   <h4 className="text-xs urbanist-medium transition-colors truncate overflow-hidden"
@@ -1146,12 +1143,12 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
         {/* =================================================================== */}
         
         {/* Copyright Footer */}
-        <div className="border-t border-slate-200 dark:border-slate-700 py-1 px-4 rounded-b-xl relative overflow-hidden" style={{ background: "linear-gradient(to right, #001f47, var(--berkeley-blue))" }}>
+        <div className=" border-slate-200 dark:border-slate-700 py-1 px-4 rounded-b-xl relative overflow-hidden bg-slate-500/10 border-transparent" >
         
           
           {/* Content Overlay */}
           <div className="relative z-10 text-center">
-            <p className="text-xs py-0italic text-slate-400 dark:text-slate-500 urbanist-regular mx-auto select-none">
+            <p className="text-xs py-0italic text-slate-400 dark:text-slate-400 urbanist-regular mx-auto select-none">
               Bear Necessities | Copyright © 2025 Evening & Weekend MBA
             </p>
           </div>
