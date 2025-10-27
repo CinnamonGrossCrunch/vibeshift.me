@@ -12,6 +12,7 @@
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "verify-build": "node scripts/verify-no-api-leakage.js",
+    "pre-deploy": "node scripts/pre-deployment-check.js",
     "build:safe": "npm run build && npm run verify-build",
     "mcp:start": "node lib/mcp-server.js",
     "mcp:dev": "nodemon lib/mcp-server.js",

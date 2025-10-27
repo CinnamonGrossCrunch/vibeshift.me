@@ -1,13 +1,12 @@
 # Vercel Settings Optimization for OskiHub
 
-**Date**: October 2## 📋 Recommended Additional Settings
+**Date**: October 27, 2025
 
-### 6. **Skip Deployments When No Changes** (In Vercel Dashboard)
-**Status**: Can be enabled manually, but `ignoreCommand` provides better control
+This document outlines all Vercel configuration optimizations applied to improve build performance, runtime speed, and cost efficiency.
 
-The `ignoreCommand` we added gives you more granular control than the Vercel dashboard toggle. It automatically skips builds for documentation changes while ensuring code changes always trigger builds.
+---
 
-### 7. **Deployment Checks** (Currently NOT CONFIGURED) Already Optimized Settings
+## ✅ Already Optimized Settings
 
 ### 1. **Turbo Performance Build Machine** (ENABLED)
 - **30 vCPUs + 60 GB Memory**
@@ -33,6 +32,8 @@ The `ignoreCommand` we added gives you more granular control than the Vercel das
 - **Why it helps**: Critical fixes (like the 504 timeout issue) deploy immediately.
 
 **Impact**: Production issues resolved faster.
+
+---
 
 ## 🔧 Newly Applied Optimizations
 
@@ -68,33 +69,43 @@ The `ignoreCommand` we added gives you more granular control than the Vercel das
 - ❌ Update page.tsx → Builds (as expected)
 - ❌ Update package.json → Builds (as expected)
 
-## 📋 Recommended Additional Settings
+### 6. **Automated Deployment Checks** (CONFIGURED)
+**Status**: ✅ GitHub Actions workflow + Pre-deployment script added
 
-### 5. **Skip Deployments When No Changes** (Currently DISABLED)
-**Recommendation**: Enable this setting in Vercel dashboard
+**What's Configured**:
 
-**Path**: Project Settings → Root Directory → "Skip deployments when there are no changes"
+1. **GitHub Actions Workflow** (`.github/workflows/deployment-checks.yml`)
+   - TypeScript compilation check
+   - ESLint validation
+   - Build verification with API leakage detection
+   - Security audit (npm audit)
+   - Runs on every push and pull request
+
+2. **Pre-Deployment Script** (`scripts/pre-deployment-check.js`)
+   - Quick local checks before deploying
+   - Verifies critical files exist
+   - Validates vercel.json configuration
+   - Checks package.json scripts
+   - Run with: `npm run pre-deploy`
 
 **Why it helps**:
-- Saves build minutes
-- Only builds when actual code changes
-- Skips builds for README updates, documentation changes, etc.
+- Catches TypeScript errors before deployment
+- Prevents broken builds from reaching production
+- Detects security vulnerabilities early
+- Validates configuration integrity
 
-**Estimated savings**: 5-10 builds per month
+**Impact**: Prevents deployment failures and production issues.
 
-### 6. **Deployment Checks** (Currently NOT CONFIGURED)
-**Recommendation**: Add checks to prevent broken deployments
+---
 
-**Suggested checks**:
-- Run `npm run build` before promoting to production
-- Check for TypeScript errors
-- Verify API routes respond with 200 status
+## 📋 Optional Vercel Dashboard Settings
 
-**How to configure**: 
-1. Go to Project Settings → Deployment Checks
-2. Add a check using GitHub Actions or Vercel's built-in checks
+### 7. **Skip Deployments When No Changes**
+**Status**: Not needed - `ignoreCommand` provides better control
 
-**Impact**: Catch errors before they reach production.
+The `ignoreCommand` we added gives you more granular control than the Vercel dashboard toggle. It automatically skips builds for documentation changes while ensuring code changes always trigger builds.
+
+---
 
 ## 📊 Current Configuration Summary
 
@@ -109,6 +120,16 @@ The `ignoreCommand` we added gives you more granular control than the Vercel das
     }
   },
   "ignoreCommand": "git diff --quiet HEAD^ HEAD -- ':(exclude)*.md' ':(exclude)LICENSE' ':(exclude).gitignore'",  // ← NEW
+  "crons": [
+    {
+      "path": "/api/cron/refresh-cache",
+      "schedule": "0 7 * * *"  // Midnight Pacific
+    },
+    {
+      "path": "/api/cron/refresh-newsletter",
+      "schedule": "10 15 * * *"  // 8:10 AM Pacific
+    }
+  ],
   "functions": {
     "app/api/unified-dashboard/route.ts": { "maxDuration": 60 },
     "app/api/newsletter/route.ts": { "maxDuration": 60 },
@@ -117,6 +138,19 @@ The `ignoreCommand` we added gives you more granular control than the Vercel das
   }
 }
 ```
+
+**Package.json Scripts**:
+```json
+{
+  "scripts": {
+    "pre-deploy": "node scripts/pre-deployment-check.js",
+    "verify-build": "node scripts/verify-no-api-leakage.js",
+    "build:safe": "npm run build && npm run verify-build"
+  }
+}
+```
+
+---
 
 ## 🎯 Performance Impact Summary
 
@@ -127,7 +161,9 @@ The `ignoreCommand` we added gives you more granular control than the Vercel das
 | Production Priority | ✅ Enabled | Instant production deploys |
 | Node 22.x | ✅ Updated | 10-15% faster API routes |
 | Smart Build Skipping | ✅ Configured | Skip 30-40% of builds |
-| Deployment Checks | ❌ Not configured | Would prevent broken deploys |
+| Deployment Checks | ✅ Configured | Prevents broken deploys |
+
+---
 
 ## 💰 Cost Considerations
 
@@ -141,22 +177,51 @@ The `ignoreCommand` we added gives you more granular control than the Vercel das
 - Reduced to ~18-20 actual builds/month = ~$0.45-0.50/month
 - **Savings**: ~$0.25-0.30/month (30-40% reduction)
 
+---
+
 ## 🚀 Next Steps
 
-1. ✅ **DONE**: Node.js version updated to 22 (commit and deploy)
-2. ✅ **DONE**: Smart build skipping configured with ignoreCommand
-3. **Test**: Update a .md file and verify no build is triggered
-4. **Optional**: Configure deployment checks for added safety
-5. **Monitor**: Watch build times and function execution times after optimizations
+1. ✅ **DONE**: Node.js version updated to 22 (deployed)
+2. ✅ **DONE**: Smart build skipping configured with ignoreCommand (deployed)
+3. ✅ **DONE**: Deployment checks configured (GitHub Actions + pre-deploy script)
+4. **TODO**: Add CRON_SECRET to Vercel (see `VERCEL_CRON_SECRET_SETUP.md`)
+5. **Test**: Update a .md file and verify no build is triggered
+6. **Monitor**: Watch build times and function execution times after optimizations
 
-## 📈 Expected Improvements After Node 22 Update
+---
 
+## 📈 Expected Improvements
+
+### After Node 22 Update
 - **API Routes**: 10-15% faster execution
 - **Server-Side Rendering**: Better async handling for unified-dashboard fetch
 - **OpenAI API calls**: Slightly faster JSON parsing
 - **Calendar Processing**: Better memory management for large ICS files
 
+### After Smart Build Skipping
+- **Build Frequency**: 30-40% fewer builds
+- **Documentation Workflow**: Instant deploys for docs (no build wait)
+- **Cost Savings**: ~$0.25-0.30/month
+
+### After Deployment Checks
+- **Deployment Failures**: Reduced to near-zero
+- **Production Issues**: Caught before deployment
+- **Developer Confidence**: Higher (automated validation)
+
+---
+
+## 📚 Related Documentation
+
+- **VERCEL_CRON_SECRET_SETUP.md** - Guide to enable automatic cache refreshing
+- **PERFORMANCE_OPTIMIZATION.md** - Complete cron job architecture
+- **DEPLOYMENT_READY.md** - Performance optimization summary
+- **ENV_SETUP.md** - Environment variable setup
+
+---
+
 **Total Expected Impact**: 
-- Build time: Already optimized (Turbo)
-- Runtime performance: +10-15% improvement
-- Production stability: Already improved (60s timeout + SSR)
+- Build time: Already optimized (Turbo) ✅
+- Build frequency: Reduced 30-40% (smart skipping) ✅
+- Runtime performance: +10-15% improvement (Node 22) ✅
+- Production stability: Improved (60s timeout + SSR + deployment checks) ✅
+- Cost: Reduced ~30-40% ($0.25-0.30/month savings) ✅
