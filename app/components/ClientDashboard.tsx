@@ -36,16 +36,51 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
   // Fetch data if not provided (client-side fetching)
   useEffect(() => {
     if (!initialData) {
-      fetch('/api/unified-dashboard')
-        .then(res => res.json())
+      console.log('🔄 Fetching unified dashboard data...');
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 second timeout
+
+      fetch('/api/unified-dashboard', {
+        signal: controller.signal,
+        headers: {
+          'Cache-Control': 'no-cache',
+        }
+      })
+        .then(res => {
+          clearTimeout(timeoutId);
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+          }
+          return res.json();
+        })
         .then(data => {
+          console.log('✅ Dashboard data loaded:', {
+            hasNewsletter: !!data.newsletterData,
+            hasMyWeek: !!data.myWeekData,
+            hasCalendar: !!data.cohortEvents,
+            newsletterSections: data.newsletterData?.sections?.length || 0,
+            blueEvents: data.cohortEvents?.blue?.length || 0,
+            goldEvents: data.cohortEvents?.gold?.length || 0,
+          });
           setDashboardData(data);
           setLoading(false);
         })
         .catch(error => {
-          console.error('Error fetching dashboard data:', error);
+          clearTimeout(timeoutId);
+          console.error('❌ Error fetching dashboard data:', error);
+          console.error('Error details:', {
+            message: error.message,
+            name: error.name,
+            isAbortError: error.name === 'AbortError'
+          });
           setLoading(false);
+          // Don't set dashboardData to null - leave it as is so components can handle undefined
         });
+
+      return () => {
+        clearTimeout(timeoutId);
+        controller.abort();
+      };
     }
   }, [initialData]);
 
