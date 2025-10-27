@@ -8,6 +8,7 @@
       "NODE_VERSION": "22"
     }
   },
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- ':(exclude)*.md' ':(exclude)LICENSE' ':(exclude).gitignore'",
   "crons": [
     {
       "path": "/api/cron/refresh-cache",
