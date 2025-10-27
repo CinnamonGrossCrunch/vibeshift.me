@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Image from "next/image";
 import CalendarListView from "./CalendarListView";
 import CohortCalendarWidget from "./CohortCalendarWidget";
@@ -23,8 +23,8 @@ export default function MainDashboardTabs({
   dashboardData
 }: MainDashboardTabsProps) {
   const [activeTab, setActiveTab] = useState('OskiHub Cal');
-  const cohortTabs = ['OskiHub Cal', 'Book A Space @ Haas'];
-  const dashboardTabs = ['Slack', 'Updates'];
+  const cohortTabs = useMemo(() => ['OskiHub Cal', 'Book A Space @ Haas'], []);
+  const dashboardTabs = useMemo(() => ['Slack', 'Updates'], []);
 
   // Reset to first cohort tab when screen size changes and active tab is not available
   useEffect(() => {
