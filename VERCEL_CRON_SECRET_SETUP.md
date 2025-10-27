@@ -3,7 +3,7 @@
 ## Quick Setup Instructions
 
 ### 1. Open Vercel Dashboard
-Go to: https://vercel.com/cinnamongrosscrunch/vibeshit-me/settings/environment-variables
+Go to: https://vercel.com/matt-gross-projects-2589e68e/vibeshift.me/settings/environment-variables
 
 ### 2. Add Environment Variable
 
@@ -45,16 +45,16 @@ Once added, your two cron jobs will activate:
 ## How to Verify It's Working
 
 ### Option 1: Check Vercel Logs
-1. Go to: https://vercel.com/cinnamongrosscrunch/vibeshit-me/logs
+1. Go to: https://vercel.com/matt-gross-projects-2589e68e/vibeshift.me/logs
 2. Filter by "Cron"
 3. Look for successful executions at scheduled times
 
 ### Option 2: Manual Test (After Adding Secret)
 Run this in PowerShell to test the endpoint:
 ```powershell
-Invoke-WebRequest -Uri "https://vibeshit.me/api/cron/refresh-cache" `
+Invoke-WebRequest -Uri "https://vibeshift.me/api/cron/refresh-cache" `
   -Headers @{"Authorization"="Bearer b5f6eb7aef6326b4881fdc9e48f9ec367bf45b41354bdc44e83caf8359ebfd52"} `
-  -Method GET
+  -Method GET -TimeoutSec 90
 ```
 
 Expected response: `{"success": true, "message": "Cache refreshed successfully"}`
@@ -95,7 +95,7 @@ This secret is used to:
 - ✅ Check Vercel logs for error messages
 
 ### Manual Test Failing?
-- Ensure you're using the production URL (`vibeshit.me`)
+- Ensure you're using the production URL (`vibeshift.me`)
 - Check the Authorization header matches exactly
 - Verify the cron route is deployed (should be in latest deployment)
 
