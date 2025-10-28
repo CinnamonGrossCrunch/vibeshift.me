@@ -147,6 +147,11 @@ ${rawContent}`;
 
     // Use standard chat completions with token limit appropriate for model
     console.log('📝 Using standard chat completions API with increased token limit');
+    
+    // START TIMING
+    const aiStartTime = Date.now();
+    console.log('⏱️ AI API call started at:', new Date(aiStartTime).toISOString());
+    
     const client = getOpenAIClient();
     const completion = await client.chat.completions.create({
       model,
@@ -163,6 +168,13 @@ ${rawContent}`;
       temperature: 0.1,
       max_tokens: model === "gpt-3.5-turbo" ? 4000 : 16000, // Max for gpt-3.5-turbo is ~4K
     });
+    
+    // END TIMING
+    const aiEndTime = Date.now();
+    const aiDuration = (aiEndTime - aiStartTime) / 1000; // Convert to seconds
+    console.log('⏱️ AI API call completed at:', new Date(aiEndTime).toISOString());
+    console.log('⏱️ AI API call duration:', aiDuration.toFixed(2), 'seconds');
+    console.log(aiDuration > 60 ? '⚠️ AI call took over 1 minute!' : '✅ AI call completed in reasonable time');
 
     const response = completion.choices[0]?.message?.content?.trim() || '';
 
@@ -171,7 +183,8 @@ ${rawContent}`;
     }
 
     console.log('📦 Raw AI response length:', response.length);
-    console.log('📄 First 200 chars of AI response:', response.substring(0, 200));
+    console.log('📄 First 500 chars of AI response:', response.substring(0, 500));
+    console.log('📄 Last 200 chars of AI response:', response.substring(response.length - 200));
 
     // Remove any markdown code blocks if present
     let cleanedResponse = response;
@@ -206,6 +219,27 @@ ${rawContent}`;
       console.log('✅ JSON parsed successfully');
       console.log('📊 Organized sections count:', organizedData.sections?.length || 0);
       console.log('📝 Debug info available:', !!organizedData.debugInfo);
+      
+      // DEBUG: Check if any items have timeSensitive data
+      let timeSensitiveCount = 0;
+      
+      // Log first item structure to see what AI returned
+      if (organizedData.sections?.[0]?.items?.[0]) {
+        const firstItem = organizedData.sections[0].items[0];
+        console.log('🔍 FIRST ITEM STRUCTURE:', JSON.stringify(firstItem, null, 2));
+        console.log('🔍 First item keys:', Object.keys(firstItem));
+        console.log('🔍 Has timeSensitive?', 'timeSensitive' in firstItem);
+      }
+      
+      organizedData.sections?.forEach(section => {
+        section.items?.forEach(item => {
+          if (item.timeSensitive) {
+            timeSensitiveCount++;
+            console.log(`  ✓ Found timeSensitive in "${item.title}": ${JSON.stringify(item.timeSensitive)}`);
+          }
+        });
+      });
+      console.log(`📅 Total items with timeSensitive data: ${timeSensitiveCount}`);
     } catch (parseError) {
       console.error('❌ Failed to parse AI response:', parseError);
       console.error('🔍 Problematic response:', cleanedResponse.substring(0, 500));

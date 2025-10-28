@@ -308,7 +308,7 @@ export default function CalendarListView({
 
   return (
     <div 
-      className={`calendar-list-widget p-1 rounded-md  bg-slate-500/10 border-transparent transition-all duration-500  ${
+      className={`calendar-list-widget p-0 rounded-md   border-transparent transition-all duration-500  ${
         isGlowing 
           ? ' border-blue-400 ring-4 ring-blue-400/80 ring-offset-4 ring-offset-white dark:ring-offset-slate-800 shadow-2xl shadow-blue-500/50 ' 
           : ''
@@ -323,15 +323,15 @@ export default function CalendarListView({
     >
       {/* Widget Header */}
       <div className="widget-header">
-        <header className="header-container mx-2 mt-1 mb-2 bg-berkeley-blue/90 dark:bg-berkeley-blue/80 w-full flex items-center justify-start px-0 py-0  rounded-tr-lg rounded-tl-none">
-          <h3 className="text-white text-base urbanist-medium tracking-wide leading-none m-0 p-0">
+        <header className="header-container mx-0 mt- mb-1  w-full flex items-center justify-start px-0 py-0  rounded-tr-lg rounded-tl-lg">
+          <h3 className="text-white bg-slate-500/10 p-3text-base urbanist-medium tracking-wide leading-none m-0 p-0">
             {title}
           </h3>
         </header>
       </div>
 
       {/* Widget Content */}
-      <div className="widget-content px-0 py-0 relative">
+      <div className="widget-content px-1 py-2 relative bg-slate-500/10 ">
         {/* Events List */}
         {displayedEvents.length === 0 ? (
           <div className="empty-state text-center py-8">

@@ -165,9 +165,9 @@ export async function GET() {
             })(),
             new Promise<never>((_, reject) => 
               setTimeout(() => {
-                console.error('❌ [API] Newsletter timeout after 180 seconds!');
-                reject(new Error('Newsletter timeout (180s)'));
-              }, 180000)
+                console.error('❌ [API] Newsletter timeout after 300 seconds!');
+                reject(new Error('Newsletter timeout (300s)'));
+              }, 300000)
             )
           ]),
           
@@ -250,7 +250,7 @@ export async function GET() {
           myWeekData = await Promise.race([
             analyzeCohortMyWeekWithAI(cohortEvents, newsletterData),
             new Promise<never>((_, reject) => 
-              setTimeout(() => reject(new Error('My Week timeout (15s)')), 15000)
+              setTimeout(() => reject(new Error('My Week timeout (60s)')), 60000)
             )
           ]);
           myWeekTime = Date.now() - myWeekStart;

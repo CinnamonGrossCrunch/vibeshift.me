@@ -261,17 +261,26 @@ function filterCalendarEventsForWeek(cohortEvents: CohortEvents, weekStart: Date
 function extractNewsletterEventsForWeek(newsletterData: NewsletterData, weekStart: Date, weekEnd: Date): ProcessedNewsletterEvent[] {
   const events: ProcessedNewsletterEvent[] = [];
   
-  if (!newsletterData?.sections) return events;
+  if (!newsletterData?.sections) {
+    safeLog('❌ No newsletter sections found!');
+    return events;
+  }
   
   safeLog('📰 Analyzing newsletter sections for time-sensitive content...');
+  safeLog(`📊 Total sections to process: ${newsletterData.sections.length}`);
   
   // Process each organized section
   newsletterData.sections.forEach((section: NewsletterSection) => {
     if (!section.items) return;
     
+    safeLog(`📂 Processing section: ${section.sectionTitle} (${section.items.length} items)`);
+    
+    safeLog(`📂 Processing section: ${section.sectionTitle} (${section.items.length} items)`);
+    
     section.items.forEach((item: NewsletterItem) => {
       // Check if item has time-sensitive information
       if (item.timeSensitive && item.timeSensitive.dates) {
+        safeLog(`  ✓ Item "${item.title}" has timeSensitive data: ${item.timeSensitive.dates.join(', ')}`);
         const relevantDates = item.timeSensitive.dates.filter((dateStr: string) => {
           try {
             const itemDate = new Date(dateStr);
@@ -295,6 +304,7 @@ function extractNewsletterEventsForWeek(newsletterData: NewsletterData, weekStar
           safeLog(`📅 Found time-sensitive item: ${item.title} (${relevantDates.length} relevant dates)`);
         }
       } else {
+        safeLog(`  ✗ Item "${item.title}" has NO timeSensitive data - checking fallback`);
         // Fallback: Look for date patterns in content for items without time-sensitive tags
         const content = item.html?.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
         if (content) {

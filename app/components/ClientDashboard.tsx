@@ -154,7 +154,7 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
       <div className="fixed inset-0 -z-10 pointer-events-none bg-black/50 supports-[mix-blend-mode:multiply]:hidden"></div>
       
       {/* Dark Overlay - Gradient blend for browsers with support */}
-      <div className="fixed inset-0 -z-10 pointer-events-none bg-gradient-to-b from-black/60 via-black/50 to-black/60 mix-blend-multiply hidden supports-[mix-blend-mode:multiply]:block"></div>
+      <div className="fixed inset-0 -z-10 pointer-events-none bg-gradient-to-b from-black/60 to-black/20 mix-blend-multiply hidden supports-[mix-blend-mode:multiply]:block"></div>
       
       {/* Animated logo - z-index 100 (highest layer) - anchored to top with max-w-[90rem] alignment */}
       <div className="fixed top-0 left-0 right-0 z-[100] pointer-events-none">
@@ -251,8 +251,8 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
               />
             )}
             {loading && (
-              <div className="text-center w-full py-8">
-                <div className="animate-spin h-8 w-8 border-4 border-violet border-t-blue rounded-full mx-auto"></div>
+              <div className="text-center w-full py-5">
+                <div className="animate-spin h-8 w-8 border-5 border-violet border-t-blue rounded-full mx-auto"></div>
                 <p className="mt-4 text-sm">Loading dashboard...</p>
               </div>
             )}

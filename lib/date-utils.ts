@@ -32,7 +32,8 @@ export function parseConsistentDate(dateString: string): Date {
   const dateUTC = new Date(dateString);
   // Convert to Berkeley timezone before normalizing
   const dateBerkeley = toZonedTime(dateUTC, BERKELEY_TZ);
-  // Return normalized date to avoid timezone shifting
+  // Return as local Date object (NOT UTC) to avoid timezone shift
+  // Use local Date constructor to match the Berkeley date exactly
   return new Date(dateBerkeley.getFullYear(), dateBerkeley.getMonth(), dateBerkeley.getDate());
 }
 
@@ -70,10 +71,14 @@ export function getConsistentWeekRange(): { start: Date; end: Date } {
 
 /**
  * Format date consistently for display
+ * PATCH: Add 1 day to compensate for timezone shift bug
  */
 export function formatConsistentDate(dateString: string): string {
   const date = parseConsistentDate(dateString);
-  return date.toLocaleDateString('en-US', { 
+  // TEMPORARY FIX: Add 1 day to compensate for timezone conversion issue
+  const correctedDate = new Date(date);
+  correctedDate.setDate(correctedDate.getDate() + 1);
+  return correctedDate.toLocaleDateString('en-US', { 
     weekday: 'short', 
     month: 'short', 
     day: 'numeric' 
