@@ -38,7 +38,6 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
     if (!initialData) {
       console.log('🔄 Fetching unified dashboard data...');
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 second timeout
 
       fetch('/api/unified-dashboard', {
         signal: controller.signal,
@@ -47,7 +46,6 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
         }
       })
         .then(res => {
-          clearTimeout(timeoutId);
           if (!res.ok) {
             throw new Error(`HTTP ${res.status}: ${res.statusText}`);
           }
@@ -66,7 +64,6 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
           setLoading(false);
         })
         .catch(error => {
-          clearTimeout(timeoutId);
           console.error('❌ Error fetching dashboard data:', error);
           console.error('Error details:', {
             message: error.message,
@@ -78,7 +75,6 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
         });
 
       return () => {
-        clearTimeout(timeoutId);
         controller.abort();
       };
     }
@@ -256,7 +252,7 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
             )}
             {loading && (
               <div className="text-center w-full py-8">
-                <div className="animate-spin h-8 w-8 border-4 border-berkeley-blue border-t-transparent rounded-full mx-auto"></div>
+                <div className="animate-spin h-8 w-8 border-4 border-violet border-t-blue rounded-full mx-auto"></div>
                 <p className="mt-4 text-sm">Loading dashboard...</p>
               </div>
             )}

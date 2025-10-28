@@ -1,7 +1,7 @@
 // Vercel Cron Job: Refresh cache at midnight
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-export const maxDuration = 60; // 60 seconds max
+export const maxDuration = 300; // 300 seconds (5 minutes) - Allow time for calendar processing
 
 import { NextResponse } from 'next/server';
 import { analyzeCohortMyWeekWithAI } from '@/lib/my-week-analyzer';
