@@ -19,6 +19,15 @@ export async function POST(request: Request) {
       );
     }
 
+    // Check if API key is configured
+    if (!GOOGLE_ROUTES_API_KEY) {
+      console.error('GOOGLE_ROUTES_API_KEY is not configured');
+      return NextResponse.json(
+        { error: 'Travel time service not configured' },
+        { status: 503 }
+      );
+    }
+
     // Request driving route
     const drivingResponse = await fetch(
       'https://routes.googleapis.com/directions/v2:computeRoutes',
@@ -90,7 +99,13 @@ export async function POST(request: Request) {
     );
 
     if (!drivingResponse.ok && !transitResponse.ok) {
-      throw new Error('Failed to fetch routes');
+      const drivingError = drivingResponse.ok ? null : await drivingResponse.text();
+      const transitError = transitResponse.ok ? null : await transitResponse.text();
+      console.error('Google Routes API errors:', {
+        driving: { status: drivingResponse.status, error: drivingError },
+        transit: { status: transitResponse.status, error: transitError }
+      });
+      throw new Error('Failed to fetch routes from Google API');
     }
 
     const drivingData = drivingResponse.ok ? await drivingResponse.json() : null;
@@ -134,8 +149,18 @@ export async function POST(request: Request) {
 
   } catch (error) {
     console.error('Travel time API error:', error);
+    
+    // Log more details about the error
+    if (error instanceof Error) {
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to calculate travel time' },
+      { 
+        error: 'Failed to calculate travel time',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }
