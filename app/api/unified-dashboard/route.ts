@@ -4,8 +4,8 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 // Revalidate doesn't work with force-dynamic, but we'll use Cache-Control headers instead
 export const fetchCache = 'force-no-store';
-// Set maximum function duration to 60 seconds for Vercel
-export const maxDuration = 60;
+// Set maximum function duration to 200 seconds for Vercel (AI processing takes ~72s, need buffer)
+export const maxDuration = 200;
 
 import { NextResponse } from 'next/server';
 import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';

@@ -4,6 +4,8 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 // Revalidate doesn't work with force-dynamic, but we'll use Cache-Control headers instead
 export const fetchCache = 'force-no-store';
+// Set maximum function duration to 180 seconds (AI processing takes ~72s, need buffer)
+export const maxDuration = 180;
 
 import { NextResponse } from 'next/server';
 import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
