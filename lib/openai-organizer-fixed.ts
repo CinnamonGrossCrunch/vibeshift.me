@@ -53,6 +53,158 @@ export interface OrganizedNewsletter {
 }
 
 /**
+ * Hybrid Approach: Extract time-sensitive data from already-organized newsletter
+ * Uses a separate, focused API call with gpt-4o-mini for fast date extraction
+ */
+export async function extractTimeSensitiveData(
+  organizedNewsletter: OrganizedNewsletter
+): Promise<OrganizedNewsletter> {
+  
+  if (!process.env.OPENAI_API_KEY) {
+    console.warn('⚠️ OpenAI API key not found, skipping time-sensitive extraction');
+    return organizedNewsletter;
+  }
+
+  const extractStartTime = Date.now();
+  console.log('📅 Starting time-sensitive data extraction...');
+
+  try {
+    // Prepare concise content for date extraction
+    const itemsToAnalyze = organizedNewsletter.sections
+      .flatMap(section => 
+        section.items.map(item => ({
+          section: section.sectionTitle,
+          title: item.title,
+          content: item.html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().substring(0, 300) // First 300 chars only
+        }))
+      );
+
+    const prompt = `Extract time-sensitive information from newsletter items. Return ONLY valid JSON.
+
+ITEMS TO ANALYZE:
+${itemsToAnalyze.map((item, idx) => 
+  `${idx + 1}. [${item.section}] ${item.title}\n   ${item.content}`
+).join('\n\n')}
+
+TASK:
+For each item that mentions dates, deadlines, or events, extract:
+- All relevant dates in YYYY-MM-DD format
+- Main deadline if any
+- Event type: deadline, event, announcement, or reminder
+- Priority: high (urgent/today), medium (this week), low (general)
+
+RULES:
+- Only include items with actual dates
+- Extract ALL date formats (Oct 27, October 27, 10/27, etc.)
+- Convert all dates to YYYY-MM-DD format using context year 2025
+- Deadline items get "deadline" type
+- Scheduled events get "event" type
+- General announcements get "announcement" type
+
+OUTPUT FORMAT (JSON only, no markdown):
+{
+  "timeSensitiveItems": [
+    {
+      "index": 0,
+      "dates": ["2025-10-27"],
+      "deadline": "2025-10-27",
+      "eventType": "deadline",
+      "priority": "high"
+    }
+  ]
+}
+
+Return ONLY the JSON object:`;
+
+    const client = getOpenAIClient();
+    const extractionStartTime = Date.now();
+    
+    const completion = await client.chat.completions.create({
+      model: "gpt-4o-mini", // Fast model for simple extraction
+      messages: [
+        {
+          role: "system",
+          content: "You are a date extraction assistant. Return ONLY valid JSON with no markdown or extra text."
+        },
+        {
+          role: "user", 
+          content: prompt
+        }
+      ],
+      temperature: 0.1,
+      max_tokens: 2000, // Much smaller since we're just extracting dates
+    });
+    
+    const extractionDuration = Date.now() - extractionStartTime;
+    console.log(`⏱️ Date extraction API call: ${extractionDuration}ms`);
+
+    const response = completion.choices[0]?.message?.content?.trim() || '';
+    
+    if (!response) {
+      console.warn('⚠️ No response from date extraction');
+      return organizedNewsletter;
+    }
+
+    // Clean response
+    let cleanedResponse = response;
+    if (cleanedResponse.startsWith('```json')) cleanedResponse = cleanedResponse.slice(7);
+    if (cleanedResponse.startsWith('```')) cleanedResponse = cleanedResponse.slice(3);
+    if (cleanedResponse.endsWith('```')) cleanedResponse = cleanedResponse.slice(0, -3);
+    cleanedResponse = cleanedResponse.trim();
+
+    const extractedData: {
+      timeSensitiveItems: Array<{
+        index: number;
+        dates: string[];
+        deadline?: string;
+        eventType: 'deadline' | 'event' | 'announcement' | 'reminder';
+        priority: 'high' | 'medium' | 'low';
+      }>;
+    } = JSON.parse(cleanedResponse);
+
+    console.log(`📅 Extracted ${extractedData.timeSensitiveItems?.length || 0} time-sensitive items`);
+
+    // Map extracted data back to newsletter items
+    let itemIndex = 0;
+    const updatedSections = organizedNewsletter.sections.map(section => ({
+      ...section,
+      items: section.items.map(item => {
+        const currentIndex = itemIndex++;
+        const extracted = extractedData.timeSensitiveItems?.find(e => e.index === currentIndex);
+        
+        if (extracted) {
+          console.log(`  ✓ Added timeSensitive to "${item.title}": ${extracted.dates.join(', ')}`);
+          return {
+            ...item,
+            timeSensitive: {
+              dates: extracted.dates,
+              deadline: extracted.deadline,
+              eventType: extracted.eventType,
+              priority: extracted.priority
+            }
+          };
+        }
+        
+        return item;
+      })
+    }));
+
+    const totalTime = Date.now() - extractStartTime;
+    console.log(`✅ Time-sensitive extraction completed in ${totalTime}ms`);
+
+    return {
+      ...organizedNewsletter,
+      sections: updatedSections
+    };
+
+  } catch (error) {
+    console.error('❌ Error extracting time-sensitive data:', error);
+    // Return original newsletter if extraction fails
+    return organizedNewsletter;
+  }
+}
+
+/**
  * Uses OpenAI to intelligently reorganize newsletter content into proper sections
  */
 export async function organizeNewsletterWithAI(

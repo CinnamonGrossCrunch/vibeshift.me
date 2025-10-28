@@ -138,28 +138,35 @@ export async function GET() {
               const newsletterStart = Date.now();
               console.log('📰 [API] Starting newsletter fetch pipeline...');
               
-              console.log('📰 [API] Step 1/3: Getting latest newsletter URL...');
+              console.log('📰 [API] Step 1/4: Getting latest newsletter URL...');
               const latest = await getLatestNewsletterUrl();
-              console.log('📰 [API] Step 1/3 completed:', Date.now() - newsletterStart, 'ms');
+              console.log('📰 [API] Step 1/4 completed:', Date.now() - newsletterStart, 'ms');
               
-              console.log('📰 [API] Step 2/3: Scraping newsletter content...');
+              console.log('📰 [API] Step 2/4: Scraping newsletter content...');
               const scrapeStart = Date.now();
               const rawData = await scrapeNewsletter(latest);
-              console.log('📰 [API] Step 2/3 completed:', Date.now() - scrapeStart, 'ms');
+              console.log('📰 [API] Step 2/4 completed:', Date.now() - scrapeStart, 'ms');
               
-              console.log('📰 [API] Step 3/3: Organizing with AI...');
-              const aiStart = Date.now();
-              // Use OpenAI to organize the content intelligently
+              console.log('📰 [API] Step 3/4: Organizing with AI (gpt-4o-mini)...');
+              const organizeStart = Date.now();
+              // First: Organize content with fast model
               const organizedData = await organizeNewsletterWithAI(
                 rawData.sections, 
                 rawData.sourceUrl, 
                 rawData.title
               );
-              console.log('📰 [API] Step 3/3 completed:', Date.now() - aiStart, 'ms');
+              console.log('📰 [API] Step 3/4 completed:', Date.now() - organizeStart, 'ms');
+              
+              console.log('📰 [API] Step 4/4: Extracting time-sensitive data (hybrid approach)...');
+              const extractStart = Date.now();
+              // Second: Extract dates with focused prompt
+              const { extractTimeSensitiveData } = await import('@/lib/openai-organizer-fixed');
+              const enrichedData = await extractTimeSensitiveData(organizedData);
+              console.log('📰 [API] Step 4/4 completed:', Date.now() - extractStart, 'ms');
               console.log('✅ [API] Newsletter pipeline completed:', Date.now() - newsletterStart, 'ms total');
               
               return {
-                data: organizedData,
+                data: enrichedData,
                 processingTime: Date.now() - newsletterStart
               };
             })(),
