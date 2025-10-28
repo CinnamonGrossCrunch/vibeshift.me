@@ -5,6 +5,15 @@
 // This component displays the Bear Necessities newsletter in an interactive
 // accordion-style layout with progress tracking and completion animations.
 //
+// COLOR SCHEME (for uniform changes):
+// - Top-level sections: bg-slate-600 (button), hover:bg-slate-500
+// - Subsection items: bg-slate-700, border-slate-600
+// - Nested content: bg-slate-800, border-slate-600
+// - Main container: bg-slate-800
+// - Text colors: text-slate-200 (headings), text-slate-300 (content), text-slate-400 (secondary)
+// - Indicators: Unread = green pulse, Read = violet static
+// - Accents: text-yellow-400 (berkeley gold) on hover
+//
 // MAIN SECTIONS:
 // 1. Type Definitions - TypeScript interfaces for component props
 // 2. State Management - React state for UI interactions and animations
@@ -55,6 +64,42 @@ type Payload = {
 export default function NewsletterWidget({ data }: { data: Payload }) {
   
   // ==========================================================================
+  // COLOR SCHEME - CENTRALIZED CONFIGURATION
+  // ==========================================================================
+  // Change colors here to update the entire newsletter widget uniformly
+  
+  const COLORS = {
+    // Header & Footer
+    headerBg: 'bg-slate-800/70',         // Header background
+    footerBg: 'bg-slate-800/70',         // Footer background
+    
+    // Section backgrounds (3-tier hierarchy)
+    sectionBg: 'bg-slate-800/70',           // Top-level section buttons
+    sectionBgHover: 'hover:bg-blue-500/30',
+    subsectionBg: 'bg-slate-700/60',        // Subsection items
+    contentBg: 'bg-slate-800',           // Nested content area
+    containerBg: 'bg-slate-0',         // Main container
+    
+    // Borders
+    border: 'border-slate-800',
+    borderColor: 'slate-800',
+    
+    // Text colors
+    textPrimary: 'text-slate-200',       // Section/subsection titles
+    textContent: 'text-slate-300',       // Main content text
+    textSecondary: 'text-slate-400',     // Secondary text
+    textHoverWhite: 'group-hover:text-white',
+    textHoverGold: 'group-hover:text-yellow-400',
+    
+    // Indicators (read/unread dots)
+    unreadDot: 'bg-green-400 border-red-500 shadow-green-500/30 animate-pulse',
+    readDot: 'bg-violet-500/50 border-violet-300 shadow-violet-400/40',
+    
+    // Accents
+    gold: 'text-yellow-400',             // Berkeley gold
+  };
+  
+  // ==========================================================================
   // STATE MANAGEMENT
   // ==========================================================================
   
@@ -75,6 +120,9 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
   const [sectionScaleStates, setSectionScaleStates] = useState<Record<number, boolean>>({});
   const [cascadeComplete, setCascadeComplete] = useState(false);
   const [triggerTopLevelAnimation, setTriggerTopLevelAnimation] = useState(false);
+  
+  // State for newsletter date overlay
+  const [showDateOverlay, setShowDateOverlay] = useState(true);
 
   // ==========================================================================
   // EFFECTS - INITIALIZATION & ANIMATION
@@ -248,6 +296,25 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
     }
     
     return uniqueSubsections;
+  };
+
+  // ==========================================================================
+  // DATE EXTRACTION HELPER
+  // ==========================================================================
+  
+  // Extract and format date from newsletter title
+  // Expected format: "[EWMBA] Bear Necessities MM-DD-YYYY"
+  const getNewsletterDate = (): string => {
+    if (!data.title) return '';
+    
+    // Extract date pattern MM-DD-YYYY or MM/DD/YYYY
+    const dateMatch = data.title.match(/(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);
+    if (dateMatch) {
+      const [, month, day, year] = dateMatch;
+      return `${month.padStart(2, '0')}/${day.padStart(2, '0')}`;
+    }
+    
+    return '';
   };
 
   // ==========================================================================
@@ -749,30 +816,44 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
       `}</style>
       
       {/* =================================================================== */}
+      {/* DATE OVERLAY - Dismissible on click                                */}
+    {/* =================================================================== 
+          
+          {showDateOverlay && getNewsletterDate() && (
+          <div 
+            className="absolute inset-0 z-50 flex items-start backdrop-blur justify-center cursor-pointer w-full h-full  rounded-t-xl"
+            onClick={() => setShowDateOverlay(false)}
+            title="Click to dismiss this notification"
+          >
+            <div className=" items-start justify-left px-5.5 py-18.5 w-full">
+                <p className="text-xl bg-gray-900 border-1  border-dotted py-0.5 px-2 backdrop-blur rounded-md  mt-0 text-start leading-tight transition-all duration-300 hover:ring-.05 hover:ring-violet-400/50 hover:shadow-[0_0_30px_rgba(139,92,246,0.6)]">
+                <span className="text-white font-semibold">{getNewsletterDate()}</span>  <span className="text-gray-400 font-light">Latest Update</span>
+                </p>
+            </div>
+          </div>
+          )}
+          
+          {/* =================================================================== */}
       {/* HEADER SECTION                                                      */}
       {/* =================================================================== */}
       
       {/* Header */}
-      <div className="rounded-t-xl  pt-2 px-3 pb-2 text-white relative overflow-hidden bg-slate-500/10 border-transparent">
-        {/* Background Image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
-          
-        ></div>
-        
-        {/* Content Overlay */}
+      <div className={`rounded-t-xl pt-2 px-3 pb-2 text-white relative overflow-hidden ${COLORS.headerBg} border-transparent`}>
         <div className="relative z-10 select-none">
           <div className="flex items-start justify-between gap-1 sm:gap-2">
           <div className="flex-1 min-w-0">
             <div className="flex items-center space-x-1 mb-0">
-              <h2 className="text-xl sm:text-xl md:text-xl lg:text-xl font-semibold urbanist-black whitespace-nowrap truncate">
+              <h2 className="text-lg font-semibold urbanist-black whitespace-nowrap truncate">
                 <span style={{ color: 'white' }}>Bear</span>
-                <span className="ml-1" style={{ color: 'var(--berkeley-gold)' }}>Necessities</span>
+                <span className="" style={{ color: 'var(--berkeley-gold)' }}>Necessities {getNewsletterDate()} </span>
               </h2>
             </div>
             
             {data.title && (
-              <p className="text-gray-400 text-xs urbanist-medium mb-0 truncate ">So A Bear Can Rest at Ease</p>
+              <p className="text-gray-400 text-xs urbanist-medium mb-0">
+               So A Bear Can Rest at Ease
+               
+              </p>
             )}
               {data.sourceUrl && (
               <a
@@ -783,7 +864,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                View original Newsletter
+                View original  Newsletter 
               </a>
             )}
             {!data.sourceUrl && (
@@ -871,8 +952,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
 
       {/* Content Sections */}
       <div 
-        className="rounded-b-xl shadow-xl overflow-hidden"
-        style={{ backgroundColor: 'var(--surface-1)' }}
+        className={`rounded-b-xl shadow-xl overflow-hidden ${COLORS.containerBg}`}
       >
         {data.sections.map((sec, idx) => {
           const id = `${idx}-${sec.sectionTitle}`;
@@ -887,8 +967,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
           return (
             <div 
               key={id} 
-              className={`${idx === data.sections.length - 1 ? '' : ''}`}
-              style={{ borderBottom: idx === data.sections.length - 1 ? 'none' : '1px solid var(--border-1)' }}
+              className={`${idx === data.sections.length - 1 ? '' : `border-b ${COLORS.border}`}`}
             >
               <button
                 onClick={() => {
@@ -901,31 +980,23 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                   // Also close all item dropdowns when switching sections
                   setItemOpen({});
                 }}
-                className={`section-button w-full text-left px-2.5 py-1 hover:brightness-105 dark:hover:brightness-110 transition-all duration-300 ease-in-out flex items-center justify-between group`}
-                style={{ 
-                  backgroundColor: 'var(--surface-1)',
-                  backgroundImage: 'linear-gradient(to right, var(--surface-2), var(--surface-1))'
-                }}
+                className={`section-button w-full text-left px-2.5 py-1 ${COLORS.sectionBg} ${COLORS.sectionBgHover} transition-all duration-300 ease-in-out flex items-center justify-between group`}
               >
                 <div className="flex items-center space-x-3">
                   {allItemsInSectionVisited(idx) ? (
-                    <div className="w-3 h-3 rounded-full border-2 border-violet-300 shadow-lg  mr-2" style={{ backgroundColor: 'rgb(139, 92, 246)', boxShadow: '0 10px 15px -3px rgba(139, 92, 246, 0.4)' }}>
-                  </div>) : (<div className="w-3 h-3 bg-blue-400 rounded-full border-2 border-green-300 shadow-lg shadow-green-500/30 mr-2 animate-pulse"></div>
+                    <div className={`w-3 h-3 rounded-full border-2 mr-2 ${COLORS.readDot}`}>
+                  </div>) : (<div className={`w-3 h-3 rounded-full border-2 mr-2 ${COLORS.unreadDot}`}></div>
                     
                   )}
-                    <h3 className="text-sm urbanist-semibold transition-colors group-hover:transition-colors" 
-                      style={{ color: 'var(--text-1)' }}
-                      onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'rgba(255, 255, 255, 1)'}
-                      onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'var(--text-1)'}>
+                    <h3 className={`text-sm urbanist-semibold transition-colors ${COLORS.textHoverWhite} ${COLORS.textPrimary}`}>
                     {sec.sectionTitle}
                   </h3>
                 </div>
                 <div className="flex items-center justify-center">
-                  <div className="text-xs flex items-center justify-center" style={{ color: 'var(--text-2)' }}>
+                  <div className={`text-xs flex items-center justify-center ${COLORS.textSecondary}`}>
                     {sectionVisitedCount === sectionTotalCount ? (
                       <div 
-                        className="w-20 h-8 rounded-lg flex items-center justify-center"
-                        style={{  color: 'var(--berkeley-gold)' }}
+                        className={`w-20 h-8 rounded-lg flex items-center justify-center ${COLORS.gold}`}
                       >
                         {animationData ? (
                           <div 
@@ -959,7 +1030,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                 }`}
               >
                 <div className="expandable-content">
-                  <div className={`border-t border-slate-700 bg-gradient-to-b from-slate-900/90 to-slate-800/70 ${idx === data.sections.length - 1 ? 'rounded-b-2xl' : ''}`}>
+                  <div className={`border-t border-slate-700 bg-gradient-to-b from-slate-800/90 to-slate-800/70 ${idx === data.sections.length - 1 ? 'rounded-b-2xl' : ''}`}>
                     <div className={`px-1 py-1  ${idx === data.sections.length - 1 ? 'pb-6 rounded-b-2xl' : ''}`}>
                       {createSubsections(sec.items).map((subsection, j) => {
                         const itemKey = `${idx}-${j}`;
@@ -971,12 +1042,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                           <div key={itemId} className="relative">
                             {/* Subsection container */}
                             <div 
-                              className="ml-1 mb-0.5 text-sm rounded-lg shadow-sm "
-                              style={{ 
-                                backgroundColor: 'var(--surface-1)',
-                                borderColor: 'var(--border-1)',
-                                borderWidth: '1px'
-                              }}
+                              className={`ml-1 mb-0.5 text-sm rounded-lg shadow-sm ${COLORS.subsectionBg} border ${COLORS.border}`}
                             >
                               <button
                                 onClick={() => {
@@ -1005,19 +1071,16 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                                     }}
                                   >
                                     {isItemVisited || isItemOpen ? (
-                                         <div className="w-3 h-3 rounded-full border-2 border-violet-300 shadow-lg  mr-2" style={{ backgroundColor: 'rgb(139, 92, 246)', boxShadow: '0 10px 15px -3px rgba(139, 92, 246, 0.4)' }}>
-                                         </div>):  (<div className="w-3 h-3 bg-blue-400 rounded-full border-2 border-green-300 shadow-lg shadow-green-500/30 mr-2 animate-pulse"></div>
+                                         <div className={`w-3 h-3 rounded-full border-2 mr-2 ${COLORS.readDot}`}>
+                                         </div>):  (<div className={`w-3 h-3 rounded-full border-2 mr-2 ${COLORS.unreadDot}`}></div>
                     
                   )}
                                   </div>
 
-                                  <h4 className="text-xs urbanist-medium transition-colors truncate overflow-hidden"
+                                  <h4 className={`text-xs urbanist-medium transition-colors truncate overflow-hidden ${COLORS.textPrimary} ${COLORS.textHoverGold}`}
                                       style={{ 
-                                        textOverflow: 'ellipsis',
-                                        color: 'var(--text-1)'
-                                      }}
-                                      onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'var(--berkeley-gold)'}
-                                      onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'var(--text-1)'}>
+                                        textOverflow: 'ellipsis'
+                                      }}>
                                     {subsection.title}
                                   </h4>
                                 </div>
@@ -1030,11 +1093,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                               >
                                 <div className="expandable-content">
                                   <div 
-                                    className="rounded-b-lg"
-                                    style={{ 
-                                      borderTop: '1px solid var(--border-1)',
-                                      backgroundColor: 'var(--surface-2)'
-                                    }}
+                                    className={`rounded-b-lg border-t ${COLORS.border} ${COLORS.contentBg}`}
                                   >
                                     <div className="px-3 py-0.5 cursor-pointer"
                                       onClick={() => {
@@ -1046,8 +1105,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                                       {/* Content with enhanced visual hierarchy */}
                                       <div>
                                         <div
-                                          className="newsletter-content urbanist-regular"
-                                          style={{ color: 'var(--text-2)' }}
+                                          className={`newsletter-content urbanist-regular ${COLORS.textContent}`}
                                           dangerouslySetInnerHTML={{ __html: addSmartBullets(subsection.content) }}
                                         />
                                       </div>
@@ -1143,12 +1201,9 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
         {/* =================================================================== */}
         
         {/* Copyright Footer */}
-        <div className=" border-slate-200 dark:border-slate-700 py-1 px-4 rounded-b-xl relative overflow-hidden bg-slate-500/10 border-transparent" >
-        
-          
-          {/* Content Overlay */}
+        <div className={`border-slate-200 dark:border-slate-700 py-1 px-4 rounded-b-xl relative overflow-hidden ${COLORS.footerBg} border-transparent`}>
           <div className="relative z-10 text-center">
-            <p className="text-xs py-0italic text-slate-400 dark:text-slate-400 urbanist-regular mx-auto select-none">
+            <p className="text-xs py-0italic text-slate-600 dark:text-slate-400 urbanist-regular mx-auto select-none">
               Bear Necessities | Copyright © 2025 Evening & Weekend MBA
             </p>
           </div>

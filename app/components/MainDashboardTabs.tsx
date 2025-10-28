@@ -73,7 +73,7 @@ export default function MainDashboardTabs({
             onClick={() => setActiveTab(tab)}
             className={`relative  transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 overflow-hidden
               ${activeTab === tab
-                ? ' text-center text-md px-10 py-3 lg:px-8 bg-violet-300/10 backdrop-blur-lg text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
+                ? ' text-center text-md px-10 py-3 lg:px-8 bg-violet-100/10 backdrop-blur-lg text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
                 : ' text-center text-sm ml-3 mr-4 mb-2 px-5 lg:px-10 py-2 tab-inactive backdrop-blur-md text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full font-normal'
               }
             `}
@@ -107,7 +107,7 @@ export default function MainDashboardTabs({
               onClick={() => setActiveTab(tab)}
               className={`relative transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 overflow-hidden
                 ${activeTab === tab
-                  ? 'text-center px-10 text-md py-3 bg-violet-300/10 backdrop-blur-lg text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
+                  ? 'text-center px-10 text-md py-3 bg-violet-100/10 backdrop-blur-lg text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
                   : ' text-center ml-4 text-sm mr-3 mb-2 px-5 py-2 tab-inactive backdrop-blur-md text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full font-normal'
                 }
               `}
@@ -132,7 +132,7 @@ export default function MainDashboardTabs({
       </div>
 
       {/* Content Pane */}
-      <div className={`bg-violet-300/10 backdrop-blur-lg rounded-b-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%] flex-1 min-h-[600px] overflow-y-auto p-4 sm:p-6
+      <div className={`bg-violet-100/10 backdrop-blur-sm rounded-b-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%] flex-1 min-h-[600px] overflow-y-auto p-4 sm:p-6
         ${activeTab === 'OskiHub Cal' ? 'rounded-tr-3xl lg:rounded-r-3xl' : ''}
         ${activeTab === 'Updates' ? 'rounded-tl-3xl lg:rounded-r-3xl' : ''}
         ${activeTab === 'Book A Space @ Haas' || activeTab === 'Slack' ? 'rounded-t-3xl lg:rounded-r-3xl' : ''}
