@@ -46,9 +46,9 @@ export function parseICSDate(isoString: string): Date {
   const utcDate = new Date(isoString);
   // Convert to Berkeley timezone
   const berkeleyDate = toZonedTime(utcDate, BERKELEY_TZ);
-  // Return as a simple Date object with just year/month/day
-  // Using Date constructor to avoid timezone issues
-  return new Date(Date.UTC(berkeleyDate.getFullYear(), berkeleyDate.getMonth(), berkeleyDate.getDate()));
+  // Return as a local Date object with just year/month/day (NOT UTC!)
+  // Use local Date constructor to match the Berkeley date exactly
+  return new Date(berkeleyDate.getFullYear(), berkeleyDate.getMonth(), berkeleyDate.getDate());
 }
 
 /**
