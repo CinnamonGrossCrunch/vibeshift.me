@@ -212,22 +212,22 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
     // High priority items get stronger colors
     if (priority === 'high') {
       switch (type) {
-        case 'assignment': return 'bg-red-900/40 border border-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-300/50';
-        case 'exam': return 'bg-orange-900/40 border border-orange-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-orange-300/50';
-        default: return 'bg-red-900/40 border border-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-300/50';
+      case 'assignment': return 'bg-red-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-300/50';
+      case 'exam': return 'bg-orange-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-orange-300/50';
+      default: return 'bg-red-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red-300/50';
       }
     }
     
     // Regular colors for medium/low priority
     switch (type) {
-      case 'assignment': return 'bg-amber-900/40 border border-amber-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-amber-300/50';
-      case 'class': return 'bg-blue-900/40 border border-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-300/50';
-      case 'exam': return 'bg-orange-900/40 border border-orange-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-orange-300/50';
-      case 'administrative': return 'bg-purple-900/40 border border-purple-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-purple-300/50';
-      case 'social': return 'bg-green-900/40 border border-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-green-300/50';
-      case 'newsletter': return 'bg-slate-800 border border-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-300/50';
-      case 'other': return 'bg-gray-800 border border-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gray-300/50';
-      default: return 'bg-slate-800 border border-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-300/50';
+      case 'assignment': return 'bg-amber-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-amber-300/50';
+      case 'class': return 'bg-blue-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-300/50';
+      case 'exam': return 'bg-orange-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-orange-300/50';
+      case 'administrative': return 'bg-purple-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-purple-300/50';
+      case 'social': return 'bg-green-900/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-green-300/50';
+      case 'newsletter': return 'bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-300/50';
+      case 'other': return 'bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gray-300/50';
+      default: return 'bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-300/50';
     }
   };
 
@@ -296,7 +296,8 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
   return (
     <div className="w-full lg:mr-35 rounded-xl items-end overflow-hidden flex">
       {/* Main Layout: Left to Right Flow */}
-      <div className="w-full rounded-2xl flex items-start gap-6">
+      <div className="w-full 
+      rounded-2xl flex items-start gap-6">
         {/* Left Column: Current Date */}
 
         <div className="text-start mt-0 shrink-0 overflow-hidden min-w-0">
@@ -324,13 +325,13 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
           )} */}
 
           {/* Events List */}
-            <div className="space-y-4 max-h-96 max-w-auto overflow-hidden">
+            <div className="space-y-1 max-h-96 max-w-auto overflow-hidden">
             {Object.entries(eventsByDate)
               .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
               .map(([date, events]) => (
-                <div key={date} className="flex ml-0 rounded-lg bg-glass bg-turbulence items-center gap-1 mb-1">
+                <div key={date} className="flex ml-0  rounded-tl-xl bg-glass  items-center gap-1 mb-1">
                   {/* Date Header */}
-                  <div className="text-center text-sm font-semibold text-slate-100 px-2 shrink-0">
+                  <div className="text-center w-24 text-sm font-semibold text-slate-100 px-2 shrink-0">
                     {formatDate(date)}
                   </div>
                   
@@ -339,7 +340,7 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
                     {events.map((event, index) => (
                       <div 
                         key={index} 
-                        className={`flex-0 items-center space-x-2 rounded-lg px-2 py-0.5 group cursor-pointer hover:opacity-80 hover:brightness-110 transition-all ${getEventColor(event.type, event.priority)}`}
+                        className={`flex-0 items-center space-x-2 rounded-tl-xl rounded-tr-xl px-3 py-0.5 translate-y-0.5 group cursor-pointer  hover:brightness-150 transition-all ${getEventColor(event.type, event.priority)}`}
                         onClick={(e) => handleEventClick(e, event.title)}
                       >
                         {/* Event Content */}
