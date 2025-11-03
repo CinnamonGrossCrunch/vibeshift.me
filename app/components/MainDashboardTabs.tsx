@@ -159,7 +159,7 @@ export default function MainDashboardTabs({
               <CalendarListView 
                 cohortEvents={cohortEvents}
                 defaultCohort={selectedCohort}
-                maxEvents={4}
+                maxEvents={6}
                 className="rounded-4xl"
               />
             </div>

@@ -29,6 +29,8 @@ export default function CalendarListView({
   const [matchedOriginalEvent, setMatchedOriginalEvent] = useState<CalendarEvent | null>(null);
   const [scrollIndex, setScrollIndex] = useState(0);
   const [isGlowing, setIsGlowing] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
 
   // Sync with external cohort selection
   useEffect(() => {
@@ -288,22 +290,46 @@ export default function CalendarListView({
   
   // Handle scroll to next event
   const handleScrollNext = () => {
-    if (hasMoreEvents) {
-      // Normal scrolling - move one event forward
-      setScrollIndex(prev => prev + 1);
-    } else if (canShiftToRight && !isAtRightAnchor) {
-      // At the end but not right-anchored - shift to show last event fully
-      const totalEvents = allFutureEvents.length;
-      const rightAnchorIndex = Math.max(0, totalEvents - maxEvents);
-      setScrollIndex(rightAnchorIndex);
-    }
+    if (isAnimating) return; // Prevent overlapping animations
+    
+    setIsAnimating(true);
+    setSlideDirection('left');
+    
+    setTimeout(() => {
+      if (hasMoreEvents) {
+        // Normal scrolling - move one event forward
+        setScrollIndex(prev => prev + 1);
+      } else if (canShiftToRight && !isAtRightAnchor) {
+        // At the end but not right-anchored - shift to show last event fully
+        const totalEvents = allFutureEvents.length;
+        const rightAnchorIndex = Math.max(0, totalEvents - maxEvents);
+        setScrollIndex(rightAnchorIndex);
+      }
+      
+      setTimeout(() => {
+        setIsAnimating(false);
+        setSlideDirection(null);
+      }, 50);
+    }, 300);
   };
 
   // Handle scroll to previous event
   const handleScrollPrevious = () => {
-    if (hasPreviousEvents) {
-      setScrollIndex(prev => prev - 1);
-    }
+    if (isAnimating) return; // Prevent overlapping animations
+    
+    setIsAnimating(true);
+    setSlideDirection('right');
+    
+    setTimeout(() => {
+      if (hasPreviousEvents) {
+        setScrollIndex(prev => prev - 1);
+      }
+      
+      setTimeout(() => {
+        setIsAnimating(false);
+        setSlideDirection(null);
+      }, 50);
+    }, 300);
   };
 
   return (
@@ -343,8 +369,15 @@ export default function CalendarListView({
             </p>
           </div>
         ) : (
-          <div className="events-container overflow-x-auto mb-0">
-            <div className="flex gap-1 " style={{ minWidth: 'max-content' }}>
+          <div className="events-container overflow-hidden mb-0">
+            <div 
+              className={`flex gap-1 transition-transform duration-300 ease-in-out ${
+                slideDirection === 'left' ? '-translate-x-4 opacity-80' : ''
+              } ${
+                slideDirection === 'right' ? 'translate-x-4 opacity-80' : ''
+              }`}
+              style={{ minWidth: 'max-content' }}
+            >
               {displayedEvents.map((ev) => {
                 const start = new Date(ev.start);
                 const end = ev.end ? new Date(ev.end) : undefined;
