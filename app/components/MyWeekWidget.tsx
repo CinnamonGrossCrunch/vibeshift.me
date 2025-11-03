@@ -329,7 +329,7 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
             {Object.entries(eventsByDate)
               .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
               .map(([date, events]) => (
-                <div key={date} className="flex ml-0  rounded-tl-xl bg-glass  items-center gap-1 mb-1">
+                <div key={date} className="flex ml-0  rounded-md bg-glass  items-center gap-1 mb-1">
                   {/* Date Header */}
                   <div className="text-center w-24 text-sm font-semibold text-slate-100 px-2 shrink-0">
                     {formatDate(date)}
@@ -340,13 +340,13 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
                     {events.map((event, index) => (
                       <div 
                         key={index} 
-                        className={`flex-0 items-center space-x-2 rounded-tl-xl rounded-tr-xl px-3 py-0.5 translate-y-0.5 group cursor-pointer  hover:brightness-150 transition-all ${getEventColor(event.type, event.priority)}`}
+                        className={`flex-0 items-center space-x-2 rounded-sm px-3 py-0.5  group cursor-pointer  hover:brightness-150 transition-all ${getEventColor(event.type, event.priority)}`}
                         onClick={(e) => handleEventClick(e, event.title)}
                       >
                         {/* Event Content */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-baseline space-x-2">
-                            <h4 className={`text-xs font-light text-slate-100 group-hover:opacity-80 transition-opacity truncate`}>
+                            <h4 className={`text-sm font-light text-slate-100 group-hover:opacity-80 transition-opacity truncate`}>
                               {event.title}
                             </h4>
 

@@ -252,7 +252,7 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
             )}
             {loading && (
               <div className="text-center w-full py-5">
-                <div className="animate-spin h-8 w-8 border-5 border-violet border-t-blue rounded-full mx-auto"></div>
+                <div className="animate-spin h-8 w-8 border-3 border-t-red-500 rounded-full mx-auto"></div>
                 <p className="mt-4 text-sm">Loading dashboard...</p>
               </div>
             )}
