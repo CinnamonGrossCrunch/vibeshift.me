@@ -6,6 +6,17 @@ import Image from 'next/image';
 import type { CalendarEvent } from '@/lib/icsUtils';
 import { hasGreekTheaterEventOnDate, getGreekTheaterEventsForDate, greekTheaterToCalendarEvent } from '@/lib/greekTheater';
 
+// Newsletter event type (extends CalendarEvent with optional htmlContent)
+type NewsletterCalendarEvent = CalendarEvent & {
+  htmlContent?: string;
+  sourceMetadata?: {
+    sectionTitle: string;
+    sectionIndex: number;
+    itemTitle: string;
+    itemIndex: number;
+  };
+};
+
 type Props = {
   events: CalendarEvent[];
   currentMonth: Date;
@@ -17,6 +28,8 @@ type Props = {
   calBearsEvents?: CalendarEvent[];
   showCampusGroups?: boolean;
   campusGroupsEvents?: CalendarEvent[];
+  showNewsletter?: boolean;
+  newsletterEvents?: NewsletterCalendarEvent[];
 };
 
 export default function MonthGrid({ 
@@ -29,7 +42,9 @@ export default function MonthGrid({
   showCalBears = true,
   calBearsEvents = [],
   showCampusGroups = false,
-  campusGroupsEvents = []
+  campusGroupsEvents = [],
+  showNewsletter = false,
+  newsletterEvents = []
 }: Props) {
   // Remove the internal state since month is controlled by parent
   // const [currentMonth, setCurrentMonth] = useState(new Date(2025, 7, 1));
@@ -73,6 +88,24 @@ export default function MonthGrid({
           isSameDay(new Date(ev.start), day)
         ) : [];
         
+        // Add Newsletter events for this day if they should be shown
+        const dayNewsletterEvents = showNewsletter ? newsletterEvents.filter((ev) =>
+          isSameDay(new Date(ev.start), day)
+        ) : [];
+        
+        // Debug logging for Newsletter events (only on 1st of month to avoid spam)
+        if (day.getDate() === 1 && showNewsletter && newsletterEvents.length > 0) {
+          console.log(`📰 [MonthGrid] Newsletter Debug for ${format(day, 'MMMM yyyy')}:`, {
+            showNewsletter,
+            totalNewsletterEvents: newsletterEvents.length,
+            sampleEvent: newsletterEvents[0],
+            eventsForThisMonth: newsletterEvents.filter(ev => {
+              const evDate = new Date(ev.start);
+              return evDate.getMonth() === day.getMonth() && evDate.getFullYear() === day.getFullYear();
+            }).length
+          });
+        }
+        
         // Debug logging for Campus Groups
         if (day.getDate() === 1) { // Only log once per month to avoid spam
           console.log(`MonthGrid Campus Groups Debug:`, {
@@ -86,13 +119,15 @@ export default function MonthGrid({
           console.log(`Campus Groups: ${campusGroupsEvents.length} total events, ${dayCampusGroupsEvents.length} events for ${day.toDateString()}`);
         }
         
-        // Combine regular events with launch events, Cal Bears events, and Campus Groups events
-        const allDayEvents = [...dayEvents, ...dayLaunchEvents, ...dayCalBearsEvents, ...dayCampusGroupsEvents];
+        // Combine regular events with launch events and Campus Groups events
+        // NOTE: Cal Bears and Newsletter events are EXCLUDED - they only appear as logo/icon in header (like Greek Theater)
+        const allDayEvents = [...dayEvents, ...dayLaunchEvents, ...dayCampusGroupsEvents];
 
         const isToday = isSameDay(day, new Date());
         const hasGreekEvent = hasGreekTheaterEventOnDate(day);
         const hasCalBearsEvent = showCalBears && dayCalBearsEvents.length > 0;
         const hasCampusGroupsEvent = showCampusGroups && dayCampusGroupsEvents.length > 0;
+        const hasNewsletterEvent = showNewsletter && dayNewsletterEvents.length > 0;
 
         // Function to parse event title and extract course name and assignment
         const parseEventTitle = (title: string) => {
@@ -284,6 +319,45 @@ export default function MonthGrid({
                 </svg>
               </div>
               )}
+              {hasNewsletterEvent && (
+              <div 
+                className="w-6 h-6 flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-opacity bg-purple-600 rounded-lg flex items-center justify-center relative"
+                title={`Newsletter: ${dayNewsletterEvents.map(e => e.title).join(', ')}`}
+                onClick={(e) => {
+                e.stopPropagation();
+                if (dayNewsletterEvents.length > 0) {
+                  // If multiple newsletter events on same day, create a combined event
+                  if (dayNewsletterEvents.length > 1) {
+                    const combinedEvent = {
+                      ...dayNewsletterEvents[0],
+                      title: `${dayNewsletterEvents.length} Newsletter Events`,
+                      description: dayNewsletterEvents.map(ev => ev.title).join('\n• '),
+                      // Combine all HTML content
+                      htmlContent: dayNewsletterEvents.map((ev, idx) => 
+                        `<div class="newsletter-event-${idx}">
+                          <h3 class="font-semibold text-lg mb-2">${ev.title}</h3>
+                          ${ev.htmlContent || ''}
+                        </div>`
+                      ).join('<hr class="my-4 border-slate-300" />')
+                    };
+                    onEventClick(combinedEvent);
+                  } else {
+                    // Single event, show normally
+                    onEventClick(dayNewsletterEvents[0]);
+                  }
+                }
+                }}
+              >
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                </svg>
+                {dayNewsletterEvents.length > 1 && (
+                  <span className="absolute -top-1 -right-1 bg-white text-purple-600 text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                    {dayNewsletterEvents.length}
+                  </span>
+                )}
+              </div>
+              )}
             </div>
             <div className="flex-1 flex flex-col gap-px">
               {allDayEvents.length > 0 ? (
@@ -308,7 +382,7 @@ export default function MonthGrid({
                   {/* Quiz indicator above course name */}
                   {eventHasQuiz && (
                     <div className="mb-0.5">
-                      <span className="font-bold text-white text-[9px] px-1 bg-red-600  rounded whitespace-nowrap ">
+                      <span className="font-bold text-white text-[9px] px-1 bg-red-600 rounded whitespace-nowrap ">
                         QUIZ
                       </span>
                     </div>

@@ -6,16 +6,35 @@ import Image from 'next/image';
 import MonthGrid from './MonthGrid';
 import EventDetailModal from './EventDetailModal';
 import type { CalendarEvent, CohortEvents } from '@/lib/icsUtils';
+import type { UnifiedDashboardData } from '@/app/api/unified-dashboard/route';
 
 type Props = {
   cohortEvents: CohortEvents;
   title: string;
   externalSelectedCohort?: 'blue' | 'gold';
+  newsletterData?: UnifiedDashboardData['newsletterData'];
 };
 
 type CohortType = 'blue' | 'gold';
 
-export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohort }: Props) {
+// Newsletter event type for calendar display
+interface NewsletterCalendarEvent extends CalendarEvent {
+  htmlContent?: string; // Formatted HTML from organized newsletter
+  sourceMetadata: {
+    sectionTitle: string;
+    sectionIndex: number;
+    itemTitle: string;
+    itemIndex: number;
+  };
+  timeSensitive: {
+    dates: string[];
+    deadline?: string;
+    eventType: 'deadline' | 'event' | 'announcement' | 'reminder';
+    priority: 'high' | 'medium' | 'low';
+  };
+}
+
+export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohort, newsletterData }: Props) {
   const [selectedCohort, setSelectedCohort] = useState<CohortType>(externalSelectedCohort || 'blue');
   const [currentMonth, setCurrentMonth] = useState(new Date()); // Current month
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
@@ -23,8 +42,10 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
   const [currentEventIndex, setCurrentEventIndex] = useState<number>(-1); // Track current event index
   const [showGreekTheater, setShowGreekTheater] = useState(false);
   const [showUCLaunch, setShowUCLaunch] = useState(false);
-  const [showCalBears, setShowCalBears] = useState(false);
+  const [showCalBears, setShowCalBears] = useState(true); // Default ON
   const [showCampusGroups, setShowCampusGroups] = useState(false);
+  const [showNewsletter, setShowNewsletter] = useState(true); // Default ON
+  const [newsletterEvents, setNewsletterEvents] = useState<NewsletterCalendarEvent[]>([]);
   const [showEventDropdown, setShowEventDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -36,7 +57,129 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
         setSelectedCohort(saved);
       }
     }
+    
+    // Load event toggle preferences from localStorage
+    const savedShowNewsletter = localStorage.getItem('calendar-show-newsletter');
+    if (savedShowNewsletter !== null) {
+      setShowNewsletter(savedShowNewsletter === 'true');
+    }
+    
+    const savedShowCalBears = localStorage.getItem('calendar-show-calbears');
+    if (savedShowCalBears !== null) {
+      setShowCalBears(savedShowCalBears === 'true');
+    }
   }, [externalSelectedCohort]);
+
+  // Convert newsletter data to calendar events when provided
+  useEffect(() => {
+    if (!newsletterData) {
+      console.log('📰 [CohortCalendarTabs] No newsletter data provided');
+      setNewsletterEvents([]);
+      return;
+    }
+
+    console.log('📰 [CohortCalendarTabs] Converting newsletter data to calendar events...');
+    console.log(`📊 Newsletter has ${newsletterData.sections.length} sections`);
+
+    const events: NewsletterCalendarEvent[] = [];
+
+    newsletterData.sections.forEach((section, sectionIdx) => {
+      section.items.forEach((item, itemIdx) => {
+        // Only process items with time-sensitive data
+        if (!item.timeSensitive || !item.timeSensitive.dates || item.timeSensitive.dates.length === 0) {
+          return;
+        }
+
+        // CONSERVATIVE FILTERING: Only show events with 1-2 explicit dates
+        // Skip items with multiple dates (vague/advisory content like "Underhill Lot" or "Parking Advisory")
+        if (item.timeSensitive.dates.length > 2) {
+          console.log(`⏭️ Skipping "${item.title}" - has ${item.timeSensitive.dates.length} dates (likely advisory/digest content)`);
+          return;
+        }
+
+        // Skip items with titles that indicate digest/advisory content (not specific events)
+        const skipPatterns = [
+          /saturday scoop/i,
+          /sunday scoop/i,
+          /weekly digest/i,
+          /parking.*advisory/i,
+          /underhill.*advisory/i,
+          /transportation.*advisory/i
+        ];
+        
+        if (skipPatterns.some(pattern => pattern.test(item.title))) {
+          console.log(`⏭️ Skipping "${item.title}" - matches advisory/digest pattern`);
+          return;
+        }
+
+        // Create one calendar event per date mentioned
+        item.timeSensitive.dates.forEach((dateStr) => {
+          try {
+            // IMPORTANT: Parse date in local timezone (not UTC) to avoid day shifts
+            // When dateStr is "2025-11-04", new Date() interprets as UTC midnight,
+            // which becomes Nov 3 at 4PM PST. We need to force local timezone.
+            let eventDate: Date;
+            
+            if (dateStr.includes('T')) {
+              // Has time component, parse as-is
+              eventDate = new Date(dateStr);
+            } else {
+              // Date-only string (YYYY-MM-DD): parse in local timezone
+              // Add 'T12:00:00' to force noon local time, avoiding UTC conversion
+              eventDate = new Date(dateStr + 'T12:00:00');
+            }
+            
+            if (isNaN(eventDate.getTime())) {
+              console.warn(`⚠️ Invalid date "${dateStr}" in item "${item.title}"`);
+              return;
+            }
+
+            // Determine if all-day event (no specific time mentioned)
+            const allDay = !dateStr.includes('T') || dateStr.endsWith('T00:00:00');
+
+            // Generate unique UID for this event
+            const cleanDate = dateStr.split('T')[0].replace(/-/g, '');
+            const uid = `newsletter-${sectionIdx}-${itemIdx}-${cleanDate}`;
+
+            const event: NewsletterCalendarEvent = {
+              uid,
+              title: item.title,
+              start: eventDate.toISOString(),
+              end: eventDate.toISOString(),
+              allDay,
+              description: `From newsletter section: ${section.sectionTitle}`,
+              htmlContent: item.html, // Use formatted HTML from organized newsletter
+              source: 'newsletter',
+              sourceMetadata: {
+                sectionTitle: section.sectionTitle,
+                sectionIndex: sectionIdx,
+                itemTitle: item.title,
+                itemIndex: itemIdx,
+              },
+              timeSensitive: item.timeSensitive!, // We already checked it exists above
+            };
+
+            events.push(event);
+          } catch (err) {
+            console.error(`❌ Error processing date "${dateStr}" for item "${item.title}":`, err);
+          }
+        });
+      });
+    });
+
+    console.log(`✅ [CohortCalendarTabs] Converted ${events.length} newsletter events from ${newsletterData.sections.length} sections`);
+    setNewsletterEvents(events);
+  }, [newsletterData]); // Re-run when newsletter data changes
+
+  // Save newsletter toggle preference to localStorage
+  useEffect(() => {
+    localStorage.setItem('calendar-show-newsletter', String(showNewsletter));
+  }, [showNewsletter]);
+
+  // Save Cal Bears toggle preference to localStorage
+  useEffect(() => {
+    localStorage.setItem('calendar-show-calbears', String(showCalBears));
+  }, [showCalBears]);
 
   // Handle clicking outside dropdown to close it
   useEffect(() => {
@@ -553,6 +696,35 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
                     </div>
                   </div>
                 </label>
+
+                {/* Newsletter Events Toggle */}
+                <label className="flex items-center justify-between px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 flex items-center justify-center bg-purple-600 rounded-lg">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                      </svg>
+                    </div>
+                    <span className="text-sm font-medium">Newsletter</span>
+                  </div>
+                  <div className="relative">
+                    <input
+                      type="checkbox"
+                      checked={showNewsletter}
+                      onChange={(e) => setShowNewsletter(e.target.checked)}
+                      className="sr-only"
+                      aria-label="Toggle Newsletter events"
+                      disabled={!newsletterData}
+                    />
+                    <div className={`w-10 h-6 rounded-full transition-colors duration-200 ${
+                      showNewsletter ? 'bg-purple-500' : 'bg-slate-300 dark:bg-slate-600'
+                    }`}>
+                      <div className={`translate-y-1 w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-200 mt-1 ${
+                        showNewsletter ? 'translate-x-5' : 'translate-x-1'
+                      }`} />
+                    </div>
+                  </div>
+                </label>
               {/* COMING SOON*/}
                 <label className="flex items-center justify-center text-center px-5 py-1 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer">
                   <div className="flex items-center gap-3">
@@ -585,6 +757,8 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
             calBearsEvents={cohortEvents.calBears || []}
             showCampusGroups={showCampusGroups}
             campusGroupsEvents={cohortEvents.campusGroups || []}
+            showNewsletter={showNewsletter}
+            newsletterEvents={newsletterEvents}
           />
         </div>
       </div>

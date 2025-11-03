@@ -75,40 +75,59 @@ export async function extractTimeSensitiveData(
         section.items.map(item => ({
           section: section.sectionTitle,
           title: item.title,
-          content: item.html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().substring(0, 300) // First 300 chars only
+          content: item.html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().substring(0, 500) // Increased to 500 chars for better context
         }))
       );
 
     const prompt = `Extract time-sensitive information from newsletter items. Return ONLY valid JSON.
 
+CURRENT CONTEXT:
+- Today is Sunday, November 3, 2025
+- Reference dates: Mon Nov 4, Tue Nov 5, Wed Nov 6, Thu Nov 7, Fri Nov 8, Sat Nov 9, Sun Nov 10
+
 ITEMS TO ANALYZE:
 ${itemsToAnalyze.map((item, idx) => 
-  `${idx + 1}. [${item.section}] ${item.title}\n   ${item.content}`
+  `${idx}. [${item.section}] ${item.title}\n   ${item.content}`
 ).join('\n\n')}
 
 TASK:
-For each item that mentions dates, deadlines, or events, extract:
+For each item that explicitly mentions specific dates, deadlines, or scheduled events, extract:
 - All relevant dates in YYYY-MM-DD format
 - Main deadline if any
 - Event type: deadline, event, announcement, or reminder
 - Priority: high (urgent/today), medium (this week), low (general)
 
-RULES:
-- Only include items with actual dates
-- Extract ALL date formats (Oct 27, October 27, 10/27, etc.)
-- Convert all dates to YYYY-MM-DD format using context year 2025
-- Deadline items get "deadline" type
-- Scheduled events get "event" type
-- General announcements get "announcement" type
+CRITICAL RULES:
+1. ONLY include items with EXPLICIT dates mentioned in the text
+2. DO NOT infer or guess dates - if no date is mentioned, skip it
+3. Match day names carefully (e.g., "Monday, Nov 4" = 2025-11-04, "Tuesday, Nov 5" = 2025-11-05)
+4. For "Saturday Scoop" or weekly digests with no specific date, skip them
+5. For advisory items about multiple future dates (like parking advisories), skip them
+6. Extract ALL explicitly mentioned dates from the text
+7. If day name doesn't match calendar (e.g., text says "Monday Nov 3" but Nov 3 is Sunday), use the day name
+8. Convert formats: "Nov 4" = "November 4" = "11/4" = 2025-11-04
+9. Items without explicit dates = skip completely
+
+EVENT TYPE GUIDELINES:
+- "deadline" = submission deadlines, registration closes
+- "event" = scheduled meetings, speaker series, clinics with specific time/location
+- "announcement" = general info without specific action date
+- "reminder" = ongoing opportunities without single deadline
+
+EXAMPLES:
+✓ "Coffee Chat Thursday, Nov 6, 9-10 AM" → {"dates": ["2025-11-06"], "eventType": "event"}
+✓ "Flu Shot Clinic Tuesday, Nov 4, 12-4PM" → {"dates": ["2025-11-04"], "eventType": "event"}
+✗ "FTMBA Electives for Spring 2026" (no date mentioned) → skip this item
+✗ "Saturday Scoop" (just a newsletter name) → skip this item
+✗ "Parking Advisory for all basketball games" (multiple vague dates) → skip this item
 
 OUTPUT FORMAT (JSON only, no markdown):
 {
   "timeSensitiveItems": [
     {
       "index": 0,
-      "dates": ["2025-10-27"],
-      "deadline": "2025-10-27",
-      "eventType": "deadline",
+      "dates": ["2025-11-04"],
+      "eventType": "event",
       "priority": "high"
     }
   ]
@@ -164,7 +183,14 @@ Return ONLY the JSON object:`;
 
     console.log(`📅 Extracted ${extractedData.timeSensitiveItems?.length || 0} time-sensitive items`);
 
-    // Map extracted data back to newsletter items
+    // Helper function to get day name from date
+    const getDayName = (dateStr: string): string => {
+      const date = new Date(dateStr + 'T12:00:00'); // Noon to avoid timezone issues
+      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      return days[date.getDay()];
+    };
+
+    // Map extracted data back to newsletter items with validation
     let itemIndex = 0;
     const updatedSections = organizedNewsletter.sections.map(section => ({
       ...section,
@@ -173,11 +199,27 @@ Return ONLY the JSON object:`;
         const extracted = extractedData.timeSensitiveItems?.find(e => e.index === currentIndex);
         
         if (extracted) {
-          console.log(`  ✓ Added timeSensitive to "${item.title}": ${extracted.dates.join(', ')}`);
+          // Validate dates and log warnings for potential mismatches
+          const validatedDates = extracted.dates.filter(dateStr => {
+            const dayName = getDayName(dateStr);
+            const itemText = `${item.title} ${item.html}`.toLowerCase();
+            
+            // Check if the text mentions a day name that doesn't match the extracted date
+            const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+            const mentionedDay = dayNames.find(day => itemText.includes(day));
+            
+            if (mentionedDay && mentionedDay !== dayName.toLowerCase()) {
+              console.warn(`⚠️ Day mismatch for "${item.title}": text mentions "${mentionedDay}" but date ${dateStr} is ${dayName}`);
+            }
+            
+            return true; // Keep all dates for now
+          });
+          
+          console.log(`  ✓ Added timeSensitive to "${item.title}": ${validatedDates.join(', ')} [${validatedDates.map(getDayName).join(', ')}]`);
           return {
             ...item,
             timeSensitive: {
-              dates: extracted.dates,
+              dates: validatedDates,
               deadline: extracted.deadline,
               eventType: extracted.eventType,
               priority: extracted.priority

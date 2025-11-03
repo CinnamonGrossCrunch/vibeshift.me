@@ -172,6 +172,7 @@ export default function MainDashboardTabs({
                 max={150}
                 cohortEvents={cohortEvents}
                 selectedCohort={selectedCohort}
+                newsletterData={dashboardData?.newsletterData}
               />
             </div>
           </div>

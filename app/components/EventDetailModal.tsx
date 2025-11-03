@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 import type { CalendarEvent } from '@/lib/icsUtils';
+import type { NewsletterCalendarEvent } from '@/lib/newsletter-calendar';
 
 type Props = {
   event: CalendarEvent | null;
@@ -16,6 +17,67 @@ type Props = {
 
 export default function EventDetailModal({ event, originalEvent, onClose, onNext, onPrevious, hasNext, hasPrevious }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
+
+  // Check if event is from newsletter
+  const isNewsletterEvent = event?.source === 'newsletter';
+  const newsletterEvent = isNewsletterEvent ? (event as NewsletterCalendarEvent) : null;
+
+  // Handle "View in Newsletter" button click
+  const handleViewInNewsletter = () => {
+    if (!newsletterEvent?.sourceMetadata) return;
+
+    console.log(`📰 [EventDetailModal] View in Newsletter clicked`);
+    console.log(`Section: ${newsletterEvent.sourceMetadata.sectionTitle} (index ${newsletterEvent.sourceMetadata.sectionIndex})`);
+    console.log(`Item: ${newsletterEvent.sourceMetadata.itemTitle} (index ${newsletterEvent.sourceMetadata.itemIndex})`);
+
+    // Check if newsletter widget is visible
+    const newsletterWidget = document.querySelector('[data-newsletter-widget]') as HTMLElement | null;
+    const isNewsletterVisible = newsletterWidget && 
+      newsletterWidget.offsetParent !== null && 
+      newsletterWidget.getBoundingClientRect().height > 0;
+
+    console.log(`👀 Newsletter visibility: ${isNewsletterVisible ? 'VISIBLE' : 'HIDDEN'}`);
+
+    if (!isNewsletterVisible) {
+      // Switch to Updates tab first
+      console.log(`🔄 Switching to Updates tab...`);
+      const switchTabEvent = new CustomEvent('switchToTab', {
+        detail: { tabName: 'Updates', timestamp: Date.now() }
+      });
+      window.dispatchEvent(switchTabEvent);
+
+      // Wait for tab switch, then open newsletter section
+      setTimeout(() => {
+        console.log(`📬 Opening newsletter section`);
+        const openNewsletterEvent = new CustomEvent('openNewsletterSection', {
+          detail: {
+            sectionIndex: newsletterEvent.sourceMetadata!.sectionIndex,
+            itemIndex: newsletterEvent.sourceMetadata!.itemIndex,
+            sectionTitle: newsletterEvent.sourceMetadata!.sectionTitle,
+            itemTitle: newsletterEvent.sourceMetadata!.itemTitle,
+            timestamp: Date.now()
+          }
+        });
+        window.dispatchEvent(openNewsletterEvent);
+      }, 150);
+    } else {
+      // Newsletter already visible
+      console.log(`✅ Opening newsletter section directly`);
+      const openNewsletterEvent = new CustomEvent('openNewsletterSection', {
+        detail: {
+          sectionIndex: newsletterEvent.sourceMetadata.sectionIndex,
+          itemIndex: newsletterEvent.sourceMetadata.itemIndex,
+          sectionTitle: newsletterEvent.sourceMetadata.sectionTitle,
+          itemTitle: newsletterEvent.sourceMetadata.itemTitle,
+          timestamp: Date.now()
+        }
+      });
+      window.dispatchEvent(openNewsletterEvent);
+    }
+
+    // Close the modal after triggering navigation
+    onClose();
+  };
 
   // Close modal on escape key, navigate with arrow keys
   useEffect(() => {
@@ -290,7 +352,21 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
 
         {/* Footer with action buttons */}
         <div className="flex gap-2 p-6 border-t border-slate-700 flex-shrink-0">
-          {displayEvent.url && (
+          {/* Newsletter Event: View in Newsletter Button */}
+          {isNewsletterEvent && newsletterEvent?.sourceMetadata && (
+            <button
+              onClick={handleViewInNewsletter}
+              className="flex-1 bg-purple-600/20 backdrop-blur-xl hover:bg-purple-500/40 text-white text-sm font-medium py-2 px-4 rounded-lg transition-all duration-300 text-center flex items-center justify-center gap-2 shadow-[0_0_0_1px_rgba(168,85,247,0.3),0_0_18px_4px_rgba(168,85,247,0.25)] hover:shadow-[0_0_0_1px_rgba(168,85,247,0.6),0_0_25px_8px_rgba(168,85,247,0.4)] hover:scale-[1.02]"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+              </svg>
+              View in Newsletter
+            </button>
+          )}
+          
+          {/* Regular Event: Open Class Page Button */}
+          {!isNewsletterEvent && displayEvent.url && (
             <a
               href={displayEvent.url}
               target="_blank"
@@ -303,6 +379,7 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
               Open Class Page
             </a>
           )}
+          
           <button
             onClick={onClose}
             className="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors"

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import CohortCalendarTabs from './CohortCalendarTabs';
 import type { CohortEvents } from '@/lib/icsUtils';
+import type { UnifiedDashboardData } from '@/app/api/unified-dashboard/route';
 
 type Props = {
   title?: string;
@@ -10,6 +11,7 @@ type Props = {
   max?: number;
   cohortEvents?: CohortEvents;
   selectedCohort?: 'blue' | 'gold';
+  newsletterData?: UnifiedDashboardData['newsletterData'];
 };
 
 export default function CohortCalendarWidget({
@@ -18,6 +20,7 @@ export default function CohortCalendarWidget({
   max = 150,
   cohortEvents: externalCohortEvents,
   selectedCohort: externalSelectedCohort,
+  newsletterData,
 }: Props) {
   const [cohortEvents, setCohortEvents] = useState<CohortEvents>({ 
     blue: [], 
@@ -103,6 +106,7 @@ export default function CohortCalendarWidget({
           cohortEvents={cohortEvents} 
           title={title}
           externalSelectedCohort={externalSelectedCohort}
+          newsletterData={newsletterData}
         />
       )}
     </section>

@@ -117,19 +117,182 @@ CATEGORIES:Sports,Football,California Golden Bears
 END:VEVENT
 BEGIN:VEVENT
 UID:b9635a9b-fb3f-4870-9607-66b7186fe90d@vibeshift
-DTSTAMP:20250829T141025Z
+DTSTAMP:20251103T141025Z
 SUMMARY:SMU Mustangs at California Golden Bears Football
 DTSTART;VALUE=DATE:20251129
 DTEND;VALUE=DATE:20251130
 LOCATION:California Memorial Stadium\, Berkeley\, CA
-URL:https://calbears.evenue.net/events/FBS
+URL:https://gotickets.com/tickets/871555/smu-mustangs-at-california-golden-bears-football-tickets/california-memorial-stadium-berkeley-ca-11-29-2025
 X-ALT-DESC;FMTTYPE=text/html:<p><strong>SMU Mustangs at California Golden B
  ears Football</strong></p>
 <p><strong>Location:</strong> California Memori
  al Stadium\, Berkeley\, CA</p>
-<p><a href="https://calbears.evenue.net/events/FBS">Tickets</a></p>
+<p><strong>Date:</strong> Saturday\, Nov 29\, 2025</p>
+<p><strong>Time:</strong> TBD</p>
+<p><a href="https://gotickets.com/tickets/871555/smu-mustangs-at-california-golden-bears-football-tickets/california-memorial-stadium-berkeley-ca-11-29-2025">Get Tickets</a></p>
 DESCRIPTION:SMU Mustangs at California Golden Bears Football\n\nLocation: C
- alifornia Memorial Stadium\, Berkeley\, CA\nTickets: https://calbears.evenue.net/events/FBS
+ alifornia Memorial Stadium\, Berkeley\, CA\nDate: Saturday\, Nov 29\, 2025\nTime: TBD\nGet Tickets: https://gotickets.com/tickets/871555/smu-mustangs-at-california-golden-bears-football-tickets/california-memorial-stadium-berkeley-ca-11-29-2025
 CATEGORIES:Sports,Football,California Golden Bears
+END:VEVENT
+
+BEGIN:VEVENT
+SUMMARY:CSU Bakersfield Roadrunners at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20251103T190000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1171166/csu-bakersfield-roadrunners-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-11-3-2025
+URL:https://gotickets.com/tickets/1171166/csu-bakersfield-roadrunners-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-11-3-2025
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Wright State Raiders at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20251106T190000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1171167/wright-state-raiders-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-11-6-2025
+URL:https://gotickets.com/tickets/1171167/wright-state-raiders-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-11-6-2025
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Cal State Fullerton Titans at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20251110T180000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1171168/cal-state-fullerton-titans-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-11-10-2025
+URL:https://gotickets.com/tickets/1171168/cal-state-fullerton-titans-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-11-10-2025
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Presbyter Blue Hose at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20251118T180000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1171169/presbyter-blue-hose-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-11-18-2025
+URL:https://gotickets.com/tickets/1171169/presbyter-blue-hose-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-11-18-2025
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Sacramento State Hornets at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20251121T180000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1171170/sacramento-state-hornets-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-11-21-2025
+URL:https://gotickets.com/tickets/1171170/sacramento-state-hornets-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-11-21-2025
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Utah Utes at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20251202T180000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1171171/utah-utes-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-12-2-2025
+URL:https://gotickets.com/tickets/1171171/utah-utes-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-12-2-2025
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Pacific Tigers at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20251206T180000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1171172/pacific-tigers-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-12-6-2025
+URL:https://gotickets.com/tickets/1171172/pacific-tigers-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-12-6-2025
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Dominican Penguins at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20251209T180000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1262527/dominican-penguins-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-12-9-2025
+URL:https://gotickets.com/tickets/1262527/dominican-penguins-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-12-9-2025
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Northwestern State Demons at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20251213T180000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1171173/northwestern-state-demons-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-12-13-2025
+URL:https://gotickets.com/tickets/1171173/northwestern-state-demons-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-12-13-2025
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Morgan State Bears at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20251219T180000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1171174/morgan-state-bears-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-12-19-2025
+URL:https://gotickets.com/tickets/1171174/morgan-state-bears-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-12-19-2025
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Columbia Lions at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20251221T180000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1171175/columbia-lions-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-12-21-2025
+URL:https://gotickets.com/tickets/1171175/columbia-lions-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-12-21-2025
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Louisville Cardinals at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20251230T180000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1214326/louisville-cardinals-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-12-30-2025
+URL:https://gotickets.com/tickets/1214326/louisville-cardinals-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-12-30-2025
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Notre Dame Fighting Irish at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20260102T200000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1214327/notre-dame-fighting-irish-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-1-2-2026
+URL:https://gotickets.com/tickets/1214327/notre-dame-fighting-irish-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-1-2-2026
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Duke Blue Devils at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20260114T200000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1214335/duke-blue-devils-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-1-14-2026
+URL:https://gotickets.com/tickets/1214335/duke-blue-devils-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-1-14-2026
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:North Carolina Tar Heels at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20260117T130000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1214328/north-carolina-tar-heels-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-1-17-2026
+URL:https://gotickets.com/tickets/1214328/north-carolina-tar-heels-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-1-17-2026
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Georgia Tech Yellow Jackets at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20260204T170000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1214329/georgia-tech-yellow-jackets-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-2-4-2026
+URL:https://gotickets.com/tickets/1214329/georgia-tech-yellow-jackets-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-2-4-2026
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Clemson Tigers at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20260207T170000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1214330/clemson-tigers-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-2-7-2026
+URL:https://gotickets.com/tickets/1214330/clemson-tigers-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-2-7-2026
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Stanford Cardinal at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20260221T150000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1214331/stanford-cardinal-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-2-21-2026
+URL:https://gotickets.com/tickets/1214331/stanford-cardinal-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-2-21-2026
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:SMU Mustangs at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20260225T190000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1214332/smu-mustangs-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-2-25-2026
+URL:https://gotickets.com/tickets/1214332/smu-mustangs-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-2-25-2026
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Pittsburgh Panthers at California Golden Bears Mens Basketball
+DTSTART;TZID=America/Los_Angeles:20260228T130000
+DTSTAMP:20251103T073642Z
+LOCATION:Haas Pavilion, Berkeley, CA
+DESCRIPTION:Buy tickets: https://gotickets.com/tickets/1214333/pittsburgh-panthers-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-2-28-2026
+URL:https://gotickets.com/tickets/1214333/pittsburgh-panthers-at-california-golden-bears-mens-basketball-tickets/haas-pavilion-berkeley-ca-2-28-2026
 END:VEVENT
 END:VCALENDAR
