@@ -55,6 +55,21 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
     fetchDashboardData();
   }, [externalData]);
 
+  // Listen for tab switch requests from My Week Widget
+  useEffect(() => {
+    const handleSwitchTab = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      console.log(`🔄 DashboardTabs2: Tab switch requested: ${detail.tabName}`);
+      
+      // Switch to the requested tab
+      setActiveTab(detail.tabName);
+      console.log(`✅ DashboardTabs2: Switched to tab: ${detail.tabName}`);
+    };
+    
+    window.addEventListener('switchToTab', handleSwitchTab);
+    return () => window.removeEventListener('switchToTab', handleSwitchTab);
+  }, []);
+
   // Loading state
   if (loading) {
     return (

@@ -14,6 +14,14 @@ type WeeklyEvent = {
   description?: string;
   location?: string;
   url?: string;
+  // Source tracking for newsletter items
+  sourceType?: 'calendar' | 'newsletter';
+  newsletterSource?: {
+    sectionTitle: string;
+    sectionIndex: number;
+    itemTitle: string;
+    itemIndex: number;
+  };
 };
 
 type MyWeekData = {
@@ -29,100 +37,113 @@ type MyWeekData = {
 type CohortType = 'blue' | 'gold';
 
 interface MyWeekWidgetProps {
-  // New unified approach: direct data from unified API
+  // Direct data from unified API
   data?: MyWeekData;
   selectedCohort?: CohortType;
-  
-  // Legacy approach: for backwards compatibility (will fetch from old API)
-  cohortEvents?: CohortEvents;
-  newsletterData?: NewsletterData | Payload | null;
 }
 
-// Type definitions to match my-week-analyzer.ts
-interface CohortEvent {
-  start: string;
-  end?: string;
-  title: string;
-  summary?: string;
-  description?: string;
-  location?: string;
-  url?: string;
-}
-
-interface CohortEvents {
-  blue?: CohortEvent[];
-  gold?: CohortEvent[];
-}
-
-interface NewsletterData {
-  sections: {
-    sectionTitle: string;
-    items: {
-      title: string;
-      html: string;
-      timeSensitive?: {
-        dates: string[];
-        deadline?: string;
-        eventType: 'deadline' | 'event' | 'announcement' | 'reminder';
-        priority: 'high' | 'medium' | 'low';
-      };
-    }[];
-  }[];
-}
-
-// Basic newsletter type for backwards compatibility
-interface Payload {
-  sourceUrl: string;
-  title?: string;
-  sections: {
-    sectionTitle: string;
-    items: {
-      title: string;
-      html: string;
-    }[];
-  }[];
-}
-
-export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEvents, newsletterData }: MyWeekWidgetProps) {
+export default function MyWeekWidget({ data, selectedCohort = 'blue' }: MyWeekWidgetProps) {
   const [weekData, setWeekData] = useState<MyWeekData | null>(data || null);
   const [loading, setLoading] = useState(!data); // If data provided, don't start loading
-  const [error, setError] = useState<string | null>(null);
 
   // Function to handle MyWeek event clicks
-  const handleEventClick = (event: React.MouseEvent, eventTitle: string) => {
+  const handleEventClick = (event: React.MouseEvent, eventData: WeeklyEvent) => {
     event.preventDefault();
     event.stopPropagation();
     
-    console.log(`🖱️ MyWeek event clicked: ${eventTitle}`);
-    console.log(`🖱️ Event object:`, event);
+    console.log(`🖱️ MyWeek event clicked: ${eventData.title}`);
+    console.log(`🔍 Event source type:`, eventData.sourceType);
     
-    // Trigger glow animation on calendar list view via custom event
-    const glowEvent = new CustomEvent('triggerCalendarGlow', { 
-      detail: { eventTitle, timestamp: Date.now() }
-    });
-    
-    console.log(`🚀 About to dispatch glow event:`, glowEvent);
-    window.dispatchEvent(glowEvent);
-    console.log(`✨ Dispatched glow event for: ${eventTitle}`);
-    
-    // Add a small delay then check if calendar element exists
-    setTimeout(() => {
-      const calendarElement = document.querySelector('[data-calendar-list-view]');
-      if (calendarElement) {
-        console.log(`📍 Found calendar element, scrolling to it`, calendarElement);
-        calendarElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Check if this is a newsletter-sourced event
+    if (eventData.sourceType === 'newsletter' && eventData.newsletterSource) {
+      console.log(`📰 Newsletter item clicked - opening newsletter section`);
+      console.log(`Section: ${eventData.newsletterSource.sectionTitle} (index ${eventData.newsletterSource.sectionIndex})`);
+      console.log(`Item: ${eventData.newsletterSource.itemTitle} (index ${eventData.newsletterSource.itemIndex})`);
+      
+      // HIERARCHY CHECK: Is newsletter widget visible?
+      const newsletterWidget = document.querySelector('[data-newsletter-widget]') as HTMLElement | null;
+      const isNewsletterVisible = newsletterWidget && 
+        newsletterWidget.offsetParent !== null && // Element is not display:none
+        newsletterWidget.getBoundingClientRect().height > 0; // Element has height
+      
+      console.log(`👀 Newsletter visibility check: ${isNewsletterVisible ? 'VISIBLE' : 'HIDDEN (inactive tab)'}`);
+      
+      if (!isNewsletterVisible) {
+        // CASE 1: Newsletter is hidden (mobile/small screen with inactive tab)
+        console.log(`🔄 Step 1: Switching to Updates tab...`);
+        
+        // Switch to Updates tab first
+        const switchTabEvent = new CustomEvent('switchToTab', {
+          detail: {
+            tabName: 'Updates',
+            timestamp: Date.now()
+          }
+        });
+        window.dispatchEvent(switchTabEvent);
+        
+        // Wait for tab switch, then expand/highlight
+        setTimeout(() => {
+          console.log(`📬 Step 2: Tab active - now opening newsletter section`);
+          const openNewsletterEvent = new CustomEvent('openNewsletterSection', {
+            detail: {
+              sectionIndex: eventData.newsletterSource!.sectionIndex,
+              itemIndex: eventData.newsletterSource!.itemIndex,
+              sectionTitle: eventData.newsletterSource!.sectionTitle,
+              itemTitle: eventData.newsletterSource!.itemTitle,
+              timestamp: Date.now()
+            }
+          });
+          window.dispatchEvent(openNewsletterEvent);
+        }, 150); // Wait for tab switch animation
       } else {
-        console.log(`❌ Calendar element not found with selector: [data-calendar-list-view]`);
-        // Try alternative selectors
-        const altElement = document.querySelector('.calendar-list-widget');
-        if (altElement) {
-          console.log(`📍 Found calendar widget via alternative selector`, altElement);
-          altElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+        // CASE 2: Newsletter already visible - proceed directly
+        console.log(`✅ Newsletter visible - opening section directly`);
+        
+        const openNewsletterEvent = new CustomEvent('openNewsletterSection', {
+          detail: {
+            sectionIndex: eventData.newsletterSource.sectionIndex,
+            itemIndex: eventData.newsletterSource.itemIndex,
+            sectionTitle: eventData.newsletterSource.sectionTitle,
+            itemTitle: eventData.newsletterSource.itemTitle,
+            timestamp: Date.now()
+          }
+        });
+        window.dispatchEvent(openNewsletterEvent);
       }
-    }, 100);
-    
-    console.log(`📅 Directing attention to calendar for: ${eventTitle}`);
+      
+      // Note: No scrolling - just expands section/subsection and adds highlight animation
+    } else {
+      // Calendar-sourced event - use existing behavior
+      console.log(`📅 Calendar event clicked - triggering calendar glow`);
+      
+      // Trigger glow animation on calendar list view via custom event
+      const glowEvent = new CustomEvent('triggerCalendarGlow', { 
+        detail: { eventTitle: eventData.title, timestamp: Date.now() }
+      });
+      
+      console.log(`🚀 About to dispatch glow event:`, glowEvent);
+      window.dispatchEvent(glowEvent);
+      console.log(`✨ Dispatched glow event for: ${eventData.title}`);
+      
+      // Add a small delay then check if calendar element exists
+      setTimeout(() => {
+        const calendarElement = document.querySelector('[data-calendar-list-view]');
+        if (calendarElement) {
+          console.log(`📍 Found calendar element, scrolling to it`, calendarElement);
+          calendarElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          console.log(`❌ Calendar element not found with selector: [data-calendar-list-view]`);
+          // Try alternative selectors
+          const altElement = document.querySelector('.calendar-list-widget');
+          if (altElement) {
+            console.log(`📍 Found calendar widget via alternative selector`, altElement);
+            altElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }
+      }, 100);
+      
+      console.log(`📅 Directing attention to calendar for: ${eventData.title}`);
+    }
   };
 
   // Temporary debug to understand the data issue
@@ -143,51 +164,16 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
   }, [data, selectedCohort]);
 
   useEffect(() => {
-    // If direct data is provided, use it and skip API calls
+    // If direct data is provided, use it
     if (data) {
       setWeekData(data);
       setLoading(false);
       return;
     }
     
-    // Legacy approach: fetch from old API if no direct data provided
-    const fetchWeekData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        
-        const response = await fetch('/api/my-week', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            cohortEvents,
-            newsletterData
-          })
-        });
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch week data: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setWeekData(data);
-      } catch (err) {
-        console.error('Error fetching week data:', err);
-        setError(err instanceof Error ? err.message : 'Unknown error');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    // Only fetch if we have data to analyze
-    if (cohortEvents || newsletterData) {
-      fetchWeekData();
-    } else {
-      setLoading(false);
-    }
-  }, [data, cohortEvents, newsletterData]);
+    // No data provided - component requires data prop from parent
+    setLoading(false);
+  }, [data]);
 
   const formatDate = (dateString: string) => {
     // Use the consistent date formatting utility
@@ -248,18 +234,6 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
           <div className="w-4 h-4 border-2 border-slate-300 border-t-berkeley-blue rounded-full animate-spin"></div>
         </div>
         <p className="text-sm text-slate-400">Analyzing your week...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="p-6 ">
-        <div className="w-12 h-12 bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
-          <span className="text-lg">⚠️</span>
-        </div>
-        <h3 className="text-base font-semibold text-white mb-2 text-center">Unable to Load Week</h3>
-        <p className="text-sm text-slate-400 text-center">{error}</p>
       </div>
     );
   }
@@ -341,7 +315,7 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue', cohortEven
                       <div 
                         key={index} 
                         className={`flex-0 items-center space-x-2 rounded-sm px-3 py-0.5  group cursor-pointer  hover:brightness-150 transition-all ${getEventColor(event.type, event.priority)}`}
-                        onClick={(e) => handleEventClick(e, event.title)}
+                        onClick={(e) => handleEventClick(e, event)}
                       >
                         {/* Event Content */}
                         <div className="flex-1 min-w-0">

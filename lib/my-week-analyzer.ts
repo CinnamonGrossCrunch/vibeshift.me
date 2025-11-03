@@ -54,22 +54,17 @@ export interface WeeklyEvent {
   description?: string;
   location?: string;
   url?: string;
-}
-
-export interface MyWeekAnalysis {
-  weekStart: string;
-  weekEnd: string;
-  events: WeeklyEvent[];
-  aiSummary: string;
-  processingTime: number;
-  aiMeta?: {
-    model: string;
-    modelsTried: string[];
-    ms: number;
+  // Source tracking for newsletter items
+  sourceType?: 'calendar' | 'newsletter';
+  newsletterSource?: {
+    sectionTitle: string;
+    sectionIndex: number;
+    itemTitle: string;
+    itemIndex: number;
   };
 }
 
-// New interface for cohort-specific analysis
+// Cohort-specific analysis interface
 export interface CohortMyWeekAnalysis {
   weekStart: string;
   weekEnd: string;
@@ -129,6 +124,13 @@ interface ProcessedNewsletterEvent extends NewsletterItem {
   priority?: string;
   eventType?: string;
   fallbackParsing?: boolean;
+  // Source tracking for tracing back to newsletter
+  sourceMetadata?: {
+    sectionTitle: string;
+    sectionIndex: number;
+    itemTitle: string;
+    itemIndex: number;
+  };
 }
 
 /**
@@ -270,14 +272,14 @@ function extractNewsletterEventsForWeek(newsletterData: NewsletterData, weekStar
   safeLog(`📊 Total sections to process: ${newsletterData.sections.length}`);
   
   // Process each organized section
-  newsletterData.sections.forEach((section: NewsletterSection) => {
+  newsletterData.sections.forEach((section: NewsletterSection, sectionIndex: number) => {
     if (!section.items) return;
     
     safeLog(`📂 Processing section: ${section.sectionTitle} (${section.items.length} items)`);
     
     safeLog(`📂 Processing section: ${section.sectionTitle} (${section.items.length} items)`);
     
-    section.items.forEach((item: NewsletterItem) => {
+    section.items.forEach((item: NewsletterItem, itemIndex: number) => {
       // Check if item has time-sensitive information
       if (item.timeSensitive && item.timeSensitive.dates) {
         safeLog(`  ✓ Item "${item.title}" has timeSensitive data: ${item.timeSensitive.dates.join(', ')}`);
@@ -298,10 +300,17 @@ function extractNewsletterEventsForWeek(newsletterData: NewsletterData, weekStar
             timeSensitive: item.timeSensitive,
             relevantDates,
             priority: item.timeSensitive.priority || 'medium',
-            eventType: item.timeSensitive.eventType || 'announcement'
+            eventType: item.timeSensitive.eventType || 'announcement',
+            // Add source tracking metadata for click-to-source navigation
+            sourceMetadata: {
+              sectionTitle: section.sectionTitle,
+              sectionIndex,
+              itemTitle: item.title,
+              itemIndex
+            }
           });
           
-          safeLog(`📅 Found time-sensitive item: ${item.title} (${relevantDates.length} relevant dates)`);
+          safeLog(`📅 Found time-sensitive item: ${item.title} (${relevantDates.length} relevant dates) [Section ${sectionIndex}:${itemIndex}]`);
         }
       } else {
         safeLog(`  ✗ Item "${item.title}" has NO timeSensitive data - checking fallback`);
@@ -331,10 +340,17 @@ function extractNewsletterEventsForWeek(newsletterData: NewsletterData, weekStar
                 relevantDates,
                 priority: 'low',
                 eventType: 'announcement',
-                fallbackParsing: true
+                fallbackParsing: true,
+                // Add source tracking for fallback items too
+                sourceMetadata: {
+                  sectionTitle: section.sectionTitle,
+                  sectionIndex,
+                  itemTitle: item.title,
+                  itemIndex
+                }
               });
               
-              safeLog(`📝 Found fallback item: ${item.title} (${relevantDates.length} dates)`);
+              safeLog(`📝 Found fallback item: ${item.title} (${relevantDates.length} dates) [Section ${sectionIndex}:${itemIndex}]`);
             }
           }
         }
@@ -346,273 +362,7 @@ function extractNewsletterEventsForWeek(newsletterData: NewsletterData, weekStar
   return events;
 }
 
-/**
- * Use OpenAI to analyze and summarize the week's events
- */
-export async function analyzeMyWeekWithAI(
-  cohortEvents: CohortEvents,
-  newsletterData: NewsletterData
-): Promise<MyWeekAnalysis> {
-  
-  if (!process.env.OPENAI_API_KEY) {
-    throw new Error('OpenAI API key not found');
-  }
 
-  const startTime = Date.now();
-  const { start: weekStart, end: weekEnd } = getThisWeekRange();
-  
-  safeLog('🗓️ My Week Analysis starting...');
-  safeLog('📅 Week range:', weekStart.toISOString(), 'to', weekEnd.toISOString());
-  safeLog(`🧮 Today is ${new Date().toDateString()}, day of week: ${new Date().getDay()}`);
-  
-  // Filter events for this week
-  const calendarEvents = filterCalendarEventsForWeek(cohortEvents, weekStart, weekEnd);
-  const newsletterEvents = extractNewsletterEventsForWeek(newsletterData, weekStart, weekEnd);
-  
-  safeLog('📅 Calendar events found:', calendarEvents.length);
-  safeLog('📰 Newsletter events found:', newsletterEvents.length);
-  
-  // Debug: Log some event details
-  calendarEvents.forEach(event => {
-    safeLog(`📅 Calendar: ${event.title} on ${new Date(event.start).toDateString()}`);
-  });
-  
-  newsletterEvents.forEach(event => {
-    safeLog(`📰 Newsletter: ${event.title} on ${event.relevantDates.join(', ')}`);
-  });
-  
-  // Prepare content for AI analysis
-  const calendarContent = calendarEvents.map(event => {
-    const eventDate = parseICSDate(event.start);
-    const originalEventDate = new Date(event.start);
-    // Format date as YYYY-MM-DD using LOCAL time components (not UTC)
-    const formattedDate = `${eventDate.getFullYear()}-${String(eventDate.getMonth() + 1).padStart(2, '0')}-${String(eventDate.getDate()).padStart(2, '0')}`;
-    return `Date: ${eventDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} (${formattedDate})
-Time: ${originalEventDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
-Title: ${event.summary || event.title || 'Untitled Event'}
-Description: ${event.description || 'No description'}
-Location: ${event.location || 'No location'}
-URL: ${event.url || ''}`;
-  }).join('\n\n');
-  
-  const newsletterContent = newsletterEvents.map(event => {
-    const dates = event.relevantDates.join(', ');
-    const content = event.html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-    
-    return `Section: ${event.section}
-Title: ${event.title}
-Relevant Dates: ${dates}
-Priority: ${event.priority}
-Event Type: ${event.eventType}
-Content: ${content.substring(0, 500)}${content.length > 500 ? '...' : ''}
-${event.fallbackParsing ? '(Note: Extracted via fallback date parsing)' : ''}`;
-  }).join('\n\n');
-  
-  const prompt = `You are an AI assistant helping a UC Berkeley EWMBA student organize their week. 
-
-Analyze the following calendar events and newsletter content for the week of ${weekStart.toLocaleDateString()} to ${weekEnd.toLocaleDateString()}.
-
-**CALENDAR EVENTS:**
-${calendarContent || 'No calendar events found for this week.'}
-
-**NEWSLETTER HIGHLIGHTS:**
-${newsletterContent || 'No newsletter events found for this week.'}
-
-**REQUIREMENTS:**
-
-1. **Extract and organize ALL relevant events** for this specific week
-2. **Prioritize newsletter items** - these are often time-sensitive announcements, deadlines, and important updates
-3. **Categorize each event** as: 'calendar', 'newsletter', 'academic', or 'social'
-4. **Provide a brief weekly summary** (2-3 sentences) highlighting key themes and priorities
-5. **Preserve all important details** including times, locations, and URLs
-6. **Format dates consistently** as YYYY-MM-DD
-7. **Extract actionable information** and deadlines from newsletter content
-
-**NEWSLETTER ITEM HANDLING:**
-- Newsletter items often contain multiple dates and deadlines
-- Extract the most relevant date for each newsletter item
-- Use the provided priority levels (high/medium/low) to inform event importance
-- Convert newsletter announcements into actionable events
-- Preserve links and important details from newsletter content
-
-**OUTPUT FORMAT:**
-Return ONLY a JSON object with this exact structure:
-
-{
-  "events": [
-    {
-      "date": "2025-09-17",
-      "time": "6:00 PM",
-      "title": "Event Title",
-      "type": "class",
-      "priority": "medium",
-      "description": "Brief description",
-      "location": "Location if available",
-      "url": "URL if available"
-    }
-  ],
-  "aiSummary": "This week focuses on... Key priorities include... Don't miss...",
-  "insights": {
-    "totalEvents": 5,
-    "academicEvents": 3,
-    "socialEvents": 1,
-    "deadlines": 1,
-    "busyDays": ["2025-09-17", "2025-09-18"],
-    "newsletterHighlights": 2
-  }
-}
-
-**FORMATTING GUIDELINES:**
-- **Time format**: Use 12-hour format (e.g., "6:00 PM", "9:30 AM")
-- **Descriptions**: Keep under 150 characters, focus on actionable info
-- **Categories**: 
-  - 'assignment': Assignments, homework, coursework
-  - 'class': Classes, lectures, seminars
-  - 'exam': Exams, tests, assessments
-  - 'administrative': Admin tasks, registration, forms
-  - 'social': Social events, networking, parties, tailgates
-  - 'newsletter': Events from newsletter announcements (use this for newsletter-derived items)
-  - 'other': General calendar events, meetings, other activities
-- **Summary**: Focus on what the student should prioritize and prepare for
-- **Newsletter Integration**: Treat newsletter items as equally important as calendar events
-
-**IMPORTANT:** 
-- Newsletter content is pre-processed and time-sensitive items are already identified
-- Pay special attention to newsletter items with "high" priority
-- Only include events that fall within the specified week range
-- Preserve all URLs and links exactly as provided
-- Ensure all dates are in YYYY-MM-DD format
-- Return ONLY the JSON object, no additional text
-
-Analyze the content and provide the weekly summary:`;
-
-  try {
-    safeLog('🤖 Sending to AI for analysis...');
-    
-  const ai = await runAI({ prompt, reasoningEffort: 'low', verbosity: 'low', temperature: 0.1 });
-  const response = ai.text;
-
-    safeLog('📦 Raw AI response length:', response.length);
-    
-    // Clean up the response
-    let cleanedResponse = response;
-    if (cleanedResponse.startsWith('```json')) {
-      cleanedResponse = cleanedResponse.slice(7);
-    }
-    if (cleanedResponse.startsWith('```')) {
-      cleanedResponse = cleanedResponse.slice(3);
-    }
-    if (cleanedResponse.endsWith('```')) {
-      cleanedResponse = cleanedResponse.slice(0, -3);
-    }
-    cleanedResponse = cleanedResponse.trim();
-
-    // Basic validation - ensure we have a complete JSON object
-    if (!cleanedResponse.startsWith('{') || !cleanedResponse.endsWith('}')) {
-      safeError('❌ AI response does not appear to be a complete JSON object');
-      safeLog('🔍 Response start:', cleanedResponse.substring(0, 100));
-      safeLog('🔍 Response end:', cleanedResponse.substring(Math.max(0, cleanedResponse.length - 100)));
-      throw new Error('AI response is not a complete JSON object');
-    }
-
-    safeLog('🔍 Attempting to parse AI response...');
-    
-    let aiResult;
-    try {
-      aiResult = JSON.parse(cleanedResponse);
-    } catch (parseError) {
-      safeError('❌ JSON parsing failed:', parseError);
-      safeLog('🔍 Problematic response excerpt:', cleanedResponse.substring(0, 500) + '...');
-      throw new Error(`Failed to parse AI response as JSON: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`);
-    }
-    
-    const processingTime = Date.now() - startTime;
-    safeLog(`⏱️ My Week analysis completed in ${processingTime}ms`);
-    
-    return {
-      weekStart: weekStart.toISOString().split('T')[0],
-      weekEnd: weekEnd.toISOString().split('T')[0],
-      events: aiResult.events || [],
-      aiSummary: aiResult.aiSummary || 'No summary available.',
-      processingTime,
-      aiMeta: { model: ai.model, modelsTried: ai.modelsTried, ms: ai.ms }
-    };
-
-  } catch (error) {
-    safeError('💥 Error in My Week AI analysis:', error);
-    
-    // Fallback: return basic event list without AI processing
-    const basicEvents: WeeklyEvent[] = calendarEvents.map(event => {
-      const eventDate = parseICSDate(event.start);
-      const originalEventDate = new Date(event.start);
-      const { type, priority } = categorizeEvent(
-        event.summary || event.title || 'Calendar Event',
-        event.description
-      );
-      
-      return {
-        date: `${eventDate.getFullYear()}-${String(eventDate.getMonth() + 1).padStart(2, '0')}-${String(eventDate.getDate()).padStart(2, '0')}`,
-        time: originalEventDate.toLocaleTimeString('en-US', { 
-          hour: 'numeric', 
-          minute: '2-digit',
-          hour12: true 
-        }),
-        title: event.summary || event.title || 'Calendar Event',
-        type,
-        priority,
-        description: event.description || undefined,
-        location: event.location || undefined,
-        url: event.url || undefined
-      };
-    });
-    
-  return {
-      weekStart: weekStart.toISOString().split('T')[0],
-      weekEnd: weekEnd.toISOString().split('T')[0],
-      events: basicEvents,
-      aiSummary: `AI analysis failed: ${error instanceof Error ? error.message : 'Unknown error'}. Showing basic calendar events.`,
-      processingTime: Date.now() - startTime
-    };
-  }
-}
-
-// Background pre-generation for tomorrow's summaries
-async function preGenerateIfNeeded(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  cohortEvents: CohortEvents,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  newsletterData: NewsletterData
-): Promise<void> {
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const tomorrowDateString = tomorrow.toISOString().split('T')[0];
-  
-  // Check if tomorrow's cache exists
-  const blueTomorrowKey = `ai-summary-blue-${tomorrowDateString}`;
-  const goldTomorrowKey = `ai-summary-gold-${tomorrowDateString}`;
-  
-  if (!aiCache.has(blueTomorrowKey) || !aiCache.has(goldTomorrowKey)) {
-    // Pre-generate tomorrow's summaries in background (no await)
-    setTimeout(async () => {
-      safeLog('🌙 Pre-generating tomorrow\'s AI summaries...');
-      try {
-        // Run the generation with tomorrow's date context
-        const { start: weekStart, end: weekEnd } = getThisWeekRange();
-        const tomorrowStart = new Date(weekStart);
-        tomorrowStart.setDate(tomorrowStart.getDate() + 1);
-        const tomorrowEnd = new Date(weekEnd);
-        tomorrowEnd.setDate(tomorrowEnd.getDate() + 1);
-        
-        // This would generate and cache tomorrow's data
-        // For now, we'll just log that pre-generation is ready
-        safeLog('✅ Tomorrow\'s summary generation scheduled!');
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (error) {
-        safeLog('⚠️ Pre-generation failed, will generate on-demand tomorrow');
-      }
-    }, 5000); // 5 second delay to not impact current request
-  }
-}
 
 // New function for cohort-specific analysis with daily caching
 export async function analyzeCohortMyWeekWithAI(
@@ -632,9 +382,6 @@ export async function analyzeCohortMyWeekWithAI(
   
   if (isCacheValid(cached)) {
     safeLog(`📋 Using cached AI summaries for ${today} (cached at ${new Date(cached!.timestamp).toLocaleTimeString()})`);
-    
-    // Start pre-generation for tomorrow (fire and forget)
-    preGenerateIfNeeded(cohortEvents, newsletterData);
     
     return {
       ...cached!.data,
@@ -695,9 +442,6 @@ export async function analyzeCohortMyWeekWithAI(
     });
     
     safeLog(`✅ AI summaries cached for ${today} (${result.processingTime}ms)`);
-    
-    // Start pre-generation for tomorrow
-    preGenerateIfNeeded(cohortEvents, newsletterData);
     
     return result;
 
@@ -904,7 +648,28 @@ Return ONLY a JSON object with this exact structure:
       event.priority = categorizeEvent(event.title, event.description).priority;
     }
     
-    return event;
+    // Try to match back to newsletter source for traceability
+    // Check if this event came from a newsletter item
+    const matchingNewsletterEvent = newsletterEvents.find(
+      ne => ne.title === event.title || 
+            ne.title.toLowerCase().includes(event.title.toLowerCase()) ||
+            event.title.toLowerCase().includes(ne.title.toLowerCase())
+    );
+    
+    if (matchingNewsletterEvent?.sourceMetadata) {
+      // This is a newsletter-sourced event - add source tracking
+      return {
+        ...event,
+        sourceType: 'newsletter' as const,
+        newsletterSource: matchingNewsletterEvent.sourceMetadata
+      };
+    }
+    
+    // Calendar-sourced events
+    return {
+      ...event,
+      sourceType: 'calendar' as const
+    };
   });
   
   return {

@@ -150,6 +150,80 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
   }, [data.sections]);
 
   // ==========================================================================
+  // EVENT LISTENER - NEWSLETTER SOURCE TRACING
+  // ==========================================================================
+  
+  // Listen for events from My Week Widget to open specific newsletter sections
+  useEffect(() => {
+    const handleOpenNewsletterSection = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      console.log(`📬 Newsletter: Opening section ${detail.sectionIndex} (${detail.sectionTitle}), item with title "${detail.itemTitle}"`);
+      
+      // Build the section key (format: "index-sectionTitle")
+      const sectionKey = `${detail.sectionIndex}-${detail.sectionTitle}`;
+      
+      // Step 1: Expand the section (close all other sections - auto-collapse behavior)
+      const newOpen: Record<string, boolean> = {};
+      newOpen[sectionKey] = true;
+      setOpen(newOpen);
+      console.log(`📂 Expanded section: ${sectionKey}`);
+      
+      // Step 2: Find which subsection matches the item title
+      const section = data.sections[detail.sectionIndex];
+      if (!section) {
+        console.log(`❌ Section ${detail.sectionIndex} not found`);
+        return;
+      }
+      
+      const subsections = createSubsections(section.items);
+      const matchingSubsectionIndex = subsections.findIndex(
+        sub => sub.title === detail.itemTitle || sub.title.includes(detail.itemTitle)
+      );
+      
+      if (matchingSubsectionIndex === -1) {
+        console.log(`❌ Could not find subsection with title: ${detail.itemTitle}`);
+        console.log(`Available subsections:`, subsections.map(s => s.title));
+        return;
+      }
+      
+      console.log(`✅ Found matching subsection at index ${matchingSubsectionIndex}`);
+      
+      // Step 3: Build the subsection item ID and expand it (close all other items - auto-collapse)
+      const itemId = `${sectionKey}-item-${matchingSubsectionIndex}`;
+      const newItemOpen: Record<string, boolean> = {};
+      newItemOpen[itemId] = true;
+      setItemOpen(newItemOpen);
+      console.log(`📄 Expanded subsection: ${itemId}`);
+      
+      // Mark as visited
+      const itemKey = `${detail.sectionIndex}-${matchingSubsectionIndex}`;
+      setItemVisited(prev => new Set([...prev, itemKey]));
+      
+      // Step 4: Wait for animations to complete, then add highlight (no scrolling)
+      setTimeout(() => {
+        const itemElement = document.querySelector(
+          `[data-newsletter-section="${detail.sectionIndex}"] [data-item-title="${detail.itemTitle}"]`
+        );
+        
+        if (itemElement) {
+          console.log(`✨ Found newsletter item, adding highlight animation (no scroll)`);
+          
+          // Add highlight animation without scrolling
+          itemElement.classList.add('newsletter-item-highlight');
+          setTimeout(() => {
+            itemElement.classList.remove('newsletter-item-highlight');
+          }, 2000);
+        } else {
+          console.log(`❌ Could not find item element for highlighting`);
+        }
+      }, 400); // Wait time for both section and subsection expansion
+    };
+    
+    window.addEventListener('openNewsletterSection', handleOpenNewsletterSection);
+    return () => window.removeEventListener('openNewsletterSection', handleOpenNewsletterSection);
+  }, [data.sections]); // Add dependency on data.sections for createSubsections
+
+  // ==========================================================================
   // HELPER FUNCTIONS - SUBSECTION CREATION & CONTENT PROCESSING
   // ==========================================================================
 
@@ -786,7 +860,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
   // ==========================================================================
 
   return (
-    <div className="max-w-4xl mx-auto dark">
+    <div className="max-w-4xl mx-auto dark" data-newsletter-widget>
       {/* CSS Styles */}
       <style jsx>{`
         .newsletter-content h1 { font-size: 1rem; font-weight: 700; color: rgb(15 23 42); margin-bottom: 0.75rem; margin-top: 0.5rem; }
@@ -967,6 +1041,8 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
           return (
             <div 
               key={id} 
+              data-newsletter-section={idx}
+              data-section-title={sec.sectionTitle}
               className={`${idx === data.sections.length - 1 ? '' : `border-b ${COLORS.border}`}`}
             >
               <button
@@ -1042,6 +1118,8 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                           <div key={itemId} className="relative">
                             {/* Subsection container */}
                             <div 
+                              data-item-title={subsection.title}
+                              data-subsection-index={j}
                               className={`ml-1 mb-0.5 text-sm rounded-lg shadow-sm ${COLORS.subsectionBg} border ${COLORS.border}`}
                             >
                               <button

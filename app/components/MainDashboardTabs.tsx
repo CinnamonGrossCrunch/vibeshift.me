@@ -46,6 +46,21 @@ export default function MainDashboardTabs({
     return () => window.removeEventListener('resize', checkScreenSize);
   }, [activeTab, dashboardTabs]);
 
+  // Listen for tab switch requests from My Week Widget
+  useEffect(() => {
+    const handleSwitchTab = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      console.log(`🔄 Tab switch requested: ${detail.tabName}`);
+      
+      // Switch to the requested tab
+      setActiveTab(detail.tabName);
+      console.log(`✅ Switched to tab: ${detail.tabName}`);
+    };
+    
+    window.addEventListener('switchToTab', handleSwitchTab);
+    return () => window.removeEventListener('switchToTab', handleSwitchTab);
+  }, []);
+
   // Helper function to get icon for each tab
   const getTabIcon = (tab: string) => {
     switch (tab) {
