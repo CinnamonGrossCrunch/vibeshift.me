@@ -3,7 +3,17 @@
 import { useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 import type { CalendarEvent } from '@/lib/icsUtils';
-import type { NewsletterCalendarEvent } from '@/lib/newsletter-calendar';
+
+// Newsletter event type (extends CalendarEvent with optional htmlContent)
+type NewsletterCalendarEvent = CalendarEvent & {
+  htmlContent?: string;
+  sourceMetadata?: {
+    sectionTitle: string;
+    sectionIndex: number;
+    itemTitle: string;
+    itemIndex: number;
+  };
+};
 
 type Props = {
   event: CalendarEvent | null;
