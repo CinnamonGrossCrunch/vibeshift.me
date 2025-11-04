@@ -268,24 +268,22 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue' }: MyWeekWi
   }, {} as Record<string, WeeklyEvent[]>);
 
   return (
-    <div className="w-full lg:mr-35 rounded-xl items-end overflow-hidden flex">
-      {/* Main Layout: Left to Right Flow */}
-      <div className="w-full 
-      rounded-2xl flex items-start gap-6">
-        {/* Left Column: Current Date */}
-
-        <div className="text-start mt-0 shrink-0 overflow-hidden min-w-0">
-          <div className="text-2xl font-extralight text-slate-400 mt-0 px-2 mb-1">
+    <div className="hidden md:flex w-full lg:mr-35 items-end">
+      {/* Main Layout: Mobile vertical, Desktop horizontal */}
+      <div className="w-full flex flex-col md:flex-row md:items-start gap-0 md:gap-6 md:rounded-2xl">
+        {/* Header Section: "My Week" and Today's Date */}
+        <div className="text-start mt-0 shrink-0 min-w-0 mb-2 md:mb-0 px-3 sm:px-0">
+          <div className="text-2xl font-extralight text-slate-400 mt-0 px-0 mb-1">
             My Week
           </div>
-                <div className="text-5xl mx-2 font-medium text-white">
-                {new Date().toLocaleDateString('en-US', { month: 'short' })}{' '}
-                <span className="text-white/60">{new Date().toLocaleDateString('en-US', { day: 'numeric' })}</span>
-                </div>
+          <div className="text-5xl font-medium text-white">
+            {new Date().toLocaleDateString('en-US', { month: 'short' })}{' '}
+            <span className="text-white/60">{new Date().toLocaleDateString('en-US', { day: 'numeric' })}</span>
+          </div>
         </div>
 
-        {/* Middle Column: AI Summary and Events */}
-        <div className="flex-1 min-w-0 p-1 space-y-0 overflow-hidden">
+        {/* Events Section */}
+        <div className="flex-1 min-w-0 md:p-1 space-y-0 w-full px-0">
           {/* AI Summary */}
           {/* {currentSummary && (
             <div className="flex items-start backdrop-blur-md bg-turbulence gap-3 rounded-2xl p-1 mb-1">
@@ -298,29 +296,30 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue' }: MyWeekWi
             </div>
           )} */}
 
-          {/* Events List */}
-            <div className="space-y-1 max-h-96 max-w-auto overflow-hidden">
+          {/* Events List - Hidden on mobile, vertical stack on desktop */}
+            <div className="hidden md:flex md:flex-col md:gap-0 md:space-y-1 md:max-h-96 w-full">
+            {/* Desktop: Only show days with events */}
             {Object.entries(eventsByDate)
               .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
               .map(([date, events]) => (
-                <div key={date} className="flex ml-0  rounded-md bg-glass  items-center gap-1 mb-1">
-                  {/* Date Header */}
-                  <div className="text-center w-24 text-sm font-semibold text-slate-100 px-2 shrink-0">
+                <div key={date} className="flex flex-row rounded-md bg-violet-900/20 items-center gap-1 mb-1">
+                  {/* Date Header - Fixed width on desktop */}
+                  <div className="text-center w-24 text-sm font-semibold text-slate-100 px-2 py-0 shrink-0">
                     {formatDate(date)}
                   </div>
                   
-                  {/* Events for this date */}
-                  <div className="flex-0 overflow-hidden gap-2 flex-1">
+                  {/* Events for this date - Stack vertically */}
+                  <div className="flex-0 overflow-hidden gap-2 flex-1 flex flex-col">
                     {events.map((event, index) => (
                       <div 
                         key={index} 
-                        className={`flex-0 items-center space-x-2 rounded-sm px-3 py-0.5  group cursor-pointer  hover:brightness-150 transition-all ${getEventColor(event.type, event.priority)}`}
+                        className={`flex-0 items-center space-x-2 border-b border-slate-900 rounded-sm px-3 py-0.5 group cursor-pointer hover:brightness-150 transition-all ${getEventColor(event.type, event.priority)}`}
                         onClick={(e) => handleEventClick(e, event)}
                       >
                         {/* Event Content */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-baseline space-x-2">
-                            <h4 className={`text-sm font-light text-slate-100 group-hover:opacity-80 transition-opacity truncate`}>
+                            <h4 className={`text-sm font-medium text-white group-hover:opacity-80 transition-opacity truncate`}>
                               {event.title}
                             </h4>
 

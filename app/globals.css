@@ -54,6 +54,13 @@ html.dark,
 /* Base styles - apply Urbanist as default font family */
 html {
   font-family: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 /* Removed duplicate bg-turbulence - see bottom of file for final definition */
@@ -64,6 +71,13 @@ body {
   font-family: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
   font-weight: 400;
   line-height: 1.6;
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 :root {
@@ -98,6 +112,18 @@ body {
 /* Utility classes for precise font control */
 .font-urbanist {
   font-family: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+  width: 0;
+  height: 0;
 }
 
 .font-weight-100 { font-weight: 100; }

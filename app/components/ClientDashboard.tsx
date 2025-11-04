@@ -177,8 +177,12 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
 
       {/* Content Overlay */}
       <div
-          className="fixed inset-0 z-50 overflow-auto"
-          style={{ scrollbarGutter: 'stable both-edges' }}>
+          className="fixed inset-0 z-50 overflow-auto scrollbar-hide"
+          style={{ 
+            scrollbarGutter: 'stable both-edges',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none'
+          }}>
         {/* Header */}
         <div className={getPerformanceClasses(
           `w-full sticky top-0 z-30 bg-black/10 border-b border-red-600 backdrop-blur-lg relative overflow-hidden py-1 mb-0`,
@@ -230,9 +234,9 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
       
   
         {/* Section B: My Week Widget and Weather Widget */}
-        <div className="flex flex-col lg:flex-row mt-2 lg:py-2 mb-0 gap-0 items-start">
+        <div className="flex flex-col lg:flex-row mt-2 lg:py-2 mb-0 gap-0 items-start -mx-3 sm:mx-0 lg:mx-0">
           {/* Weather Widget - Side by side on small/medium, right-aligned, above My Week */}
-          <div className="flex-shrink-0 flex items-start justify-end w-full lg:w-auto lg:order-2 lg:min-w-0 mb-0">
+          <div className="flex-shrink-0 flex items-start justify-end w-full lg:w-auto lg:order-2 lg:min-w-0 mb-0 px-3 sm:px-0">
             <div className="w-full lg:w-auto flex flex-row lg:flex-col gap-0 min-w-0 justify-end">
               {/* Weather and Travel - side by side on small/medium, stacked on large */}
               <WeatherWidget />

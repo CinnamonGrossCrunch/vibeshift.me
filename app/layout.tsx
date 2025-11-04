@@ -57,12 +57,31 @@ export default function RootLayout({
     <html
       lang="en"
       className={`dark ${urbanist.variable}`}
-      style={{ colorScheme: 'dark' }}
+      style={{ 
+        colorScheme: 'dark',
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+        WebkitOverflowScrolling: 'touch'
+      }}
       suppressHydrationWarning
       data-theme="dark"
     >
       <head>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            html::-webkit-scrollbar,
+            body::-webkit-scrollbar {
+              display: none !important;
+              width: 0 !important;
+              height: 0 !important;
+            }
+            html, body {
+              scrollbar-width: none !important;
+              -ms-overflow-style: none !important;
+            }
+          `
+        }} />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -76,7 +95,14 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`antialiased dark ${urbanist.className}`} style={{ colorScheme: 'dark' }}>
+      <body 
+        className={`antialiased dark ${urbanist.className}`} 
+        style={{ 
+          colorScheme: 'dark',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none'
+        }}
+      >
         <PerformanceProvider>
           {children}
         </PerformanceProvider>
