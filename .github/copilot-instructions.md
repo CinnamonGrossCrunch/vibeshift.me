@@ -1,35 +1,18 @@
-# Newsletter Widget - GitHub Copilot Instructions
+﻿# EWMBA Hub - GitHub Copilot Instructions
 
-<!-- Use this file to provide workspace-specific custom instructions to Copilot. For more details, visit https://code.visualstudio.com/docs/copilot/copilot-customization#_use-a-githubcopilotinstructionsmd-file -->
+Last Updated: November 5, 2025
 
-This is a Next.js TypeScript project that implements a NewsletterWidget for scraping and displaying Mailchimp newsletter campaigns.
+This is a Next.js 15 TypeScript project that implements a unified dashboard for EWMBA students, including newsletter display, calendar integration, and AI-powered weekly summaries.
 
-## Project Structure
+---
 
-- `lib/scrape.ts` - Core scraping logic using Cheerio and sanitize-html
-- `app/api/newsletter/route.ts` - API endpoint that returns scraped newsletter data
-- `app/components/NewsletterWidget.tsx` - React component for displaying newsletter content
-- `app/dashboard/page.tsx` - Dashboard page that displays the widget
+## Project Philosophy
 
-## Key Features
+Core Principles:
+- Single Source of Truth: All data flows through /api/unified-dashboard
+- User-First Design: Default visibility ON for important content
+- Mobile-First: Optimize for mobile first
+- Performance: Cache aggressively (24hr for AI, 30min for scraping)
+- Consistency: Newsletter Widget and Calendar must show identical content
 
-- Server-side scraping using Node runtime
-- Mailchimp campaign archive parsing
-- HTML sanitization and link absolutization  
-- Collapsible sections with h2/h3 structure parsing
-- Tailwind CSS styling
-
-## Dependencies
-
-- cheerio - Server-side jQuery-like HTML parsing
-- sanitize-html - HTML sanitization
-- node-fetch - HTTP requests (fallback for older Node versions)
-
-## Coding Guidelines
-
-- Use TypeScript with strict typing
-- Follow Next.js App Router patterns
-- Implement proper error handling with try/catch
-- Use server-side rendering for data fetching
-- Apply defensive programming practices for web scraping
-- Maintain clean, readable code with proper interfaces
+Please read the full comprehensive instructions at the repository.
