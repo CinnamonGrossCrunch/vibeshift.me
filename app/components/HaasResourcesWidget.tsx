@@ -51,7 +51,7 @@ export default function HaasResourcesWidget({
             </h3>
           </header>
           <div className="text-center py-4">
-            <div className="w-4 h-4 border-2 border-slate-300 border-t-berkeley-blue rounded-full animate-spin mx-auto mb-3"></div>
+            <div className="berkeley-spinner mx-auto mb-3"></div>
             <p className="text-sm text-slate-400">Loading resources...</p>
           </div>
         </>

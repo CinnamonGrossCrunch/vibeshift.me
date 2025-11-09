@@ -23,6 +23,7 @@ export default function MainDashboardTabs({
   dashboardData
 }: MainDashboardTabsProps) {
   const [activeTab, setActiveTab] = useState('OskiHub Cal');
+  const [calendarTabGlowing, setCalendarTabGlowing] = useState(false);
   const cohortTabs = useMemo(() => ['OskiHub Cal', 'Book A Space @ Haas'], []);
   const dashboardTabs = useMemo(() => ['Slack', 'Updates'], []);
 
@@ -52,6 +53,18 @@ export default function MainDashboardTabs({
       const detail = (e as CustomEvent).detail;
       console.log(`🔄 Tab switch requested: ${detail.tabName}`);
       
+      // If switching to Updates tab from Calendar, trigger the calendar tab glow
+      if (detail.tabName === 'Updates' && activeTab === 'OskiHub Cal') {
+        console.log(`✨ [MainDashboardTabs] Triggering violet glow on Calendar tab`);
+        setCalendarTabGlowing(true);
+        
+        // Auto-remove glow after 7 seconds
+        setTimeout(() => {
+          setCalendarTabGlowing(false);
+          console.log(`🌅 [MainDashboardTabs] Violet glow faded out from Calendar tab`);
+        }, 7000);
+      }
+      
       // Switch to the requested tab
       setActiveTab(detail.tabName);
       console.log(`✅ Switched to tab: ${detail.tabName}`);
@@ -59,7 +72,7 @@ export default function MainDashboardTabs({
     
     window.addEventListener('switchToTab', handleSwitchTab);
     return () => window.removeEventListener('switchToTab', handleSwitchTab);
-  }, []);
+  }, [activeTab]);
 
   // Helper function to get icon for each tab
   const getTabIcon = (tab: string) => {
@@ -91,6 +104,7 @@ export default function MainDashboardTabs({
                 ? ' text-center text-md px-10 py-3 lg:px-8 bg-violet-100/10 backdrop-blur-lg text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-t-3xl saturate-[80%] font-light'
                 : ' text-center text-sm ml-3 mr-4 mb-2 px-5 lg:px-10 py-2 tab-inactive backdrop-blur-md text-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] z-20 rounded-full font-normal'
               }
+              ${tab === 'OskiHub Cal' && calendarTabGlowing && activeTab !== tab ? 'newsletter-tab-glow' : ''}
             `}
             style={{
               ...(activeTab === tab && {
@@ -147,7 +161,9 @@ export default function MainDashboardTabs({
       </div>
 
       {/* Content Pane */}
-      <div className={`bg-violet-100/10 backdrop-blur-sm rounded-b-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%] flex-1 min-h-[600px] overflow-y-auto p-4 sm:p-6
+      <div className={`bg-violet-100/10 backdrop-blur-sm rounded-b-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] saturate-[80%] flex-1 min-h-[600px] overflow-y-auto ${
+        activeTab === 'OskiHub Cal' ? 'p-0 sm:p-6' : 'p-4 sm:p-6'
+      }
         ${activeTab === 'OskiHub Cal' ? 'rounded-tr-3xl lg:rounded-r-3xl' : ''}
         ${activeTab === 'Updates' ? 'rounded-tl-3xl lg:rounded-r-3xl' : ''}
         ${activeTab === 'Book A Space @ Haas' || activeTab === 'Slack' ? 'rounded-t-3xl lg:rounded-r-3xl' : ''}
@@ -155,7 +171,7 @@ export default function MainDashboardTabs({
         {activeTab === 'OskiHub Cal' && (
           <div>
             {/* What's Next Widget - Horizontal Layout (PRESERVED) */}
-            <div className="mb-4">
+            <div className="mb-4 px-4 sm:px-6 lg:px-0">
               <CalendarListView 
                 cohortEvents={cohortEvents}
                 defaultCohort={selectedCohort}

@@ -254,18 +254,18 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
             )}
             {loading && (
               <div className="text-center w-full py-5">
-                <div className="animate-spin h-8 w-8 border-3 rounded-full mx-auto"></div>
-                <p className="mt-4 text-sm">Loading dashboard...</p>
+                <div className="page-loading-spinner mx-auto"></div>
+                <p className="mt-4 text-sm text-white">Loading dashboard...</p>
               </div>
             )}
           </div>
         </div>
         
         {/* Section C: Dashboard Tabs */}
-        <div className="grid grid-cols-1 lg:grid-cols-8 lg:auto-rows-min gap-1 mt-4 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-8 lg:auto-rows-min gap-1 mt-4 mb-6 -mx-3 sm:mx-0 lg:mx-0">
           {/* Left Column: MainDashboardTabs - Always 6 columns on large screens */}
           <div className="lg:col-span-6 lg:row-span-1">
-            <div id="main-dashboard-tabs">
+            <div id="main-dashboard-tabs" className="">{/* Removed px-3 sm:px-0 lg:px-0 - let parent grid handle spacing */}
               {!loading && dashboardData && (
                 <MainDashboardTabs 
                   cohortEvents={{

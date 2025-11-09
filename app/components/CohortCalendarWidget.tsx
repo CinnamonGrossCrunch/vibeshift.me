@@ -70,7 +70,7 @@ export default function CohortCalendarWidget({
             <h3 className="text-base font-semibold text-slate-900 dark:text-white">{title}</h3>
           </header>
           <div className="text-center py-8">
-            <div className="w-4 h-4 border-2 border-slate-300 border-t-berkeley-blue rounded-full animate-spin mx-auto mb-3"></div>
+            <div className="berkeley-spinner mx-auto mb-3"></div>
             <p className="text-sm text-slate-600 dark:text-slate-400">Loading calendar...</p>
           </div>
         </>

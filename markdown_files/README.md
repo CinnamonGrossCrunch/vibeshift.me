@@ -513,31 +513,12 @@ npm run start    # Runs production server locally
 
 ---
 
-## 📜 License
-
-This project is open source and available under the MIT License.
-
-Built with ❤️ and ☕ during Week 9 of Fall A 2025 at Berkeley Haas.
 
 ---
 
 ## 🙏 Acknowledgments
 
 - **Berkeley Haas EWMBA Program** - For the incredible experience that inspired this tool
-- **OpenAI** - For GPT-4o API that powers weekly insights
-- **Vercel** - For the amazing deployment platform
-- **The 2025 Blue & Gold Cohorts** - For beta testing and feedback
-- **Rebecca Portnoy** - Leading People professor whose class structure inspired the UI design
-- **Mailchimp** - For hosting the Bear Necessities newsletter
-
----
-
-## 📧 Contact
-
-Built by a fellow EWMBA student. Find me on:
-- **Slack**: @[your-name]
-- **Email**: [your-email]
-- **GitHub**: [@CinnamonGrossCrunch](https://github.com/CinnamonGrossCrunch)
 
 **Questions? Bugs? Ideas?** Open an issue on GitHub or ping me on Slack!
 

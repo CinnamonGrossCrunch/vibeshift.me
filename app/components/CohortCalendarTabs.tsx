@@ -32,6 +32,7 @@ interface NewsletterCalendarEvent extends CalendarEvent {
     eventType: 'deadline' | 'event' | 'announcement' | 'reminder';
     priority: 'high' | 'medium' | 'low';
   };
+  multipleEvents?: NewsletterCalendarEvent[]; // For combined events with multiple newsletter items on same date
 }
 
 export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohort, newsletterData }: Props) {
@@ -47,6 +48,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
   const [showNewsletter, setShowNewsletter] = useState(true); // Default ON
   const [newsletterEvents, setNewsletterEvents] = useState<NewsletterCalendarEvent[]>([]);
   const [showEventDropdown, setShowEventDropdown] = useState(false);
+  const [glowingDate, setGlowingDate] = useState<string | null>(null); // Track which date should glow (ISO string)
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Load cohort preference from localStorage on mount (only if not externally controlled)
@@ -477,6 +479,20 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
     setCurrentEventIndex(-1);
   };
 
+  // Handle triggering glow effect on date cell after "View in Newsletter" is clicked
+  const handleTriggerGlow = (eventDate: Date) => {
+    const dateString = eventDate.toISOString().split('T')[0]; // Convert to YYYY-MM-DD format
+    console.log(`✨ [CohortCalendarTabs] Triggering violet glow for date: ${dateString}`);
+    
+    setGlowingDate(dateString);
+    
+    // Auto-remove glow after 7 seconds
+    setTimeout(() => {
+      setGlowingDate(null);
+      console.log(`🌅 [CohortCalendarTabs] Violet glow faded out for date: ${dateString}`);
+    }, 7000);
+  };
+
   // Get current cohort events
   const currentEvents = cohortEvents[selectedCohort] || [];
 
@@ -488,10 +504,10 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
   return (
     <>
       {/* Compact Header - All controls on one line */}
-      <header className="mb-4 relative overflow-visible">
+      <header className="mb-4 relative overflow-visible px-0 sm:px-6 lg:px-0">{/* Removed px-4 on mobile for full width */}
         <div className="relative flex items-center gap-3 flex-wrap">
 
-          {/* Cohort Tabs - Only show if not externally controlled */}
+          {/* Cohort Tabs - Only show if not externally controlled 
           {!externalSelectedCohort && (
             <div 
               role="tablist" 
@@ -705,7 +721,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                       </svg>
                     </div>
-                    <span className="text-sm font-medium">Newsletter</span>
+                    <span className="text-sm pr-2 font-medium">Newsletter</span>
                   </div>
                   <div className="relative">
                     <input
@@ -745,7 +761,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
 
       {/* Calendar Content */}
       <div id="calendar-content" role="tabpanel">
-        <div className="-mx-0 -mb-0 rounded-xl overflow-hidden">
+        <div className="-mb-0 mx-1 rounded-none sm:rounded-xl overflow-hidden">{/* Removed -mx-6 sm:-mx-0 to prevent overflow */}
           <MonthGrid 
             events={currentEvents} 
             currentMonth={currentMonth} 
@@ -759,6 +775,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
             campusGroupsEvents={cohortEvents.campusGroups || []}
             showNewsletter={showNewsletter}
             newsletterEvents={newsletterEvents}
+            glowingDate={glowingDate}
           />
         </div>
       </div>
@@ -772,6 +789,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
         onPrevious={handlePreviousEvent}
         hasNext={currentEventIndex >= 0 && currentEventIndex < currentEvents.length - 1}
         hasPrevious={currentEventIndex > 0}
+        onTriggerGlow={handleTriggerGlow}
       />
     </>
   );

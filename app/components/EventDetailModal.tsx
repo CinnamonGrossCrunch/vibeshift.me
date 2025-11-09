@@ -4,16 +4,23 @@ import { useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 import type { CalendarEvent } from '@/lib/icsUtils';
 
-// Newsletter event type (extends CalendarEvent with optional htmlContent)
-type NewsletterCalendarEvent = CalendarEvent & {
-  htmlContent?: string;
-  sourceMetadata?: {
+// Newsletter event type (same as in CohortCalendarTabs.tsx)
+interface NewsletterCalendarEvent extends CalendarEvent {
+  htmlContent?: string; // Formatted HTML from organized newsletter
+  sourceMetadata: {
     sectionTitle: string;
     sectionIndex: number;
     itemTitle: string;
     itemIndex: number;
   };
-};
+  timeSensitive: {
+    dates: string[];
+    deadline?: string;
+    eventType: 'deadline' | 'event' | 'announcement' | 'reminder';
+    priority: 'high' | 'medium' | 'low';
+  };
+  multipleEvents?: NewsletterCalendarEvent[]; // For combined events with multiple newsletter items on same date
+}
 
 type Props = {
   event: CalendarEvent | null;
@@ -23,16 +30,82 @@ type Props = {
   onPrevious?: () => void; // Navigate to previous event
   hasNext?: boolean; // Whether there's a next event
   hasPrevious?: boolean; // Whether there's a previous event
+  onTriggerGlow?: (eventDate: Date) => void; // Callback to trigger violet glow on date cell
 };
 
-export default function EventDetailModal({ event, originalEvent, onClose, onNext, onPrevious, hasNext, hasPrevious }: Props) {
+export default function EventDetailModal({ event, originalEvent, onClose, onNext, onPrevious, hasNext, hasPrevious, onTriggerGlow }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   // Check if event is from newsletter
   const isNewsletterEvent = event?.source === 'newsletter';
   const newsletterEvent = isNewsletterEvent ? (event as NewsletterCalendarEvent) : null;
+  
+  // Check if this is a combined event with multiple newsletter events
+  const hasMultipleEvents = newsletterEvent?.multipleEvents && newsletterEvent.multipleEvents.length > 1;
 
-  // Handle "View in Newsletter" button click
+  // Handle "View in Newsletter" button click for individual events
+  const handleViewInNewsletterForEvent = (eventToView: NewsletterCalendarEvent) => {
+    if (!eventToView?.sourceMetadata) return;
+
+    console.log(`📰 [EventDetailModal] View in Newsletter clicked for individual event`);
+    console.log(`Section: ${eventToView.sourceMetadata.sectionTitle} (index ${eventToView.sourceMetadata.sectionIndex})`);
+    console.log(`Item: ${eventToView.sourceMetadata.itemTitle} (index ${eventToView.sourceMetadata.itemIndex})`);
+
+    // Check if newsletter widget is visible
+    const newsletterWidget = document.querySelector('[data-newsletter-widget]') as HTMLElement | null;
+    const isNewsletterVisible = newsletterWidget && 
+      newsletterWidget.offsetParent !== null && 
+      newsletterWidget.getBoundingClientRect().height > 0;
+
+    console.log(`👀 Newsletter visibility: ${isNewsletterVisible ? 'VISIBLE' : 'HIDDEN'}`);
+
+    if (!isNewsletterVisible) {
+      // Switch to Updates tab first
+      console.log(`🔄 Switching to Updates tab...`);
+      const switchTabEvent = new CustomEvent('switchToTab', {
+        detail: { tabName: 'Updates', timestamp: Date.now() }
+      });
+      window.dispatchEvent(switchTabEvent);
+
+      // Wait for tab switch, then open newsletter section
+      setTimeout(() => {
+        console.log(`📬 Opening newsletter section`);
+        const openNewsletterEvent = new CustomEvent('openNewsletterSection', {
+          detail: {
+            sectionIndex: eventToView.sourceMetadata!.sectionIndex,
+            itemIndex: eventToView.sourceMetadata!.itemIndex,
+            sectionTitle: eventToView.sourceMetadata!.sectionTitle,
+            itemTitle: eventToView.sourceMetadata!.itemTitle,
+            timestamp: Date.now()
+          }
+        });
+        window.dispatchEvent(openNewsletterEvent);
+      }, 150);
+    } else {
+      // Newsletter already visible
+      console.log(`✅ Opening newsletter section directly`);
+      const openNewsletterEvent = new CustomEvent('openNewsletterSection', {
+        detail: {
+          sectionIndex: eventToView.sourceMetadata.sectionIndex,
+          itemIndex: eventToView.sourceMetadata.itemIndex,
+          sectionTitle: eventToView.sourceMetadata.sectionTitle,
+          itemTitle: eventToView.sourceMetadata.itemTitle,
+          timestamp: Date.now()
+        }
+      });
+      window.dispatchEvent(openNewsletterEvent);
+    }
+
+    // Trigger glow effect on the date cell
+    if (onTriggerGlow) {
+      onTriggerGlow(new Date(eventToView.start));
+    }
+
+    // Close the modal after triggering navigation
+    onClose();
+  };
+
+  // Handle "View in Newsletter" button click (for single events or combined fallback)
   const handleViewInNewsletter = () => {
     if (!newsletterEvent?.sourceMetadata) return;
 
@@ -83,6 +156,11 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
         }
       });
       window.dispatchEvent(openNewsletterEvent);
+    }
+
+    // Trigger glow effect on the date cell
+    if (onTriggerGlow) {
+      onTriggerGlow(new Date(newsletterEvent.start));
     }
 
     // Close the modal after triggering navigation
@@ -326,77 +404,177 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
         </div>
 
         {/* Content */}
-        <div className="px-6 overflow-y-auto flex-1 space-y-4 scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent hover:scrollbar-thumb-slate-500"
+        <div className="px-6 overflow-y-auto flex-1 scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent hover:scrollbar-thumb-slate-500"
           style={{
             scrollbarWidth: 'thin',
             scrollbarColor: 'rgb(148 163 184) transparent'
           }}
         >
-          
-       
-
-          {/* Event URL - Secondary Display */}
-          
-
-          {/* Description */}
-          {displayEvent.description && (
-            <div>
-              <h3 className="text-xl font-medium text-white mb-2"></h3>
-              <div className="text-md text-slate-300 whitespace-pre-wrap leading-relaxed">
-                {renderTextWithLinks(displayEvent.description)}
+          {/* Multiple Newsletter Events - Side by Side Columns */}
+          {hasMultipleEvents && newsletterEvent?.multipleEvents ? (
+            <div className="space-y-4 mb-10">
+              <div className="text-center">
+                <h3 className="text-lg font-medium text-white mb-4">
+                  {newsletterEvent.multipleEvents.length} Newsletter Events on {format(new Date(displayEvent.start), 'MMMM d, yyyy')}
+                </h3>
               </div>
+              
+              <div className="grid gap-4" style={{ gridTemplateColumns: `repeat(${Math.min(newsletterEvent.multipleEvents.length, 2)}, 1fr)` }}>
+                {newsletterEvent.multipleEvents.map((individualEvent: NewsletterCalendarEvent, index: number) => (
+                  <div key={index} className="bg-slate-800/30 rounded-lg p-4 border border-slate-600/30">
+                    {/* Individual Event Header */}
+                    <div className="mb-3">
+                      <h4 className="text-md font-semibold text-white leading-tight mb-2">
+                        {safeStringify(individualEvent.title)}
+                      </h4>
+                      <div className="text-xs text-slate-400 mb-3">
+                        From: {individualEvent.sourceMetadata?.sectionTitle || 'Newsletter'}
+                      </div>
+                    </div>
+
+                    {/* Individual Event Content */}
+                    <div className="space-y-3 mb-4">
+                      {individualEvent.description && (
+                        <div className="text-sm text-slate-300 leading-relaxed line-clamp-5">
+                          {renderTextWithLinks(individualEvent.description)}
+                        </div>
+                      )}
+                      
+                      {individualEvent.htmlContent && (
+                        <div className="text-sm text-slate-300 leading-relaxed line-clamp-5">
+                          <div dangerouslySetInnerHTML={{ __html: individualEvent.htmlContent }} />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Individual Event Button */}
+                    {individualEvent.sourceMetadata && (
+                      <button
+                        onClick={() => handleViewInNewsletterForEvent(individualEvent)}
+                        className="w-full bg-purple-600/20 backdrop-blur-xl hover:bg-purple-500/40 text-white text-xs font-medium py-2 px-3 rounded-md transition-all duration-300 text-center flex items-center justify-center gap-2 shadow-[0_0_0_1px_rgba(168,85,247,0.3),0_0_18px_4px_rgba(168,85,247,0.25)] hover:shadow-[0_0_0_1px_rgba(168,85,247,0.6),0_0_25px_8px_rgba(168,85,247,0.4)] hover:scale-[1.02]"
+                      >
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                        </svg>
+                        View in Newsletter
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+              
+              {/* Show overflow events in additional rows if more than 2 */}
+              {newsletterEvent.multipleEvents.length > 2 && (
+                <div className="grid gap-4" style={{ gridTemplateColumns: `repeat(${Math.min(newsletterEvent.multipleEvents.length - 2, 2)}, 1fr)` }}>
+                  {newsletterEvent.multipleEvents.slice(2).map((individualEvent: NewsletterCalendarEvent, index: number) => (
+                    <div key={index + 2} className="bg-slate-800/30 rounded-lg p-4 border border-slate-600/30">
+                      {/* Individual Event Header */}
+                      <div className="mb-3">
+                        <h4 className="text-md font-semibold text-white leading-tight mb-2">
+                          {safeStringify(individualEvent.title)}
+                        </h4>
+                        <div className="text-xs text-slate-400 mb-3">
+                          From: {individualEvent.sourceMetadata?.sectionTitle || 'Newsletter'}
+                        </div>
+                      </div>
+
+                      {/* Individual Event Content */}
+                      <div className="space-y-3 mb-4">
+                        {individualEvent.description && (
+                          <div className="text-sm text-slate-300 leading-relaxed line-clamp-5">
+                            {renderTextWithLinks(individualEvent.description)}
+                          </div>
+                        )}
+                        
+                        {individualEvent.htmlContent && (
+                          <div className="text-sm text-slate-300 leading-relaxed line-clamp-5">
+                            <div dangerouslySetInnerHTML={{ __html: individualEvent.htmlContent }} />
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Individual Event Button */}
+                      {individualEvent.sourceMetadata && (
+                        <button
+                          onClick={() => handleViewInNewsletterForEvent(individualEvent)}
+                          className="w-full bg-purple-600/20 backdrop-blur-xl hover:bg-purple-500/40 text-white text-xs font-medium py-2 px-3 rounded-md transition-all duration-300 text-center flex items-center justify-center gap-2 shadow-[0_0_0_1px_rgba(168,85,247,0.3),0_0_18px_4px_rgba(168,85,247,0.25)] hover:shadow-[0_0_0_1px_rgba(168,85,247,0.6),0_0_25px_8px_rgba(168,85,247,0.4)] hover:scale-[1.02]"
+                        >
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                          </svg>
+                          View in Newsletter
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
+          ) : (
+            /* Single Event - Original Layout */
+            <div className="space-y-4">
+              {/* Description */}
+              {displayEvent.description && (
+                <div>
+                  <h3 className="text-xl font-medium text-white mb-2"></h3>
+                  <div className="text-md text-slate-300 whitespace-pre-wrap leading-relaxed">
+                    {renderTextWithLinks(displayEvent.description)}
+                  </div>
+                </div>
+              )}
 
-          
-          {/* Location */}
-          {displayEvent.location && (
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <div className="text-sm font-medium text-white">📍 Location:</div>
-                <div className="text-sm text-slate-300">{safeStringify(displayEvent.location)}</div>
-              </div>
+              {/* Location */}
+              {displayEvent.location && (
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="text-sm font-medium text-white">📍 Location:</div>
+                    <div className="text-sm text-slate-300">{safeStringify(displayEvent.location)}</div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
 
-        {/* Footer with action buttons */}
-        <div className="flex gap-2 p-6 border-t border-slate-700 flex-shrink-0">
-          {/* Newsletter Event: View in Newsletter Button */}
-          {isNewsletterEvent && newsletterEvent?.sourceMetadata && (
+        {/* Footer with action buttons - hidden for multiple newsletter events */}
+        {!hasMultipleEvents && (
+          <div className="flex gap-2 p-6 border-t border-slate-700 flex-shrink-0">
+            {/* Newsletter Event: View in Newsletter Button */}
+            {isNewsletterEvent && newsletterEvent?.sourceMetadata && (
+              <button
+                onClick={handleViewInNewsletter}
+                className="flex-1 bg-purple-600/20 backdrop-blur-xl hover:bg-purple-500/40 text-white text-sm font-medium py-2 px-4 rounded-lg transition-all duration-300 text-center flex items-center justify-center gap-2 shadow-[0_0_0_1px_rgba(168,85,247,0.3),0_0_18px_4px_rgba(168,85,247,0.25)] hover:shadow-[0_0_0_1px_rgba(168,85,247,0.6),0_0_25px_8px_rgba(168,85,247,0.4)] hover:scale-[1.02]"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                </svg>
+                View in Newsletter
+              </button>
+            )}
+            
+            {/* Regular Event: Open Class Page Button */}
+            {!isNewsletterEvent && displayEvent.url && (
+              <a
+                href={displayEvent.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 bg-[#003262]/10 backdrop-blur-xl hover:bg-[#CC9500]/60 text-white text-sm font-medium py-2 px-4 rounded-lg transition-all duration-300 text-center flex items-center justify-center gap-2 shadow-[0_0_0_1px_rgba(255,255,255,0.2),0_0_18px_4px_rgba(255,255,255,0.25)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.6),0_0_25px_8px_rgba(255,255,255,0.4)] hover:scale-[1.02]"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                Open Class Page
+              </a>
+            )}
+            
             <button
-              onClick={handleViewInNewsletter}
-              className="flex-1 bg-purple-600/20 backdrop-blur-xl hover:bg-purple-500/40 text-white text-sm font-medium py-2 px-4 rounded-lg transition-all duration-300 text-center flex items-center justify-center gap-2 shadow-[0_0_0_1px_rgba(168,85,247,0.3),0_0_18px_4px_rgba(168,85,247,0.25)] hover:shadow-[0_0_0_1px_rgba(168,85,247,0.6),0_0_25px_8px_rgba(168,85,247,0.4)] hover:scale-[1.02]"
+              onClick={onClose}
+              className="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-              </svg>
-              View in Newsletter
+              Close
             </button>
-          )}
-          
-          {/* Regular Event: Open Class Page Button */}
-          {!isNewsletterEvent && displayEvent.url && (
-            <a
-              href={displayEvent.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 bg-[#003262]/10 backdrop-blur-xl hover:bg-[#CC9500]/60 text-white text-sm font-medium py-2 px-4 rounded-lg transition-all duration-300 text-center flex items-center justify-center gap-2 shadow-[0_0_0_1px_rgba(255,255,255,0.2),0_0_18px_4px_rgba(255,255,255,0.25)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.6),0_0_25px_8px_rgba(255,255,255,0.4)] hover:scale-[1.02]"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-              Open Class Page
-            </a>
-          )}
-          
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors"
-          >
-            Close
-          </button>
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

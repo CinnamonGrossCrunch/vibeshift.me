@@ -231,7 +231,7 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue' }: MyWeekWi
       <div className="p-6 ">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-white">My Week</h3>
-          <div className="w-4 h-4 border-2 border-slate-300 border-t-berkeley-blue rounded-full animate-spin"></div>
+          <div className="berkeley-spinner"></div>
         </div>
         <p className="text-sm text-slate-400">Analyzing your week...</p>
       </div>

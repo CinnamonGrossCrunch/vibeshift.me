@@ -110,7 +110,7 @@ export default function TravelTimeWidget() {
           onClick={fetchTravelTime}
           className="text-xs text-gray-400 hover:text-gray-300 transition-colors"
         >
-          📍 Enable Location
+          📍 Enable Location to get travel times
         </button>
       </div>
     );

@@ -212,7 +212,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
           itemElement.classList.add('newsletter-item-highlight');
           setTimeout(() => {
             itemElement.classList.remove('newsletter-item-highlight');
-          }, 2000);
+          }, 7000);
         } else {
           console.log(`❌ Could not find item element for highlighting`);
         }

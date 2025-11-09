@@ -15,6 +15,7 @@ type NewsletterCalendarEvent = CalendarEvent & {
     itemTitle: string;
     itemIndex: number;
   };
+  multipleEvents?: NewsletterCalendarEvent[]; // For combined events with multiple newsletter items on same date
 };
 
 type Props = {
@@ -30,6 +31,7 @@ type Props = {
   campusGroupsEvents?: CalendarEvent[];
   showNewsletter?: boolean;
   newsletterEvents?: NewsletterCalendarEvent[];
+  glowingDate?: string | null; // Date string (YYYY-MM-DD) that should have violet glow effect
 };
 
 export default function MonthGrid({ 
@@ -44,7 +46,8 @@ export default function MonthGrid({
   showCampusGroups = false,
   campusGroupsEvents = [],
   showNewsletter = false,
-  newsletterEvents = []
+  newsletterEvents = [],
+  glowingDate = null
 }: Props) {
   // Remove the internal state since month is controlled by parent
   // const [currentMonth, setCurrentMonth] = useState(new Date(2025, 7, 1));
@@ -203,9 +206,9 @@ export default function MonthGrid({
             return `${glassBase} bg-blue-800/40 border-yellow-500/40 text-white ${hoverGold}`;
           }
 
-          // Check for Campus Groups events - Blue styling
+          // Check for Campus Groups events - Blue styling (matches dropdown icon)
           if (event.source && event.source.includes('campus_groups')) {
-            return `${glassBase} bg-blue-600/40 border-blue-500/40 text-white ${hoverGold}`;
+            return `${glassBase} bg-blue-600 border-blue-600text-white ${hoverGold}`;
           }
 
           // Check for Teams@Haas events FIRST (before source-based detection)
@@ -255,17 +258,23 @@ export default function MonthGrid({
           const quizMatch = event.description.match(/QUIZ:\s*Quiz\s+\d+/i);
           return !!quizMatch;
         };
+
+        // Check if this day should have the violet glow effect
+        const dayString = format(day, 'yyyy-MM-dd'); // Convert to YYYY-MM-DD format
+        const shouldGlow = glowingDate === dayString;
         
 
         return (
             <div
             key={day.toISOString()}
-            className={`h-28 p-1 flex flex-col overflow-auto ${
+            className={`h-28 p- flex flex-col sm:overflow-hidden ${
               isSameMonth(day, currentMonth) ? 'bg-slate-600/10' : 'bg-transparent opacity-40'
-            } ${isToday ? 'rounded-sm  ring-1 ring-yellow-400 '  : ''}`}
+            } ${isToday ? 'rounded-md border-1 border-white bg-slate-800/10 '  : ''} ${
+              shouldGlow ? 'newsletter-cell-glow' : ''
+            }`}
             >
-            <div className={`text-xs font-light mb-0 flex-shrink-0 flex items-center gap-1 ${
-              isToday ? 'text-yellow-500 font-bold' : 'text-white'
+            <div className={`text-xs font-medium mb-0 flex-shrink-0 flex items-center gap-1 ${
+              isToday ? 'text-yellow-300 font-bold' : 'text-white'
             }`}>
               {format(day, 'd')}
               {showGreekTheater && hasGreekEvent && (
@@ -321,12 +330,12 @@ export default function MonthGrid({
               )}
               {hasNewsletterEvent && (
               <div 
-                className="w-6 h-6 flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-opacity bg-purple-600 rounded-lg flex items-center justify-center relative"
+                className="w-4 h-4 flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-all duration-200 bg-purple-600 rounded-md flex items-center justify-center relative newsletter-icon-pulse border border-transparent hover:border-white"
                 title={`Newsletter: ${dayNewsletterEvents.map(e => e.title).join(', ')}`}
                 onClick={(e) => {
                 e.stopPropagation();
                 if (dayNewsletterEvents.length > 0) {
-                  // If multiple newsletter events on same day, create a combined event
+                  // If multiple newsletter events on same day, create a combined event with all events attached
                   if (dayNewsletterEvents.length > 1) {
                     const combinedEvent = {
                       ...dayNewsletterEvents[0],
@@ -338,7 +347,9 @@ export default function MonthGrid({
                           <h3 class="font-semibold text-lg mb-2">${ev.title}</h3>
                           ${ev.htmlContent || ''}
                         </div>`
-                      ).join('<hr class="my-4 border-slate-300" />')
+                      ).join('<hr class="my-4 border-slate-300" />'),
+                      // Add all individual events for modal to access
+                      multipleEvents: dayNewsletterEvents
                     };
                     onEventClick(combinedEvent);
                   } else {
@@ -348,8 +359,8 @@ export default function MonthGrid({
                 }
                 }}
               >
-                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/>
                 </svg>
                 {dayNewsletterEvents.length > 1 && (
                   <span className="absolute -top-1 -right-1 bg-white text-purple-600 text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
@@ -366,46 +377,23 @@ export default function MonthGrid({
                 const courseColor = getCourseColor(ev);
                 const eventHasQuiz = hasQuiz(ev);
                 
+                // Build single text string for proper line clamping
+                const displayText = `${eventHasQuiz ? 'QUIZ: ' : ''}${courseName}${assignment ? ' — ' + assignment : ''}`;
+                
                 return (
                 <div
                   key={ev.uid ?? ev.title + ev.start}
-                  className={`text-[10px] px-1 rounded-sm border flex-1 min-h-0 flex flex-col justify-start overflow-hidden cursor-pointer hover:opacity-80 transition-opacity ${courseColor}`}
+                  className={`event-text-clamp text-[10px] px-1 py-0.5 rounded-sm border cursor-pointer hover:opacity-80 transition-opacity ${courseColor} ${eventHasQuiz ? 'font-bold' : 'font-medium'}`}
                   title={`${assignment ? assignment + ' - ' : ''}${courseName} (${ev.title})${eventHasQuiz ? ' - QUIZ TODAY!' : ''}`}
                   onClick={(e) => {
                   e.stopPropagation();
                   onEventClick(ev);
                   }}
                   style={{
-                  height: `calc((100% - ${(allDayEvents.length - 1) * 1}px) / ${allDayEvents.length})`
+                    height: `calc((100% - ${(allDayEvents.length - 1) * 1}px) / ${allDayEvents.length})`
                   }}
                 >
-                  {/* Quiz indicator above course name */}
-                  {eventHasQuiz && (
-                    <div className="mb-0.5">
-                      <span className="font-bold text-white text-[9px] px-1 bg-red-600 rounded whitespace-nowrap ">
-                        QUIZ
-                      </span>
-                    </div>
-                  )}
-                  {/* Course name */}
-                  <div className="leading-tight break-words hyphens-auto font-medium" style={{ wordBreak: 'break-word' }}>
-                    {courseName}
-                  </div>
-                  {/* Assignment (clamped to 2 lines) */}
-                  {assignment && (
-                    <div
-                    className="leading-tight break-words hyphens-auto opacity-80"
-                    style={{
-                      wordBreak: 'break-word',
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden'
-                    }}
-                    >
-                    {assignment}
-                    </div>
-                  )}
+                  {displayText}
                 </div>
                 );
               })
