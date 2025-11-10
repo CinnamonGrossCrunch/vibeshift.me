@@ -1,0 +1,11 @@
+# Cache Directory
+
+This directory stores static JSON fallback files for cached dashboard data.
+
+Files written here by cron jobs:
+- `dashboard-data.json` - Complete unified dashboard payload
+- `newsletter-data.json` - Organized newsletter content
+- `cohort-events.json` - Calendar events for both cohorts
+- `myweek-data.json` - AI-generated My Week summaries
+
+These files serve as fallback when Upstash KV is unavailable.

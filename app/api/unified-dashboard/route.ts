@@ -12,6 +12,7 @@ import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
 import { organizeNewsletterWithAI, type OrganizedNewsletter } from '@/lib/openai-organizer';
 import { analyzeCohortMyWeekWithAI, type CohortMyWeekAnalysis } from '@/lib/my-week-analyzer';
 import { getCohortEvents, type CalendarEvent } from '@/lib/icsUtils';
+import { getCachedData, CACHE_KEYS } from '@/lib/cache';
 
 const safeError = (...args: unknown[]) => {
   // Always log errors, but ensure they don't leak into response
@@ -119,6 +120,24 @@ export async function GET() {
   }
 
   const startTime = Date.now();
+  
+  // 🚀 TRY CACHE FIRST (INSTANT LOADS ~50-200ms!)
+  console.log('🔍 [API] Checking cache for pre-rendered dashboard data...');
+  const cachedDashboard = await getCachedData<UnifiedDashboardData>(CACHE_KEYS.DASHBOARD_DATA);
+  
+  if (cachedDashboard) {
+    console.log(`✅ [API] CACHE HIT from ${cachedDashboard.source}! Returning pre-rendered data (${Date.now() - startTime}ms)`);
+    return NextResponse.json(cachedDashboard.data, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
+        'X-Cache-Source': cachedDashboard.source, // Debug header showing cache source
+        'X-Response-Time': `${Date.now() - startTime}ms`
+      }
+    });
+  }
+  
+  console.log('⚠️ [API] Cache miss - generating fresh data (this may take 8-20 seconds)...');
+  
   const INTERNAL_TIMEOUT = 200000; // 200 seconds - allow newsletter AI processing (up to 180s) + calendar/weather
   
   // Create overall timeout promise
