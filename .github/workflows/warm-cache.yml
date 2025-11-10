@@ -1,0 +1,67 @@
+name: Warm Cache After Deployment
+
+on:
+  # Trigger when Vercel deployment succeeds
+  deployment_status:
+  
+  # Also allow manual triggering for testing
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'Deployment URL (leave empty for production)'
+        required: false
+        type: string
+
+jobs:
+  warm-cache:
+    name: Warm Production Cache
+    runs-on: ubuntu-latest
+    
+    # Only run for successful production deployments (or manual trigger)
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment_status.environment == 'Production')
+    
+    steps:
+      - name: Wait for deployment to be fully ready
+        run: sleep 15
+      
+      - name: Determine target URL
+        id: url
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ -n "${{ inputs.url }}" ]; then
+            echo "target_url=${{ inputs.url }}" >> $GITHUB_OUTPUT
+            echo "Using manual URL: ${{ inputs.url }}"
+          else
+            echo "target_url=${{ secrets.PRODUCTION_URL }}" >> $GITHUB_OUTPUT
+            echo "Using production URL: ${{ secrets.PRODUCTION_URL }}"
+          fi
+      
+      - name: Warm cache by triggering newsletter refresh
+        run: |
+          echo "🔥 Warming cache for deployment: ${{ steps.url.outputs.target_url }}"
+          
+          # Trigger the newsletter refresh endpoint (this takes ~90 seconds)
+          response=$(curl -s -w "\nHTTP_CODE:%{http_code}" \
+            -X GET "${{ steps.url.outputs.target_url }}/api/cron/refresh-newsletter" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            --max-time 180)
+          
+          http_code=$(echo "$response" | grep "HTTP_CODE:" | cut -d':' -f2)
+          
+          echo "Response code: $http_code"
+          
+          if [ "$http_code" -eq 200 ]; then
+            echo "✅ Cache warmed successfully!"
+            echo "📊 Newsletter data, calendar events, and AI summaries are now cached"
+            echo "⚡ Users will experience instant loads (~100-300ms)"
+          else
+            echo "⚠️ Cache warming returned HTTP $http_code"
+            echo "Cache will warm on first user visit (8-20s)"
+          fi
+      
+      - name: Notify completion
+        run: |
+          echo "🏁 Post-deployment cache warming complete"
+          echo "🎯 Next user will experience instant loads!"
