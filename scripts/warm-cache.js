@@ -11,7 +11,8 @@
 
 const CRON_SECRET = process.env.CRON_SECRET;
 const VERCEL_ENV = process.env.VERCEL_ENV; // 'production', 'preview', or undefined (local)
-const VERCEL_URL = process.env.VERCEL_URL; // Auto-set by Vercel
+const VERCEL_URL = process.env.VERCEL_URL; // Auto-set by Vercel (preview URL)
+const VERCEL_PRODUCTION_URL = process.env.VERCEL_PRODUCTION_URL; // Production URL
 
 // Only run in production deployments
 if (VERCEL_ENV !== 'production') {
@@ -24,16 +25,20 @@ if (!CRON_SECRET) {
   process.exit(0);
 }
 
-if (!VERCEL_URL) {
-  console.warn('⚠️ VERCEL_URL not set - skipping cache warming');
+// Use production URL if available, otherwise use VERCEL_URL
+const targetUrl = VERCEL_PRODUCTION_URL || VERCEL_URL;
+
+if (!targetUrl) {
+  console.warn('⚠️ No deployment URL found - skipping cache warming');
   process.exit(0);
 }
 
 async function warmCache() {
-  const url = `https://${VERCEL_URL}/api/cron/refresh-newsletter`;
+  const url = `https://${targetUrl}/api/cron/refresh-newsletter`;
   
   console.log('🔥 Post-deployment cache warming started...');
   console.log(`📍 Target: ${url}`);
+  console.log(`🔑 Using CRON_SECRET: ${CRON_SECRET.substring(0, 8)}...`);
   
   try {
     const response = await fetch(url, {
@@ -48,12 +53,14 @@ async function warmCache() {
       console.log('✅ Cache warmed successfully!');
       console.log(`📊 Response:`, data);
     } else {
+      const errorText = await response.text();
       console.warn(`⚠️ Cache warming failed: ${response.status} ${response.statusText}`);
-      // Don't fail the build - cache will warm on first user visit
+      console.warn(`Response: ${errorText}`);
+      // Don't fail the build - cache will warm on first user visit or via GitHub Action
     }
   } catch (error) {
     console.error('❌ Cache warming error:', error.message);
-    // Don't fail the build - cache will warm on first user visit
+    // Don't fail the build - cache will warm on first user visit or via GitHub Action
   }
 }
 
