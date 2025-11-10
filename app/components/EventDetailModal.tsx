@@ -338,7 +338,7 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4  bg-black/50 [&>div]:relative [&>div]:shadow-[0_0_0_1px_rgba(139,92,246,0.3),0_0_18px_4px_rgba(139,92,246,0.25)] [&>div]:transition-shadow">
       <div
         ref={modalRef}
-        className="bg-slate-900/60 backdrop-blur-3xl rounded-2xl shadow-2xl max-w-3xl w-full max-h-[85vh] overflow-hidden flex flex-col"
+        className="bg-slate-900/60 backdrop-blur-3xl rounded-2xl shadow-2xl max-w-3xl md:max-w-xl w-200 max-h-[85vh] overflow-hidden flex flex-col"
       >
         {/* Header */}
         <div className="flex items-start justify-between px-6 py-4 flex-shrink-0">
@@ -410,16 +410,12 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
             scrollbarColor: 'rgb(148 163 184) transparent'
           }}
         >
-          {/* Multiple Newsletter Events - Side by Side Columns */}
+          {/* Multiple Newsletter Events - Single Column Layout */}
           {hasMultipleEvents && newsletterEvent?.multipleEvents ? (
-            <div className="space-y-4 mb-10">
-              <div className="text-center">
-                <h3 className="text-lg font-medium text-white mb-4">
-                  {newsletterEvent.multipleEvents.length} Newsletter Events on {format(new Date(displayEvent.start), 'MMMM d, yyyy')}
-                </h3>
-              </div>
+            <div className="space-y-2 mb-10">
               
-              <div className="grid gap-4" style={{ gridTemplateColumns: `repeat(${Math.min(newsletterEvent.multipleEvents.length, 2)}, 1fr)` }}>
+              
+              <div className="flex flex-col gap-4">
                 {newsletterEvent.multipleEvents.map((individualEvent: NewsletterCalendarEvent, index: number) => (
                   <div key={index} className="bg-slate-800/30 rounded-lg p-4 border border-slate-600/30">
                     {/* Individual Event Header */}
@@ -434,11 +430,6 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
 
                     {/* Individual Event Content */}
                     <div className="space-y-3 mb-4">
-                      {individualEvent.description && (
-                        <div className="text-sm text-slate-300 leading-relaxed line-clamp-5">
-                          {renderTextWithLinks(individualEvent.description)}
-                        </div>
-                      )}
                       
                       {individualEvent.htmlContent && (
                         <div className="text-sm text-slate-300 leading-relaxed line-clamp-5">
@@ -473,7 +464,7 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
                         <h4 className="text-md font-semibold text-white leading-tight mb-2">
                           {safeStringify(individualEvent.title)}
                         </h4>
-                        <div className="text-xs text-slate-400 mb-3">
+                        <div className="text-xs text-slate-400 mb-1">
                           From: {individualEvent.sourceMetadata?.sectionTitle || 'Newsletter'}
                         </div>
                       </div>
@@ -481,13 +472,13 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
                       {/* Individual Event Content */}
                       <div className="space-y-3 mb-4">
                         {individualEvent.description && (
-                          <div className="text-sm text-slate-300 leading-relaxed line-clamp-5">
+                          <div className="text-sm text-slate-300 leading-relaxed">
                             {renderTextWithLinks(individualEvent.description)}
                           </div>
                         )}
                         
                         {individualEvent.htmlContent && (
-                          <div className="text-sm text-slate-300 leading-relaxed line-clamp-5">
+                          <div className="text-sm text-slate-300 leading-relaxed prose prose-invert max-w-none">
                             <div dangerouslySetInnerHTML={{ __html: individualEvent.htmlContent }} />
                           </div>
                         )}
@@ -513,24 +504,35 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
           ) : (
             /* Single Event - Original Layout */
             <div className="space-y-4">
-              {/* Description */}
-              {displayEvent.description && (
+              {/* Newsletter htmlContent - Show full content for newsletter events */}
+              {isNewsletterEvent && newsletterEvent?.htmlContent ? (
                 <div>
-                  <h3 className="text-xl font-medium text-white mb-2"></h3>
-                  <div className="text-md text-slate-300 whitespace-pre-wrap leading-relaxed">
-                    {renderTextWithLinks(displayEvent.description)}
+                  <div className="text-md text-slate-300 leading-relaxed prose prose-invert max-w-none">
+                    <div dangerouslySetInnerHTML={{ __html: newsletterEvent.htmlContent }} />
                   </div>
                 </div>
-              )}
+              ) : (
+                <>
+                  {/* Description for non-newsletter events */}
+                  {displayEvent.description && (
+                    <div>
+                      <h3 className="text-xl font-medium text-white mb-2"></h3>
+                      <div className="text-md text-slate-300 whitespace-pre-wrap leading-relaxed">
+                        {renderTextWithLinks(displayEvent.description)}
+                      </div>
+                    </div>
+                  )}
 
-              {/* Location */}
-              {displayEvent.location && (
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="text-sm font-medium text-white">📍 Location:</div>
-                    <div className="text-sm text-slate-300">{safeStringify(displayEvent.location)}</div>
-                  </div>
-                </div>
+                  {/* Location */}
+                  {displayEvent.location && (
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="text-sm font-medium text-white">📍 Location:</div>
+                        <div className="text-sm text-slate-300">{safeStringify(displayEvent.location)}</div>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           )}
@@ -538,7 +540,7 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
 
         {/* Footer with action buttons - hidden for multiple newsletter events */}
         {!hasMultipleEvents && (
-          <div className="flex gap-2 p-6 border-t border-slate-700 flex-shrink-0">
+          <div className="flex gap-2 p-4  border-slate-700 flex-shrink-0">
             {/* Newsletter Event: View in Newsletter Button */}
             {isNewsletterEvent && newsletterEvent?.sourceMetadata && (
               <button
@@ -567,12 +569,7 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
               </a>
             )}
             
-            <button
-              onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors"
-            >
-              Close
-            </button>
+            
           </div>
         )}
       </div>

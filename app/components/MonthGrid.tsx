@@ -122,9 +122,29 @@ export default function MonthGrid({
           console.log(`Campus Groups: ${campusGroupsEvents.length} total events, ${dayCampusGroupsEvents.length} events for ${day.toDateString()}`);
         }
         
-        // Combine regular events with launch events and Campus Groups events
-        // NOTE: Cal Bears and Newsletter events are EXCLUDED - they only appear as logo/icon in header (like Greek Theater)
-        const allDayEvents = [...dayEvents, ...dayLaunchEvents, ...dayCampusGroupsEvents];
+        // Handle newsletter events - if multiple, combine into one
+        let processedNewsletterEvents = dayNewsletterEvents;
+        if (dayNewsletterEvents.length > 1) {
+          // Create a single combined event for multiple newsletter events
+          const combinedEvent = {
+            ...dayNewsletterEvents[0],
+            title: 'Multiple Events',
+            description: dayNewsletterEvents.map(ev => ev.title).join('\n• '),
+            htmlContent: dayNewsletterEvents.map((ev, idx) => 
+              `<div class="newsletter-event-${idx}">
+                <h3 class="font-semibold text-lg mb-2">${ev.title}</h3>
+                ${ev.htmlContent || ''}
+              </div>`
+            ).join('<hr class="my-4 border-slate-300" />'),
+            multipleEvents: dayNewsletterEvents,
+            type: 'newsletter' as const
+          };
+          processedNewsletterEvents = [combinedEvent];
+        }
+        
+        // Combine regular events with launch events, Campus Groups events, and Newsletter events
+        // NOTE: Cal Bears events are EXCLUDED - they only appear as logo icon in header (like Greek Theater)
+        const allDayEvents = [...dayEvents, ...dayLaunchEvents, ...dayCampusGroupsEvents, ...processedNewsletterEvents];
 
         const isToday = isSameDay(day, new Date());
         const hasGreekEvent = hasGreekTheaterEventOnDate(day);
@@ -267,13 +287,13 @@ export default function MonthGrid({
         return (
             <div
             key={day.toISOString()}
-            className={`h-28 p- flex flex-col sm:overflow-hidden ${
+            className={`h-28 lg:h-32 p- flex flex-col sm:overflow-hidden ${
               isSameMonth(day, currentMonth) ? 'bg-slate-600/10' : 'bg-transparent opacity-40'
             } ${isToday ? 'rounded-md border-1 border-white bg-slate-800/10 '  : ''} ${
               shouldGlow ? 'newsletter-cell-glow' : ''
             }`}
             >
-            <div className={`text-xs font-medium mb-0 flex-shrink-0 flex items-center gap-1 ${
+            <div className={`text-xs font-medium mb-0 lg:mb-1 flex-shrink-0 flex items-center gap-1 ${
               isToday ? 'text-yellow-300 font-bold' : 'text-white'
             }`}>
               {format(day, 'd')}
@@ -330,7 +350,7 @@ export default function MonthGrid({
               )}
               {hasNewsletterEvent && (
               <div 
-                className="w-4 h-4 flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-all duration-200 bg-purple-600 rounded-md flex items-center justify-center relative newsletter-icon-pulse border border-transparent hover:border-white"
+                className="flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-all duration-200 bg-purple-600 rounded-md flex items-center justify-center relative newsletter-icon-pulse border border-transparent hover:border-white w-4 h-4 md:w-auto md:h-auto md:px-1.5 md:py-0"
                 title={`Newsletter: ${dayNewsletterEvents.map(e => e.title).join(', ')}`}
                 onClick={(e) => {
                 e.stopPropagation();
@@ -359,43 +379,79 @@ export default function MonthGrid({
                 }
                 }}
               >
-                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
+                {/* Icon for mobile, text for larger screens */}
+                <svg className="w-3 h-3 text-white md:hidden" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/>
                 </svg>
-                {dayNewsletterEvents.length > 1 && (
-                  <span className="absolute -top-1 -right-1 bg-white text-purple-600 text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                    {dayNewsletterEvents.length}
-                  </span>
-                )}
+                <span className="hidden md:inline text-[10px] text-white font-medium leading-tight">Event</span>
               </div>
               )}
             </div>
             <div className="flex-1 flex flex-col gap-px">
               {allDayEvents.length > 0 ? (
               allDayEvents.map((ev) => {
-                const { courseName, assignment } = parseEventTitle(ev.title);
-                const courseColor = getCourseColor(ev);
-                const eventHasQuiz = hasQuiz(ev);
+                // Check if this is a newsletter event
+                const isNewsletterEvent = ev.type === 'newsletter' || (ev.source && ev.source.includes('newsletter'));
                 
-                // Build single text string for proper line clamping
-                const displayText = `${eventHasQuiz ? 'QUIZ: ' : ''}${courseName}${assignment ? ' — ' + assignment : ''}`;
+                // Check if this is a non-cohort event (UC Launch, Campus Groups, Newsletter)
+                const isNonCohortEvent = isNewsletterEvent || 
+                  (ev.source && (ev.source.includes('uc_launch_events') || ev.source.includes('campus_groups')));
                 
-                return (
-                <div
-                  key={ev.uid ?? ev.title + ev.start}
-                  className={`event-text-clamp text-[10px] px-1 py-0.5 rounded-sm border cursor-pointer hover:opacity-80 transition-opacity ${courseColor} ${eventHasQuiz ? 'font-bold' : 'font-medium'}`}
-                  title={`${assignment ? assignment + ' - ' : ''}${courseName} (${ev.title})${eventHasQuiz ? ' - QUIZ TODAY!' : ''}`}
-                  onClick={(e) => {
-                  e.stopPropagation();
-                  onEventClick(ev);
-                  }}
-                  style={{
-                    height: `calc((100% - ${(allDayEvents.length - 1) * 1}px) / ${allDayEvents.length})`
-                  }}
-                >
-                  {displayText}
-                </div>
-                );
+                // Height: cohort events get calculated proportional height, non-cohort get fixed 16px
+                const eventHeight = isNonCohortEvent 
+                  ? '16px'
+                  : `calc((100% - ${(allDayEvents.length - 1) * 1}px) / ${allDayEvents.length})`;
+                
+                if (isNewsletterEvent) {
+                  // Newsletter event - show title (truncate single events on mobile, always show "Multiple Events" in full)
+                  const isMultiple = ev.title === 'Multiple Events';
+                  const truncatedTitle = isMultiple ? 'Multiple Events' : (ev.title.length > 7 ? ev.title.substring(0, 7) + '...' : ev.title);
+                  
+                  return (
+                    <div
+                      key={ev.uid ?? ev.title + ev.start}
+                      className="event-text-clamp md:whitespace-normal text-[10px] px-1 py-0.5 rounded-sm border cursor-pointer hover:opacity-80 transition-opacity backdrop-blur-sm bg-clip-padding saturate-50 shadow-sm bg-purple-600/60 border-purple-500/50 text-white hover:border-[#FDB515] font-medium"
+                      title={isMultiple ? `${ev.multipleEvents?.length || 0} Newsletter Events` : `Newsletter: ${ev.title}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEventClick(ev);
+                      }}
+                      style={{
+                        height: eventHeight
+                      }}
+                    >
+                      <span className="md:hidden">{truncatedTitle}</span>
+                      <span className="hidden md:inline">{ev.title}</span>
+                    </div>
+                  );
+                } else {
+                  // Regular cohort event - responsive height and truncation
+                  const { courseName, assignment } = parseEventTitle(ev.title);
+                  const courseColor = getCourseColor(ev);
+                  const eventHasQuiz = hasQuiz(ev);
+                  
+                  // Build single text string for proper line clamping
+                  const displayText = `${eventHasQuiz ? 'QUIZ: ' : ''}${courseName}${assignment ? ' — ' + assignment : ''}`;
+                  
+                  return (
+                    <div
+                      key={ev.uid ?? ev.title + ev.start}
+                      className={`text-[10px] px-1 py-0.5 rounded-sm border cursor-pointer hover:opacity-80 transition-opacity ${courseColor} ${eventHasQuiz ? 'font-bold' : 'font-medium'} cohort-event-text md:whitespace-normal md:h-auto`}
+                      title={`${assignment ? assignment + ' - ' : ''}${courseName} (${ev.title})${eventHasQuiz ? ' - QUIZ TODAY!' : ''}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEventClick(ev);
+                      }}
+                      style={
+                        typeof window !== 'undefined' && window.innerWidth >= 768
+                          ? {}
+                          : { height: eventHeight }
+                      }
+                    >
+                      {displayText}
+                    </div>
+                  );
+                }
               })
               ) : (
               <div className="flex-1" />

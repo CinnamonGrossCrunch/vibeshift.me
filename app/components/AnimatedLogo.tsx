@@ -13,6 +13,7 @@ interface AnimatedLogoProps {
   style?: React.CSSProperties;
   loop?: boolean;
   playOnce?: boolean;
+  shouldReduceMotion?: boolean;
 }
 
 export default function AnimatedLogo({
@@ -25,12 +26,13 @@ export default function AnimatedLogo({
   style = {},
   loop = false,
   playOnce = true,
+  shouldReduceMotion = false,
 }: AnimatedLogoProps) {
-  const [showVideo, setShowVideo] = useState(true);
+  const [showVideo, setShowVideo] = useState(!shouldReduceMotion);
   const [hasPlayed, setHasPlayed] = useState(false);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [videoOpacity, setVideoOpacity] = useState(1);
-  const [staticOpacity, setStaticOpacity] = useState(0);
+  const [staticOpacity, setStaticOpacity] = useState(shouldReduceMotion ? 1 : 0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Preload the static image so it's ready immediately when needed
@@ -41,7 +43,7 @@ export default function AnimatedLogo({
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || hasPlayed) return;
+    if (!video || hasPlayed || shouldReduceMotion) return;
 
     // Wait for video to be ready before playing
     const handleCanPlay = () => {
@@ -75,7 +77,7 @@ export default function AnimatedLogo({
       video.removeEventListener('canplay', handleCanPlay);
       video.removeEventListener('timeupdate', handleTimeUpdate);
     };
-  }, [hasPlayed]);
+  }, [hasPlayed, shouldReduceMotion]);
 
   const handleVideoEnd = () => {
     if (playOnce) {

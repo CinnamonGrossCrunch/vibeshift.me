@@ -71,9 +71,9 @@ const STYLES = {
   dropdownContent: "-mr-3 -py-overflow-hidden transition-all duration-1000 w-full",
   grid: "flex justify-between gap-2 flex-wrap w-full",
   resourceContainer: "border-white/30 rounded-md relative flex-1 min-w-0",
-  resourceLink: "flex flex-col md:flex-row items-center justify-center gap-0.5 p-1 rounded-xl hover:bg-turbulence transition-all duration-100 group",
-  iconContainer: "w-8 h-8 mr-1rounded-full flex items-center md:mb-1 justify-center flex-shrink-0",
-  icon: "text-white/80 scale-140 material-icons",
+  resourceLink: "flex flex-col md:flex-row items-center justify-center gap-0 md:gap-0.5 p-0.5 md:p-1 rounded-xl hover:bg-turbulence transition-all duration-100 group",
+  iconContainer: "w-8 h-8 mr-1rounded-full flex items-center -mb-1 md:mb-1 justify-center flex-shrink-0",
+  icon: "text-white/80 scale-140 material-icons !text-[10px] md:!text-[20px]",
   textContainer: "text-center md:text-left leading-tight",
   resourceTitle: "text-sm font-light text-white/50 truncate mb-0 leading-tight",
   resourceCta: "text-xs font-light text-gray-400 group-hover:text-blue-200 transition-colors whitespace-normal break-words leading-tight",
@@ -101,7 +101,7 @@ function ResourceCard({ resource, index, isOpen, totalItems }: { resource: Resou
         className={STYLES.resourceLink}
       >
         <div className={STYLES.iconContainer}>
-          <span className={STYLES.icon} style={{ fontSize: '20px' }}>{resource.icon}</span>
+          <span className={STYLES.icon}>{resource.icon}</span>
         </div>
         <div className={STYLES.textContainer}>
           <div className={STYLES.resourceCta}>{resource.cta}</div>
@@ -169,7 +169,6 @@ export default function HaasJourneyWidget({ className = "" }: HaasJourneyWidgetP
             style={{
               transitionDelay: isOpen ? '100ms' : '0ms',
               transform: isOpen ? 'rotate(360deg)' : 'rotate(0deg)',
-              fontSize: '28px',
               textShadow: '0 0 4px rgba(0, 99, 192, 0.8), 0 0 8px rgba(0, 99, 192, 0.6), 0 0 12px rgba(0, 99, 192, 0.4), 0 0 16px rgba(0, 99, 192, 0.2)'
             }}
             >

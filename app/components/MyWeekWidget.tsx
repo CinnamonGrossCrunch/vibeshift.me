@@ -45,6 +45,7 @@ interface MyWeekWidgetProps {
 export default function MyWeekWidget({ data, selectedCohort = 'blue' }: MyWeekWidgetProps) {
   const [weekData, setWeekData] = useState<MyWeekData | null>(data || null);
   const [loading, setLoading] = useState(!data); // If data provided, don't start loading
+  const [isExpanded, setIsExpanded] = useState(false); // Toggle state for events list - default collapsed
 
   // Function to handle MyWeek event clicks
   const handleEventClick = (event: React.MouseEvent, eventData: WeeklyEvent) => {
@@ -113,34 +114,65 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue' }: MyWeekWi
       
       // Note: No scrolling - just expands section/subsection and adds highlight animation
     } else {
-      // Calendar-sourced event - use existing behavior
-      console.log(`📅 Calendar event clicked - triggering calendar glow`);
+      // Calendar-sourced event - check if calendar is visible
+      console.log(`📅 Calendar event clicked - checking calendar visibility`);
       
-      // Trigger glow animation on calendar list view via custom event
-      const glowEvent = new CustomEvent('triggerCalendarGlow', { 
-        detail: { eventTitle: eventData.title, timestamp: Date.now() }
-      });
+      // Check if calendar widget is visible
+      const calendarElement = document.querySelector('[data-calendar-list-view]') as HTMLElement | null;
+      const isCalendarVisible = calendarElement && 
+        calendarElement.offsetParent !== null && 
+        calendarElement.getBoundingClientRect().height > 0;
       
-      console.log(`🚀 About to dispatch glow event:`, glowEvent);
-      window.dispatchEvent(glowEvent);
-      console.log(`✨ Dispatched glow event for: ${eventData.title}`);
+      console.log(`👀 Calendar visibility check: ${isCalendarVisible ? 'VISIBLE' : 'HIDDEN (inactive tab)'}`);
       
-      // Add a small delay then check if calendar element exists
-      setTimeout(() => {
-        const calendarElement = document.querySelector('[data-calendar-list-view]');
-        if (calendarElement) {
-          console.log(`📍 Found calendar element, scrolling to it`, calendarElement);
-          calendarElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else {
-          console.log(`❌ Calendar element not found with selector: [data-calendar-list-view]`);
-          // Try alternative selectors
-          const altElement = document.querySelector('.calendar-list-widget');
-          if (altElement) {
-            console.log(`📍 Found calendar widget via alternative selector`, altElement);
-            altElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (!isCalendarVisible) {
+        // CASE 1: Calendar is hidden (on different tab like Updates or Slack)
+        console.log(`� Step 1: Switching to OskiHub Cal tab...`);
+        
+        // Switch to Calendar tab first
+        const switchTabEvent = new CustomEvent('switchToTab', {
+          detail: {
+            tabName: 'OskiHub Cal',
+            timestamp: Date.now()
           }
-        }
-      }, 100);
+        });
+        window.dispatchEvent(switchTabEvent);
+        
+        // Wait for tab switch, then trigger glow and scroll
+        setTimeout(() => {
+          console.log(`📅 Step 2: Tab active - now triggering calendar glow`);
+          
+          // Trigger glow animation
+          const glowEvent = new CustomEvent('triggerCalendarGlow', { 
+            detail: { eventTitle: eventData.title, timestamp: Date.now() }
+          });
+          window.dispatchEvent(glowEvent);
+          
+          // Scroll to calendar
+          const calendarEl = document.querySelector('[data-calendar-list-view]');
+          if (calendarEl) {
+            calendarEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 150); // Wait for tab switch animation
+      } else {
+        // CASE 2: Calendar already visible - proceed directly
+        console.log(`✅ Calendar visible - triggering glow directly`);
+        
+        // Trigger glow animation on calendar list view via custom event
+        const glowEvent = new CustomEvent('triggerCalendarGlow', { 
+          detail: { eventTitle: eventData.title, timestamp: Date.now() }
+        });
+        
+        window.dispatchEvent(glowEvent);
+        
+        // Scroll to calendar
+        setTimeout(() => {
+          const calendarEl = document.querySelector('[data-calendar-list-view]');
+          if (calendarEl) {
+            calendarEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 100);
+      }
       
       console.log(`📅 Directing attention to calendar for: ${eventData.title}`);
     }
@@ -268,22 +300,42 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue' }: MyWeekWi
   }, {} as Record<string, WeeklyEvent[]>);
 
   return (
-    <div className="hidden md:flex w-full lg:mr-35 items-end">
+    <div className={`flex w-full lg:mr-35 items-end transition-all duration-300 ${!isExpanded ? 'mb-0' : ''}`}>
       {/* Main Layout: Mobile vertical, Desktop horizontal */}
-      <div className="w-full flex flex-col md:flex-row md:items-start gap-0 md:gap-6 md:rounded-2xl">
+      <div className="w-full flex flex-col md:flex-row md:items-start gap-0 md:gap-6 md:rounded-2xl overflow-visible">
         {/* Header Section: "My Week" and Today's Date */}
-        <div className="text-start mt-0 shrink-0 min-w-0 mb-2 md:mb-0 px-3 sm:px-0">
-          <div className="text-2xl font-extralight text-slate-400 mt-0 px-0 mb-1">
-            My Week
+        <div className="text-start mt-0 shrink-0 min-w-0 mb-0 md:mb-0 px-3 sm:px-0 relative">
+          <div className="flex items-center gap-3 relative">
+            <div className="text-xl md:text-2xl font-extralight text-slate-400 mt-0 px-0 mb-0">
+              My Week
+            </div>
           </div>
-          <div className="text-5xl font-medium text-white">
+          <div className="text-4xl md:text-5xl font-medium text-white">
             {new Date().toLocaleDateString('en-US', { month: 'short' })}{' '}
             <span className="text-white/60">{new Date().toLocaleDateString('en-US', { day: 'numeric' })}</span>
           </div>
+          {/* Toggle button for all screens - centered at bottom on small screens, positioned near "My Week" on md+ */}
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className={`flex items-center justify-center w-8 h-8 rounded-full bg-transparent border border-violet-400/40 hover:bg-slate-800 hover:border-violet-300/60 transition-all duration-500 ease-in-out animate-[rotating-violet-glow_2s_ease-in-out_infinite] hover:animate-[rotating-violet-glow-hover_4s_ease-in-out_infinite] absolute bottom-3.5 left-1/2 -translate-x-1/2 md:bottom-auto md:top-0 md:left-[120px] md:translate-x-0 ${
+              !isExpanded ? 'md:translate-x-[40px] md:translate-y-[20px]' : 'md:translate-x-0 md:translate-y-0'
+            }`}
+            aria-label={isExpanded ? 'Collapse events' : 'Expand events'}
+          >
+            <svg
+              className={`w-5 h-5 text-white/70 transition-transform duration-500 ease-in-out ${isExpanded ? 'rotate-[315deg]' : 'rotate-0'}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              strokeWidth={2.5}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+          </button>
         </div>
 
         {/* Events Section */}
-        <div className="flex-1 min-w-0 md:p-1 space-y-0 w-full px-0">
+        <div className={`flex-1 min-w-0 space-y-0 w-full px-0 transition-all duration-500 overflow-hidden ${!isExpanded ? 'w-0 min-w-0 opacity-0 p-0' : 'p-1'}`}>
           {/* AI Summary */}
           {/* {currentSummary && (
             <div className="flex items-start backdrop-blur-md bg-turbulence gap-3 rounded-2xl p-1 mb-1">
@@ -296,24 +348,34 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue' }: MyWeekWi
             </div>
           )} */}
 
-          {/* Events List - Hidden on mobile, vertical stack on desktop */}
-            <div className="hidden md:flex md:flex-col md:gap-0 md:space-y-1 md:max-h-96 w-full">
-            {/* Desktop: Only show days with events */}
+          {/* Events List - Collapsible on all screens, vertical stack on desktop */}
+            <div className={`flex flex-col gap-0 space-y-1 w-full overflow-hidden transition-all duration-500 ${isExpanded ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}>
+            {/* Show days with events */}
             {Object.entries(eventsByDate)
               .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
-              .map(([date, events]) => (
-                <div key={date} className="flex flex-row rounded-md bg-violet-900/20 items-center gap-1 mb-1">
+              .map(([date, events], dateIndex) => (
+                <div 
+                  key={date} 
+                  className={`flex flex-row rounded-md bg-violet-100/20 items-center gap-1 mb-1 transition-all duration-500 ease-out ${
+                    isExpanded 
+                      ? 'opacity-100 translate-y-0 scale-100' 
+                      : 'opacity-0 -translate-y-2 scale-95'
+                  }`}
+                  style={{
+                    transitionDelay: isExpanded ? `${dateIndex * 100}ms` : `${(Object.entries(eventsByDate).length - dateIndex - 1) * 60}ms`
+                  }}
+                >
                   {/* Date Header - Fixed width on desktop */}
                   <div className="text-center w-24 text-sm font-semibold text-slate-100 px-2 py-0 shrink-0">
                     {formatDate(date)}
                   </div>
                   
                   {/* Events for this date - Stack vertically */}
-                  <div className="flex-0 overflow-hidden gap-2 flex-1 flex flex-col">
+                  <div className="flex-0 overflow-hidden gap-1 flex-1 flex flex-col">
                     {events.map((event, index) => (
                       <div 
                         key={index} 
-                        className={`flex-0 items-center space-x-2 border-b border-slate-900 rounded-sm px-3 py-0.5 group cursor-pointer hover:brightness-150 transition-all ${getEventColor(event.type, event.priority)}`}
+                        className={`flex-0 items-center space-x-2 rounded-sm px-3 py-0.5 group cursor-pointer hover:brightness-150 transition-all ${getEventColor(event.type, event.priority)}`}
                         onClick={(e) => handleEventClick(e, event)}
                       >
                         {/* Event Content */}

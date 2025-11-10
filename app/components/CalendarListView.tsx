@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 import EventDetailModal from './EventDetailModal';
 import type { CalendarEvent, CohortEvents } from '@/lib/icsUtils';
@@ -27,15 +27,13 @@ export default function CalendarListView({
   const [selectedCohort, setSelectedCohort] = useState<CohortType>(defaultCohort);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [matchedOriginalEvent, setMatchedOriginalEvent] = useState<CalendarEvent | null>(null);
-  const [scrollIndex, setScrollIndex] = useState(0);
   const [isGlowing, setIsGlowing] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
+  const [scrollIndex, setScrollIndex] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Sync with external cohort selection
   useEffect(() => {
     setSelectedCohort(defaultCohort);
-    setScrollIndex(0); // Reset scroll when cohort changes
   }, [defaultCohort]);
 
   // Load cohort preference from localStorage on mount (if cohort toggle is shown)
@@ -257,80 +255,29 @@ export default function CalendarListView({
   // Filter out past events - show all future events
   const allFutureEvents = currentEvents
     .filter(ev => new Date(ev.start) >= new Date());
-  
-  // Check if there are more events to scroll to
-  const hasMoreEvents = scrollIndex + maxEvents < allFutureEvents.length;
-  const hasPreviousEvents = scrollIndex > 0;
-  
-  // Check if we can shift to show last event fully aligned to right
-  const isAtEnd = scrollIndex + maxEvents >= allFutureEvents.length;
-  const canShiftToRight = isAtEnd && allFutureEvents.length > maxEvents;
-  const isAtRightAnchor = scrollIndex === Math.max(0, allFutureEvents.length - maxEvents);
-  
-  // Calculate which events to display based on scroll index
-  // When at right anchor, show fewer events to ensure last one is fully visible
-  const effectiveMaxEvents = isAtRightAnchor ? Math.min(5, maxEvents) : maxEvents;
-  const displayedEvents = allFutureEvents.slice(scrollIndex, scrollIndex + effectiveMaxEvents);
-  
-  // Show next arrow if there are more events OR if we can shift to right anchor
-  const showNextArrow = hasMoreEvents || (canShiftToRight && !isAtRightAnchor);
-  
-  // Debug logging for navigation arrows
-  console.log('📊 Navigation Debug:', {
-    totalFutureEvents: allFutureEvents.length,
-    maxEvents,
-    scrollIndex,
-    displayedEvents: displayedEvents.length,
-    hasMoreEvents,
-    hasPreviousEvents,
-    showNextArrow,
-    canShiftToRight,
-    isAtRightAnchor
-  });
-  
-  // Handle scroll to next event
+
+  // Navigation for large screens
   const handleScrollNext = () => {
-    if (isAnimating) return; // Prevent overlapping animations
-    
-    setIsAnimating(true);
-    setSlideDirection('left');
-    
-    setTimeout(() => {
-      if (hasMoreEvents) {
-        // Normal scrolling - move one event forward
-        setScrollIndex(prev => prev + 1);
-      } else if (canShiftToRight && !isAtRightAnchor) {
-        // At the end but not right-anchored - shift to show last event fully
-        const totalEvents = allFutureEvents.length;
-        const rightAnchorIndex = Math.max(0, totalEvents - maxEvents);
-        setScrollIndex(rightAnchorIndex);
-      }
-      
-      setTimeout(() => {
-        setIsAnimating(false);
-        setSlideDirection(null);
-      }, 50);
-    }, 300);
+    if (scrollContainerRef.current) {
+      const cardWidth = 180; // Approximate card width + gap
+      scrollContainerRef.current.scrollBy({ left: cardWidth, behavior: 'smooth' });
+      setScrollIndex(prev => prev + 1);
+    }
   };
 
-  // Handle scroll to previous event
   const handleScrollPrevious = () => {
-    if (isAnimating) return; // Prevent overlapping animations
-    
-    setIsAnimating(true);
-    setSlideDirection('right');
-    
-    setTimeout(() => {
-      if (hasPreviousEvents) {
-        setScrollIndex(prev => prev - 1);
-      }
-      
-      setTimeout(() => {
-        setIsAnimating(false);
-        setSlideDirection(null);
-      }, 50);
-    }, 300);
+    if (scrollContainerRef.current) {
+      const cardWidth = 180; // Approximate card width + gap
+      scrollContainerRef.current.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+      setScrollIndex(prev => Math.max(0, prev - 1));
+    }
   };
+
+  // Check if we can scroll (for showing/hiding arrows)
+  const canScrollLeft = scrollIndex > 0;
+  const canScrollRight = scrollContainerRef.current 
+    ? scrollContainerRef.current.scrollLeft < scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth - 10
+    : allFutureEvents.length > 5;
 
   return (
     <div 
@@ -359,7 +306,7 @@ export default function CalendarListView({
       {/* Widget Content */}
       <div className="widget-content px-1 py-2 relative bg-slate-500/10 ">
         {/* Events List */}
-        {displayedEvents.length === 0 ? (
+        {allFutureEvents.length === 0 ? (
           <div className="empty-state text-center py-8">
             <div className="empty-icon w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3">
               <span className="text-lg">📅</span>
@@ -369,16 +316,17 @@ export default function CalendarListView({
             </p>
           </div>
         ) : (
-          <div className="events-container overflow-hidden mb-0">
+          <div className="events-container relative">
             <div 
-              className={`flex gap-1 transition-transform duration-300 ease-in-out ${
-                slideDirection === 'left' ? '-translate-x-4 opacity-80' : ''
-              } ${
-                slideDirection === 'right' ? 'translate-x-4 opacity-80' : ''
-              }`}
-              style={{ minWidth: 'max-content' }}
+              ref={scrollContainerRef}
+              className="flex gap-1 overflow-x-auto scrollbar-hide scroll-smooth pb-2"
+              style={{ 
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+                WebkitOverflowScrolling: 'touch'
+              }}
             >
-              {displayedEvents.map((ev) => {
+              {allFutureEvents.map((ev) => {
                 const start = new Date(ev.start);
                 const end = ev.end ? new Date(ev.end) : undefined;
                 const isAllDay = ev.allDay || (!end || (start.getHours() === 0 && start.getMinutes() === 0 && end.getHours() === 0 && end.getMinutes() === 0));
@@ -457,44 +405,43 @@ export default function CalendarListView({
           );
           })}
         </div>
+        
+        {/* Navigation buttons - hidden on mobile, visible on lg screens */}
+        {canScrollLeft && (
+          <div className="hidden lg:block absolute top-1/2 -translate-y-1/2 left-0.5 z-50">
+            <div 
+              className="w-8 h-20 glass-nav-button glass-turbulence rounded-lg flex items-center justify-center cursor-pointer"
+              onClick={handleScrollPrevious}
+            >
+              <svg 
+                className="w-6 h-6 text-white drop-shadow-md" 
+                fill="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+              </svg>
+            </div>
+          </div>
+        )}
+        
+        {canScrollRight && (
+          <div className="hidden lg:block absolute top-1/2 -translate-y-1/2 right-0.5 z-50">
+            <div 
+              className="w-8 h-20 glass-nav-button glass-turbulence rounded-xl flex items-center justify-center cursor-pointer"
+              onClick={handleScrollNext}
+            >
+              <svg 
+                className="w-6 h-6 text-white drop-shadow-md" 
+                fill="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+              </svg>
+            </div>
+          </div>
+        )}
         </div>
       )}
-        
-        {/* Scroll indicators for navigation */}
-        {hasPreviousEvents && (
-          <div className="absolute top-2 left-0.5  z-50">
-          <div 
-            className="w-8 h-20 glass-nav-button glass-turbulence rounded-lg flex items-center justify-center cursor-pointer"
-            onClick={handleScrollPrevious}
-          >
-            <svg 
-            className="w-6 h-6 text-white drop-shadow-md" 
-            fill="currentColor" 
-            viewBox="0 0 24 24"
-            >
-            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-            </svg>
-          </div>
-          </div>
-        )}
-        
-        {/* Scroll indicator for more events - positioned in widget container */}
-        {showNextArrow && (
-          <div className="absolute top-2 right-0.5  z-50">
-          <div 
-            className="w-8 h-20 glass-nav-button glass-turbulence rounded-xl flex items-center justify-center cursor-pointer"
-            onClick={handleScrollNext}
-          >
-            <svg 
-            className="w-6 h-6 text-white drop-shadow-md" 
-            fill="currentColor" 
-            viewBox="0 0 24 24"
-            >
-            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-            </svg>
-          </div>
-          </div>
-        )}
         </div>
 
       {/* Event Detail Modal */}

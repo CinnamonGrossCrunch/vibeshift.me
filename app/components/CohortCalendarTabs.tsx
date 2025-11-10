@@ -551,8 +551,8 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
             </div>
           )}
 
-          {/* Month Navigation - Centered */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-0 flex-shrink-0">
+          {/* Month Navigation - Right on mobile, centered on desktop */}
+          <div className="mr-auto ml-2 sm:absolute sm:left-1/2 sm:transform sm:-translate-x-1/2 flex items-center gap-0 flex-shrink-0">
             <button
               onClick={goToPreviousMonth}
               className="p-0 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-white"
@@ -562,7 +562,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            <h4 className="text-lg px-10">
+            <h4 className="text-lg px-3 sm:px-10">
               <span className="font-medium text-white">{format(currentMonth, 'MMM')}</span>
               <span className="font-light text-white/60"> {format(currentMonth, 'yyyy')}</span>
             </h4>
@@ -578,7 +578,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
           </div>
           
           {/* Special Event Toggles - Dropdown - Right Anchored */}
-          <div className="relative flex-shrink-0 ml-auto" ref={dropdownRef}>
+          <div className="relative flex-shrink-0 sm:ml-auto" ref={dropdownRef}>
             <button
               onClick={() => setShowEventDropdown(!showEventDropdown)}
               className="flex items-center justify-center gap-2 px-3 py-2 bg-slate-400/10 rounded-full hover:bg-slate-800 transition-all duration-200 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]"
