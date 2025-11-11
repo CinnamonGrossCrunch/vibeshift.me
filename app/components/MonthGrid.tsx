@@ -391,7 +391,7 @@ export default function MonthGrid({
               {allDayEvents.length > 0 ? (
               allDayEvents.map((ev) => {
                 // Check if this is a newsletter event
-                const isNewsletterEvent = ev.type === 'newsletter' || (ev.source && ev.source.includes('newsletter'));
+                const isNewsletterEvent = ev.source === 'newsletter' || (ev.source && ev.source.includes('newsletter'));
                 
                 // Check if this is a non-cohort event (UC Launch, Campus Groups, Newsletter)
                 const isNonCohortEvent = isNewsletterEvent || 
