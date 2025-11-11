@@ -404,6 +404,7 @@ export default function MonthGrid({
                 
                 if (isNewsletterEvent) {
                   // Newsletter event - show title (truncate single events on mobile, always show "Multiple Events" in full)
+                  const newsletterEv = ev as NewsletterCalendarEvent;
                   const isMultiple = ev.title === 'Multiple Events';
                   const truncatedTitle = isMultiple ? 'Multiple Events' : (ev.title.length > 7 ? ev.title.substring(0, 7) + '...' : ev.title);
                   
@@ -411,7 +412,7 @@ export default function MonthGrid({
                     <div
                       key={ev.uid ?? ev.title + ev.start}
                       className="event-text-clamp md:whitespace-normal text-[10px] px-1 py-0.5 rounded-sm border cursor-pointer hover:opacity-80 transition-opacity backdrop-blur-sm bg-clip-padding saturate-50 shadow-sm bg-purple-600/60 border-purple-500/50 text-white hover:border-[#FDB515] font-medium"
-                      title={isMultiple ? `${ev.multipleEvents?.length || 0} Newsletter Events` : `Newsletter: ${ev.title}`}
+                      title={isMultiple ? `${newsletterEv.multipleEvents?.length || 0} Newsletter Events` : `Newsletter: ${ev.title}`}
                       onClick={(e) => {
                         e.stopPropagation();
                         onEventClick(ev);
