@@ -916,12 +916,13 @@ body::-webkit-scrollbar {
 
 @media (min-width: 768px) {
   .cohort-event-text {
-    display: block;
-    -webkit-line-clamp: unset;
-    line-clamp: unset;
-    -webkit-box-orient: unset;
-    overflow: visible;
-    max-height: none;
+    display: block !important;
+    -webkit-line-clamp: unset !important;
+    line-clamp: unset !important;
+    -webkit-box-orient: horizontal !important;
+    overflow: visible !important;
+    max-height: none !important;
+    white-space: normal !important;
   }
 }
 /* Newsletter tab glow - applied to inactive Calendar tab when newsletter event clicked on mobile */

@@ -144,8 +144,12 @@ export default function MonthGrid({
         
         // Combine regular events with launch events, Campus Groups events, and Newsletter events
         // NOTE: Cal Bears events are EXCLUDED - they only appear as logo icon in header (like Greek Theater)
-        const allDayEvents = [...dayEvents, ...dayLaunchEvents, ...dayCampusGroupsEvents, ...processedNewsletterEvents];
-
+        const allDayEvents: (CalendarEvent | NewsletterCalendarEvent)[] = [
+          ...dayEvents, 
+          ...dayLaunchEvents, 
+          ...dayCampusGroupsEvents, 
+          ...processedNewsletterEvents
+        ];
         const isToday = isSameDay(day, new Date());
         const hasGreekEvent = hasGreekTheaterEventOnDate(day);
         const hasCalBearsEvent = showCalBears && dayCalBearsEvents.length > 0;
@@ -393,25 +397,29 @@ export default function MonthGrid({
                 // Check if this is a newsletter event
                 const isNewsletterEvent = ev.source === 'newsletter' || (ev.source && ev.source.includes('newsletter'));
                 
-                // Check if this is a non-cohort event (UC Launch, Campus Groups, Newsletter)
-                const isNonCohortEvent = isNewsletterEvent || 
-                  (ev.source && (ev.source.includes('uc_launch_events') || ev.source.includes('campus_groups')));
+                // Check if this is another non-cohort event (UC Launch, Campus Groups, Cal Bears)
+                const isOtherNonCohortEvent = !isNewsletterEvent && ev.source && 
+                  (ev.source.includes('uc_launch_events') || 
+                   ev.source.includes('campus_groups') || 
+                   ev.source.includes('cal_bears_home'));
                 
-                // Height: cohort events get calculated proportional height, non-cohort get fixed 16px
+                // Check if this is a non-cohort event (UC Launch, Campus Groups, Newsletter, Cal Bears)
+                const isNonCohortEvent = isNewsletterEvent || isOtherNonCohortEvent;
+                
+                // Height: cohort events get calculated proportional height, non-cohort get fixed 20px
                 const eventHeight = isNonCohortEvent 
-                  ? '16px'
+                  ? '20px'
                   : `calc((100% - ${(allDayEvents.length - 1) * 1}px) / ${allDayEvents.length})`;
                 
                 if (isNewsletterEvent) {
-                  // Newsletter event - show title (truncate single events on mobile, always show "Multiple Events" in full)
+                  // Newsletter event - show title with line-clamp-1 on mobile, line-clamp-3 on desktop
                   const newsletterEv = ev as NewsletterCalendarEvent;
                   const isMultiple = ev.title === 'Multiple Events';
-                  const truncatedTitle = isMultiple ? 'Multiple Events' : (ev.title.length > 7 ? ev.title.substring(0, 7) + '...' : ev.title);
                   
                   return (
                     <div
                       key={ev.uid ?? ev.title + ev.start}
-                      className="event-text-clamp md:whitespace-normal text-[10px] px-1 py-0.5 rounded-sm border cursor-pointer hover:opacity-80 transition-opacity backdrop-blur-sm bg-clip-padding saturate-50 shadow-sm bg-purple-600/60 border-purple-500/50 text-white hover:border-[#FDB515] font-medium"
+                      className="text-[10px] px-0.5 rounded-sm border cursor-pointer hover:opacity-80 transition-opacity backdrop-blur-sm bg-clip-padding saturate-50 shadow-sm bg-purple-600/60 border-purple-500/50 text-white hover:border-[#FDB515] font-medium overflow-hidden line-clamp-1 md:line-clamp-3"
                       title={isMultiple ? `${newsletterEv.multipleEvents?.length || 0} Newsletter Events` : `Newsletter: ${ev.title}`}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -421,8 +429,27 @@ export default function MonthGrid({
                         height: eventHeight
                       }}
                     >
-                      <span className="md:hidden">{truncatedTitle}</span>
-                      <span className="hidden md:inline">{ev.title}</span>
+                      {ev.title}
+                    </div>
+                  );
+                } else if (isOtherNonCohortEvent) {
+                  // Other non-cohort events (UC Launch, Campus Groups, Cal Bears) - same clamping as newsletter
+                  const courseColor = getCourseColor(ev);
+                  
+                  return (
+                    <div
+                      key={ev.uid ?? ev.title + ev.start}
+                      className={`text-[10px] px-0.5 rounded-sm border cursor-pointer hover:opacity-80 transition-opacity ${courseColor} font-medium overflow-hidden line-clamp-1 md:line-clamp-3`}
+                      title={ev.title}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEventClick(ev);
+                      }}
+                      style={{
+                        height: eventHeight
+                      }}
+                    >
+                      {ev.title}
                     </div>
                   );
                 } else {
@@ -437,17 +464,15 @@ export default function MonthGrid({
                   return (
                     <div
                       key={ev.uid ?? ev.title + ev.start}
-                      className={`text-[10px] px-1 py-0.5 rounded-sm border cursor-pointer hover:opacity-80 transition-opacity ${courseColor} ${eventHasQuiz ? 'font-bold' : 'font-medium'} cohort-event-text md:whitespace-normal md:h-auto`}
+                      className={`text-[10px] px-1 py-0.5 rounded-sm border cursor-pointer hover:opacity-80 transition-opacity ${courseColor} ${eventHasQuiz ? 'font-bold' : 'font-medium'} overflow-hidden line-clamp-2 md:line-clamp-none`}
                       title={`${assignment ? assignment + ' - ' : ''}${courseName} (${ev.title})${eventHasQuiz ? ' - QUIZ TODAY!' : ''}`}
                       onClick={(e) => {
                         e.stopPropagation();
                         onEventClick(ev);
                       }}
-                      style={
-                        typeof window !== 'undefined' && window.innerWidth >= 768
-                          ? {}
-                          : { height: eventHeight }
-                      }
+                      style={{
+                        height: eventHeight
+                      }}
                     >
                       {displayText}
                     </div>

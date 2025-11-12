@@ -306,36 +306,36 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue' }: MyWeekWi
         {/* Header Section: "My Week" and Today's Date */}
         <div className="text-start mt-0 shrink-0 min-w-0 mb-0 md:mb-0 px-3 sm:px-0 relative">
           <div className="flex items-center gap-3 relative">
-            <div className="text-xl md:text-2xl font-extralight text-slate-400 mt-0 px-0 mb-0">
+            <div className=" text-xl md:text-2xl font-extralight text-slate-400 mt-0 px-0 mb-0">
               My Week
             </div>
           </div>
-          <div className="text-4xl md:text-5xl font-medium text-white">
+            <div className="hidden md:block text-4xl md:text-5xl font-medium text-white">
             {new Date().toLocaleDateString('en-US', { month: 'short' })}{' '}
-            <span className="text-white/60">{new Date().toLocaleDateString('en-US', { day: 'numeric' })}</span>
+            <span className="text-white/60 ">{new Date().toLocaleDateString('en-US', { day: 'numeric' })}</span>
           </div>
           {/* Toggle button for all screens - centered at bottom on small screens, positioned near "My Week" on md+ */}
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className={`flex items-center justify-center w-8 h-8 rounded-full bg-transparent border border-violet-400/40 hover:bg-slate-800 hover:border-violet-300/60 transition-all duration-500 ease-in-out animate-[rotating-violet-glow_2s_ease-in-out_infinite] hover:animate-[rotating-violet-glow-hover_4s_ease-in-out_infinite] absolute bottom-3.5 left-1/2 -translate-x-1/2 md:bottom-auto md:top-0 md:left-[120px] md:translate-x-0 ${
-              !isExpanded ? 'md:translate-x-[40px] md:translate-y-[20px]' : 'md:translate-x-0 md:translate-y-0'
-            }`}
-            aria-label={isExpanded ? 'Collapse events' : 'Expand events'}
-          >
-            <svg
-              className={`w-5 h-5 text-white/70 transition-transform duration-500 ease-in-out ${isExpanded ? 'rotate-[315deg]' : 'rotate-0'}`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              strokeWidth={2.5}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-            </svg>
-          </button>
+              <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className={`flex items-center justify-center w-8 h-8 rounded-full bg-transparent border border-violet-400/40 hover:bg-slate-800 hover:border-violet-300/60 transition-all duration-500 ease-in-out animate-[rotating-violet-glow_1.5s_ease-in-out_infinite] hover:animate-[rotating-violet-glow-hover_4s_ease-in-out_infinite] absolute bottom-1 left-1/2 -translate-x-1/2 translate-x-[-110px] translate-y-[5px] scale-60 md:scale-100 md:bottom-auto md:top-0 md:left-[100px] md:translate-x-0 ${
+                !isExpanded ? 'md:translate-x-[40px] md:translate-y-[20px]' : 'md:translate-x-0 md:translate-y-0 md:scale-80'
+              }`}
+              aria-label={isExpanded ? 'Collapse events' : 'Expand events'}
+              >
+              <svg
+                className={`w-5 h-5 text-white/70 transition-transform duration-500 ease-in-out ${isExpanded ? 'rotate-[315deg]' : 'rotate-0'}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth={2.5}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+              </button>
         </div>
 
-        {/* Events Section */}
-        <div className={`flex-1 min-w-0 space-y-0 w-full px-0 transition-all duration-500 overflow-hidden ${!isExpanded ? 'w-0 min-w-0 opacity-0 p-0' : 'p-1'}`}>
+          {/* Events Section */}
+          <div className={`flex-1 mr-5 min-w-0 space-y-0 w-full px-0 transition-all duration-500 overflow-hidden ${!isExpanded ? 'w-0 min-w-0 opacity-0 p-0' : 'p-1'}`}>
           {/* AI Summary */}
           {/* {currentSummary && (
             <div className="flex items-start backdrop-blur-md bg-turbulence gap-3 rounded-2xl p-1 mb-1">
@@ -356,7 +356,7 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue' }: MyWeekWi
               .map(([date, events], dateIndex) => (
                 <div 
                   key={date} 
-                  className={`flex flex-row rounded-md bg-violet-100/20 items-center gap-1 mb-1 transition-all duration-500 ease-out ${
+                  className={`flex flex-row ml-5 rounded-md bg-gradient-to-r from-violet-900/30 to-blue-900/10 items-center gap-1 mb-1 transition-all duration-500 ease-in-out ${
                     isExpanded 
                       ? 'opacity-100 translate-y-0 scale-100' 
                       : 'opacity-0 -translate-y-2 scale-95'
@@ -371,7 +371,7 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue' }: MyWeekWi
                   </div>
                   
                   {/* Events for this date - Stack vertically */}
-                  <div className="flex-0 overflow-hidden gap-1 flex-1 flex flex-col">
+                    <div className="flex-0 overflow-hidden rounded-sm border-l-2 border-white gap-1 flex-1 flex flex-col">
                     {events.map((event, index) => (
                       <div 
                         key={index} 

@@ -264,7 +264,7 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
         </div>
         
         {/* Section C: Dashboard Tabs */}
-        <div className="grid grid-cols-1 lg:grid-cols-8 lg:auto-rows-min gap-1 mt-4 mb-6 -mx-3 sm:mx-0 lg:mx-0 transition-[margin-top,transform] duration-700 ease-in-out will-change-transform">
+        <div className="grid grid-cols-1 lg:grid-cols-8 lg:auto-rows-min gap-1 mt-4 mb-6 -mx-3 sm:mx-0 lg:mx-0 transition-[margin-top,transform] duration-1200 ease-in-out will-change-transform">
           {/* Left Column: MainDashboardTabs - Always 6 columns on large screens */}
           <div className="lg:col-span-6 lg:row-span-1">
             <div id="main-dashboard-tabs" className="transition-all duration-700 ease-in-out">{/* Removed px-3 sm:px-0 lg:px-0 - let parent grid handle spacing */}

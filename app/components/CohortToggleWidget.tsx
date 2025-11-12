@@ -23,7 +23,7 @@ export default function CohortToggleWidget({
         >
           <button
             role="tab"
-            aria-selected={selectedCohort === 'blue'}
+            aria-selected={(selectedCohort === 'blue' ? 'true' : 'false') as 'true' | 'false'}
             onClick={() => onCohortChange('blue')}
             className={`px-4 md:px-8 py-0 rounded-xl text-sm font-medium transition-all duration-300 whitespace-nowrap ${
               selectedCohort === 'blue'
@@ -40,7 +40,7 @@ export default function CohortToggleWidget({
           </button>
           <button
             role="tab"
-            aria-selected={selectedCohort === 'gold'}
+            aria-selected={(selectedCohort === 'gold' ? 'true' : 'false') as 'true' | 'false'}
             onClick={() => onCohortChange('gold')}
             className={`px-4 md:px-8 py-2 rounded-xl text-sm font-medium transition-all duration-300 whitespace-nowrap ${
               selectedCohort === 'gold'
