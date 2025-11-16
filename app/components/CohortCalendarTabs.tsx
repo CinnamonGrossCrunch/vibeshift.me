@@ -110,15 +110,62 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
 
     newsletterData.sections.forEach((section, sectionIdx) => {
       section.items.forEach((item, itemIdx) => {
-        // Only process items with time-sensitive data
-        if (!item.timeSensitive || !item.timeSensitive.dates || item.timeSensitive.dates.length === 0) {
+        let datesToProcess: string[] = [];
+        let eventType: 'deadline' | 'event' | 'announcement' | 'reminder' = 'announcement';
+        let priority: 'high' | 'medium' | 'low' = 'medium';
+        
+        // Primary: Check if item has time-sensitive data from AI
+        if (item.timeSensitive && item.timeSensitive.dates && item.timeSensitive.dates.length > 0) {
+          console.log(`✓ "${item.title}" has timeSensitive data:`, item.timeSensitive.dates);
+          datesToProcess = item.timeSensitive.dates;
+          eventType = item.timeSensitive.eventType || 'announcement';
+          priority = item.timeSensitive.priority || 'medium';
+        } else {
+          // Fallback: Extract dates from HTML content using regex (same as MyWeek widget)
+          console.log(`✗ "${item.title}" has NO timeSensitive - trying regex fallback...`);
+          const content = item.html?.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+          if (content) {
+            // Match patterns like "Sunday, Nov 16" or "Nov 16, 2025" or "Tuesday, Nov 18"
+            const dateMatches = content.match(/\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*,?\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:,?\s+\d{4})?\b/gi);
+            
+            if (dateMatches && dateMatches.length > 0) {
+              console.log(`📅 Found ${dateMatches.length} date(s) via regex:`, dateMatches);
+              // Convert matched date strings to YYYY-MM-DD format
+              datesToProcess = dateMatches
+                .map(dateStr => {
+                  try {
+                    const parsedDate = new Date(dateStr);
+                    if (!isNaN(parsedDate.getTime())) {
+                      return parsedDate.toISOString().split('T')[0]; // YYYY-MM-DD
+                    }
+                  } catch {
+                    return null;
+                  }
+                  return null;
+                })
+                .filter((date): date is string => date !== null);
+              
+              console.log(`✓ Extracted ${datesToProcess.length} valid date(s):`, datesToProcess);
+            } else {
+              console.log(`✗ No date patterns found in content`);
+            }
+          }
+        }
+        
+        // Skip if no dates found
+        if (datesToProcess.length === 0) {
+          return;
+        }
+
+        // Skip if no dates found
+        if (datesToProcess.length === 0) {
           return;
         }
 
         // CONSERVATIVE FILTERING: Only show events with 1-2 explicit dates
         // Skip items with multiple dates (vague/advisory content like "Underhill Lot" or "Parking Advisory")
-        if (item.timeSensitive.dates.length > 2) {
-          console.log(`⏭️ Skipping "${item.title}" - has ${item.timeSensitive.dates.length} dates (likely advisory/digest content)`);
+        if (datesToProcess.length > 2) {
+          console.log(`⏭️ Skipping "${item.title}" - has ${datesToProcess.length} dates (likely advisory/digest content)`);
           return;
         }
 
@@ -138,7 +185,7 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
         }
 
         // Create one calendar event per date mentioned
-        item.timeSensitive.dates.forEach((dateStr) => {
+        datesToProcess.forEach((dateStr) => {
           try {
             // IMPORTANT: Parse date in local timezone (not UTC) to avoid day shifts
             // When dateStr is "2025-11-04", new Date() interprets as UTC midnight,
