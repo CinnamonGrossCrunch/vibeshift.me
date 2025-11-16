@@ -82,7 +82,8 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
 
     console.log('📰 [CohortCalendarTabs] Converting newsletter data to calendar events...');
     console.log(`📊 Newsletter has ${newsletterData.sections.length} sections`);
-    console.log('📰 Full newsletterData:', JSON.stringify(newsletterData, null, 2));
+    console.log('� [v2] Enhanced regex date extraction active'); // Cache buster
+    console.log('�📰 Full newsletterData:', JSON.stringify(newsletterData, null, 2));
     
     // Debug: Log the structure of newsletter items
     try {
