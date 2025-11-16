@@ -125,8 +125,28 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
           console.log(`✗ "${item.title}" has NO timeSensitive - trying regex fallback...`);
           const content = item.html?.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
           if (content) {
-            // Match patterns like "Sunday, Nov 16" or "Nov 16, 2025" or "Tuesday, Nov 18"
-            const dateMatches = content.match(/\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*,?\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:,?\s+\d{4})?\b/gi);
+            // Enhanced regex to match multiple date formats:
+            // - "Sunday, Nov 16" or "Sunday Nov 16"
+            // - "Nov 16, 2025" or "Nov 16"
+            // - "November 16, 2025"
+            // - "Saturday May 23, 2PM" (no comma after month)
+            // - "Dec 1 at 11:59 PM"
+            const datePatterns = [
+              // Pattern 1: Day name + Month + Date (e.g., "Sunday, Nov 16" or "Friday Nov 21")
+              /\b(?:Mon|Tues?|Wed(?:nes)?|Thu(?:rs)?|Fri|Sat(?:ur)?|Sun)(?:day)?s?,?\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2}(?:,?\s+\d{4})?\b/gi,
+              // Pattern 2: Month + Date (e.g., "Nov 15" or "Dec 1" or "May 23, 2026")
+              /\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+\d{1,2}(?:,?\s+\d{4})?\b/gi
+            ];
+            
+            const allMatches: string[] = [];
+            datePatterns.forEach(pattern => {
+              const matches = content.match(pattern);
+              if (matches) {
+                allMatches.push(...matches);
+              }
+            });
+            
+            const dateMatches = allMatches.length > 0 ? allMatches : null;
             
             if (dateMatches && dateMatches.length > 0) {
               console.log(`📅 Found ${dateMatches.length} date(s) via regex:`, dateMatches);
@@ -157,14 +177,9 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
           return;
         }
 
-        // Skip if no dates found
-        if (datesToProcess.length === 0) {
-          return;
-        }
-
-        // CONSERVATIVE FILTERING: Only show events with 1-2 explicit dates
-        // Skip items with multiple dates (vague/advisory content like "Underhill Lot" or "Parking Advisory")
-        if (datesToProcess.length > 2) {
+        // CONSERVATIVE FILTERING: Allow events with 1-3 explicit dates
+        // Skip items with many dates (4+, likely digest/parking advisory content)
+        if (datesToProcess.length > 3) {
           console.log(`⏭️ Skipping "${item.title}" - has ${datesToProcess.length} dates (likely advisory/digest content)`);
           return;
         }
