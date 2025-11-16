@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+// Force rebuild: v4 - Vercel CDN cache invalidation
 const nextConfig = {
   // Configure the output file tracing root to prevent workspace warnings
   outputFileTracingRoot: __dirname,
