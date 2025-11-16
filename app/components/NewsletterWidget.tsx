@@ -912,7 +912,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
       {/* =================================================================== */}
       
       {/* Header */}
-      <div className={`rounded-t-xl pt-2 px-3 pb-2 text-white relative overflow-hidden ${COLORS.headerBg} border-transparent`}>
+      <div className={`rounded-t-xl border-b pt-2 px-3 pb-2 text-white relative overflow-hidden ${COLORS.headerBg} border-transparent`}>
         <div className="relative z-10 select-none">
           <div className="flex items-start justify-between gap-1 sm:gap-2">
           <div className="flex-1 min-w-0">
@@ -1043,7 +1043,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
               key={id} 
               data-newsletter-section={idx}
               data-section-title={sec.sectionTitle}
-              className={`${idx === data.sections.length - 1 ? '' : `border-b ${COLORS.border}`}`}
+              className={`${idx === data.sections.length - 1 ? '' : `border-b  ${COLORS.border}`}`}
             >
               <button
                 onClick={() => {
@@ -1056,7 +1056,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                   // Also close all item dropdowns when switching sections
                   setItemOpen({});
                 }}
-                className={`section-button w-full text-left px-2.5 py-1 ${COLORS.sectionBg} ${COLORS.sectionBgHover} transition-all duration-300 ease-in-out flex items-center justify-between group`}
+                className={`section-button w-full text-left px-2.5 py-3 ${COLORS.sectionBg} ${COLORS.sectionBgHover} transition-all duration-300 ease-in-out flex items-center justify-between group`}
               >
                 <div className="flex items-center space-x-3">
                   {allItemsInSectionVisited(idx) ? (
@@ -1064,7 +1064,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                   </div>) : (<div className={`w-3 h-3 rounded-full border-2 mr-2 ${COLORS.unreadDot}`}></div>
                     
                   )}
-                    <h3 className={`text-sm urbanist-semibold transition-colors ${COLORS.textHoverWhite} ${COLORS.textPrimary}`}>
+                    <h3 className={`text-lg urbanist-semibold  transition-colors ${COLORS.textHoverWhite} ${COLORS.textPrimary}`}>
                     {sec.sectionTitle}
                   </h3>
                 </div>
@@ -1106,7 +1106,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                 }`}
               >
                 <div className="expandable-content">
-                  <div className={`border-t border-slate-700 bg-gradient-to-b from-slate-800/90 to-slate-800/70 ${idx === data.sections.length - 1 ? 'rounded-b-2xl' : ''}`}>
+                  <div className={`border-t border-slate-700 bg-black/30 py-1  ${idx === data.sections.length - 1 ? 'rounded-b-2xl' : ''}`}>
                     <div className={`px-1 py-1  ${idx === data.sections.length - 1 ? 'pb-6 rounded-b-2xl' : ''}`}>
                       {createSubsections(sec.items).map((subsection, j) => {
                         const itemKey = `${idx}-${j}`;
@@ -1120,7 +1120,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                             <div 
                               data-item-title={subsection.title}
                               data-subsection-index={j}
-                              className={`ml-1 mb-0.5 text-sm rounded-lg shadow-sm ${COLORS.subsectionBg} border ${COLORS.border}`}
+                              className={`ml-1  mb-1 text-lg rounded-lg shadow-sm ${COLORS.subsectionBg} border ${COLORS.border}`}
                             >
                               <button
                                 onClick={() => {
@@ -1155,7 +1155,7 @@ export default function NewsletterWidget({ data }: { data: Payload }) {
                   )}
                                   </div>
 
-                                  <h4 className={`text-xs urbanist-medium transition-colors truncate overflow-hidden ${COLORS.textPrimary} ${COLORS.textHoverGold}`}
+                                  <h4 className={`text-sm urbanist-medium transition-colors truncate overflow-hidden ${COLORS.textPrimary} ${COLORS.textHoverGold}`}
                                       style={{ 
                                         textOverflow: 'ellipsis'
                                       }}>

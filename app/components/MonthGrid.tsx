@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay, format } from 'date-fns';
 import Image from 'next/image';
 import type { CalendarEvent } from '@/lib/icsUtils';
@@ -52,6 +52,15 @@ export default function MonthGrid({
   // Remove the internal state since month is controlled by parent
   // const [currentMonth, setCurrentMonth] = useState(new Date(2025, 7, 1));
 
+  // Debug log newsletter props on component mount/update
+  useEffect(() => {
+    console.log(`📰 [MonthGrid] Props received:`, {
+      showNewsletter,
+      newsletterEventsCount: newsletterEvents.length,
+      newsletterEventsSample: newsletterEvents.slice(0, 2)
+    });
+  }, [showNewsletter, newsletterEvents]);
+
   // Compute grid days
   const days = useMemo(() => {
     const start = startOfWeek(startOfMonth(currentMonth), { weekStartsOn: 0 }); // Sunday start
@@ -97,11 +106,16 @@ export default function MonthGrid({
         ) : [];
         
         // Debug logging for Newsletter events (only on 1st of month to avoid spam)
-        if (day.getDate() === 1 && showNewsletter && newsletterEvents.length > 0) {
+        if (day.getDate() === 1) {
           console.log(`📰 [MonthGrid] Newsletter Debug for ${format(day, 'MMMM yyyy')}:`, {
             showNewsletter,
             totalNewsletterEvents: newsletterEvents.length,
             sampleEvent: newsletterEvents[0],
+            allNewsletterDates: newsletterEvents.map(ev => ({
+              title: ev.title,
+              start: ev.start,
+              parsed: new Date(ev.start).toISOString()
+            })),
             eventsForThisMonth: newsletterEvents.filter(ev => {
               const evDate = new Date(ev.start);
               return evDate.getMonth() === day.getMonth() && evDate.getFullYear() === day.getFullYear();
@@ -155,6 +169,14 @@ export default function MonthGrid({
         const hasCalBearsEvent = showCalBears && dayCalBearsEvents.length > 0;
         const hasCampusGroupsEvent = showCampusGroups && dayCampusGroupsEvents.length > 0;
         const hasNewsletterEvent = showNewsletter && dayNewsletterEvents.length > 0;
+
+        // Debug log for days with newsletter events
+        if (hasNewsletterEvent) {
+          console.log(`📰 [MonthGrid] Newsletter event on ${format(day, 'MMM d, yyyy')}:`, {
+            count: dayNewsletterEvents.length,
+            events: dayNewsletterEvents.map(e => e.title)
+          });
+        }
 
         // Function to parse event title and extract course name and assignment
         const parseEventTitle = (title: string) => {
