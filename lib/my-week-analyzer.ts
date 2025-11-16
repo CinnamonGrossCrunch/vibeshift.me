@@ -372,12 +372,15 @@ function extractNewsletterEventsForWeek(newsletterData: NewsletterData, weekStar
               }
             });
             
-            if (relevantDates.length > 0) {
+            // Deduplicate dates (same date mentioned multiple times in one item)
+            const uniqueDates = [...new Set(relevantDates)];
+            
+            if (uniqueDates.length > 0) {
               events.push({
                 title: item.title,
                 html: item.html,
                 section: section.sectionTitle,
-                relevantDates,
+                relevantDates: uniqueDates,
                 priority: 'low',
                 eventType: 'announcement',
                 fallbackParsing: true,

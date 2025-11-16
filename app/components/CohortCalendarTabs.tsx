@@ -194,7 +194,10 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
                 })
                 .filter((date): date is string => date !== null);
               
-              console.log(`✓ Extracted ${datesToProcess.length} valid date(s):`, datesToProcess);
+              // Deduplicate dates (same date mentioned multiple times in one item)
+              datesToProcess = [...new Set(datesToProcess)];
+              
+              console.log(`✓ Extracted ${datesToProcess.length} valid date(s) (deduplicated):`, datesToProcess);
             } else {
               console.log(`✗ No date patterns found in content`);
             }
