@@ -48,11 +48,29 @@
       ]
     },
     {
-      "source": "/api/(.*)",
+      "source": "/api/:path*",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, s-maxage=28800, stale-while-revalidate=86400"
+          "value": "s-maxage=0, stale-while-revalidate=0"
+        }
+      ]
+    },
+    {
+      "source": "/_next/static/chunks/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/_next/static/:path*.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, stale-while-revalidate=86400"
         }
       ]
     }
