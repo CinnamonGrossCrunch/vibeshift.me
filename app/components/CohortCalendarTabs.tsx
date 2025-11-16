@@ -161,17 +161,20 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
               datesToProcess = dateMatches
                 .map(dateStr => {
                   try {
+                    // Strip day-of-week (Sunday, Monday, etc.) to avoid JS parsing bugs
+                    const cleanDateStr = dateStr.replace(/^\w+,?\s+/, '');
+                    
                     // Check if date string includes a year
-                    const hasYear = /\d{4}/.test(dateStr);
+                    const hasYear = /\d{4}/.test(cleanDateStr);
                     
                     let parsedDate: Date;
                     if (hasYear) {
                       // Has year, parse directly
-                      parsedDate = new Date(dateStr);
+                      parsedDate = new Date(cleanDateStr);
                     } else {
                       // No year - add newsletter year (or current year)
                       // Parse with current year first to get month/day
-                      const tempDate = new Date(dateStr + ', ' + newsletterYear);
+                      const tempDate = new Date(cleanDateStr + ', ' + newsletterYear);
                       parsedDate = tempDate;
                     }
                     

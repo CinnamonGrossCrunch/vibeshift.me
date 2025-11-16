@@ -349,16 +349,19 @@ function extractNewsletterEventsForWeek(newsletterData: NewsletterData, weekStar
             
             dateMatches.forEach((dateMatch: string) => {
               try {
+                // Strip day-of-week (Sunday, Monday, etc.) to avoid JS parsing bugs
+                const cleanDateStr = dateMatch.replace(/^\w+,?\s+/, '');
+                
                 // Check if date string includes a year
-                const hasYear = /\d{4}/.test(dateMatch);
+                const hasYear = /\d{4}/.test(cleanDateStr);
                 
                 let eventDate: Date;
                 if (hasYear) {
                   // Has year, parse directly
-                  eventDate = new Date(dateMatch);
+                  eventDate = new Date(cleanDateStr);
                 } else {
                   // No year - add newsletter year (or current year)
-                  eventDate = new Date(dateMatch + ', ' + newsletterYear);
+                  eventDate = new Date(cleanDateStr + ', ' + newsletterYear);
                 }
                 
                 if (eventDate >= weekStart && eventDate <= weekEnd) {
