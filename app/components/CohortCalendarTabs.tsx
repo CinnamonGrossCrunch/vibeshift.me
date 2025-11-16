@@ -82,6 +82,19 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
 
     console.log('📰 [CohortCalendarTabs] Converting newsletter data to calendar events...');
     console.log(`📊 Newsletter has ${newsletterData.sections.length} sections`);
+    
+    // Debug: Log the structure of newsletter items
+    newsletterData.sections.forEach((section, idx) => {
+      console.log(`Section ${idx} "${section.sectionTitle}": ${section.items.length} items`);
+      section.items.forEach((item, itemIdx) => {
+        console.log(`  Item ${itemIdx} "${item.title}":`, {
+          hasTimeSensitive: !!item.timeSensitive,
+          timeSensitiveStructure: item.timeSensitive,
+          hasDates: item.timeSensitive?.dates,
+          datesLength: item.timeSensitive?.dates?.length
+        });
+      });
+    });
 
     const events: NewsletterCalendarEvent[] = [];
 
