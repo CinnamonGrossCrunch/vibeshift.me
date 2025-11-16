@@ -154,8 +154,10 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
               
               // Get current year for dates without explicit year
               const currentYear = new Date().getFullYear();
-              const newsletterDate = new Date(newsletterData.title?.match(/\d{1,2}-\d{1,2}-(\d{4})/)?.[1] || currentYear);
-              const newsletterYear = newsletterDate.getFullYear();
+              const newsletterTitleMatch = newsletterData.title?.match(/\d{1,2}-\d{1,2}-(\d{4})/);
+              const newsletterYear = newsletterTitleMatch ? parseInt(newsletterTitleMatch[1]) : currentYear;
+              
+              console.log(`📆 Newsletter year extracted: ${newsletterYear} (from title: "${newsletterData.title}")`);
               
               // Convert matched date strings to YYYY-MM-DD format
               datesToProcess = dateMatches
@@ -164,6 +166,8 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
                     // Strip day-of-week (Sunday, Monday, etc.) to avoid JS parsing bugs
                     const cleanDateStr = dateStr.replace(/^\w+,?\s+/, '');
                     
+                    console.log(`  🔍 Processing: "${dateStr}" → cleaned: "${cleanDateStr}"`);
+                    
                     // Check if date string includes a year
                     const hasYear = /\d{4}/.test(cleanDateStr);
                     
@@ -171,11 +175,13 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
                     if (hasYear) {
                       // Has year, parse directly
                       parsedDate = new Date(cleanDateStr);
+                      console.log(`    ✓ Has year, parsed as: ${parsedDate.toISOString()}`);
                     } else {
                       // No year - add newsletter year (or current year)
                       // Parse with current year first to get month/day
                       const tempDate = new Date(cleanDateStr + ', ' + newsletterYear);
                       parsedDate = tempDate;
+                      console.log(`    ✓ No year, added ${newsletterYear}: ${parsedDate.toISOString()}`);
                     }
                     
                     if (!isNaN(parsedDate.getTime())) {
