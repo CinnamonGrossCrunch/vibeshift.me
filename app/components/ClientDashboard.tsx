@@ -98,11 +98,10 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
       setShowLogo(true);
     }, 1000);
 
-    // Wait for logo animation to complete (4 seconds for animation)
-    // Then start fading out the black overlay while logo holds on final frame
+    // Quick fade-out of black overlay after logo appears (300ms)
     const overlayTimer = setTimeout(() => {
       setOverlayOpacity(0);
-    }, 4000); // 1s delay + 4s animation, then 2s fade during framehold
+    }, 1800); // 1.8s delay
 
     return () => {
       clearTimeout(logoTimer);
@@ -192,7 +191,7 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
         )}>
           {/* Animated black overlay - z-index 20 (middle layer) */}
           <div 
-            className="absolute inset-0 bg-black transition-opacity duration-2000 ease-out pointer-events-none z-20"
+            className="absolute inset-0 bg-black transition-opacity duration-300 ease-out pointer-events-none z-20"
             style={{ opacity: overlayOpacity / 100 }}
           />
 
@@ -226,7 +225,7 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
       <main className="max-w-[90rem] mx-auto px-3  sm:px-0 lg:px-4 py-0 relative">
         {/* Animated black overlay - z-index 20 (middle layer) */}
           <div 
-            className="fixed inset-0 bg-black transition-opacity duration-2000 ease-out pointer-events-none z-45"
+            className="fixed inset-0 bg-black transition-opacity duration-300 ease-out pointer-events-none z-45"
             style={{ opacity: overlayOpacity / 100 }}
           />
         {/* Section A: Haas Journey (Full Width Row) */}
