@@ -416,7 +416,7 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
               
               
               <div className="flex flex-col gap-4">
-                {newsletterEvent.multipleEvents.map((individualEvent: NewsletterCalendarEvent, index: number) => (
+                {newsletterEvent.multipleEvents.slice(0, 2).map((individualEvent: NewsletterCalendarEvent, index: number) => (
                   <div key={index} className="bg-slate-800/30 rounded-lg p-4 border border-slate-600/30">
                     {/* Individual Event Header */}
                     <div className="mb-3">
