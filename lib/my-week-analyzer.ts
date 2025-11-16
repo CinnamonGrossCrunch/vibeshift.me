@@ -342,9 +342,25 @@ function extractNewsletterEventsForWeek(newsletterData: NewsletterData, weekStar
           
           if (dateMatches) {
             const relevantDates: string[] = [];
+            
+            // Get year from newsletter title or use current year
+            const currentYear = new Date().getFullYear();
+            const newsletterYear = currentYear; // Could extract from newsletterData.title if needed
+            
             dateMatches.forEach((dateMatch: string) => {
               try {
-                const eventDate = new Date(dateMatch);
+                // Check if date string includes a year
+                const hasYear = /\d{4}/.test(dateMatch);
+                
+                let eventDate: Date;
+                if (hasYear) {
+                  // Has year, parse directly
+                  eventDate = new Date(dateMatch);
+                } else {
+                  // No year - add newsletter year (or current year)
+                  eventDate = new Date(dateMatch + ', ' + newsletterYear);
+                }
+                
                 if (eventDate >= weekStart && eventDate <= weekEnd) {
                   relevantDates.push(eventDate.toISOString().split('T')[0]);
                 }

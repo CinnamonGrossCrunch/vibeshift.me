@@ -151,11 +151,30 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
             
             if (dateMatches && dateMatches.length > 0) {
               console.log(`📅 Found ${dateMatches.length} date(s) via regex:`, dateMatches);
+              
+              // Get current year for dates without explicit year
+              const currentYear = new Date().getFullYear();
+              const newsletterDate = new Date(newsletterData.title?.match(/\d{1,2}-\d{1,2}-(\d{4})/)?.[1] || currentYear);
+              const newsletterYear = newsletterDate.getFullYear();
+              
               // Convert matched date strings to YYYY-MM-DD format
               datesToProcess = dateMatches
                 .map(dateStr => {
                   try {
-                    const parsedDate = new Date(dateStr);
+                    // Check if date string includes a year
+                    const hasYear = /\d{4}/.test(dateStr);
+                    
+                    let parsedDate: Date;
+                    if (hasYear) {
+                      // Has year, parse directly
+                      parsedDate = new Date(dateStr);
+                    } else {
+                      // No year - add newsletter year (or current year)
+                      // Parse with current year first to get month/day
+                      const tempDate = new Date(dateStr + ', ' + newsletterYear);
+                      parsedDate = tempDate;
+                    }
+                    
                     if (!isNaN(parsedDate.getTime())) {
                       return parsedDate.toISOString().split('T')[0]; // YYYY-MM-DD
                     }
