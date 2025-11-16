@@ -82,19 +82,29 @@ export default function CohortCalendarTabs({ cohortEvents, externalSelectedCohor
 
     console.log('📰 [CohortCalendarTabs] Converting newsletter data to calendar events...');
     console.log(`📊 Newsletter has ${newsletterData.sections.length} sections`);
+    console.log('📰 Full newsletterData:', JSON.stringify(newsletterData, null, 2));
     
     // Debug: Log the structure of newsletter items
-    newsletterData.sections.forEach((section, idx) => {
-      console.log(`Section ${idx} "${section.sectionTitle}": ${section.items.length} items`);
-      section.items.forEach((item, itemIdx) => {
-        console.log(`  Item ${itemIdx} "${item.title}":`, {
-          hasTimeSensitive: !!item.timeSensitive,
-          timeSensitiveStructure: item.timeSensitive,
-          hasDates: item.timeSensitive?.dates,
-          datesLength: item.timeSensitive?.dates?.length
-        });
+    try {
+      newsletterData.sections.forEach((section, idx) => {
+        console.log(`📰 Section ${idx}:`, section);
+        console.log(`📰 Section ${idx} title: "${section.sectionTitle || 'NO TITLE'}"`);
+        console.log(`📰 Section ${idx} items:`, section.items);
+        console.log(`📰 Section ${idx} items length: ${section.items?.length || 0}`);
+        
+        if (section.items && section.items.length > 0) {
+          section.items.forEach((item, itemIdx) => {
+            console.log(`📰   Item ${itemIdx} "${item.title}":`, {
+              hasTimeSensitive: !!item.timeSensitive,
+              timeSensitiveStructure: item.timeSensitive,
+              fullItem: item
+            });
+          });
+        }
       });
-    });
+    } catch (error) {
+      console.error('📰 Error logging newsletter structure:', error);
+    }
 
     const events: NewsletterCalendarEvent[] = [];
 
