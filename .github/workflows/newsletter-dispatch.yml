@@ -1,0 +1,52 @@
+name: Ingest Newsletter from Gmail
+
+on:
+  repository_dispatch:
+    types: [newsletter_received]
+
+jobs:
+  create-file:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Create Newsletter File
+        env:
+          TITLE: ${{ github.event.client_payload.title }}
+          DATE: ${{ github.event.client_payload.date }}
+          SLUG: ${{ github.event.client_payload.slug }}
+          CONTENT: ${{ github.event.client_payload.content }}
+        run: |
+          mkdir -p content/newsletters
+          FILENAME="content/newsletters/${DATE}-${SLUG}.md"
+          
+          # Construct file content with Frontmatter
+          echo "---" > "$FILENAME"
+          echo "title: \"${TITLE}\"" >> "$FILENAME"
+          echo "date: \"${DATE}\"" >> "$FILENAME"
+          echo "source: gmail" >> "$FILENAME"
+          echo "---" >> "$FILENAME"
+          echo "" >> "$FILENAME"
+          echo "${CONTENT}" >> "$FILENAME"
+          
+          echo "✅ Created newsletter file: $FILENAME"
+          ls -lh "$FILENAME"
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name 'Newsletter Bot'
+          git config --global user.email 'bot@noreply.github.com'
+          git add content/newsletters/*.md
+          
+          # Only commit if there are changes
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "feat: Add newsletter from Gmail (${DATE})"
+            git push
+            echo "✅ Pushed newsletter to repository"
+          fi
