@@ -84,10 +84,10 @@ export async function GET(request: Request) {
 **Usage:**
 ```bash
 # Force refresh cache manually
-curl https://vibeshift.me/api/unified-dashboard?refresh=true
+curl https://www.oski.app/api/unified-dashboard?refresh=true
 
 # Or in browser
-https://vibeshift.me/api/unified-dashboard?refresh=true
+https://www.oski.app/api/unified-dashboard?refresh=true
 ```
 
 ### 2. Admin Cache Refresh Page
@@ -105,7 +105,7 @@ Created user-friendly admin interface for manual cache refresh:
 
 **Access:**
 ```
-https://vibeshift.me/admin/cache-refresh
+https://www.oski.app/admin/cache-refresh
 ```
 
 **Benefits:**
@@ -147,16 +147,16 @@ X-Response-Time: 8234ms
 ### Option 2: Direct API Call
 ```bash
 # Using curl
-curl "https://vibeshift.me/api/unified-dashboard?refresh=true"
+curl "https://www.oski.app/api/unified-dashboard?refresh=true"
 
 # Using PowerShell
-Invoke-WebRequest -Uri "https://vibeshift.me/api/unified-dashboard?refresh=true"
+Invoke-WebRequest -Uri "https://www.oski.app/api/unified-dashboard?refresh=true"
 ```
 
 ### Option 3: Trigger Cron Job (Production)
 ```bash
 # Requires CRON_SECRET from environment
-curl -X GET "https://vibeshift.me/api/cron/refresh-newsletter" \
+curl -X GET "https://www.oski.app/api/cron/refresh-newsletter" \
   -H "Authorization: Bearer $CRON_SECRET"
 ```
 

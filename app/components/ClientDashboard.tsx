@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import MainDashboardTabs from "./MainDashboardTabs";
 import DashboardTabs2 from "./DashboardTabs2";
 import MyWeekWidget from "./MyWeekWidget";
@@ -306,6 +307,21 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
           )}
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="mt-8 pb-6">
+        <div className="max-w-[90rem] mx-auto px-3 sm:px-4 lg:px-6">
+          <div className="flex justify-end">
+            <Link 
+              href="/admin/cache-refresh"
+              className="text-xs text-slate-500 hover:text-slate-300 transition-colors duration-200"
+            >
+              Admin Console
+            </Link>
+          </div>
+        </div>
+      </footer>
+
       <GmailNewsletterModalHost />
     </div>
   </div>
