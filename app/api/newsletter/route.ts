@@ -10,6 +10,7 @@ export const maxDuration = 180;
 import { NextResponse } from 'next/server';
 import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
 import { organizeNewsletterWithAI } from '@/lib/openai-organizer';
+import { getCachedData, setCachedData, CACHE_KEYS } from '@/lib/cache';
 
 // Safe logging that won't contaminate API responses
 const safeLog = (...args: unknown[]) => {
@@ -37,7 +38,26 @@ export async function GET() {
     );
   }
 
+  const startTime = Date.now();
+
   try {
+    // 🚀 TRY CACHE FIRST (INSTANT LOADS ~50-200ms!)
+    safeLog('🔍 [Newsletter API] Checking cache for pre-rendered newsletter data...');
+    const cachedNewsletter = await getCachedData(CACHE_KEYS.NEWSLETTER_DATA);
+    
+    if (cachedNewsletter) {
+      safeLog(`✅ [Newsletter API] CACHE HIT from ${cachedNewsletter.source}! Returning pre-rendered data (${Date.now() - startTime}ms)`);
+      return NextResponse.json(cachedNewsletter.data, {
+        headers: {
+          'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
+          'X-Cache-Source': cachedNewsletter.source,
+          'X-Response-Time': `${Date.now() - startTime}ms`
+        }
+      });
+    }
+    
+    safeLog('⚠️ [Newsletter API] Cache miss - generating fresh data...');
+    
     safeLog('Newsletter API: Starting request');
     const latest = await getLatestNewsletterUrl();
     safeLog('Newsletter API: Latest URL found:', latest);
@@ -52,10 +72,21 @@ export async function GET() {
     );
     safeLog('Newsletter API: Content organized with AI');
     
+    // 🚀 Write fresh data back to cache for next request
+    safeLog('💾 [Newsletter API] Writing fresh data to cache...');
+    try {
+      await setCachedData(CACHE_KEYS.NEWSLETTER_DATA, organizedData, { writeStatic: true });
+      safeLog('✅ [Newsletter API] Cache write successful - next request will be instant!');
+    } catch (cacheError) {
+      console.error('⚠️ [Newsletter API] Cache write failed (non-fatal):', cacheError);
+    }
+    
     return NextResponse.json(organizedData, { 
       status: 200,
       headers: {
         'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+        'X-Cache-Source': 'fresh-computed',
+        'X-Response-Time': `${Date.now() - startTime}ms`
       }
     });
   } catch (err: unknown) {

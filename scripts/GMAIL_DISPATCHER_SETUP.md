@@ -5,9 +5,12 @@ This directory contains the complete setup for automatically ingesting newslette
 ## 📋 What This Does
 
 1. **Google Apps Script** monitors your Gmail inbox for specific newsletters
-2. When found, it sends the content to GitHub via `repository_dispatch` event
-3. **GitHub Action** receives the event and creates a markdown file in `content/newsletters/`
-4. The file is automatically committed and pushed to your repository
+2. **Cleans HTML content** automatically (removes Gmail wrappers, headers, broken images)
+3. When found, it sends the cleaned content to GitHub via `repository_dispatch` event
+4. **GitHub Action** receives the event and creates a markdown file in `content/newsletters/`
+5. The file is automatically committed and pushed to your repository
+
+For details on HTML cleaning, see: [HTML_CLEANING_SUMMARY.md](./HTML_CLEANING_SUMMARY.md)
 
 ## 🚀 Setup Instructions
 
@@ -24,7 +27,7 @@ This directory contains the complete setup for automatically ingesting newslette
 1. Go to: https://script.google.com
 2. Click **"New Project"**
 3. Name it: `Newsletter to GitHub Dispatcher`
-4. Copy the entire content of `scripts/gmail-newsletter-dispatcher.js`
+4. Copy the entire content of `scripts/bluecrewreview-dispatcher.js`
 5. Paste it into the Apps Script editor
 6. **IMPORTANT**: Update line 28 with your newsletter search criteria:
    ```javascript
@@ -68,7 +71,7 @@ This directory contains the complete setup for automatically ingesting newslette
 ## 📂 Files Created
 
 - `.github/workflows/newsletter-dispatch.yml` - GitHub Action workflow
-- `scripts/gmail-newsletter-dispatcher.js` - Google Apps Script (for reference)
+- `scripts/bluecrewreview-dispatcher.js` - Google Apps Script (for reference)
 - `content/newsletters/` - Will be created automatically when first newsletter is processed
 
 ## 🧪 Testing the Full Pipeline
@@ -113,10 +116,21 @@ Use `testGmailSearch()` function to verify your search query finds the right ema
 ## 🎯 Next Steps
 
 Once working, you can:
-- Add HTML-to-Markdown conversion
-- Extract structured data from newsletter content
+- ✅ **HTML Cleanup** (Already implemented): Automatically removes Gmail wrapper divs, email headers, and broken inline images
+- Add more sophisticated content extraction
 - Set up notifications when new newsletters arrive
-- Create a UI to display newsletters in your app
+- Create filters for different newsletter types
+
+## 🧹 Automatic Content Cleaning
+
+The script automatically cleans newsletter HTML by:
+
+1. **Removing Gmail wrapper elements**: `gmail_quote`, `gmail_quote_container` divs
+2. **Stripping email headers**: The "Subject: ... To: ..." metadata section
+3. **Removing broken images**: Inline images with `cid:` references (they won't display outside Gmail)
+4. **Balancing HTML tags**: Cleans up orphaned closing tags
+
+This happens **before** sending to GitHub, so your markdown files are clean from the start. No complex parsing needed in the frontend!
 
 ## ⚠️ Important Notes
 
@@ -124,3 +138,5 @@ Once working, you can:
 - **Token expiration**: GitHub PATs can expire - monitor and renew
 - **Gmail quotas**: Google Apps Script has daily quotas for Gmail API calls
 - **Existing functionality**: This setup is completely separate from your Mailchimp scraping
+- **Images**: Inline Gmail images (cid: references) are automatically removed as they can't be displayed outside Gmail
+

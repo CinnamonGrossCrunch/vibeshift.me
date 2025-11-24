@@ -10,6 +10,7 @@ import HaasResourcesWidget from "./HaasResourcesWidget";
 import HaasJourneyWidget from "./HaasJourneyWidget";
 import CohortToggleWidget from "./CohortToggleWidget";
 import AnimatedLogo from "./AnimatedLogo";
+import GmailNewsletterModalHost from "./GmailNewsletterModalHost";
 import { usePerformance, getPerformanceClasses } from "./PerformanceProvider";
 import type { UnifiedDashboardData } from '@/app/api/unified-dashboard/route';
 
@@ -305,6 +306,7 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
           )}
         </div>
       </main>
+      <GmailNewsletterModalHost />
     </div>
   </div>
   );

@@ -5,6 +5,7 @@ import Image from "next/image";
 import CalendarListView from "./CalendarListView";
 import CohortCalendarWidget from "./CohortCalendarWidget";
 import NewsletterWidget from "./NewsletterWidget";
+import GmailNewsletterWidget, { GMAIL_NEWSLETTER_VARIANTS } from "./GmailNewsletterWidget";
 import SlackWidget from "./SlackWidget";
 import type { CohortEvents } from '@/lib/icsUtils';
 import type { UnifiedDashboardData } from '@/app/api/unified-dashboard/route';
@@ -243,7 +244,18 @@ export default function MainDashboardTabs({
         {activeTab === 'Updates' && (
           <div className="w-full">
             {dashboardData?.newsletterData ? (
-              <NewsletterWidget data={dashboardData.newsletterData} />
+              <>
+                <NewsletterWidget data={dashboardData.newsletterData} />
+                
+                {/* Gmail Newsletter Widgets - latest EW Wire & Blue Crew */}
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {GMAIL_NEWSLETTER_VARIANTS.map((variant) => (
+                    <div key={variant} className="relative w-full aspect-square overflow-hidden">
+                      <GmailNewsletterWidget variant={variant} />
+                    </div>
+                  ))}
+                </div>
+              </>
             ) : (
               <div className="bg-slate-800/60 backdrop-blur-sm p-6 rounded-4xl border border-slate-700 text-center">
                 <div className="w-12 h-12 bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-3 animate-pulse">

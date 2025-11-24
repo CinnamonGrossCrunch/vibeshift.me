@@ -16,19 +16,15 @@
 // ============================================================================
 // CONFIGURATION
 // ============================================================================
-// ⚠️ SECURITY NOTE: Replace YOUR_GITHUB_PAT with your actual token when pasting into Google Apps Script!
-const GITHUB_TOKEN = 'YOUR_GITHUB_PAT'; // Replace this in Google Apps Script!
+// ⚠️ REPLACE WITH YOUR VALUES before pasting into Google Apps Script!
+const GITHUB_TOKEN = 'YOUR_GITHUB_PAT_HERE'; // Replace with your GitHub Personal Access Token
 const REPO_OWNER = 'CinnamonGrossCrunch';
 const REPO_NAME = 'vibeshift.me';
 const EVENT_TYPE = 'newsletter_received';
 
-// ⚠️ UPDATE THIS: Enter the exact subject line or Gmail search query
-// Examples:
-// - 'subject:"Haas Weekly Update" is:unread'
-// - 'from:newsletter@haas.berkeley.edu is:unread'
-// - 'subject:"EWMBA Newsletter" is:unread'
-// - 'from:haas.berkeley.edu subject:"weekly" is:unread'
-const GMAIL_SEARCH_QUERY = 'subject:"YOUR_NEWSLETTER_SUBJECT" is:unread';
+// ✅ CONFIGURED: Blue Crew Review newsletter filter (case-insensitive)
+// Matches: "BLUE CREW REVIEW", "Blue Crew Review", "Fwd: 11.16.25 BLUE CREW REVIEW", etc.
+const GMAIL_SEARCH_QUERY = 'subject:(blue crew review) is:unread';
 
 // ============================================================================
 // MAIN FUNCTION - Runs on Trigger
@@ -57,11 +53,43 @@ function checkNewsletters() {
 }
 
 // ============================================================================
+// CLEAN HTML CONTENT
+// ============================================================================
+function cleanNewsletterHTML(rawHTML) {
+  let cleaned = rawHTML;
+  
+  // Remove Gmail wrapper divs (gmail_quote, gmail_quote_container)
+  cleaned = cleaned.replace(/<div class="gmail_quote[^"]*"[^>]*>/gi, '');
+  
+  // Remove Gmail attributes section (Subject: ... To: ...)
+  cleaned = cleaned.replace(/<div[^>]*class="gmail_attr"[^>]*>[\s\S]*?<\/div>/gi, '');
+  
+  // Remove broken inline images (cid: references won't work outside Gmail)
+  cleaned = cleaned.replace(/<img[^>]*src="cid:[^"]*"[^>]*>/gi, '');
+  
+  // Remove extra closing divs that are now orphaned
+  // This is a simple cleanup - counts opening/closing divs and balances them
+  const openDivs = (cleaned.match(/<div/gi) || []).length;
+  const closeDivs = (cleaned.match(/<\/div>/gi) || []).length;
+  const extraClosing = closeDivs - openDivs;
+  
+  if (extraClosing > 0) {
+    // Remove extra closing divs from the end
+    for (let i = 0; i < extraClosing; i++) {
+      cleaned = cleaned.replace(/<\/div>(?![\s\S]*<\/div>)/, '');
+    }
+  }
+  
+  return cleaned.trim();
+}
+
+// ============================================================================
 // PROCESS INDIVIDUAL NEWSLETTER
 // ============================================================================
 function processNewsletter(msg) {
   const subject = msg.getSubject();
-  const body = msg.getBody(); // HTML content
+  const rawBody = msg.getBody(); // HTML content
+  const body = cleanNewsletterHTML(rawBody); // Clean it up
   const date = Utilities.formatDate(msg.getDate(), 'GMT', 'yyyy-MM-dd');
   
   // Create URL-safe slug from subject

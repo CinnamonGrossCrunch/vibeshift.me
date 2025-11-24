@@ -50,10 +50,7 @@ export default function HaasResourcesWidget({
               <span className="text-white/80">Resources</span>
             </h3>
           </header>
-          <div className="text-center py-4">
-            <div className="berkeley-spinner mx-auto mb-3"></div>
-            <p className="text-sm text-slate-400">Loading resources...</p>
-          </div>
+  
         </>
       ) : error ? (
         <>

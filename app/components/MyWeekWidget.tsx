@@ -334,7 +334,7 @@ export default function MyWeekWidget({ data, selectedCohort = 'blue' }: MyWeekWi
               <button
               onClick={() => setIsExpanded(!isExpanded)}
               className={`flex items-center justify-center w-8 h-8 rounded-full bg-transparent border border-violet-400/40 hover:bg-slate-800 hover:border-violet-300/60 transition-all duration-500 ease-in-out animate-[rotating-violet-glow_1.5s_ease-in-out_infinite] hover:animate-[rotating-violet-glow-hover_4s_ease-in-out_infinite] absolute bottom-1 left-1/2 -translate-x-1/2 translate-x-[-110px] translate-y-[5px] scale-60 md:scale-100 md:bottom-auto md:top-0 md:left-[100px] md:translate-x-0 ${
-                !isExpanded ? 'md:translate-x-[40px] md:translate-y-[20px]' : 'md:translate-x-0 md:translate-y-0 md:w-5 md:h-5'
+                !isExpanded ? 'md:translate-x-[60px] md:translate-y-[20px]' : 'md:translate-x-10 md:translate-y-0 md:w-5 md:h-5'
               }`}
               aria-label={isExpanded ? 'Collapse events' : 'Expand events'}
               >

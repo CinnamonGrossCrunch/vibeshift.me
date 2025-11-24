@@ -40,6 +40,61 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
   const isNewsletterEvent = event?.source === 'newsletter';
   const newsletterEvent = isNewsletterEvent ? (event as NewsletterCalendarEvent) : null;
   
+  // Check if this is a Gmail newsletter (newsletter source but no sourceMetadata)
+  const isGmailNewsletter = isNewsletterEvent && !newsletterEvent?.sourceMetadata;
+  
+  // Function to clean Gmail newsletter HTML - basic cleaning only
+  // Newsletter-specific cleaning (like EW Wire footer removal) happens in Google Apps Script
+  const cleanGmailNewsletterHTML = (html: string): string => {
+    if (!isGmailNewsletter) return html;
+    
+    let cleaned = html;
+    
+    // Remove Gmail-specific wrappers
+    cleaned = cleaned.replace(/<div class="gmail_quote[^"]*"[^>]*>/gi, '');
+    cleaned = cleaned.replace(/<div[^>]*class="gmail_attr"[^>]*>[\s\S]*?<\/div>/gi, '');
+    
+    // Remove Gmail attachment notices
+    cleaned = cleaned.replace(/<div[^>]*class="[^"]*gmail_att[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '');
+    
+    // Remove email metadata headers
+    cleaned = cleaned.replace(/<div[^>]*>\s*(Subject|From|To|Date|Cc|Bcc):\s*[^<]*<\/div>/gi, '');
+    cleaned = cleaned.replace(/<br>\s*(Subject|From|To|Date|Cc|Bcc):\s*[^<]*<br>/gi, '');
+    
+    // Remove broken inline images (cid: references)
+    cleaned = cleaned.replace(/<img[^>]*src="cid:[^"]*"[^>]*>/gi, '');
+    
+    // Remove empty divs and centers at start/end
+    cleaned = cleaned.replace(/^(<div[^>]*>\s*<\/div>\s*)+/, '');
+    cleaned = cleaned.replace(/(<div[^>]*>\s*<\/div>\s*)+$/, '');
+    cleaned = cleaned.replace(/^(<center[^>]*>\s*<\/center>\s*)+/, '');
+    cleaned = cleaned.replace(/(<center[^>]*>\s*<\/center>\s*)+$/, '');
+    
+    return cleaned.trim();
+  };
+  
+  // Function to get a clean title for Gmail newsletters
+  const getCleanTitle = (): string => {
+    if (!isGmailNewsletter) return safeStringify(displayEvent.title);
+    
+    // For Gmail newsletters, extract the actual newsletter name from the subject
+    // e.g., "Fwd: 11.16.25 BLUE CREW REVIEW" -> "Blue Crew Review"
+    const title = safeStringify(displayEvent.title);
+    
+    // Remove "Fwd:" prefix
+    let cleaned = title.replace(/^fwd:\s*/i, '');
+    
+    // Remove date patterns (e.g., "11.16.25", "11-16-25", "2025-11-16")
+    cleaned = cleaned.replace(/\d{1,4}[.\-\/]\d{1,2}[.\-\/]\d{1,4}\s*/gi, '');
+    
+    // Capitalize each word nicely
+    cleaned = cleaned.split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+    
+    return cleaned.trim() || 'Newsletter';
+  };
+  
   // Check if this is a combined event with multiple newsletter events
   const hasMultipleEvents = newsletterEvent?.multipleEvents && newsletterEvent.multipleEvents.length > 1;
 
@@ -335,23 +390,39 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4  bg-black/50 [&>div]:relative [&>div]:shadow-[0_0_0_1px_rgba(139,92,246,0.3),0_0_18px_4px_rgba(139,92,246,0.25)] [&>div]:transition-shadow">
+    <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black/50 [&>div]:relative [&>div]:shadow-[0_0_0_1px_rgba(139,92,246,0.3),0_0_18px_4px_rgba(139,92,246,0.25)] [&>div]:transition-shadow ${
+      isGmailNewsletter ? 'p-4 py-20' : 'p-4'
+    }`}>
       <div
         ref={modalRef}
-        className="bg-slate-900/60 backdrop-blur-3xl rounded-2xl shadow-2xl max-w-3xl md:max-w-xl w-200 max-h-[85vh] overflow-hidden flex flex-col"
+        className={`backdrop-blur-3xl rounded-2xl shadow-2xl max-w-3xl md:max-w-xl w-200 overflow-hidden flex flex-col ${
+          isGmailNewsletter 
+            ? 'bg-white/80 max-h-[80vh]' 
+            : 'bg-slate-900/60 max-h-220'
+        }`}
       >
         {/* Header */}
         <div className="flex items-start justify-between px-6 py-4 flex-shrink-0">
-          <div className="flex-1 pr-4">
-            <h2 className="text-xl font-semibold text-white leading-tight">
-              {safeStringify(displayEvent.title)}
-            </h2>
-            <p className="text-sm text-slate-200 mt-1">
-              {formatDateTime()}
-            </p>
-            {/* Show indicator when displaying rich content from original calendar */}
-           
-          </div>
+          {/* Hide title and date entirely for Gmail newsletters */}
+          {!isGmailNewsletter && (
+            <div className="flex-1 pr-4">
+              <h2 className={`text-xl font-semibold leading-tight ${
+                isGmailNewsletter ? 'text-slate-900' : 'text-white'
+              }`}>
+                {getCleanTitle()}
+              </h2>
+              {/* Hide date for Gmail newsletters since it's redundant (newsletter has date inside) */}
+              {!isGmailNewsletter && (
+                <p className={`text-sm mt-1 ${
+                  isGmailNewsletter ? 'text-slate-700' : 'text-slate-200'
+                }`}>
+                  {formatDateTime()}
+                </p>
+              )}
+              {/* Show indicator when displaying rich content from original calendar */}
+             
+            </div>
+          )}
           
           {/* Navigation Buttons */}
           <div className="flex items-center gap-2">
@@ -361,8 +432,12 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
               disabled={!hasPrevious}
               className={`p-2 rounded-lg transition-colors ${
                 hasPrevious 
-                  ? 'hover:bg-slate-700 text-slate-300' 
-                  : 'text-slate-600 cursor-not-allowed'
+                  ? isGmailNewsletter 
+                    ? 'hover:bg-slate-200 text-slate-700' 
+                    : 'hover:bg-slate-700 text-slate-300'
+                  : isGmailNewsletter
+                    ? 'text-slate-400 cursor-not-allowed'
+                    : 'text-slate-600 cursor-not-allowed'
               }`}
               aria-label="Previous event"
               title="Previous event (←)"
@@ -378,8 +453,12 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
               disabled={!hasNext}
               className={`p-2 rounded-lg transition-colors ${
                 hasNext 
-                  ? 'hover:bg-slate-700 text-slate-300' 
-                  : 'text-slate-600 cursor-not-allowed'
+                  ? isGmailNewsletter 
+                    ? 'hover:bg-slate-200 text-slate-700' 
+                    : 'hover:bg-slate-700 text-slate-300'
+                  : isGmailNewsletter
+                    ? 'text-slate-400 cursor-not-allowed'
+                    : 'text-slate-600 cursor-not-allowed'
               }`}
               aria-label="Next event"
               title="Next event (→)"
@@ -392,11 +471,17 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="p-2 hover:bg-slate-700 rounded-lg transition-colors ml-2"
+              className={`p-2 rounded-lg transition-colors ml-2 ${
+                isGmailNewsletter 
+                  ? 'hover:bg-slate-200' 
+                  : 'hover:bg-slate-700'
+              }`}
               aria-label="Close"
               title="Close (Esc)"
             >
-              <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className={`w-5 h-5 ${
+                isGmailNewsletter ? 'text-slate-600' : 'text-slate-400'
+              }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -478,7 +563,11 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
                         )}
                         
                         {individualEvent.htmlContent && (
-                          <div className="text-sm text-slate-300 leading-relaxed prose prose-invert max-w-none">
+                          <div className={`text-sm leading-relaxed prose max-w-none ${
+                            isGmailNewsletter 
+                              ? 'prose-slate' 
+                              : 'prose-invert text-slate-300'
+                          }`}>
                             <div dangerouslySetInnerHTML={{ __html: individualEvent.htmlContent }} />
                           </div>
                         )}
@@ -507,8 +596,12 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
               {/* Newsletter htmlContent - Show full content for newsletter events */}
               {isNewsletterEvent && newsletterEvent?.htmlContent ? (
                 <div>
-                  <div className="text-md text-slate-300 leading-relaxed prose prose-invert max-w-none">
-                    <div dangerouslySetInnerHTML={{ __html: newsletterEvent.htmlContent }} />
+                  <div className={`text-md leading-relaxed prose max-w-none ${
+                    isGmailNewsletter 
+                      ? 'prose-slate' 
+                      : 'prose-invert text-slate-300'
+                  }`}>
+                    <div dangerouslySetInnerHTML={{ __html: cleanGmailNewsletterHTML(newsletterEvent.htmlContent) }} />
                   </div>
                 </div>
               ) : (
@@ -516,8 +609,12 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
                   {/* Description for non-newsletter events */}
                   {displayEvent.description && (
                     <div>
-                      <h3 className="text-xl font-medium text-white mb-2"></h3>
-                      <div className="text-md text-slate-300 whitespace-pre-wrap leading-relaxed">
+                      <h3 className={`text-xl font-medium mb-2 ${
+                        isGmailNewsletter ? 'text-slate-900' : 'text-white'
+                      }`}></h3>
+                      <div className={`text-md whitespace-pre-wrap leading-relaxed ${
+                        isGmailNewsletter ? 'text-slate-700' : 'text-slate-300'
+                      }`}>
                         {renderTextWithLinks(displayEvent.description)}
                       </div>
                     </div>
@@ -527,8 +624,12 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
                   {displayEvent.location && (
                     <div>
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="text-sm font-medium text-white">📍 Location:</div>
-                        <div className="text-sm text-slate-300">{safeStringify(displayEvent.location)}</div>
+                        <div className={`text-sm font-medium ${
+                          isGmailNewsletter ? 'text-slate-900' : 'text-white'
+                        }`}>📍 Location:</div>
+                        <div className={`text-sm ${
+                          isGmailNewsletter ? 'text-slate-700' : 'text-slate-300'
+                        }`}>{safeStringify(displayEvent.location)}</div>
                       </div>
                     </div>
                   )}

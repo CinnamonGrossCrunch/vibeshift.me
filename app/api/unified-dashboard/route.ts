@@ -12,7 +12,7 @@ import { getLatestNewsletterUrl, scrapeNewsletter } from '@/lib/scrape';
 import { organizeNewsletterWithAI, type OrganizedNewsletter } from '@/lib/openai-organizer';
 import { analyzeCohortMyWeekWithAI, type CohortMyWeekAnalysis } from '@/lib/my-week-analyzer';
 import { getCohortEvents, type CalendarEvent } from '@/lib/icsUtils';
-import { getCachedData, CACHE_KEYS } from '@/lib/cache';
+import { getCachedData, setCachedData, CACHE_KEYS } from '@/lib/cache';
 
 const safeError = (...args: unknown[]) => {
   // Always log errors, but ensure they don't leak into response
@@ -100,7 +100,7 @@ export interface UnifiedDashboardData {
   };
 }
 
-export async function GET(request: Request) {
+export async function GET() {
   // CRITICAL: Prevent execution during Vercel build ONLY (not local development)
   // During Vercel build: CI=true and NEXT_PHASE='phase-production-build'
   // During local dev: Neither CI nor NEXT_PHASE are set
@@ -121,28 +121,19 @@ export async function GET(request: Request) {
 
   const startTime = Date.now();
   
-  // Check for cache bypass parameter (only allowed in development)
-  const { searchParams } = new URL(request.url);
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  const bypassCache = isDevelopment && searchParams.get('refresh') === 'true';
+  // 🚀 TRY CACHE FIRST (INSTANT LOADS ~50-200ms!)
+  console.log('🔍 [API] Checking cache for pre-rendered dashboard data...');
+  const cachedDashboard = await getCachedData<UnifiedDashboardData>(CACHE_KEYS.DASHBOARD_DATA);
   
-  // 🚀 TRY CACHE FIRST (INSTANT LOADS ~50-200ms!) - unless bypass requested
-  if (!bypassCache) {
-    console.log('🔍 [API] Checking cache for pre-rendered dashboard data...');
-    const cachedDashboard = await getCachedData<UnifiedDashboardData>(CACHE_KEYS.DASHBOARD_DATA);
-    
-    if (cachedDashboard) {
-      console.log(`✅ [API] CACHE HIT from ${cachedDashboard.source}! Returning pre-rendered data (${Date.now() - startTime}ms)`);
-      return NextResponse.json(cachedDashboard.data, {
-        headers: {
-          'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
-          'X-Cache-Source': cachedDashboard.source, // Debug header showing cache source
-          'X-Response-Time': `${Date.now() - startTime}ms`
-        }
-      });
-    }
-  } else {
-    console.log('🔄 [API] Cache bypass requested - forcing fresh data generation...');
+  if (cachedDashboard) {
+    console.log(`✅ [API] CACHE HIT from ${cachedDashboard.source}! Returning pre-rendered data (${Date.now() - startTime}ms)`);
+    return NextResponse.json(cachedDashboard.data, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
+        'X-Cache-Source': cachedDashboard.source, // Debug header showing cache source
+        'X-Response-Time': `${Date.now() - startTime}ms`
+      }
+    });
   }
   
   console.log('⚠️ [API] Cache miss - generating fresh data (this may take 8-20 seconds)...');
@@ -342,10 +333,23 @@ export async function GET(request: Request) {
         // @ts-expect-error augment for debug
         response.myWeekData.aiMeta = (myWeekData as CohortMyWeekAnalysis).aiMeta;
         
+        // 🚀 CRITICAL FIX: Write fresh data back to cache for next request!
+        // This ensures that even on cache miss, subsequent requests will be instant
+        console.log('💾 [API] Writing fresh data to cache (KV + static JSON)...');
+        try {
+          await setCachedData(CACHE_KEYS.DASHBOARD_DATA, response, { writeStatic: true });
+          console.log('✅ [API] Cache write successful - next request will be instant!');
+        } catch (cacheError) {
+          console.error('⚠️ [API] Cache write failed (non-fatal):', cacheError);
+          // Don't fail the request if cache write fails
+        }
+        
         return NextResponse.json(response, { 
           status: 200,
           headers: {
             'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+            'X-Cache-Source': 'fresh-computed', // Debug header showing this was freshly computed
+            'X-Response-Time': `${totalTime}ms`
           }
         });
       })(),

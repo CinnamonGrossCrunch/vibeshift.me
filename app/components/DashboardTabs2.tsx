@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from "next/link";
 import NewsletterWidget from "./NewsletterWidget";
+import GmailNewsletterWidget, { GMAIL_NEWSLETTER_VARIANTS } from "./GmailNewsletterWidget";
 import SlackWidget from "./SlackWidget";
 import type { UnifiedDashboardData } from '@/app/api/unified-dashboard/route';
 
@@ -184,6 +185,15 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
         {activeTab === 'Updates' && (
           <div className="w-full">
             <NewsletterWidget data={dashboardData.newsletterData} />
+            
+            {/* Gmail Newsletter Widgets - latest EW Wire & Blue Crew */}
+            <div className="mt-2 grid sm:grid-cols-2 gap-2">
+              {GMAIL_NEWSLETTER_VARIANTS.map((variant) => (
+                <div key={variant} className="relative w-full">
+                  <GmailNewsletterWidget variant={variant} />
+                </div>
+              ))}
+            </div>
           </div>
         )}
         
