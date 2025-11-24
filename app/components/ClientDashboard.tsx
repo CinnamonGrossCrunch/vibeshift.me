@@ -311,9 +311,9 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
       {/* Footer */}
       <footer className="mt-8 pb-6">
         <div className="max-w-[90rem] mx-auto px-3 sm:px-4 lg:px-6">
-          <p className="text-center text-sm text-slate-400 mb-4">
-            Oski.app created and maintained by Matt Gross.
-          </p>
+            <p className="text-center text-xs text-slate-400 mb-4">
+              Oski.app created and maintained by <a href="https://www.linkedin.com/in/designrefinerepeat/" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-slate-300 transition-colors duration-200">Matt Gross</a>. &nbsp;|  &nbsp; Not an officially endorsed UC Berkeley website.
+            </p>
           <div className="flex justify-end">
             <Link 
               href="/admin/cache-refresh"

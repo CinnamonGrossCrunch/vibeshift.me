@@ -26,22 +26,30 @@ export default function CacheRefreshPage() {
     }
   };
 
-  // Progress bar animation - estimated 15 seconds total
+  // Progress bar animation - calibrated from actual API timing data
+  // Total time: ~111 seconds based on production measurements
+  // Stage breakdown:
+  //   0-1%: Newsletter URL fetch (~775ms)
+  //   1-2%: Newsletter scraping (~910ms)
+  //   2-72%: AI newsletter organization (~77s) ← MAIN BOTTLENECK
+  //   72-81%: Date/deadline extraction (~10s)
+  //   81-99%: My Week AI summaries (~21s)
+  //   99-100%: Cache write (~2s)
   useEffect(() => {
     if (!isRefreshing) {
       setProgress(0);
       return;
     }
 
-    const estimatedDuration = 15000; // 15 seconds
+    const estimatedDuration = 111000; // 111 seconds (from actual measurements)
     const interval = 100; // Update every 100ms
     const increment = (interval / estimatedDuration) * 100;
 
     const timer = setInterval(() => {
       setProgress((prev) => {
         const next = prev + increment;
-        // Cap at 95% until actual completion
-        return next >= 95 ? 95 : next;
+        // Cap at 98% until actual completion (API returns)
+        return next >= 98 ? 98 : next;
       });
     }, interval);
 
@@ -187,7 +195,7 @@ export default function CacheRefreshPage() {
               <li>My Week AI summaries</li>
             </ul>
             <p className="text-sm text-yellow-200 mt-2">
-              This process may take 8-20 seconds.
+              This process takes approximately <strong>1-2 minutes</strong> due to AI processing. Progress bar shows real-time status.
             </p>
           </div>
 
@@ -229,10 +237,12 @@ export default function CacheRefreshPage() {
                 </div>
               </div>
               <p className="text-xs text-slate-400 mt-2 text-center">
-                {progress < 30 && '🔍 Fetching latest newsletter...'}
-                {progress >= 30 && progress < 60 && '📅 Processing calendar events...'}
-                {progress >= 60 && progress < 90 && '🤖 Generating AI summaries...'}
-                {progress >= 90 && progress < 100 && '💾 Updating cache...'}
+                {progress < 1 && '🔍 Fetching newsletter archive...'}
+                {progress >= 1 && progress < 2 && '📄 Scraping newsletter content...'}
+                {progress >= 2 && progress < 72 && '🤖 AI organizing newsletter sections... (this takes ~75 seconds)'}
+                {progress >= 72 && progress < 81 && '📅 Extracting dates and deadlines...'}
+                {progress >= 81 && progress < 99 && '📊 Generating My Week AI summaries...'}
+                {progress >= 99 && progress < 100 && '💾 Writing to cache...'}
                 {progress >= 100 && '✅ Complete!'}
               </p>
             </div>

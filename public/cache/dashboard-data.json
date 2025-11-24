@@ -1,36 +1,14 @@
 {
   "newsletterData": {
-    "sourceUrl": "http://eepurl.com/jrGJic",
-    "title": "[EWMBA] Bear Necessities 11-13-2025",
+    "sourceUrl": "http://eepurl.com/jsno8A",
+    "title": "[EWMBA] Bear Necessities 11-20-2025",
     "sections": [
       {
         "sectionTitle": "This Week",
         "items": [
           {
-            "title": "Sunday Traffic Advisory - Berkeley Half Marathon",
-            "html": "<h4>Sunday Traffic Advisory - Berkeley Half Marathon</h4><p>Sunday, Nov 16, Berkeley, CA</p><ul><li>Good luck to any BerkeleyHaas Half Marathon participants!</li><li>For those who are coming to campus this Sunday, race events begin at 7:30AM. Please be sure to review the <a href=\"https://berkeleyhalfmarathon.com/race-weekend/street-closures-and-detours/\" target=\"_blank\" rel=\"noopener noreferrer\">Street Closures and Detours info</a> because some race routes go through Downtown Berkeley and Central Campus.</li><li>Parking lots are not affected. Please allow extra time to take alternate routes to get to Haas.</li></ul>"
-          },
-          {
-            "title": "Class of 2027 Biz Comm 2026: Enrollment Form Deadline Reminder",
-            "html": "<h4>Class of 2027 Biz Comm 2026: Enrollment Form Deadline Reminder</h4><p>Enrollment Form Due Sunday, Nov 16 at 11:59PM PST</p><ul><li>Students should have received an email with the subject line, \"[EWMBA] Biz Comm 2026: Enrollment Form Deadline Reminder\" - This form is due by Sunday, Nov 16 at 11:59PM PT.<ul><li>Students who live Out of the Bay Area and are requesting to arrive one day early must submit their requests with the EWMBA Biz Comm 2026 Enrollment Form</li><li>The Enrollment Form confirms your will be attending as well as other logistics such as dietary restrictions and jacket size</li></ul></li><li>The mandatory Off-site Event Waiver is due in early January but we recommend getting it out of the way now.</li><li>If you require accommodation for effective communication (ASL interpreting/CART captioning, alternative media formats, etc.) or need information in order to fully participate for the weekend, please contact <a href=\"mailto:robert-cortes@berkeley.edu\" target=\"_blank\" rel=\"noopener noreferrer\">Robby Cortes</a> with as much advance notice as possible and at least 10 days in advance of the event</li></ul>",
-            "timeSensitive": {
-              "dates": [
-                "2025-11-16"
-              ],
-              "eventType": "deadline",
-              "priority": "medium"
-            }
-          },
-          {
-            "title": "TSWI x QARC QT Clothing Swap",
-            "html": "<h4>TSWI x QARC QT Clothing Swap</h4><p>Tuesday, Nov 18, 5PM-7PM PST, <a href=\"https://www.google.com/maps/place/Hearst+Field+Annex/@37.8692364,-122.2601398,17z/data=!3m1!4b1!4m6!3m5!1s0x80857c2f7cd6289f:0xfc4e25302c88d300!8m2!3d37.8692322!4d-122.2575595!16s%2Fg%2F11cs01jsqr?entry=ttu&amp;g_ep=EgoyMDI1MTEwNS4wIKXMDSoASAFQAw%3D%3D\" target=\"_blank\" rel=\"noopener noreferrer\">Hearst Field Annex</a>, Building A, Room 15</p><ul><li>The Transgender Student Wellness Initiative and The Queer Alliance and Resource Center are partnering to host an evening of clothing & community.<ul><li>Allies from the Berkeley community are invited & encouraged to visit</li></ul></li><li>TSWI & QARC ask that donated clothes are laundered prior to dropoff</li><li>You are not required to bring clothes in order to participate in the clothing swap, though donations in the weeks before are encouraged.<ul><li>Dinner will also be provided</li></ul></li><li><a href=\"https://docs.google.com/forms/d/e/1FAIpQLSeMWMoBj_SjG2Q0tEibF-BUOT-9QEbocFXsao1zTgHAUdI2IA/viewform\" target=\"_blank\" rel=\"noopener noreferrer\">RSVP for the TSWI x QARC QT Clothing Swap</a> via the Google Form.</li></ul>",
-            "timeSensitive": {
-              "dates": [
-                "2025-11-18"
-              ],
-              "eventType": "event",
-              "priority": "medium"
-            }
+            "title": "Program Office Nov Adjusted Hours",
+            "html": "<h4>Program Office Nov Adjusted Hours</h4><ul><li>All staff working on Wednesday, Nov 26 will be working from home. Please do not come to the office as it will be closed. </li><li>The Program Office staff will be on vacation Thursday, Nov 27 - Sunday, Nov 30 in observance of the University Holiday.</li></ul>"
           }
         ]
       },
@@ -38,69 +16,79 @@
         "sectionTitle": "Announcements",
         "items": [
           {
-            "title": "DCC Friendsgiving",
-            "html": "<h4>DCC Friendsgiving</h4><p>Friday, Nov 21, 12PM-2PM PST, <a href=\"https://www.google.com/maps/place/Hearst+Field+Annex/@37.8692364,-122.2601398,17z/data=!3m1!4b1!4m6!3m5!1s0x80857c2f7cd6289f:0xfc4e25302c88d300!8m2!3d37.8692322!4d-122.2575595!16s%2Fg%2F11cs01jsqr?entry=ttu&amp;g_ep=EgoyMDI1MTEwNS4wIKXMDSoASAFQAw%3D%3D\" target=\"_blank\" rel=\"noopener noreferrer\">Hearst Field Annex</a>, Building D, Room 25</p><ul><li>The Disability Cultural Community Center invites UC Berkeley community members to an afternoon food, games, mini pumpkin decorating, friends, and fun.<ul><li>The DCC Friendsgiving is a low-key, low-sensory space, and is welcome to everyone</li><li>Attendees are asked to refrain from wearing heavy scents</li></ul></li><li>If you are interested in attending, please <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSdSEK1s8LC3NtSKkKtlqA71oxQk5VpZP5tlbiyQ-rGS7mWFTg/viewform\" target=\"_blank\" rel=\"noopener noreferrer\">RSVP DCC Friendsgiving</a> via Google Form.</li><li>If you have further questions, please email the <a href=\"mailto:DisabilityCulture@berkeley.edu\" target=\"_blank\" rel=\"noopener noreferrer\">Disability Cultural Community Center</a>.</li></ul>",
+            "title": "Program Office Hours - Winter Adjustments",
+            "html": "<h4>Program Office Hours - Winter Adjustments</h4><p></p><ul><li>Monday, Dec 15 - Thursday, Dec 18: Office will close at 6PM</li><li>Saturday, Dec 20 - Thursday, Jan 1: Closed for University Curtailment, Staff on Winter Break/holiday</li><li>Monday, Jan 5: Office will reopen at 9AM</li></ul>",
             "timeSensitive": {
               "dates": [
-                "2025-11-21"
+                "2025-12-15",
+                "2025-12-18"
               ],
-              "eventType": "event",
+              "eventType": "announcement",
               "priority": "medium"
             }
           },
           {
-            "title": "Save the Date - MBA Commencement 2026",
-            "html": "<h4>Save the Date - MBA Commencement 2026</h4><p>Commencement 2026</p><p>Saturday May 23, 2PM</p><ul><li>The MBA Commencement Ceremony for the Class of 2026 will be held on Saturday, May 23, 2026 at 2PM PDT at the Greek Theatre.</li><li>Students who are eligible to participate in the Class of 2026 Commencement Ceremony should have gotten an email with the subject line, \"[EWMBA] Save the Date | 2026 Commencement\".</li></ul>",
+            "title": "Jacobs Institute SP26 Innovation Catalysts Applications Now Open",
+            "html": "<h4>Jacobs Institute SP26 Innovation Catalysts Applications Now Open</h4><br />Application Closes: Wednesday, Dec 10, 9AM PST<ul><li>The <a href=\"https://jacobsinstitute.berkeley.edu/the-jacobs-institute-innovation-catalysts/\" target=\"_blank\" rel=\"noopener noreferrer\">Jacobs Institute Innovation Catalysts</a> is a student grant program that supports student innovators to unlock further potential in their projects.<ul><li>Students are invited to propose projects that they aim to develop over the course of a semester</li></ul></li><li>Selected grantees will work on their projects with the support of resources from the Jacobs Institute.</li><li>To <a href=\"https://docs.google.com/forms/d/e/1FAIpQLScvlhTi8Xivwen7dRb-6Rc6eWnzBsvk2nyO_A9jOsOlQcIWaA/viewform\" target=\"_blank\" rel=\"noopener noreferrer\">apply for the SP26 Jacobs Institute Innovation Catalysts</a>, please view the Google Form.<ul><li>If you have further questions, please email <a href=\"mailto:janreyjavier@berkeley.edu\" target=\"_blank\" rel=\"noopener noreferrer\">Janrey Javier</a></li></ul></li></ul>",
             "timeSensitive": {
               "dates": [
-                "2026-05-23"
-              ],
-              "eventType": "announcement",
-              "priority": "low"
-            }
-          }
-        ]
-      },
-      {
-        "sectionTitle": "Important Reminders",
-        "items": [
-          {
-            "title": "Graduate Certificate in Business Analytics Completion Form Due Nov 15",
-            "html": "<h4>Graduate Certificate in Business Analytics Completion Form Due Nov 15</h4><ul><li>Students who will be completing the CBA requirements and graduating in Dec 2025 should complete the <a href=\"https://docs.google.com/forms/d/1zI9m4UIEzY57Zvc-aAAiyTmLy0VS6e5sF_GfyMQiWow/viewform?ts=60fae09e&amp;edit_requested=true\" target=\"_blank\" rel=\"noopener noreferrer\">Certificate in Business Analytics completion form</a> by Saturday, Nov 15 at 11:59 PM PST.</li><li>Students may submit a completion form even if they hadn't submitted the CBA Statement of Intent form.</li><li>Students who complete the certificate will have this noted on their transcript and will receive an electronic certificate signed by Dean Jennifer Chatman.</li></ul>",
-            "timeSensitive": {
-              "dates": [
-                "2025-11-15"
+                "2025-12-10"
               ],
               "eventType": "deadline",
               "priority": "medium"
             }
           },
           {
-            "title": "Class of 2028: Core Waiver Exams for Spring 2026 Classes",
-            "html": "<h4>Class of 2028: Core Waiver Exams for Spring 2026 Classes</h4><ul><li>The testing window will be between Wednesday, November 12, 2025 at 12:00 noon PST to Sunday, November 16, 2025 at 11:59 PM PST, following the same process as Fall 2025 waiver exams.</li><li>Review the <a href=\"https://haas.berkeley.edu/ewmba/academics/course-planning/waiver-guidelines/\" target=\"_blank\" rel=\"noopener noreferrer\">Waiver Exam Guidelines</a> including what documentation to provide for courses eligible for automatic waiver (e.g. 202 Financial Accounting, 203 Intro to Finance).</li></ul>",
-            "timeSensitive": {
-              "dates": [
-                "2025-11-12",
-                "2025-11-16"
-              ],
-              "eventType": "event",
-              "priority": "medium"
-            }
+            "title": "Spring 2026 First Day of Class Dates",
+            "html": "<h4>Spring 2026 First Day of Class Dates</h4><p></p><ul><li>Before you head out for winter break, please keep in mind these important dates for Spring 2026!<ul><li>Core:<ul><li>Evening = Jan 5</li><li>Nexus &amp; Lux = Jan 20</li><li>Saturday = Jan 24</li></ul></li><li>Electives: Week of Jan 20</li></ul></li></ul><br /><strong>Add/Drop for Spring 2026 Courses</strong><ul><li>Review the <a href=\"https://haas.berkeley.edu/ewmba/academics/registration-enrollment/add-drop/\" target=\"_blank\" rel=\"noopener noreferrer\">Add/Drop</a> page and <a href=\"https://drive.google.com/file/d/19ysD3_8KsAzQe_Isvf3lTCZSylBMyQyZ/view\" target=\"_blank\" rel=\"noopener noreferrer\">Top Things to Know About Add/Drop</a> before Jan 5.</li><li>Please refer to the <a href=\"https://haas.berkeley.edu/ewmba/academics/registration-enrollment/registration-timeline/\" target=\"_blank\" rel=\"noopener noreferrer\">Registration Timeline</a> as well for Add/Drop Round Dates:<ul><li>Add/Drop Round 1: Monday, Jan 5, 12 noon PST - Friday, Jan 9, 12 noon PST</li><li>Add/Drop Round 2: Friday, Jan 9, 4PM PST - Monday, Jan 12, 12 noon PST</li><li>Add/Drop Round 3: Tuesday, Jan 20, 12PM PST - Monday, Jan 26, 12 noon PST</li><li>Add/Drop Round 4: Monday, Jan 26, 4PM PST - Thursday, Jan 29, 12 noon PST</li><li>Drop Only Round: Thursday, Jan 29, 4PM PST - Monday Feb 2, 11:59PM PST</li></ul></li></ul>"
           },
           {
             "title": "Student Opportunity Fund 2025-2026 Application Now Open",
-            "html": "<h4>Student Opportunity Fund 2025-2026 Application Now Open</h4><p>Application due Monday, Dec 1 at 11:59 PM PST</p><ul><li>The Student Opportunity Fund provides funding for professional development opportunities for students.</li><li>Individual students or RSOs can apply to receive up to $2,000 for opportunities outside of the classroom such as:<ul><li>Visiting speakers</li><li>Forums on topics of general interest</li><li>Conferences</li></ul></li><li>The deadline for Fall 2025 applications is for any opportunity taking place between Jul 1, 2025 and Dec 31, 2025.<ul><li>The application will open again in Spring for opportunities taking place between Jan 1, 2026 and Jun 30, 2026</li></ul></li><li><a href=\"https://docs.google.com/forms/d/e/1FAIpQLSeDTvr4Me-Zue5gah5A7q20NuwTW6SzP9-oaRPrSM08dcuohw/viewform\" target=\"_blank\" rel=\"noopener noreferrer\">Apply for the Student Opportunity Fund</a> via Google Form.<ul><li>To <a href=\"https://docs.google.com/document/d/1M3KSX5GGeHodb-TbF7kZNdXE6y5nIvLig76oJNli7cE/edit?tab=t.0\" target=\"_blank\" rel=\"noopener noreferrer\">learn more about SOF's criteria, eligibility, and FAQs</a>, please review the Student Opportunity Funds Guide</li></ul></li></ul>",
+            "html": "<h4>Student Opportunity Fund 2025-2026 Application Now Open</h4><br />Application due Monday, Dec 1 at 9AM PST<ul><li>The Student Opportunity Fund provides funding for professional development opportunities for students.</li><li>Individual students or RSOs can apply to receive up to $2,000 for opportunities outside of the classroom such as:<ul><li>Visiting speakers</li><li>Forums on topics of general interest</li><li>Conferences</li></ul></li><li>The deadline for Fall 2025 applications is for any opportunity taking place between Jul 1, 2025 and Dec 31, 2025.<ul><li>The application will open again in Spring for opportunities taking place between Jan 1, 2026 and Jun 30, 2026</li></ul></li><li><a href=\"https://docs.google.com/forms/d/e/1FAIpQLSeDTvr4Me-Zue5gah5A7q20NuwTW6SzP9-oaRPrSM08dcuohw/viewform\" target=\"_blank\" rel=\"noopener noreferrer\">Apply for the Student Opportunity Fund</a> via Google Form.<ul><li>To <a href=\"https://docs.google.com/document/d/1M3KSX5GGeHodb-TbF7kZNdXE6y5nIvLig76oJNli7cE/edit?tab=t.0\" target=\"_blank\" rel=\"noopener noreferrer\">learn more about SOF's criteria, eligibility, and FAQs</a>, please review the Student Opportunity Funds Guide</li></ul></li></ul>",
             "timeSensitive": {
               "dates": [
                 "2025-12-01"
               ],
               "eventType": "deadline",
-              "priority": "medium"
+              "priority": "high"
             }
           },
           {
             "title": "FTMBA Electives for Spring 2026",
-            "html": "<h4>FTMBA Electives for Spring 2026</h4><ul><li>The list of FTMBA Electives for Spring 2026 are now available.</li><li><a href=\"https://haas.berkeley.edu/ewmba/academics/full-time-mba-courses/\" target=\"_blank\" rel=\"noopener noreferrer\">Learn how FTMBA course registration works</a> and review the list of electives.</li></ul>",
+            "html": "<h4>FTMBA Electives for Spring 2026</h4><p></p><ul><li>The list of FTMBA Electives for Spring 2026 are now available.</li><li><a href=\"https://haas.berkeley.edu/ewmba/academics/full-time-mba-courses/\" target=\"_blank\" rel=\"noopener noreferrer\">Learn how FTMBA course registration works</a> and review the list of electives.</li></ul>"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Saturday Scoop",
+        "items": [
+          {
+            "title": "Program Office Staff",
+            "html": "<h4>Program Office Staff</h4><p></p><ul><li>This week's Program Office staff is Robby Cortes and Sophia Ardon, our Student Assistant. Drop by S440 and say hello!</li></ul>"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Events",
+        "items": [
+          {
+            "title": "Climate Solutions Fund Pitch Day",
+            "html": "<h4>Climate Solutions Fund Pitch Day</h4><br />Friday, Nov 21, 9AM - 1PM PST, Spieker Forum, Haas School of Business<ul><li>The Sustainable and Impact Finance Initiative will host the second Pitch Day for the Berkeley Haas Climate Solutions Fund.</li><li>Teams of student investment manager role will have the opportunity to present their investment opportunities to complete for a $300K investment from the Climate Solutions Fund.</li><li>To <a href=\"https://www.eventbrite.com/e/climate-solutions-fund-pitch-day-2025-tickets-1849698390679\" target=\"_blank\" rel=\"noopener noreferrer\">register for the Climate Solutions Fund Pitch Day</a>, please visit the Eventbrite page.<ul><li>Sensitive info around companies and investments may be shared during the event</li><li>If you attend, the event organizers ask that you please respect the confidentiality of the information shared during the Climate Solutions Fund Pitch Day</li></ul></li></ul>"
+          },
+          {
+            "title": "UC LAUNCH Demo Day",
+            "html": "<h4>UC LAUNCH Demo Day</h4><br />Tuesday, Dec 2, 10AM - 1:30PM PST, Spieker Forum, Haas School of Business<ul><li>Watch top teams from <a href=\"https://www.uclaunch.com/\" target=\"_blank\" rel=\"noopener noreferrer\">UC LAUNCH</a> pitch their ideas to judges to compete for up to $60K in prizes.</li><li>Attendees will also have the chance to network with founders, investors, and potential mentors.</li><li><a href=\"https://luma.com/n1jgz41a\" target=\"_blank\" rel=\"noopener noreferrer\">Registration for UC Launch Demo Day</a> is now available via Luma.</li><li>Please note that as of Nov 20, tickets are officially sold out. However, a waitlist is available.<ul><li>Waitlisted attendees will not have guaranteed seating in main room during the live pitches</li><li>Waitlisted attendees will still be able to join the networking portion</li></ul></li><li>Waitlisted attendees should receive an email on Dec 1 with further updates.</li></ul>",
+            "timeSensitive": {
+              "dates": [
+                "2025-12-02"
+              ],
+              "eventType": "event",
+              "priority": "medium"
+            }
+          },
+          {
+            "title": "Berkeley StEP Demo Day",
+            "html": "<h4>Berkeley StEP Demo Day</h4><br />Tuesday, Dec 2, 6PM - 9PM PST, Spieker Forum, Haas School of Business<ul><li>Berkeley’s top emerging founders will be pitching their startups to a panel of investors, mentors, and industry leaders.</li><li>Showcase Day is also an opportunity to:<ul><li>Hear insightful feedback from judges and mentors</li><li>Networking with the Berkeley founder and investor community</li></ul></li><li><a href=\"https://luma.com/7k1iszqv\" target=\"_blank\" rel=\"noopener noreferrer\">Registration for Berkeley StEP Demo Day</a> is now available via Luma.</li></ul>",
             "timeSensitive": {
               "dates": [
                 "2025-12-02"
@@ -112,11 +100,11 @@
         ]
       },
       {
-        "sectionTitle": "Saturday Scoop",
+        "sectionTitle": "Career Corner",
         "items": [
           {
-            "title": "Program Office Staff",
-            "html": "<h4>Program Office Staff</h4><ul><li>This week's Program Office staff are Justine Roades and Sophia Ardon, our Student Assistant. Drop by S440 and say hello!</li></ul>",
+            "title": "Pathways Forward: Building Your Job Search Strategy Post-Layoff",
+            "html": "<h4>Pathways Forward: Building Your Job Search Strategy Post-Layoff</h4><br />Tuesdays Dec 2 &amp; 9; 12-1:15PM PST, <a href=\"https://mba-haas-berkeley.12twenty.com/events/30006101316402\" target=\"_blank\" rel=\"noopener noreferrer\">CMG Bears</a><ul><li>Have you recently been impacted by layoffs and are wondering how to get started on finding your next role? Are you looking for guidance and support from career professionals and your peers? This workshop series is for you!</li><li>Focusing on those aiming to stay within their current function or industry, these workshops offer a structured, action-oriented approach to jump-starting your job search. This series is not for those who are looking to make big changes and pivots, but to help you find a role aligned with your skills or industry.</li><li>During the sessions you will:<ul><li>retouch your resume</li><li>develop a list of target companies</li><li>set up a networking outreach tracker to keep your efforts organized and effective</li></ul></li><li>Attendance in Part 1 (Dec 2 from 12:00-1:15 PM) is a prerequisite for Part 2 (Dec 9 from 12:00-1:15 PM)</li><li>These are highly interactive workshops with small group breakouts; please only sign up if your schedule allows you to actively participate with your camera on.</li></ul>",
             "timeSensitive": {
               "dates": [
                 "2025-12-02",
@@ -127,8 +115,8 @@
             }
           },
           {
-            "title": "Parking & Transportation - No Advisories as of Thursday",
-            "html": "<h4>Parking & Transportation - No Advisories as of Thursday</h4><ul><li>Berkeley Law Lot, Bowles and Underhill, etc should be available. Please take note of any posted signs at lot entrances or specific spots.</li></ul>",
+            "title": "Transferable Skills",
+            "html": "<h4>Transferable Skills</h4><br />Wednesday, Dec 3, 12PM - 1PM PST, <a href=\"https://mba-haas-berkeley.12twenty.com/events/30006101310514\" target=\"_blank\" rel=\"noopener noreferrer\">CMG Bears</a><ul><li>This workshop will help you describe your accomplishments in a way that your new audience can easily understand.<ul><li>Reframe your experience such that people in different industries/roles/organizations understand its value</li></ul></li><li>Through lectures, individual and small group activities, and Q&amp;A, you will learn to:<ul><li>Explicitly talk about your transferable skills</li><li>Elevate your skills-based stories by making them applicable to another role, organization, or industry</li></ul></li></ul>",
             "timeSensitive": {
               "dates": [
                 "2025-12-03"
@@ -140,92 +128,33 @@
         ]
       },
       {
-        "sectionTitle": "Events",
-        "items": [
-          {
-            "title": "Climate Solutions Fund Pitch Day",
-            "html": "<h4>Climate Solutions Fund Pitch Day</h4><p>Friday, Nov 21, 9AM - 1PM PST, Spieker Forum, Haas School of Business</p><ul><li>The Sustainable and Impact Finance Initiative will host the second Pitch Day for the Berkeley Haas Climate Solutions Fund.</li><li>Teams of student investment manager role will have the opportunity to present their investment opportunities to complete for a $300K investment from the Climate Solutions Fund.</li><li>To <a href=\"https://www.eventbrite.com/e/climate-solutions-fund-pitch-day-2025-tickets-1849698390679\" target=\"_blank\" rel=\"noopener noreferrer\">register for the Climate Solutions Fund Pitch Day</a>, please visit the Eventbrite page.<ul><li>Sensitive info around companies and investments may be shared during the event</li><li>If you attend, the event organizers ask that you please respect the confidentiality of the information shared during the Climate Solutions Fund Pitch Day</li></ul></li></ul>"
-          },
-          {
-            "title": "UC LAUNCH Demo Day",
-            "html": "<h4>UC LAUNCH Demo Day</h4><p>Tuesday, Dec 2, 10AM - 1:30PM PST, Spieker Forum, Haas School of Business</p><ul><li>Watch top teams from <a href=\"https://www.uclaunch.com/\" target=\"_blank\" rel=\"noopener noreferrer\">UC LAUNCH</a> pitch their ideas to judges to compete for up to $60K in prizes.</li><li>Attendees will also have the chance to network with founders, investors, and potential mentors.</li><li><a href=\"https://luma.com/n1jgz41a\" target=\"_blank\" rel=\"noopener noreferrer\">Registration for UC Launch Demo Day</a> is now available via Luma.<ul><li>Space is limited</li></ul></li></ul>"
-          }
-        ]
-      },
-      {
-        "sectionTitle": "Career Corner",
-        "items": [
-          {
-            "title": "Pathways Forward: Building Your Job Search Strategy Post-Layoff",
-            "html": "<h4>Pathways Forward: Building Your Job Search Strategy Post-Layoff</h4><p>Tuesdays Dec 2 & 9; 12-1:15PM PT, <a href=\"https://mba-haas-berkeley.12twenty.com/events/30006101316402\" target=\"_blank\" rel=\"noopener noreferrer\">Zoom</a></p><ul><li>Have you recently been impacted by layoffs and are wondering how to get started on finding your next role? Are you looking for guidance and support from career professionals and your peers? This workshop series is for you!</li><li>Focusing on those aiming to stay within their current function or industry, these workshops offer a structured, action-oriented approach to jump-starting your job search. This series is not for those who are looking to make big changes and pivots, but to help you find a role aligned with your skills or industry.</li><li>During the sessions you will:<ul><li>retouch your resume</li><li>develop a list of target companies</li><li>set up a networking outreach tracker to keep your efforts organized and effective</li></ul></li><li>Attendance in Part 1 (Dec 2 from 12:00-1:15 pm) is a prerequisite for Part 2 (Dec 9 from 12:00-1:15 pm)</li><li>These are highly interactive workshops with small group breakouts; please only sign up if your schedule allows you to actively participate with your camera on.</li></ul>"
-          },
-          {
-            "title": "Transferable Skills",
-            "html": "<h4>Transferable Skills</h4><p>Wednesday, Dec 3, 12PM - 1PM PST, <a href=\"https://mba-haas-berkeley.12twenty.com/events/30006101310514\" target=\"_blank\" rel=\"noopener noreferrer\">CMG Bears</a></p><ul><li>This workshop will help you describe your accomplishments in a way that your new audience can easily understand.<ul><li>Reframe your experience such that people in different industries/roles/organizations understand its value</li></ul></li><li>Through lectures, individual and small group activities, and Q&A, you will learn to:<ul><li>Explicitly talk about your transferable skills</li><li>Elevate your skills-based stories by making them applicable to another role, organization, or industry</li></ul></li></ul>"
-          }
-        ]
-      },
-      {
         "sectionTitle": "PO Tips and Tidbits",
         "items": [
           {
             "title": "Planning Ahead for Spring 2026 fees",
-            "html": "<h4>Planning Ahead for Spring 2026 fees</h4><p>How to Calculate the Spring 2026 Fees</p><ul><li>The all inclusive per unit fee for 2025-2026 is $3,972. Multiply that by the number of units you will be taking.</li><li>Spring 2026 tuition will be due in Jan. Enrollment in the Fee Payment Plan is per semester, not per year. Students must enroll in the plan again for Spring 2026.</li></ul><p>Setting up your Direct Deposit Account</p><ul><li>A Direct Deposit Electronic Funds Transfer Account is the easiest way to get refunds or other payments.</li><li>Go to CalCentral > My Finances > Financial Resources > Billing & Payments > Direct Deposit. Complete the steps to set up your account.</li></ul><p>1098-T Form</p><ul><li>Students will receive notification that their 1098-T form is read by the end of Jan 2026. More information here on the <a href=\"https://studentbilling.berkeley.edu/irs-form-1098-t-tax-form-information/accessing-your-1098-t-form-online\" target=\"_blank\" rel=\"noopener noreferrer\">Student Billing website</a>.</li></ul>"
+            "html": "<h4>Planning Ahead for Spring 2026 fees</h4><br /><br /><br /><strong>How to Calculate the Spring 2026 Fees</strong><ul><li>The all inclusive per unit fee for 2025-2026 is $3,972. Multiply that by the number of units you will be taking.</li><li>Spring 2026 tuition will be due in Jan. Enrollment in the Fee Payment Plan is per semester, not per year. Students must enroll in the plan again for Spring 2026.</li></ul><strong>Setting up your Direct Deposit Account</strong><ul><li>A Direct Deposit Electronic Funds Transfer Account is the easiest way to get refunds or other payments.</li><li>Go to CalCentral &gt; My Finances &gt; Financial Resources &gt; Billing &amp; Payments &gt; Direct Deposit. Complete the steps to set up your account.</li></ul><strong>1098-T Form</strong><ul><li>Students will receive notification that their 1098-T form is read by the end of Jan 2026. More information here on the <a href=\"https://studentbilling.berkeley.edu/irs-form-1098-t-tax-form-information/accessing-your-1098-t-form-online\" target=\"_blank\" rel=\"noopener noreferrer\">Student Billing website</a>.</li></ul>"
           }
         ]
       }
     ],
     "aiDebugInfo": {
-      "reasoning": "The newsletter was transformed into structured JSON format while preserving all content, hyperlinks, and formatting as specified.",
+      "reasoning": "Structured the newsletter content into JSON format while preserving all hyperlinks and content.",
       "sectionDecisions": [],
       "edgeCasesHandled": [],
-      "totalSections": 7,
-      "processingTime": 112450
+      "totalSections": 6,
+      "processingTime": 76691
     },
     "aiMeta": {}
   },
   "myWeekData": {
-    "weekStart": "2025-11-16",
-    "weekEnd": "2025-11-24",
+    "weekStart": "2025-11-23",
+    "weekEnd": "2025-12-01",
     "blueEvents": [
-      {
-        "date": "2025-11-16",
-        "time": "12:00 AM",
-        "title": "Data & Decisions (Blue) — Quiz 5 DUE",
-        "type": "exam",
-        "priority": "high",
-        "description": "QUIZ DUE!: Quiz 5 (covers Chapter 21). Due at midnight Sunday before class.",
-        "location": "No location",
-        "url": "https://www.gradescope.com/courses/1164266",
-        "sourceType": "calendar"
-      },
-      {
-        "date": "2025-11-17",
-        "time": "6:10 PM",
-        "title": "Data & Decisions (Blue) — Multiple Regression",
-        "type": "class",
-        "priority": "medium",
-        "description": "Topic 6: Multiple Regression. Bring your laptop for an ungraded exercise.",
-        "location": "Chou Hall N370, Berkeley Haas",
-        "url": "",
-        "sourceType": "calendar"
-      },
-      {
-        "date": "2025-11-19",
-        "time": "6:00 PM",
-        "title": "Marketing (Blue) — Content Performance",
-        "type": "class",
-        "priority": "medium",
-        "description": "Prepare readings on content marketing and a case study on Away.",
-        "location": "370 Chou Hall, Berkeley Haas",
-        "url": "",
-        "sourceType": "calendar"
-      },
       {
         "date": "2025-11-23",
         "time": "12:00 AM",
         "title": "Data & Decisions (Blue) — Quiz 6 DUE",
-        "type": "exam",
+        "type": "assignment",
         "priority": "high",
         "description": "QUIZ DUE!: Quiz 6 (covers Chapter 23). Due at midnight Sunday before class.",
         "location": "No location",
@@ -233,57 +162,74 @@
         "sourceType": "calendar"
       },
       {
-        "date": "2025-11-16",
+        "date": "2025-11-24",
+        "time": "6:10 PM",
+        "title": "Data & Decisions (Blue) — Building Regression Models",
+        "type": "class",
+        "priority": "medium",
+        "description": "Topic 7: Building Regression Models. Bring your laptop for in-class exercise.",
+        "location": "Chou Hall N370, Berkeley Haas",
+        "url": "",
+        "sourceType": "calendar"
+      },
+      {
+        "date": "2025-11-25",
+        "time": "6:00 PM",
+        "title": "Marketing (Blue) — Performance Loyalty",
+        "type": "class",
+        "priority": "medium",
+        "description": "Read/Prepare: Various articles on performance marketing.",
+        "location": "370 Chou Hall, Berkeley Haas",
+        "url": "https://bcourses.berkeley.edu/courses/1545360/external_tools/79374",
+        "sourceType": "calendar"
+      },
+      {
+        "date": "2025-11-30",
+        "time": "12:00 AM",
+        "title": "Data & Decisions (Blue) — Quiz 7 DUE",
+        "type": "assignment",
+        "priority": "high",
+        "description": "QUIZ DUE!: Quiz 7 (covers Chapter 24). Due at midnight Sunday before class.",
+        "location": "No location",
+        "url": "https://www.gradescope.com/courses/1164266",
+        "sourceType": "calendar"
+      },
+      {
+        "date": "2025-11-26",
         "time": "",
-        "title": "Sunday Traffic Advisory - Berkeley Half Marathon",
+        "title": "Program Office Nov Adjusted Hours",
         "type": "newsletter",
         "priority": "low",
-        "description": "Expect traffic delays due to the Berkeley Half Marathon. Plan your route accordingly.",
+        "description": "Program Office closed. Staff working from home.",
         "location": "",
         "url": "",
         "sourceType": "newsletter",
         "newsletterSource": {
           "sectionTitle": "This Week",
           "sectionIndex": 0,
-          "itemTitle": "Sunday Traffic Advisory - Berkeley Half Marathon",
+          "itemTitle": "Program Office Nov Adjusted Hours",
           "itemIndex": 0
+        }
+      },
+      {
+        "date": "2025-12-01",
+        "time": "9:00 AM",
+        "title": "Student Opportunity Fund 2025-2026 Application Now Open",
+        "type": "administrative",
+        "priority": "high",
+        "description": "Application due for funding opportunities. Don't miss out!",
+        "location": "",
+        "url": "",
+        "sourceType": "newsletter",
+        "newsletterSource": {
+          "sectionTitle": "Announcements",
+          "sectionIndex": 1,
+          "itemTitle": "Student Opportunity Fund 2025-2026 Application Now Open",
+          "itemIndex": 3
         }
       }
     ],
     "goldEvents": [
-      {
-        "date": "2025-11-16",
-        "time": "12:00 AM",
-        "title": "Data & Decisions (Gold) — Quiz 5 DUE",
-        "type": "exam",
-        "priority": "high",
-        "description": "QUIZ: Quiz 5 (covers Chapter 21) due at midnight. Find it on Gradescope.",
-        "location": "No location",
-        "url": "https://www.gradescope.com/courses/1164266",
-        "sourceType": "calendar"
-      },
-      {
-        "date": "2025-11-18",
-        "time": "6:10 PM",
-        "title": "Data & Decisions (Gold) — Multiple Regression",
-        "type": "class",
-        "priority": "medium",
-        "description": "Topic 6: Multiple Regression. Bring your laptop for an ungraded exercise.",
-        "location": "Chou Hall N370, Berkeley Haas",
-        "url": "",
-        "sourceType": "calendar"
-      },
-      {
-        "date": "2025-11-20",
-        "time": "6:00 PM",
-        "title": "Marketing (Gold) — Content Performance",
-        "type": "class",
-        "priority": "medium",
-        "description": "Prepare readings on content marketing and the Away case.",
-        "location": "370 Chou Hall, Berkeley Haas",
-        "url": "https://bcourses.berkeley.edu/courses/1545360/external_tools/79374",
-        "sourceType": "calendar"
-      },
       {
         "date": "2025-11-23",
         "time": "12:00 AM",
@@ -294,11 +240,55 @@
         "location": "No location",
         "url": "https://www.gradescope.com/courses/1164266",
         "sourceType": "calendar"
+      },
+      {
+        "date": "2025-11-24",
+        "time": "6:10 PM",
+        "title": "Data & Decisions (Gold) — Building Regression Models",
+        "type": "class",
+        "priority": "medium",
+        "description": "Topic 7: Building Regression Models. Bring your laptop for Exercise 4.",
+        "location": "Chou Hall N370, Berkeley Haas",
+        "url": "",
+        "sourceType": "calendar"
+      },
+      {
+        "date": "2025-11-25",
+        "time": "6:00 PM",
+        "title": "Marketing (Gold) — Performance Loyalty",
+        "type": "class",
+        "priority": "medium",
+        "description": "Read materials on performance marketing tools and AI search.",
+        "location": "370 Chou Hall, Berkeley Haas",
+        "url": "https://bcourses.berkeley.edu/courses/1545360/external_tools/79374",
+        "sourceType": "calendar"
+      },
+      {
+        "date": "2025-11-30",
+        "time": "12:00 AM",
+        "title": "Data & Decisions (Gold) — Quiz 7 DUE",
+        "type": "exam",
+        "priority": "high",
+        "description": "QUIZ: Quiz 7 (covers Chapter 24) due at midnight. Find it on Gradescope.",
+        "location": "No location",
+        "url": "https://www.gradescope.com/courses/1164266",
+        "sourceType": "calendar"
+      },
+      {
+        "date": "2025-12-01",
+        "time": "9:00 AM",
+        "title": "Student Opportunity Fund 2025-2026 Application Due",
+        "type": "administrative",
+        "priority": "high",
+        "description": "Application for funding due. Don't miss out on up to $2,000!",
+        "location": "No location",
+        "url": "",
+        "sourceType": "calendar"
       }
     ],
-    "blueSummary": "Heads up, Blue cohort! Quiz 5's due Sunday, then it's all about multiple regression and marketing magic. Don't let traffic slow you down—stay sharp and keep hustling!",
-    "goldSummary": "Heads up, Gold cohort! It's quiz time—Quiz 5's due Sunday, then gear up for Multiple Regression and Marketing. Stay sharp and caffeinated; you've got this!",
-    "processingTime": 21922
+    "blueSummary": "Get ready for a quiz marathon this week! Quiz 6 is due Sunday, then it's all about regression models and marketing insights. Don't forget the Student Opportunity Fund deadline on Dec 1!",
+    "goldSummary": "Get ready for a quiz marathon this week! Quiz 6's due Sunday, then Quiz 7's right after. Plus, don’t forget to apply for that sweet funding by Monday morning. You've got this!",
+    "processingTime": 20546
   },
   "cohortEvents": {
     "blue": [
@@ -2339,10 +2329,10 @@
     ]
   },
   "processingInfo": {
-    "totalTime": 147300,
-    "newsletterTime": 125022,
-    "calendarTime": 450,
-    "myWeekTime": 21922,
-    "timestamp": "2025-11-18T11:46:04.061Z"
+    "totalTime": 108666,
+    "newsletterTime": 88119,
+    "calendarTime": 778,
+    "myWeekTime": 20546,
+    "timestamp": "2025-11-24T10:15:50.919Z"
   }
 }
