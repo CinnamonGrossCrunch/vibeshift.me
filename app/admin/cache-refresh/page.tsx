@@ -4,12 +4,26 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 export default function CacheRefreshPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [authError, setAuthError] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [result, setResult] = useState<{
     success: boolean;
     message: string;
     duration?: number;
   } | null>(null);
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === 'beta') {
+      setIsAuthenticated(true);
+      setAuthError(false);
+    } else {
+      setAuthError(true);
+      setPassword('');
+    }
+  };
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -48,6 +62,62 @@ export default function CacheRefreshPage() {
     }
   };
 
+  // Show password prompt if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8 flex items-center justify-center">
+        <div className="max-w-md w-full">
+          <div className="bg-white rounded-lg shadow-xl p-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+              🔒 Admin Access
+            </h1>
+            
+            <form onSubmit={handlePasswordSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                  Enter Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    authError ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  placeholder="Enter password"
+                  autoFocus
+                />
+                {authError && (
+                  <p className="mt-2 text-sm text-red-600">
+                    ❌ Incorrect password. Please try again.
+                  </p>
+                )}
+              </div>
+              
+              <button
+                type="submit"
+                className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
+              >
+                Access Admin Console
+              </button>
+            </form>
+
+            <div className="mt-6">
+              <Link 
+                href="/"
+                className="text-blue-600 hover:text-blue-800 text-sm font-medium block text-center"
+              >
+                ← Back to Dashboard
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show admin panel if authenticated
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
       <div className="max-w-2xl mx-auto">
