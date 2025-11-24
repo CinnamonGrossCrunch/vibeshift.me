@@ -100,7 +100,7 @@ export interface UnifiedDashboardData {
   };
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   // CRITICAL: Prevent execution during Vercel build ONLY (not local development)
   // During Vercel build: CI=true and NEXT_PHASE='phase-production-build'
   // During local dev: Neither CI nor NEXT_PHASE are set
@@ -121,19 +121,27 @@ export async function GET() {
 
   const startTime = Date.now();
   
-  // 🚀 TRY CACHE FIRST (INSTANT LOADS ~50-200ms!)
-  console.log('🔍 [API] Checking cache for pre-rendered dashboard data...');
-  const cachedDashboard = await getCachedData<UnifiedDashboardData>(CACHE_KEYS.DASHBOARD_DATA);
+  // Check for force-refresh query parameter to bypass cache
+  const url = new URL(request.url);
+  const forceRefresh = url.searchParams.get('refresh') === 'true';
   
-  if (cachedDashboard) {
-    console.log(`✅ [API] CACHE HIT from ${cachedDashboard.source}! Returning pre-rendered data (${Date.now() - startTime}ms)`);
-    return NextResponse.json(cachedDashboard.data, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
-        'X-Cache-Source': cachedDashboard.source, // Debug header showing cache source
-        'X-Response-Time': `${Date.now() - startTime}ms`
-      }
-    });
+  // 🚀 TRY CACHE FIRST (INSTANT LOADS ~50-200ms!) - unless force refresh requested
+  if (!forceRefresh) {
+    console.log('🔍 [API] Checking cache for pre-rendered dashboard data...');
+    const cachedDashboard = await getCachedData<UnifiedDashboardData>(CACHE_KEYS.DASHBOARD_DATA);
+    
+    if (cachedDashboard) {
+      console.log(`✅ [API] CACHE HIT from ${cachedDashboard.source}! Returning pre-rendered data (${Date.now() - startTime}ms)`);
+      return NextResponse.json(cachedDashboard.data, {
+        headers: {
+          'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
+          'X-Cache-Source': cachedDashboard.source, // Debug header showing cache source
+          'X-Response-Time': `${Date.now() - startTime}ms`
+        }
+      });
+    }
+  } else {
+    console.log('🔄 [API] Force refresh requested - bypassing cache and regenerating data...');
   }
   
   console.log('⚠️ [API] Cache miss - generating fresh data (this may take 8-20 seconds)...');
@@ -348,8 +356,9 @@ export async function GET() {
           status: 200,
           headers: {
             'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
-            'X-Cache-Source': 'fresh-computed', // Debug header showing this was freshly computed
-            'X-Response-Time': `${totalTime}ms`
+            'X-Cache-Source': forceRefresh ? 'force-refresh' : 'fresh-computed', // Debug header showing source
+            'X-Response-Time': `${totalTime}ms`,
+            'X-Force-Refresh': forceRefresh ? 'true' : 'false'
           }
         });
       })(),
