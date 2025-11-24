@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function CacheRefreshPage() {
@@ -8,6 +8,7 @@ export default function CacheRefreshPage() {
   const [password, setPassword] = useState('');
   const [authError, setAuthError] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<{
     success: boolean;
     message: string;
@@ -25,9 +26,32 @@ export default function CacheRefreshPage() {
     }
   };
 
+  // Progress bar animation - estimated 15 seconds total
+  useEffect(() => {
+    if (!isRefreshing) {
+      setProgress(0);
+      return;
+    }
+
+    const estimatedDuration = 15000; // 15 seconds
+    const interval = 100; // Update every 100ms
+    const increment = (interval / estimatedDuration) * 100;
+
+    const timer = setInterval(() => {
+      setProgress((prev) => {
+        const next = prev + increment;
+        // Cap at 95% until actual completion
+        return next >= 95 ? 95 : next;
+      });
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, [isRefreshing]);
+
   const handleRefresh = async () => {
     setIsRefreshing(true);
     setResult(null);
+    setProgress(0);
     
     const startTime = Date.now();
     
@@ -36,12 +60,32 @@ export default function CacheRefreshPage() {
       const response = await fetch('/api/unified-dashboard?refresh=true');
       const duration = Date.now() - startTime;
       
+      // Set to 100% on completion
+      setProgress(100);
+      
       if (response.ok) {
-        setResult({
-          success: true,
-          message: `✅ Cache refreshed successfully! Newsletter and My Week data updated.`,
-          duration
-        });
+        // Parse response to validate actual data
+        const data = await response.json();
+        
+        // Verify the response contains valid data
+        const hasNewsletterData = data?.newsletterData?.sections?.length > 0;
+        const hasMyWeekData = data?.myWeekData?.blueEvents || data?.myWeekData?.goldEvents;
+        const cacheSource = response.headers.get('X-Cache-Source');
+        
+        // Check if we got fresh data or degraded/error data
+        if (!hasNewsletterData || data.newsletterData.title === 'Loading...') {
+          setResult({
+            success: false,
+            message: `⚠️ Cache refresh completed but data may be incomplete. Newsletter: ${hasNewsletterData ? '✓' : '✗'}, My Week: ${hasMyWeekData ? '✓' : '✗'}`,
+            duration
+          });
+        } else {
+          setResult({
+            success: true,
+            message: `✅ Cache refreshed successfully! Newsletter (${data.newsletterData.sections.length} sections) and My Week data updated. Cache source: ${cacheSource || 'fresh-computed'}`,
+            duration
+          });
+        }
       } else {
         const error = await response.json();
         setResult({
@@ -52,20 +96,21 @@ export default function CacheRefreshPage() {
       }
     } catch (error) {
       const duration = Date.now() - startTime;
+      setProgress(100);
       setResult({
         success: false,
         message: `❌ Network error: ${error instanceof Error ? error.message : 'Unknown error'}`,
         duration
       });
     } finally {
-      setIsRefreshing(false);
+      setTimeout(() => setIsRefreshing(false), 500); // Small delay to show 100%
     }
   };
 
   // Show password prompt if not authenticated
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-black to-slate-900 p-8 flex items-center justify-center">
         <div className="max-w-md w-200">
           <div className="bg-slate-800/60 backdrop-blur-sm rounded-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] border border-slate-700 p-8">
             <h1 className="text-3xl font-bold text-white mb-6 text-center">
@@ -97,7 +142,7 @@ export default function CacheRefreshPage() {
               
               <button
                 type="submit"
-                className="w-full py-3 px-6 bg-violet-600 hover:bg-violet-700 text-white rounded-lg font-semibold transition-colors"
+                className="w-full py-3 px-6 bg-violet-900/50 hover:bg-violet-700 text-white rounded-lg font-semibold transition-colors"
               >
                 Access Admin Console
               </button>
@@ -125,9 +170,9 @@ export default function CacheRefreshPage() {
 
   // Show admin panel if authenticated
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8">
-      <div className="w-200 mx-auto bg-glassmorphism-padded">
-        <div className="bg-slate-800/60 backdrop-blur-sm rounded-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] border border-slate-200 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-black to-slate-900 p-1">
+      <div className="relative w-100 mx-auto ">
+        <div className="bg-slate-800/20 backdrop-blur-md rounded-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)]  p-6">
           <h1 className="text-3xl font-light text-white mb-6">
         Cache Refresh Admin
           </h1>
@@ -167,6 +212,31 @@ export default function CacheRefreshPage() {
               ' Refresh Cache Now'
             )}
           </button>
+
+          {/* Progress Bar */}
+          {isRefreshing && (
+            <div className="mt-4">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm text-slate-300">Progress</span>
+                <span className="text-sm font-medium text-violet-400">{Math.round(progress)}%</span>
+              </div>
+              <div className="w-full bg-slate-700/50 rounded-full h-3 overflow-hidden">
+                <div 
+                  className="bg-gradient-to-r from-violet-500 to-violet-400 h-full rounded-full transition-all duration-300 ease-out relative"
+                  style={{ width: `${progress}%` } as React.CSSProperties}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
+                </div>
+              </div>
+              <p className="text-xs text-slate-400 mt-2 text-center">
+                {progress < 30 && '🔍 Fetching latest newsletter...'}
+                {progress >= 30 && progress < 60 && '📅 Processing calendar events...'}
+                {progress >= 60 && progress < 90 && '🤖 Generating AI summaries...'}
+                {progress >= 90 && progress < 100 && '💾 Updating cache...'}
+                {progress >= 100 && '✅ Complete!'}
+              </p>
+            </div>
+          )}
 
           {result && (
             <div className={`mt-6 p-4 rounded-lg backdrop-blur-sm ${

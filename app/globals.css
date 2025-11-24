@@ -616,6 +616,20 @@ body::-webkit-scrollbar {
   animation: fadeIn 0.5s ease-out;
 }
 
+/* Shimmer effect for progress bar */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
 /* ============================================================================
    Newsletter Source Tracing - Highlight Animation
    ============================================================================ */
@@ -916,13 +930,12 @@ body::-webkit-scrollbar {
 
 @media (min-width: 768px) {
   .cohort-event-text {
-    display: block !important;
-    -webkit-line-clamp: unset !important;
-    line-clamp: unset !important;
-    -webkit-box-orient: horizontal !important;
-    overflow: visible !important;
-    max-height: none !important;
-    white-space: normal !important;
+    display: block;
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+    -webkit-box-orient: unset;
+    overflow: visible;
+    max-height: none;
   }
 }
 /* Newsletter tab glow - applied to inactive Calendar tab when newsletter event clicked on mobile */
