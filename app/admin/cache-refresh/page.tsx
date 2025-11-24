@@ -66,10 +66,10 @@ export default function CacheRefreshPage() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8 flex items-center justify-center">
-        <div className="max-w-md w-full">
+        <div className="max-w-md w-200">
           <div className="bg-slate-800/60 backdrop-blur-sm rounded-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] border border-slate-700 p-8">
             <h1 className="text-3xl font-bold text-white mb-6 text-center">
-              🔒 Admin Access
+               Admin Access
             </h1>
             
             <form onSubmit={handlePasswordSubmit} className="space-y-4">
@@ -111,6 +111,12 @@ export default function CacheRefreshPage() {
                 ← Back to Dashboard
               </Link>
             </div>
+
+            <div className="mt-6 pt-4 border-t border-slate-700">
+              <p className="text-center text-sm text-slate-400">
+                Oski.app created and maintained by Matt Gross.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -120,10 +126,10 @@ export default function CacheRefreshPage() {
   // Show admin panel if authenticated
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8">
-      <div className="max-w-2xl mx-auto">
-        <div className="bg-slate-800/60 backdrop-blur-sm rounded-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] border border-slate-700 p-8">
-          <h1 className="text-3xl font-bold text-white mb-6">
-            🔄 Cache Refresh Admin
+      <div className="w-200 mx-auto bg-glassmorphism-padded">
+        <div className="bg-slate-800/60 backdrop-blur-sm rounded-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] border border-slate-200 p-8">
+          <h1 className="text-3xl font-light text-white mb-6">
+        Cache Refresh Admin
           </h1>
           
           <div className="bg-yellow-900/30 border border-yellow-700/50 rounded-lg p-4 mb-6 backdrop-blur-sm">
@@ -158,7 +164,7 @@ export default function CacheRefreshPage() {
                 Refreshing Cache...
               </span>
             ) : (
-              '🔄 Refresh Cache Now'
+              ' Refresh Cache Now'
             )}
           </button>
 
@@ -183,7 +189,7 @@ export default function CacheRefreshPage() {
 
           <div className="mt-8 pt-6 border-t border-slate-700">
             <h2 className="text-lg font-semibold text-white mb-3">
-              📊 Cache Status Info
+               Cache Status Details
             </h2>
             <div className="space-y-2 text-sm text-slate-300">
               <p>
@@ -205,6 +211,12 @@ export default function CacheRefreshPage() {
             >
               ← Back to Dashboard
             </Link>
+          </div>
+
+          <div className="mt-8 pt-6 border-t border-slate-700">
+            <p className="text-center text-sm text-slate-400">
+              Oski.app created and maintained by Matt Gross.
+            </p>
           </div>
         </div>
       </div>

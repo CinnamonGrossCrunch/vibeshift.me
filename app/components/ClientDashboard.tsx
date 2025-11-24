@@ -311,6 +311,9 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
       {/* Footer */}
       <footer className="mt-8 pb-6">
         <div className="max-w-[90rem] mx-auto px-3 sm:px-4 lg:px-6">
+          <p className="text-center text-sm text-slate-400 mb-4">
+            Oski.app created and maintained by Matt Gross.
+          </p>
           <div className="flex justify-end">
             <Link 
               href="/admin/cache-refresh"
