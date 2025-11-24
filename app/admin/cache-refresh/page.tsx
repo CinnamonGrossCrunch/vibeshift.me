@@ -65,16 +65,16 @@ export default function CacheRefreshPage() {
   // Show password prompt if not authenticated
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8 flex items-center justify-center">
         <div className="max-w-md w-full">
-          <div className="bg-white rounded-lg shadow-xl p-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+          <div className="bg-slate-800/60 backdrop-blur-sm rounded-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] border border-slate-700 p-8">
+            <h1 className="text-3xl font-bold text-white mb-6 text-center">
               🔒 Admin Access
             </h1>
             
             <form onSubmit={handlePasswordSubmit} className="space-y-4">
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-2">
                   Enter Password
                 </label>
                 <input
@@ -82,14 +82,14 @@ export default function CacheRefreshPage() {
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    authError ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-3 bg-slate-900/50 border rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent text-white placeholder-slate-500 ${
+                    authError ? 'border-red-500' : 'border-slate-600'
                   }`}
                   placeholder="Enter password"
                   autoFocus
                 />
                 {authError && (
-                  <p className="mt-2 text-sm text-red-600">
+                  <p className="mt-2 text-sm text-red-400">
                     ❌ Incorrect password. Please try again.
                   </p>
                 )}
@@ -97,7 +97,7 @@ export default function CacheRefreshPage() {
               
               <button
                 type="submit"
-                className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
+                className="w-full py-3 px-6 bg-violet-600 hover:bg-violet-700 text-white rounded-lg font-semibold transition-colors"
               >
                 Access Admin Console
               </button>
@@ -106,7 +106,7 @@ export default function CacheRefreshPage() {
             <div className="mt-6">
               <Link 
                 href="/"
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium block text-center"
+                className="text-violet-400 hover:text-violet-300 text-sm font-medium block text-center"
               >
                 ← Back to Dashboard
               </Link>
@@ -119,23 +119,23 @@ export default function CacheRefreshPage() {
 
   // Show admin panel if authenticated
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8">
       <div className="max-w-2xl mx-auto">
-        <div className="bg-white rounded-lg shadow-xl p-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-6">
+        <div className="bg-slate-800/60 backdrop-blur-sm rounded-3xl shadow-[0_2px_8px_-2px_rgba(0,0,0,0.08)] border border-slate-700 p-8">
+          <h1 className="text-3xl font-bold text-white mb-6">
             🔄 Cache Refresh Admin
           </h1>
           
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-            <p className="text-sm text-yellow-800">
+          <div className="bg-yellow-900/30 border border-yellow-700/50 rounded-lg p-4 mb-6 backdrop-blur-sm">
+            <p className="text-sm text-yellow-200">
               <strong>⚠️ Note:</strong> This will force-refresh all cached data including:
             </p>
-            <ul className="list-disc list-inside text-sm text-yellow-800 mt-2 space-y-1">
+            <ul className="list-disc list-inside text-sm text-yellow-200 mt-2 space-y-1">
               <li>Latest newsletter from Mailchimp</li>
               <li>Calendar events (Blue & Gold cohorts)</li>
               <li>My Week AI summaries</li>
             </ul>
-            <p className="text-sm text-yellow-800 mt-2">
+            <p className="text-sm text-yellow-200 mt-2">
               This process may take 8-20 seconds.
             </p>
           </div>
@@ -145,8 +145,8 @@ export default function CacheRefreshPage() {
             disabled={isRefreshing}
             className={`w-full py-4 px-6 rounded-lg font-semibold text-white transition-all ${
               isRefreshing
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-blue-600 hover:bg-blue-700 active:scale-95'
+                ? 'bg-slate-600 cursor-not-allowed'
+                : 'bg-violet-600 hover:bg-violet-700 active:scale-95'
             }`}
           >
             {isRefreshing ? (
@@ -163,37 +163,37 @@ export default function CacheRefreshPage() {
           </button>
 
           {result && (
-            <div className={`mt-6 p-4 rounded-lg ${
+            <div className={`mt-6 p-4 rounded-lg backdrop-blur-sm ${
               result.success 
-                ? 'bg-green-50 border border-green-200' 
-                : 'bg-red-50 border border-red-200'
+                ? 'bg-green-900/30 border border-green-700/50' 
+                : 'bg-red-900/30 border border-red-700/50'
             }`}>
               <p className={`text-sm font-medium ${
-                result.success ? 'text-green-800' : 'text-red-800'
+                result.success ? 'text-green-200' : 'text-red-200'
               }`}>
                 {result.message}
               </p>
               {result.duration && (
-                <p className="text-xs text-gray-600 mt-2">
+                <p className="text-xs text-slate-400 mt-2">
                   Completed in {(result.duration / 1000).toFixed(2)}s
                 </p>
               )}
             </div>
           )}
 
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
+          <div className="mt-8 pt-6 border-t border-slate-700">
+            <h2 className="text-lg font-semibold text-white mb-3">
               📊 Cache Status Info
             </h2>
-            <div className="space-y-2 text-sm text-gray-600">
+            <div className="space-y-2 text-sm text-slate-300">
               <p>
-                <strong>Automatic Refresh:</strong> Cron job runs daily at 8:10 AM Pacific
+                <strong className="text-slate-200">Automatic Refresh:</strong> Cron job runs daily at 8:10 AM Pacific
               </p>
               <p>
-                <strong>Cache Duration:</strong> 8 hours (28,800 seconds)
+                <strong className="text-slate-200">Cache Duration:</strong> 8 hours (28,800 seconds)
               </p>
               <p>
-                <strong>Last Manual Refresh:</strong> {result && result.success ? 'Just now' : 'Never'}
+                <strong className="text-slate-200">Last Manual Refresh:</strong> {result && result.success ? 'Just now' : 'Never'}
               </p>
             </div>
           </div>
@@ -201,7 +201,7 @@ export default function CacheRefreshPage() {
           <div className="mt-6">
             <Link 
               href="/"
-              className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+              className="text-violet-400 hover:text-violet-300 text-sm font-medium"
             >
               ← Back to Dashboard
             </Link>
