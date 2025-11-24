@@ -69,6 +69,23 @@ export async function extractTimeSensitiveData(
   console.log('📅 Starting time-sensitive data extraction...');
 
   try {
+    // Generate current week context dynamically
+    const today = new Date();
+    const currentDayName = today.toLocaleDateString('en-US', { weekday: 'long' });
+    const currentMonth = today.toLocaleDateString('en-US', { month: 'long' });
+    const currentDay = today.getDate();
+    const currentYear = today.getFullYear();
+    
+    // Generate next 7 days for reference
+    const referenceDates = Array.from({ length: 7 }, (_, i) => {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+      const monthName = date.toLocaleDateString('en-US', { month: 'short' });
+      const dayNum = date.getDate();
+      return `${dayName} ${monthName} ${dayNum}`;
+    }).join(', ');
+    
     // Prepare concise content for date extraction
     const itemsToAnalyze = organizedNewsletter.sections
       .flatMap(section => 
@@ -82,8 +99,8 @@ export async function extractTimeSensitiveData(
     const prompt = `Extract time-sensitive information from newsletter items. Return ONLY valid JSON.
 
 CURRENT CONTEXT:
-- Today is Sunday, November 3, 2025
-- Reference dates: Mon Nov 4, Tue Nov 5, Wed Nov 6, Thu Nov 7, Fri Nov 8, Sat Nov 9, Sun Nov 10
+- Today is ${currentDayName}, ${currentMonth} ${currentDay}, ${currentYear}
+- Reference dates: ${referenceDates}
 
 ITEMS TO ANALYZE:
 ${itemsToAnalyze.map((item, idx) => 
