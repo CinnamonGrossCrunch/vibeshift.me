@@ -312,199 +312,199 @@ export default function MonthGrid({
 
         return (
             <div
-            key={day.toISOString()}
-            className={`h-28 lg:h-32 p- flex flex-col sm:overflow-hidden ${
-              isSameMonth(day, currentMonth) ? 'bg-slate-600/10' : 'bg-transparent opacity-40'
-            } ${isToday ? 'rounded-md border-1 border-white bg-slate-800/10 '  : ''} ${
-              shouldGlow ? 'newsletter-cell-glow' : ''
-            }`}
+              key={day.toISOString()}
+              className={`h-28 lg:h-32 p-0 flex flex-col sm:overflow-hidden ${
+                isSameMonth(day, currentMonth) ? 'bg-slate-600/10' : 'bg-transparent opacity-40'
+              } ${isToday ? 'rounded-md border-1 border-yellow-300 ring-1 ring-yellow-300/60 shadow-[0_0_30px_rgba(253,181,21,0.3)]' : ''} ${
+                shouldGlow ? 'newsletter-cell-glow' : ''
+              }`}
             >
-            <div className={`text-xs font-medium mb-0 lg:mb-1 flex-shrink-0 flex items-center gap-1 ${
-              isToday ? 'text-yellow-300 font-bold' : 'text-white'
-            }`}>
-              {format(day, 'd')}
-              {showGreekTheater && hasGreekEvent && (
-              <Image 
-                src="/greeklogo.png"
-                alt="Greek Theater Event"
-                width={40}
-                height={24}
-                className="flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-opacity object-contain" 
-                title={`Greek Theater: ${getGreekTheaterEventsForDate(day).map(e => e.title).join(', ')}`}
-                onClick={(e) => {
-                e.stopPropagation();
-                const greekEvents = getGreekTheaterEventsForDate(day);
-                if (greekEvents.length > 0) {
-                  // Convert the first Greek Theater event to calendar event format
-                  const calendarEvent = greekTheaterToCalendarEvent(greekEvents[0]);
-                  onEventClick(calendarEvent);
-                }
-                }}
-              />
-              )}
-              {hasCalBearsEvent && (
-              <Image 
-                src="/cal_logo.png"
-                alt="Cal Bears Event"
-                width={25}
-                height={20}
-                className="flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-opacity object-containo hover-invert " 
-                title={`Cal Bears: ${dayCalBearsEvents.map(e => e.title).join(', ')}`}
-                onClick={(e) => {
-                e.stopPropagation();
-                if (dayCalBearsEvents.length > 0) {
-                  onEventClick(dayCalBearsEvents[0]);
-                }
-                }}
-              />
-              )}
-              {hasCampusGroupsEvent && (
-              <div 
-                className="w-6 h-6 flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-opacity bg-blue-600 rounded-lg flex items-center justify-center"
-                title={`Campus Groups: ${dayCampusGroupsEvents.map(e => e.title).join(', ')}`}
-                onClick={(e) => {
-                e.stopPropagation();
-                if (dayCampusGroupsEvents.length > 0) {
-                  onEventClick(dayCampusGroupsEvents[0]);
-                }
-                }}
-              >
-                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-              </div>
-              )}
-              {hasNewsletterEvent && (
-              <div 
-                className="flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-all duration-200 bg-purple-600 rounded-md flex items-center justify-center relative newsletter-icon-pulse border border-transparent hover:border-white w-4 h-4 md:w-auto md:h-auto md:px-1.5 md:py-0"
-                title={`Newsletter: ${dayNewsletterEvents.map(e => e.title).join(', ')}`}
-                onClick={(e) => {
-                e.stopPropagation();
-                if (dayNewsletterEvents.length > 0) {
-                  // If multiple newsletter events on same day, create a combined event with all events attached
-                  if (dayNewsletterEvents.length > 1) {
-                    const combinedEvent = {
-                      ...dayNewsletterEvents[0],
-                      title: `${dayNewsletterEvents.length} Newsletter Events`,
-                      description: dayNewsletterEvents.map(ev => ev.title).join('\n• '),
-                      // Combine all HTML content
-                      htmlContent: dayNewsletterEvents.map((ev, idx) => 
-                        `<div class="newsletter-event-${idx}">
-                          <h3 class="font-semibold text-lg mb-2">${ev.title}</h3>
-                          ${ev.htmlContent || ''}
-                        </div>`
-                      ).join('<hr class="my-4 border-slate-300" />'),
-                      // Add all individual events for modal to access
-                      multipleEvents: dayNewsletterEvents
-                    };
-                    onEventClick(combinedEvent);
-                  } else {
-                    // Single event, show normally
-                    onEventClick(dayNewsletterEvents[0]);
+              <div className={`text-xs  mb-0 lg:mb-1 flex-shrink-0 flex items-center gap-1 ${
+                isToday ? 'translate-x-[2px] text-yellow-500 font-black ' : 'text-white font-light'
+              }`}>
+                {format(day, 'd')}
+                {showGreekTheater && hasGreekEvent && (
+                <Image 
+                  src="/greeklogo.png"
+                  alt="Greek Theater Event"
+                  width={40}
+                  height={24}
+                  className="flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-opacity object-contain" 
+                  title={`Greek Theater: ${getGreekTheaterEventsForDate(day).map(e => e.title).join(', ')}`}
+                  onClick={(e) => {
+                  e.stopPropagation();
+                  const greekEvents = getGreekTheaterEventsForDate(day);
+                  if (greekEvents.length > 0) {
+                    // Convert the first Greek Theater event to calendar event format
+                    const calendarEvent = greekTheaterToCalendarEvent(greekEvents[0]);
+                    onEventClick(calendarEvent);
                   }
-                }
-                }}
-              >
-                {/* Icon for mobile, text for larger screens */}
-                <svg className="w-3 h-3 text-white md:hidden" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/>
-                </svg>
-                <span className="hidden md:inline text-[10px] text-white font-medium leading-tight">Event</span>
+                  }}
+                />
+                )}
+                {hasCalBearsEvent && (
+                <Image 
+                  src="/cal_logo.png"
+                  alt="Cal Bears Event"
+                  width={25}
+                  height={20}
+                  className="flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-opacity object-containo hover-invert " 
+                  title={`Cal Bears: ${dayCalBearsEvents.map(e => e.title).join(', ')}`}
+                  onClick={(e) => {
+                  e.stopPropagation();
+                  if (dayCalBearsEvents.length > 0) {
+                    onEventClick(dayCalBearsEvents[0]);
+                  }
+                  }}
+                />
+                )}
+                {hasCampusGroupsEvent && (
+                <div 
+                  className="w-6 h-6 flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-opacity bg-blue-600 rounded-lg flex items-center justify-center"
+                  title={`Campus Groups: ${dayCampusGroupsEvents.map(e => e.title).join(', ')}`}
+                  onClick={(e) => {
+                  e.stopPropagation();
+                  if (dayCampusGroupsEvents.length > 0) {
+                    onEventClick(dayCampusGroupsEvents[0]);
+                  }
+                  }}
+                >
+                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                )}
+                {hasNewsletterEvent && (
+                <div 
+                  className="flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 transition-all duration-200 bg-purple-600 rounded-md flex items-center justify-center relative newsletter-icon-pulse border border-transparent hover:border-white w-4 h-4 md:w-auto md:h-auto md:px-1.5 md:py-0"
+                  title={`Newsletter: ${dayNewsletterEvents.map(e => e.title).join(', ')}`}
+                  onClick={(e) => {
+                  e.stopPropagation();
+                  if (dayNewsletterEvents.length > 0) {
+                    // If multiple newsletter events on same day, create a combined event with all events attached
+                    if (dayNewsletterEvents.length > 1) {
+                      const combinedEvent = {
+                        ...dayNewsletterEvents[0],
+                        title: `${dayNewsletterEvents.length} Newsletter Events`,
+                        description: dayNewsletterEvents.map(ev => ev.title).join('\n• '),
+                        // Combine all HTML content
+                        htmlContent: dayNewsletterEvents.map((ev, idx) => 
+                          `<div class="newsletter-event-${idx}">
+                            <h3 class="font-semibold text-lg mb-2">${ev.title}</h3>
+                            ${ev.htmlContent || ''}
+                          </div>`
+                        ).join('<hr class="my-4 border-slate-300" />'),
+                        // Add all individual events for modal to access
+                        multipleEvents: dayNewsletterEvents
+                      };
+                      onEventClick(combinedEvent);
+                    } else {
+                      // Single event, show normally
+                      onEventClick(dayNewsletterEvents[0]);
+                    }
+                  }
+                  }}
+                >
+                  {/* Icon for mobile, text for larger screens */}
+                  <svg className="w-3 h-3 text-white md:hidden" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/>
+                  </svg>
+                  <span className="hidden md:inline text-[10px] text-white font-medium leading-tight">Event</span>
+                </div>
+                )}
               </div>
-              )}
-            </div>
-            <div className="flex-1 flex flex-col gap-px">
-              {allDayEvents.length > 0 ? (
-              allDayEvents.map((ev) => {
-                // Check if this is a newsletter event
-                const isNewsletterEvent = ev.source === 'newsletter' || (ev.source && ev.source.includes('newsletter'));
-                
-                // Check if this is another non-cohort event (UC Launch, Campus Groups, Cal Bears)
-                const isOtherNonCohortEvent = !isNewsletterEvent && ev.source && 
-                  (ev.source.includes('uc_launch_events') || 
-                   ev.source.includes('campus_groups') || 
-                   ev.source.includes('cal_bears_home'));
-                
-                // Check if this is a non-cohort event (UC Launch, Campus Groups, Newsletter, Cal Bears)
-                const isNonCohortEvent = isNewsletterEvent || isOtherNonCohortEvent;
-                
-                // Height: cohort events get calculated proportional height, non-cohort get fixed 20px
-                const eventHeight = isNonCohortEvent 
-                  ? '20px'
-                  : `calc((100% - ${(allDayEvents.length - 1) * 1}px) / ${allDayEvents.length})`;
-                
-                if (isNewsletterEvent) {
-                  // Newsletter event - show title with line-clamp-1 on mobile, line-clamp-3 on desktop
-                  const newsletterEv = ev as NewsletterCalendarEvent;
-                  const isMultiple = ev.title === 'Multiple Events';
+              <div className="flex-1 flex flex-col gap-px">
+                {allDayEvents.length > 0 ? (
+                allDayEvents.map((ev) => {
+                  // Check if this is a newsletter event
+                  const isNewsletterEvent = ev.source === 'newsletter' || (ev.source && ev.source.includes('newsletter'));
                   
-                  return (
-                    <div
-                      key={ev.uid ?? ev.title + ev.start}
-                      className="text-[10px] px-0.5 rounded-sm border cursor-pointer hover:opacity-80 transition-opacity backdrop-blur-sm bg-clip-padding saturate-50 shadow-sm bg-purple-600/60 border-purple-500/50 text-white hover:border-[#FDB515] font-medium overflow-hidden line-clamp-1 md:line-clamp-3"
-                      title={isMultiple ? `${newsletterEv.multipleEvents?.length || 0} Newsletter Events` : `Newsletter: ${ev.title}`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onEventClick(ev);
-                      }}
-                      style={{
-                        height: eventHeight
-                      }}
-                    >
-                      {ev.title}
-                    </div>
-                  );
-                } else if (isOtherNonCohortEvent) {
-                  // Other non-cohort events (UC Launch, Campus Groups, Cal Bears) - same clamping as newsletter
-                  const courseColor = getCourseColor(ev);
+                  // Check if this is another non-cohort event (UC Launch, Campus Groups, Cal Bears)
+                  const isOtherNonCohortEvent = !isNewsletterEvent && ev.source && 
+                    (ev.source.includes('uc_launch_events') || 
+                     ev.source.includes('campus_groups') || 
+                     ev.source.includes('cal_bears_home'));
                   
-                  return (
-                    <div
-                      key={ev.uid ?? ev.title + ev.start}
-                      className={`text-[10px] px-0.5 rounded-sm border cursor-pointer hover:opacity-80 transition-opacity ${courseColor} font-medium overflow-hidden line-clamp-1 md:line-clamp-3`}
-                      title={ev.title}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onEventClick(ev);
-                      }}
-                      style={{
-                        height: eventHeight
-                      }}
-                    >
-                      {ev.title}
-                    </div>
-                  );
-                } else {
-                  // Regular cohort event - responsive height and truncation
-                  const { courseName, assignment } = parseEventTitle(ev.title);
-                  const courseColor = getCourseColor(ev);
-                  const eventHasQuiz = hasQuiz(ev);
+                  // Check if this is a non-cohort event (UC Launch, Campus Groups, Newsletter, Cal Bears)
+                  const isNonCohortEvent = isNewsletterEvent || isOtherNonCohortEvent;
                   
-                  // Build single text string for proper line clamping
-                  const displayText = `${eventHasQuiz ? 'QUIZ: ' : ''}${courseName}${assignment ? ' — ' + assignment : ''}`;
+                  // Height: cohort events get calculated proportional height, non-cohort get fixed 20px
+                  const eventHeight = isNonCohortEvent 
+                    ? '20px'
+                    : `calc((100% - ${(allDayEvents.length - 1) * 1}px) / ${allDayEvents.length})`;
                   
-                  return (
-                    <div
-                      key={ev.uid ?? ev.title + ev.start}
-                      className={`text-[10px] px-1 py-0.5 rounded-sm border cursor-pointer hover:opacity-80 transition-opacity ${courseColor} ${eventHasQuiz ? 'font-bold' : 'font-medium'} overflow-hidden line-clamp-2 md:line-clamp-none`}
-                      title={`${assignment ? assignment + ' - ' : ''}${courseName} (${ev.title})${eventHasQuiz ? ' - QUIZ TODAY!' : ''}`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onEventClick(ev);
-                      }}
-                      style={{
-                        height: eventHeight
-                      }}
-                    >
-                      {displayText}
-                    </div>
-                  );
-                }
-              })
-              ) : (
-              <div className="flex-1" />
-              )}
-            </div>
+                  if (isNewsletterEvent) {
+                    // Newsletter event - show title with line-clamp-1 on mobile, line-clamp-3 on desktop
+                    const newsletterEv = ev as NewsletterCalendarEvent;
+                    const isMultiple = ev.title === 'Multiple Events';
+                    
+                    return (
+                      <div
+                        key={ev.uid ?? ev.title + ev.start}
+                        className="text-[10px] px-0.5 rounded-sm border cursor-pointer hover:opacity-80 transition-opacity backdrop-blur-sm bg-clip-padding saturate-50 shadow-sm bg-purple-600/60 border-purple-500/50 text-white hover:border-[#FDB515] font-medium overflow-hidden line-clamp-1 md:line-clamp-3"
+                        title={isMultiple ? `${newsletterEv.multipleEvents?.length || 0} Newsletter Events` : `Newsletter: ${ev.title}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEventClick(ev);
+                        }}
+                        style={{
+                          height: eventHeight
+                        }}
+                      >
+                        {ev.title}
+                      </div>
+                    );
+                  } else if (isOtherNonCohortEvent) {
+                    // Other non-cohort events (UC Launch, Campus Groups, Cal Bears) - same clamping as newsletter
+                    const courseColor = getCourseColor(ev);
+                    
+                    return (
+                      <div
+                        key={ev.uid ?? ev.title + ev.start}
+                        className={`text-[10px] px-0.5 rounded-sm border cursor-pointer hover:opacity-80 transition-opacity ${courseColor} font-medium overflow-hidden line-clamp-1 md:line-clamp-3`}
+                        title={ev.title}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEventClick(ev);
+                        }}
+                        style={{
+                          height: eventHeight
+                        }}
+                      >
+                        {ev.title}
+                      </div>
+                    );
+                  } else {
+                    // Regular cohort event - responsive height and truncation
+                    const { courseName, assignment } = parseEventTitle(ev.title);
+                    const courseColor = getCourseColor(ev);
+                    const eventHasQuiz = hasQuiz(ev);
+                    
+                    // Build single text string for proper line clamping
+                    const displayText = `${eventHasQuiz ? 'QUIZ: ' : ''}${courseName}${assignment ? ' — ' + assignment : ''}`;
+                    
+                    return (
+                      <div
+                        key={ev.uid ?? ev.title + ev.start}
+                        className={`text-[10px] px-1 py-0.5 rounded-sm border cursor-pointer hover:opacity-80 transition-opacity ${courseColor} ${eventHasQuiz ? 'font-bold' : 'font-medium'} overflow-hidden line-clamp-2 md:line-clamp-none`}
+                        title={`${assignment ? assignment + ' - ' : ''}${courseName} (${ev.title})${eventHasQuiz ? ' - QUIZ TODAY!' : ''}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEventClick(ev);
+                        }}
+                        style={{
+                          height: eventHeight
+                        }}
+                      >
+                        {displayText}
+                      </div>
+                    );
+                  }
+                })
+                ) : (
+                <div className="flex-1" />
+                )}
+              </div>
             </div>
         );
       })}

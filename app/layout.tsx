@@ -13,6 +13,7 @@ const urbanist = Urbanist({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://oski.app'),
   title: "OskiHub - EWMBA Dashboard",
   description: "Your Haas daily dashboard: classes, events, and resources in one place.",
   icons: {
@@ -31,10 +32,18 @@ export const metadata: Metadata = {
     siteName: "OskiHub",
     images: [
       {
-        url: "/OskiHubMetaCap.png",
+        url: "/oskihub-preview.gif", // GIF for platforms that support it
         width: 1200,
         height: 630,
         alt: "OskiHub Dashboard Preview",
+        type: "image/gif",
+      },
+      {
+        url: "/oskihub_anim_still.png", // Fallback static image
+        width: 1200,
+        height: 630,
+        alt: "OskiHub Dashboard Preview",
+        type: "image/png",
       },
     ],
     locale: "en_US",
@@ -44,7 +53,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "OskiHub - EWMBA Dashboard",
     description: "Your Haas daily dashboard: classes, events, and resources in one place.",
-    images: ["/OskiHubMetaCap.png"],
+    images: ["/oskihub_anim_still.png"],
   },
 };
 
