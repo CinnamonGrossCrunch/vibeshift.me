@@ -8,11 +8,16 @@ export default function CacheRefreshPage() {
   const [password, setPassword] = useState('');
   const [authError, setAuthError] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isDeploying, setIsDeploying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<{
     success: boolean;
     message: string;
     duration?: number;
+  } | null>(null);
+  const [deployResult, setDeployResult] = useState<{
+    success: boolean;
+    message: string;
   } | null>(null);
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
@@ -112,6 +117,38 @@ export default function CacheRefreshPage() {
       });
     } finally {
       setTimeout(() => setIsRefreshing(false), 500); // Small delay to show 100%
+    }
+  };
+
+  const handleDeploy = async () => {
+    setIsDeploying(true);
+    setDeployResult(null);
+    
+    try {
+      const response = await fetch('/api/trigger-deploy', {
+        method: 'POST',
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setDeployResult({
+          success: true,
+          message: `🚀 Deployment triggered! Job ID: ${data.job || 'N/A'}. Vercel will redeploy and pull latest newsletters from GitHub. This takes ~30-60 seconds.`,
+        });
+      } else {
+        const error = await response.json();
+        setDeployResult({
+          success: false,
+          message: `❌ Deploy failed: ${error.error || 'Unknown error'}. ${error.message || ''}`,
+        });
+      }
+    } catch (error) {
+      setDeployResult({
+        success: false,
+        message: `❌ Network error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      });
+    } finally {
+      setIsDeploying(false);
     }
   };
 
@@ -266,6 +303,57 @@ export default function CacheRefreshPage() {
               )}
             </div>
           )}
+
+          {/* Deploy / Sync Newsletters Section */}
+          <div className="mt-8 pt-6 border-t border-slate-700">
+            <h2 className="text-lg font-semibold text-white mb-3">
+              📧 Sync Gmail Newsletters
+            </h2>
+            <div className="bg-blue-900/30 border border-blue-700/50 rounded-lg p-4 mb-4 backdrop-blur-sm">
+              <p className="text-sm text-blue-200">
+                <strong>ℹ️ Info:</strong> This triggers a Vercel redeployment to pull the latest newsletter files from GitHub.
+              </p>
+              <p className="text-sm text-blue-200 mt-2">
+                Use this when new Gmail newsletters have been pushed to the repository but aren&apos;t showing on the site yet. Takes ~30-60 seconds.
+              </p>
+            </div>
+
+            <button
+              onClick={handleDeploy}
+              disabled={isDeploying}
+              className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all ${
+                isDeploying
+                  ? 'bg-slate-600 cursor-not-allowed'
+                  : 'bg-blue-600 hover:bg-blue-700 active:scale-95'
+              }`}
+            >
+              {isDeploying ? (
+                <span className="flex items-center justify-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Triggering Deployment...
+                </span>
+              ) : (
+                '🚀 Sync Newsletters from GitHub'
+              )}
+            </button>
+
+            {deployResult && (
+              <div className={`mt-4 p-4 rounded-lg backdrop-blur-sm ${
+                deployResult.success 
+                  ? 'bg-green-900/30 border border-green-700/50' 
+                  : 'bg-red-900/30 border border-red-700/50'
+              }`}>
+                <p className={`text-sm font-medium ${
+                  deployResult.success ? 'text-green-200' : 'text-red-200'
+                }`}>
+                  {deployResult.message}
+                </p>
+              </div>
+            )}
+          </div>
 
           <div className="mt-8 pt-6 border-t border-slate-700">
             <h2 className="text-lg font-semibold text-white mb-3">
