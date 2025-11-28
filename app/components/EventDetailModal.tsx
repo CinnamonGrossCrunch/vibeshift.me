@@ -64,6 +64,18 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
     // Remove broken inline images (cid: references)
     cleaned = cleaned.replace(/<img[^>]*src="cid:[^"]*"[^>]*>/gi, '');
     
+    // Fix external image URLs - add responsive classes
+    cleaned = cleaned.replace(
+      /<img([^>]*)>/gi,
+      (match, attrs) => {
+        // Skip if already has class or is a cid: reference
+        if (attrs.includes('class=') || attrs.includes('cid:')) {
+          return match;
+        }
+        return `<img${attrs} class="max-w-full h-auto rounded-lg my-4" loading="lazy">`;
+      }
+    );
+    
     // Remove empty divs and centers at start/end
     cleaned = cleaned.replace(/^(<div[^>]*>\s*<\/div>\s*)+/, '');
     cleaned = cleaned.replace(/(<div[^>]*>\s*<\/div>\s*)+$/, '');
@@ -596,10 +608,10 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
               {/* Newsletter htmlContent - Show full content for newsletter events */}
               {isNewsletterEvent && newsletterEvent?.htmlContent ? (
                 <div>
-                  <div className={`text-md leading-relaxed prose max-w-none ${
+                  <div className={`gmail-newsletter-content ${
                     isGmailNewsletter 
-                      ? 'prose-slate' 
-                      : 'prose-invert text-slate-300'
+                      ? '' 
+                      : 'text-slate-300'
                   }`}>
                     <div dangerouslySetInnerHTML={{ __html: cleanGmailNewsletterHTML(newsletterEvent.htmlContent) }} />
                   </div>

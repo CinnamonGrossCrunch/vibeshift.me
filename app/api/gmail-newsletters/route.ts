@@ -2,9 +2,16 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { marked } from 'marked';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
+
+// Configure marked options for better rendering
+marked.setOptions({
+  breaks: true, // Convert \n to <br>
+  gfm: true, // Enable GitHub Flavored Markdown
+});
 
 export async function GET() {
   try {
@@ -32,12 +39,26 @@ export async function GET() {
       // Parse frontmatter and content
       const { data, content } = matter(fileContents);
       
+      // Pre-process content before markdown conversion
+      let processedContent = content.trim();
+      
+      // Replace broken image references like [image: image.png] with placeholder
+      processedContent = processedContent.replace(
+        /\[image:\s*([^\]]+)\]/gi,
+        (match, imageName) => {
+          return `\n\n**📷 Image:** *${imageName.trim()}*\n\n`;
+        }
+      );
+      
+      // Convert markdown to HTML
+      const htmlContent = marked.parse(processedContent);
+      
       return {
         filename,
         title: data.title || filename.replace('.md', ''),
         date: data.date || 'Unknown date',
         source: data.source || 'gmail',
-        content: content.trim(),
+        content: htmlContent,
       };
     });
 
