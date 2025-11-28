@@ -409,7 +409,7 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
         ref={modalRef}
         className={`backdrop-blur-3xl rounded-2xl shadow-2xl max-w-3xl md:max-w-xl w-200 overflow-hidden flex flex-col ${
           isGmailNewsletter 
-            ? 'bg-white/80 max-h-[80vh]' 
+            ? 'bg-gradient-to-br from-violet-950/20 to-slate-950/20 max-h-[80vh]' 
             : 'bg-slate-900/60 max-h-220'
         }`}
       >
@@ -445,10 +445,10 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
               className={`p-2 rounded-lg transition-colors ${
                 hasPrevious 
                   ? isGmailNewsletter 
-                    ? 'hover:bg-slate-200 text-slate-700' 
+                    ? 'hover:bg-violet-700/30 text-slate-200' 
                     : 'hover:bg-slate-700 text-slate-300'
                   : isGmailNewsletter
-                    ? 'text-slate-400 cursor-not-allowed'
+                    ? 'text-slate-500 cursor-not-allowed'
                     : 'text-slate-600 cursor-not-allowed'
               }`}
               aria-label="Previous event"
@@ -466,10 +466,10 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
               className={`p-2 rounded-lg transition-colors ${
                 hasNext 
                   ? isGmailNewsletter 
-                    ? 'hover:bg-slate-200 text-slate-700' 
+                    ? 'hover:bg-violet-700/30 text-slate-200' 
                     : 'hover:bg-slate-700 text-slate-300'
                   : isGmailNewsletter
-                    ? 'text-slate-400 cursor-not-allowed'
+                    ? 'text-slate-500 cursor-not-allowed'
                     : 'text-slate-600 cursor-not-allowed'
               }`}
               aria-label="Next event"
@@ -485,14 +485,14 @@ export default function EventDetailModal({ event, originalEvent, onClose, onNext
               onClick={onClose}
               className={`p-2 rounded-lg transition-colors ml-2 ${
                 isGmailNewsletter 
-                  ? 'hover:bg-slate-200' 
+                  ? 'hover:bg-violet-700/30' 
                   : 'hover:bg-slate-700'
               }`}
               aria-label="Close"
               title="Close (Esc)"
             >
               <svg className={`w-5 h-5 ${
-                isGmailNewsletter ? 'text-slate-600' : 'text-slate-400'
+                isGmailNewsletter ? 'text-slate-200' : 'text-slate-400'
               }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>

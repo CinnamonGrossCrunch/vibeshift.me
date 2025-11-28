@@ -251,7 +251,7 @@ export default function MainDashboardTabs({
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {GMAIL_NEWSLETTER_VARIANTS.map((variant) => (
                     <div key={variant} className="relative w-full aspect-square overflow-hidden">
-                      <GmailNewsletterWidget variant={variant} />
+                      <GmailNewsletterWidget variant={variant} selectedCohort={selectedCohort} />
                     </div>
                   ))}
                 </div>

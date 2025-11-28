@@ -41,6 +41,7 @@ export const GMAIL_NEWSLETTER_VARIANTS: NewsletterVariant[] = [...GMAIL_VARIANT_
 
 interface GmailNewsletterWidgetProps {
   variant: NewsletterVariant;
+  selectedCohort?: 'blue' | 'gold';
 }
 
 const VARIANT_CONFIG: Record<NewsletterVariant, {
@@ -96,8 +97,10 @@ const convertToCalendarEvent = (
   htmlContent: newsletter.content
 });
 
-export default function GmailNewsletterWidget({ variant }: GmailNewsletterWidgetProps) {
+export default function GmailNewsletterWidget({ variant, selectedCohort = 'blue' }: GmailNewsletterWidgetProps) {
   const config = VARIANT_CONFIG[variant];
+  
+  // All hooks must be called before any conditional returns
   const [latestNewsletter, setLatestNewsletter] = useState<GmailNewsletter | null>(null);
   const [variantNewsletters, setVariantNewsletters] = useState<GmailNewsletter[]>([]);
   const [loading, setLoading] = useState(true);
@@ -143,6 +146,45 @@ export default function GmailNewsletterWidget({ variant }: GmailNewsletterWidget
   useEffect(() => {
     setIsAnimating(false);
   }, [latestNewsletter?.filename]);
+
+  // If this is Blue Crew Review variant and Gold cohort is selected, show placeholder
+  if (variant === 'bluecrew' && selectedCohort === 'gold') {
+    return (
+      <div className={`flex flex-col h-full ${COLORS.containerBg} backdrop-blur-md rounded-xl  shadow-xl overflow-hidden`}>
+        {/* Header */}
+        <div className={`px-6 py-2 ${COLORS.headerBg} backdrop-blur-md border-b ${COLORS.border}`}>
+          <div className="flex items-start justify-between">
+            <div className="flex-1">
+              <h2 className="text-lg font-semibold text-gray-500 mb-0">
+                Gold Cohort
+              </h2>
+              <p className="text-xs text-slate-400">
+                EWMBA 28 Gold Cohort Newsletter
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Placeholder Content */}
+        <div className="flex-1 flex items-center justify-center p-0">
+          <div className="text-center">
+            <div className="text-6xl mb-0"></div>
+            <h3 className="text-sm font-semibold text-gray-500 mb-0">
+              Gold Cohort Newsletter Not Yet Available
+            </h3>
+          
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className={`px-6 py-3 ${COLORS.footerBg} backdrop-blur-md border-t ${COLORS.border}`}>
+          <p className="text-xs text-slate-400 text-center">
+            Coming Soon
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   const handleNewsletterClick = () => {
     if (!latestNewsletter) return;

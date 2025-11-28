@@ -290,7 +290,7 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
           <div className={`hidden lg:block lg:col-span-2 ${isDash2Taller ? 'lg:row-span-2' : 'lg:row-span-1'}`}>
             <div id="dashboard-tabs-2" className="lg:min-h-full transition-all duration-700 ease-in-out">
               {!loading && dashboardData && (
-                <DashboardTabs2 dashboardData={dashboardData} />
+                <DashboardTabs2 dashboardData={dashboardData} selectedCohort={selectedCohort} />
               )}
             </div>
           </div>

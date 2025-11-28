@@ -7,12 +7,15 @@ import GmailNewsletterWidget, { GMAIL_NEWSLETTER_VARIANTS } from "./GmailNewslet
 import SlackWidget from "./SlackWidget";
 import type { UnifiedDashboardData } from '@/app/api/unified-dashboard/route';
 
+type CohortType = 'blue' | 'gold';
+
 interface DashboardTabs2Props {
   // Optional pre-fetched data to avoid duplicate API calls
   dashboardData?: UnifiedDashboardData | null;
+  selectedCohort?: CohortType;
 }
 
-export default function DashboardTabs2({ dashboardData: externalData }: DashboardTabs2Props) {
+export default function DashboardTabs2({ dashboardData: externalData, selectedCohort = 'blue' }: DashboardTabs2Props) {
   const [activeTab, setActiveTab] = useState('Updates');
   const [dashboardData, setDashboardData] = useState<UnifiedDashboardData | null>(externalData || null);
   const [loading, setLoading] = useState(!externalData); // If external data provided, don't start loading
@@ -190,7 +193,7 @@ export default function DashboardTabs2({ dashboardData: externalData }: Dashboar
             <div className="mt-2 grid sm:grid-cols-2 gap-2">
               {GMAIL_NEWSLETTER_VARIANTS.map((variant) => (
                 <div key={variant} className="relative w-full">
-                  <GmailNewsletterWidget variant={variant} />
+                  <GmailNewsletterWidget variant={variant} selectedCohort={selectedCohort} />
                 </div>
               ))}
             </div>
