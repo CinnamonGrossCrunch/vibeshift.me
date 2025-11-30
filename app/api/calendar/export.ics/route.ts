@@ -74,14 +74,61 @@ async function fetchNewsletterEvents(): Promise<CalendarEvent[]> {
     
     const events: CalendarEvent[] = [];
     
+    safeLog(`[ICS Export] Newsletter has ${newsletterData.sections?.length || 0} sections`);
+    
     // Extract events from newsletter sections
     newsletterData.sections.forEach((section: { sectionTitle?: string; items?: { title: string; html?: string; timeSensitive?: { dates?: string[]; priority?: string; eventType?: string } }[] }) => {
       if (!section.items) return;
       
+      safeLog(`[ICS Export] Section "${section.sectionTitle}" has ${section.items.length} items`);
+      
       section.items.forEach((item: { title: string; html?: string; timeSensitive?: { dates?: string[]; priority?: string; eventType?: string } }) => {
-        // Check for time-sensitive items with dates
+        safeLog(`[ICS Export] Processing: "${item.title}"`);
+        
+        // Collect all dates for this item
+        const allDates: string[] = [];
+        
+        // Strategy 1: Check for time-sensitive items with dates
         if (item.timeSensitive?.dates && Array.isArray(item.timeSensitive.dates)) {
-          item.timeSensitive.dates.forEach((dateStr: string) => {
+          safeLog(`  Found ${item.timeSensitive.dates.length} timeSensitive dates`);
+          allDates.push(...item.timeSensitive.dates);
+        }
+        
+        // Strategy 2: Parse dates from HTML content (fallback)
+        if (allDates.length === 0 && item.html) {
+          const content = item.html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+          const datePattern = /\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+\d{1,2}(?:,?\s+\d{4})?\b/gi;
+          const matches = content.match(datePattern);
+          
+          if (matches && matches.length > 0) {
+            safeLog(`  Found ${matches.length} date matches in content: ${matches.join(', ')}`);
+            const currentYear = new Date().getFullYear();
+            const seenDates = new Set<string>();
+            
+            matches.forEach((dateMatch: string) => {
+              try {
+                const hasYear = /\d{4}/.test(dateMatch);
+                const eventDate = new Date(hasYear ? dateMatch : `${dateMatch}, ${currentYear}`);
+                
+                if (!isNaN(eventDate.getTime())) {
+                  const dateKey = eventDate.toISOString().split('T')[0];
+                  if (!seenDates.has(dateKey)) {
+                    seenDates.add(dateKey);
+                    allDates.push(eventDate.toISOString());
+                  }
+                }
+              } catch {
+                // Skip invalid dates
+              }
+            });
+          }
+        }
+        
+        // Create events for all found dates
+        if (allDates.length > 0) {
+          safeLog(`  Creating ${allDates.length} events for "${item.title}"`);
+          
+          allDates.forEach((dateStr: string) => {
             try {
               const eventDate = new Date(dateStr);
               if (!isNaN(eventDate.getTime())) {
@@ -104,54 +151,26 @@ async function fetchNewsletterEvents(): Promise<CalendarEvent[]> {
                   source: 'newsletter',
                   categories: ['Newsletter', section.sectionTitle || 'Announcement']
                 });
+                
+                safeLog(`    ✓ Created event for ${eventDate.toISOString().split('T')[0]}`);
               }
             } catch {
               // Skip invalid dates
             }
           });
         } else {
-          // Fallback: parse dates from content
-          const content = (item.html || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-          const datePattern = /\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+\d{1,2}(?:,?\s+\d{4})?\b/gi;
-          const matches = content.match(datePattern);
-          
-          if (matches && matches.length > 0) {
-            const currentYear = new Date().getFullYear();
-            const seenDates = new Set<string>();
-            
-            matches.forEach((dateMatch: string) => {
-              try {
-                const hasYear = /\d{4}/.test(dateMatch);
-                const eventDate = new Date(hasYear ? dateMatch : `${dateMatch}, ${currentYear}`);
-                
-                if (!isNaN(eventDate.getTime())) {
-                  const dateKey = eventDate.toISOString().split('T')[0];
-                  
-                  if (!seenDates.has(dateKey)) {
-                    seenDates.add(dateKey);
-                    
-                    events.push({
-                      uid: `newsletter-${item.title.slice(0, 20).replace(/[^a-zA-Z0-9]/g, '')}-${dateKey}`,
-                      title: item.title,
-                      start: eventDate.toISOString(),
-                      end: eventDate.toISOString(),
-                      allDay: true,
-                      description: content.slice(0, 300),
-                      source: 'newsletter',
-                      categories: ['Newsletter', section.sectionTitle || 'Announcement']
-                    });
-                  }
-                }
-              } catch {
-                // Skip invalid dates
-              }
-            });
-          }
+          safeLog(`  ⚠️ No dates found for "${item.title}"`);
         }
       });
     });
     
     safeLog(`[ICS Export] Extracted ${events.length} events from newsletter`);
+    
+    // Debug: show sample events
+    if (events.length > 0) {
+      safeLog(`[ICS Export] Sample event:`, JSON.stringify(events[0], null, 2));
+    }
+    
     return events;
   } catch (error) {
     safeError('[ICS Export] Error fetching newsletter events:', error);
