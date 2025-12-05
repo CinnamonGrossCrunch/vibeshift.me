@@ -1,11 +1,10 @@
 'use client';
 
-import { useMemo, useEffect, useState } from 'react';
+import { useMemo, useEffect } from 'react';
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay, format } from 'date-fns';
 import Image from 'next/image';
 import type { CalendarEvent } from '@/lib/icsUtils';
 import { hasGreekTheaterEventOnDate, getGreekTheaterEventsForDate, greekTheaterToCalendarEvent } from '@/lib/greekTheater';
-import IcsExportModal from './IcsExportModal';
 
 // Newsletter event type (extends CalendarEvent with optional htmlContent)
 type NewsletterCalendarEvent = CalendarEvent & {
@@ -52,9 +51,6 @@ export default function MonthGrid({
 }: Props) {
   // Remove the internal state since month is controlled by parent
   // const [currentMonth, setCurrentMonth] = useState(new Date(2025, 7, 1));
-
-  // ICS Export Modal state
-  const [showIcsModal, setShowIcsModal] = useState(false);
 
   // Debug log newsletter props on component mount/update
   useEffect(() => {
@@ -513,25 +509,6 @@ export default function MonthGrid({
         );
       })}
       </div>
-
-      {/* ICS Export Button */}
-      <div className="mt-4 flex justify-center">
-        <button
-          onClick={() => setShowIcsModal(true)}
-          className="group inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg transition-all shadow-lg hover:shadow-xl font-medium text-sm"
-        >
-          <svg className="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <span>Subscribe to Calendar</span>
-          <svg className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
-        </button>
-      </div>
-
-      {/* ICS Export Modal */}
-      <IcsExportModal isOpen={showIcsModal} onClose={() => setShowIcsModal(false)} />
     </div>
   );
 }

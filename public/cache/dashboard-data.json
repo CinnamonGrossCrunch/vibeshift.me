@@ -20,11 +20,10 @@
             "html": "<h4>Program Office Hours - Winter Adjustments</h4><p></p><ul><li>Monday, Dec 15 - Thursday, Dec 18: Office will close at 6PM</li><li>Saturday, Dec 20 - Thursday, Jan 1: Closed for University Curtailment, Staff on Winter Break/holiday</li><li>Monday, Jan 5: Office will reopen at 9AM</li></ul>",
             "timeSensitive": {
               "dates": [
-                "2025-12-15",
-                "2025-12-18"
+                "2025-12-01"
               ],
-              "eventType": "announcement",
-              "priority": "medium"
+              "eventType": "deadline",
+              "priority": "high"
             }
           },
           {
@@ -44,14 +43,7 @@
           },
           {
             "title": "Student Opportunity Fund 2025-2026 Application Now Open",
-            "html": "<h4>Student Opportunity Fund 2025-2026 Application Now Open</h4><br />Application due Monday, Dec 1 at 9AM PST<ul><li>The Student Opportunity Fund provides funding for professional development opportunities for students.</li><li>Individual students or RSOs can apply to receive up to $2,000 for opportunities outside of the classroom such as:<ul><li>Visiting speakers</li><li>Forums on topics of general interest</li><li>Conferences</li></ul></li><li>The deadline for Fall 2025 applications is for any opportunity taking place between Jul 1, 2025 and Dec 31, 2025.<ul><li>The application will open again in Spring for opportunities taking place between Jan 1, 2026 and Jun 30, 2026</li></ul></li><li><a href=\"https://docs.google.com/forms/d/e/1FAIpQLSeDTvr4Me-Zue5gah5A7q20NuwTW6SzP9-oaRPrSM08dcuohw/viewform\" target=\"_blank\" rel=\"noopener noreferrer\">Apply for the Student Opportunity Fund</a> via Google Form.<ul><li>To <a href=\"https://docs.google.com/document/d/1M3KSX5GGeHodb-TbF7kZNdXE6y5nIvLig76oJNli7cE/edit?tab=t.0\" target=\"_blank\" rel=\"noopener noreferrer\">learn more about SOF's criteria, eligibility, and FAQs</a>, please review the Student Opportunity Funds Guide</li></ul></li></ul>",
-            "timeSensitive": {
-              "dates": [
-                "2025-12-01"
-              ],
-              "eventType": "deadline",
-              "priority": "high"
-            }
+            "html": "<h4>Student Opportunity Fund 2025-2026 Application Now Open</h4><br />Application due Monday, Dec 1 at 9AM PST<ul><li>The Student Opportunity Fund provides funding for professional development opportunities for students.</li><li>Individual students or RSOs can apply to receive up to $2,000 for opportunities outside of the classroom such as:<ul><li>Visiting speakers</li><li>Forums on topics of general interest</li><li>Conferences</li></ul></li><li>The deadline for Fall 2025 applications is for any opportunity taking place between Jul 1, 2025 and Dec 31, 2025.<ul><li>The application will open again in Spring for opportunities taking place between Jan 1, 2026 and Jun 30, 2026</li></ul></li><li><a href=\"https://docs.google.com/forms/d/e/1FAIpQLSeDTvr4Me-Zue5gah5A7q20NuwTW6SzP9-oaRPrSM08dcuohw/viewform\" target=\"_blank\" rel=\"noopener noreferrer\">Apply for the Student Opportunity Fund</a> via Google Form.<ul><li>To <a href=\"https://docs.google.com/document/d/1M3KSX5GGeHodb-TbF7kZNdXE6y5nIvLig76oJNli7cE/edit?tab=t.0\" target=\"_blank\" rel=\"noopener noreferrer\">learn more about SOF's criteria, eligibility, and FAQs</a>, please review the Student Opportunity Funds Guide</li></ul></li></ul>"
           },
           {
             "title": "FTMBA Electives for Spring 2026",
@@ -138,11 +130,11 @@
       }
     ],
     "aiDebugInfo": {
-      "reasoning": "Structured the newsletter content into JSON format while preserving all hyperlinks and content.",
+      "reasoning": "The newsletter was transformed into structured JSON format while preserving all content, hyperlinks, and formatting as specified.",
       "sectionDecisions": [],
       "edgeCasesHandled": [],
       "totalSections": 6,
-      "processingTime": 76691
+      "processingTime": 56641
     },
     "aiMeta": {}
   },
@@ -178,9 +170,9 @@
         "title": "Marketing (Blue) — Performance Loyalty",
         "type": "class",
         "priority": "medium",
-        "description": "Read/Prepare: Various articles on performance marketing.",
+        "description": "Prepare readings on performance marketing tools and AI search.",
         "location": "370 Chou Hall, Berkeley Haas",
-        "url": "https://bcourses.berkeley.edu/courses/1545360/external_tools/79374",
+        "url": "",
         "sourceType": "calendar"
       },
       {
@@ -196,12 +188,12 @@
       },
       {
         "date": "2025-11-26",
-        "time": "",
+        "time": "All Day",
         "title": "Program Office Nov Adjusted Hours",
         "type": "newsletter",
         "priority": "low",
-        "description": "Program Office closed. Staff working from home.",
-        "location": "",
+        "description": "Program Office closed; staff working from home.",
+        "location": "No location",
         "url": "",
         "sourceType": "newsletter",
         "newsletterSource": {
@@ -212,21 +204,32 @@
         }
       },
       {
-        "date": "2025-12-01",
-        "time": "9:00 AM",
-        "title": "Student Opportunity Fund 2025-2026 Application Now Open",
-        "type": "administrative",
-        "priority": "high",
-        "description": "Application due for funding opportunities. Don't miss out!",
-        "location": "",
+        "date": "2025-11-27",
+        "time": "All Day",
+        "title": "Program Office Nov Adjusted Hours",
+        "type": "newsletter",
+        "priority": "low",
+        "description": "Program Office closed for University Holiday.",
+        "location": "No location",
         "url": "",
         "sourceType": "newsletter",
         "newsletterSource": {
-          "sectionTitle": "Announcements",
-          "sectionIndex": 1,
-          "itemTitle": "Student Opportunity Fund 2025-2026 Application Now Open",
-          "itemIndex": 3
+          "sectionTitle": "This Week",
+          "sectionIndex": 0,
+          "itemTitle": "Program Office Nov Adjusted Hours",
+          "itemIndex": 0
         }
+      },
+      {
+        "date": "2025-11-30",
+        "time": "9:00 AM",
+        "title": "Student Opportunity Fund 2025-2026 Application Due",
+        "type": "administrative",
+        "priority": "high",
+        "description": "Application due for funding opportunities. Don't miss out!",
+        "location": "No location",
+        "url": "",
+        "sourceType": "calendar"
       }
     ],
     "goldEvents": [
@@ -258,7 +261,7 @@
         "title": "Marketing (Gold) — Performance Loyalty",
         "type": "class",
         "priority": "medium",
-        "description": "Read materials on performance marketing tools and AI search.",
+        "description": "Prepare readings on performance marketing tools and AI search.",
         "location": "370 Chou Hall, Berkeley Haas",
         "url": "https://bcourses.berkeley.edu/courses/1545360/external_tools/79374",
         "sourceType": "calendar"
@@ -275,33 +278,51 @@
         "sourceType": "calendar"
       },
       {
-        "date": "2025-12-01",
+        "date": "2025-11-26",
+        "time": "All Day",
+        "title": "Program Office Nov Adjusted Hours",
+        "type": "newsletter",
+        "priority": "low",
+        "description": "Program Office closed; staff working from home.",
+        "location": "No location",
+        "url": "",
+        "sourceType": "newsletter",
+        "newsletterSource": {
+          "sectionTitle": "This Week",
+          "sectionIndex": 0,
+          "itemTitle": "Program Office Nov Adjusted Hours",
+          "itemIndex": 0
+        }
+      },
+      {
+        "date": "2025-11-27",
+        "time": "All Day",
+        "title": "Thanksgiving Holiday",
+        "type": "other",
+        "priority": "low",
+        "description": "University Holiday; enjoy your break!",
+        "location": "No location",
+        "url": "",
+        "sourceType": "calendar"
+      },
+      {
+        "date": "2025-11-30",
         "time": "9:00 AM",
-        "title": "Student Opportunity Fund 2025-2026 Application Due",
+        "title": "Student Opportunity Fund Application Due",
         "type": "administrative",
         "priority": "high",
-        "description": "Application for funding due. Don't miss out on up to $2,000!",
+        "description": "Application due for funding opportunities. Don't miss out!",
         "location": "No location",
         "url": "",
         "sourceType": "calendar"
       }
     ],
-    "blueSummary": "Get ready for a quiz marathon this week! Quiz 6 is due Sunday, then it's all about regression models and marketing insights. Don't forget the Student Opportunity Fund deadline on Dec 1!",
-    "goldSummary": "Get ready for a quiz marathon this week! Quiz 6's due Sunday, then Quiz 7's right after. Plus, don’t forget to apply for that sweet funding by Monday morning. You've got this!",
-    "processingTime": 20546
+    "blueSummary": "Get ready for a quiz marathon this week! Quiz 6's due Sunday, then Quiz 7's right after. Plus, don’t forget to prep for classes and the Student Opportunity Fund application. You've got this!",
+    "goldSummary": "Get ready for a quiz marathon this week! Quiz 6 is due Sunday, then Quiz 7 next Sunday. Don't forget to prep for classes and enjoy the Thanksgiving break. You've got this!",
+    "processingTime": 33334
   },
   "cohortEvents": {
     "blue": [
-      {
-        "uid": "cab7d66a-ca60-40f3-88fb-587d356d5957@vibeshift.me",
-        "title": "Microeconomics – Week 1: Principles of Economics",
-        "start": "2025-07-29T01:00:00.000Z",
-        "end": "2025-07-29T04:30:00.000Z",
-        "description": "EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba201a_micro_blue_fall2025.ics"
-      },
       {
         "uid": "6bd80244-6a8b-4cc3-91cf-e78c88a18ac2@vibeshift.me",
         "title": "Microeconomics – Week 2: Demand Analysis I",
@@ -934,16 +955,6 @@
       }
     ],
     "gold": [
-      {
-        "uid": "b2f64a44-499f-4a20-a8cc-4fd39e3a3f24@vibeshift.me",
-        "title": "Microeconomics – Week 1: Principles of Economics",
-        "start": "2025-07-30T01:00:00.000Z",
-        "end": "2025-07-30T04:30:00.000Z",
-        "description": "EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba201a_micro_gold_fall2025.ics"
-      },
       {
         "uid": "f3355e47-04de-4f8e-943c-415fb7f50419@vibeshift.me",
         "title": "Microeconomics – Week 2: Demand Analysis I",
@@ -2329,10 +2340,10 @@
     ]
   },
   "processingInfo": {
-    "totalTime": 108666,
-    "newsletterTime": 88119,
-    "calendarTime": 778,
-    "myWeekTime": 20546,
-    "timestamp": "2025-11-24T10:15:50.919Z"
+    "totalTime": 98487,
+    "newsletterTime": 65151,
+    "calendarTime": 446,
+    "myWeekTime": 33336,
+    "timestamp": "2025-11-30T05:43:21.839Z"
   }
 }

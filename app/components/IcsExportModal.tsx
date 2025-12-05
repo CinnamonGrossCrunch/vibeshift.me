@@ -8,6 +8,12 @@ interface IcsExportModalProps {
   onClose: () => void;
 }
 
+interface EventPreview {
+  title: string;
+  start: string;
+  source?: string;
+}
+
 export default function IcsExportModal({ isOpen, onClose }: IcsExportModalProps) {
   const [filters, setFilters] = useState<IcsFilterOptions>({
     blueClasses: false,
@@ -22,6 +28,9 @@ export default function IcsExportModal({ isOpen, onClose }: IcsExportModalProps)
   
   const [copied, setCopied] = useState(false);
   const [baseUrl, setBaseUrl] = useState('');
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
+  const [eventPreviews, setEventPreviews] = useState<Record<string, EventPreview[]>>({});
+  const [loadingPreviews, setLoadingPreviews] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     // Get the current base URL
@@ -73,6 +82,69 @@ export default function IcsExportModal({ isOpen, onClose }: IcsExportModalProps)
       setTimeout(() => setCopied(false), 3000);
     } catch (err) {
       console.error('Failed to copy:', err);
+    }
+  };
+
+  const toggleSection = async (key: string, filterKey: keyof IcsFilterOptions) => {
+    const isExpanding = !expandedSections[key];
+    setExpandedSections(prev => ({ ...prev, [key]: isExpanding }));
+    
+    // Load events if expanding and not already loaded
+    if (isExpanding && !eventPreviews[key]) {
+      setLoadingPreviews(prev => ({ ...prev, [key]: true }));
+      try {
+        const response = await fetch(`${baseUrl}?${filterKey.replace('Classes', '').toLowerCase()}=1`);
+        const icsContent = await response.text();
+        
+        // Parse ICS to extract event summaries
+        const events: EventPreview[] = [];
+        const lines = icsContent.split('\n');
+        let currentEvent: Partial<EventPreview> = {};
+        
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (trimmed === 'BEGIN:VEVENT') {
+            currentEvent = {};
+          } else if (trimmed.startsWith('SUMMARY:')) {
+            currentEvent.title = trimmed.substring(8).replace(/\\n/g, ' ').replace(/\\,/g, ',');
+          } else if (trimmed.startsWith('DTSTART')) {
+            const dateMatch = trimmed.match(/:([\dT]+)/);
+            if (dateMatch) {
+              const dateStr = dateMatch[1];
+              if (dateStr.includes('T')) {
+                // DateTime format
+                currentEvent.start = `${dateStr.substring(0, 4)}-${dateStr.substring(4, 6)}-${dateStr.substring(6, 8)}`;
+              } else {
+                // Date only format
+                currentEvent.start = `${dateStr.substring(0, 4)}-${dateStr.substring(4, 6)}-${dateStr.substring(6, 8)}`;
+              }
+            }
+          } else if (trimmed === 'END:VEVENT' && currentEvent.title) {
+            events.push(currentEvent as EventPreview);
+          }
+        }
+        
+        // Sort by date and limit to 10 most recent/upcoming
+        const sortedEvents = events
+          .sort((a, b) => (a.start || '').localeCompare(b.start || ''))
+          .slice(0, 10);
+        
+        setEventPreviews(prev => ({ ...prev, [key]: sortedEvents }));
+      } catch (error) {
+        console.error('Failed to load event preview:', error);
+        setEventPreviews(prev => ({ ...prev, [key]: [] }));
+      } finally {
+        setLoadingPreviews(prev => ({ ...prev, [key]: false }));
+      }
+    }
+  };
+
+  const formatDate = (dateStr: string) => {
+    try {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    } catch {
+      return dateStr;
     }
   };
 
@@ -140,116 +212,348 @@ export default function IcsExportModal({ isOpen, onClose }: IcsExportModalProps)
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {/* Blue Cohort */}
-              <label className="flex items-center gap-3 p-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 cursor-pointer transition-colors border border-transparent hover:border-green-500/50">
-                <input
-                  type="checkbox"
-                  checked={filters.blueClasses}
-                  onChange={() => toggleFilter('blueClasses')}
-                  className="w-5 h-5 rounded border-slate-500 text-green-600 focus:ring-green-500 focus:ring-offset-slate-800"
-                />
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-green-600"></div>
-                  <span className="text-slate-200 font-medium">Blue Cohort Classes</span>
-                </div>
-              </label>
+              <div className="rounded-lg bg-slate-700/50 border border-transparent hover:border-green-500/50 transition-colors">
+                <label className="flex items-center gap-3 p-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={filters.blueClasses}
+                    onChange={() => toggleFilter('blueClasses')}
+                    className="w-5 h-5 rounded border-slate-500 text-green-600 focus:ring-green-500 focus:ring-offset-slate-800"
+                  />
+                  <div className="flex items-center gap-2 flex-1">
+                    <div className="w-3 h-3 rounded-full bg-green-600"></div>
+                    <span className="text-slate-200 font-medium">Blue Cohort Classes</span>
+                  </div>
+                  <button
+                    onClick={(e) => { e.preventDefault(); toggleSection('blue', 'blueClasses'); }}
+                    className="text-slate-400 hover:text-slate-200 transition-colors"
+                    aria-label="Toggle event preview"
+                  >
+                    <svg className={`w-5 h-5 transition-transform ${expandedSections['blue'] ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </label>
+                {expandedSections['blue'] && (
+                  <div className="px-3 pb-3 text-sm">
+                    {loadingPreviews['blue'] ? (
+                      <div className="text-slate-400 italic">Loading events...</div>
+                    ) : eventPreviews['blue']?.length > 0 ? (
+                      <div className="space-y-1 max-h-40 overflow-y-auto">
+                        {eventPreviews['blue'].map((event, idx) => (
+                          <div key={idx} className="flex justify-between text-slate-300 py-1 border-t border-slate-600/50">
+                            <span className="truncate flex-1 pr-2">{event.title}</span>
+                            <span className="text-slate-400 text-xs whitespace-nowrap">{formatDate(event.start)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-slate-400 italic">No events found</div>
+                    )}
+                  </div>
+                )}
+              </div>
 
               {/* Gold Cohort */}
-              <label className="flex items-center gap-3 p-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 cursor-pointer transition-colors border border-transparent hover:border-yellow-500/50">
-                <input
-                  type="checkbox"
-                  checked={filters.goldClasses}
-                  onChange={() => toggleFilter('goldClasses')}
-                  className="w-5 h-5 rounded border-slate-500 text-yellow-600 focus:ring-yellow-500 focus:ring-offset-slate-800"
-                />
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-yellow-600"></div>
-                  <span className="text-slate-200 font-medium">Gold Cohort Classes</span>
-                </div>
-              </label>
+              <div className="rounded-lg bg-slate-700/50 border border-transparent hover:border-yellow-500/50 transition-colors">
+                <label className="flex items-center gap-3 p-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={filters.goldClasses}
+                    onChange={() => toggleFilter('goldClasses')}
+                    className="w-5 h-5 rounded border-slate-500 text-yellow-600 focus:ring-yellow-500 focus:ring-offset-slate-800"
+                  />
+                  <div className="flex items-center gap-2 flex-1">
+                    <div className="w-3 h-3 rounded-full bg-yellow-600"></div>
+                    <span className="text-slate-200 font-medium">Gold Cohort Classes</span>
+                  </div>
+                  <button
+                    onClick={(e) => { e.preventDefault(); toggleSection('gold', 'goldClasses'); }}
+                    className="text-slate-400 hover:text-slate-200 transition-colors"
+                    aria-label="Toggle event preview"
+                  >
+                    <svg className={`w-5 h-5 transition-transform ${expandedSections['gold'] ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </label>
+                {expandedSections['gold'] && (
+                  <div className="px-3 pb-3 text-sm">
+                    {loadingPreviews['gold'] ? (
+                      <div className="text-slate-400 italic">Loading events...</div>
+                    ) : eventPreviews['gold']?.length > 0 ? (
+                      <div className="space-y-1 max-h-40 overflow-y-auto">
+                        {eventPreviews['gold'].map((event, idx) => (
+                          <div key={idx} className="flex justify-between text-slate-300 py-1 border-t border-slate-600/50">
+                            <span className="truncate flex-1 pr-2">{event.title}</span>
+                            <span className="text-slate-400 text-xs whitespace-nowrap">{formatDate(event.start)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-slate-400 italic">No events found</div>
+                    )}
+                  </div>
+                )}
+              </div>
 
               {/* Cal Bears */}
-              <label className="flex items-center gap-3 p-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 cursor-pointer transition-colors border border-transparent hover:border-blue-500/50">
-                <input
-                  type="checkbox"
-                  checked={filters.calBears}
-                  onChange={() => toggleFilter('calBears')}
-                  className="w-5 h-5 rounded border-slate-500 text-blue-600 focus:ring-blue-500 focus:ring-offset-slate-800"
-                />
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-blue-600"></div>
-                  <span className="text-slate-200 font-medium">Cal Bears Sports</span>
-                </div>
-              </label>
+              <div className="rounded-lg bg-slate-700/50 border border-transparent hover:border-blue-500/50 transition-colors">
+                <label className="flex items-center gap-3 p-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={filters.calBears}
+                    onChange={() => toggleFilter('calBears')}
+                    className="w-5 h-5 rounded border-slate-500 text-blue-600 focus:ring-blue-500 focus:ring-offset-slate-800"
+                  />
+                  <div className="flex items-center gap-2 flex-1">
+                    <div className="w-3 h-3 rounded-full bg-blue-600"></div>
+                    <span className="text-slate-200 font-medium">Cal Bears Sports</span>
+                  </div>
+                  <button
+                    onClick={(e) => { e.preventDefault(); toggleSection('calbears', 'calBears'); }}
+                    className="text-slate-400 hover:text-slate-200 transition-colors"
+                    aria-label="Toggle event preview"
+                  >
+                    <svg className={`w-5 h-5 transition-transform ${expandedSections['calbears'] ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </label>
+                {expandedSections['calbears'] && (
+                  <div className="px-3 pb-3 text-sm">
+                    {loadingPreviews['calbears'] ? (
+                      <div className="text-slate-400 italic">Loading events...</div>
+                    ) : eventPreviews['calbears']?.length > 0 ? (
+                      <div className="space-y-1 max-h-40 overflow-y-auto">
+                        {eventPreviews['calbears'].map((event, idx) => (
+                          <div key={idx} className="flex justify-between text-slate-300 py-1 border-t border-slate-600/50">
+                            <span className="truncate flex-1 pr-2">{event.title}</span>
+                            <span className="text-slate-400 text-xs whitespace-nowrap">{formatDate(event.start)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-slate-400 italic">No events found</div>
+                    )}
+                  </div>
+                )}
+              </div>
 
               {/* UC Launch */}
-              <label className="flex items-center gap-3 p-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 cursor-pointer transition-colors border border-transparent hover:border-orange-500/50">
-                <input
-                  type="checkbox"
-                  checked={filters.ucLaunch}
-                  onChange={() => toggleFilter('ucLaunch')}
-                  className="w-5 h-5 rounded border-slate-500 text-orange-600 focus:ring-orange-500 focus:ring-offset-slate-800"
-                />
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-orange-600"></div>
-                  <span className="text-slate-200 font-medium">UC Launch Events</span>
-                </div>
-              </label>
+              <div className="rounded-lg bg-slate-700/50 border border-transparent hover:border-orange-500/50 transition-colors">
+                <label className="flex items-center gap-3 p-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={filters.ucLaunch}
+                    onChange={() => toggleFilter('ucLaunch')}
+                    className="w-5 h-5 rounded border-slate-500 text-orange-600 focus:ring-orange-500 focus:ring-offset-slate-800"
+                  />
+                  <div className="flex items-center gap-2 flex-1">
+                    <div className="w-3 h-3 rounded-full bg-orange-600"></div>
+                    <span className="text-slate-200 font-medium">UC Launch Events</span>
+                  </div>
+                  <button
+                    onClick={(e) => { e.preventDefault(); toggleSection('uclaunch', 'ucLaunch'); }}
+                    className="text-slate-400 hover:text-slate-200 transition-colors"
+                    aria-label="Toggle event preview"
+                  >
+                    <svg className={`w-5 h-5 transition-transform ${expandedSections['uclaunch'] ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </label>
+                {expandedSections['uclaunch'] && (
+                  <div className="px-3 pb-3 text-sm">
+                    {loadingPreviews['uclaunch'] ? (
+                      <div className="text-slate-400 italic">Loading events...</div>
+                    ) : eventPreviews['uclaunch']?.length > 0 ? (
+                      <div className="space-y-1 max-h-40 overflow-y-auto">
+                        {eventPreviews['uclaunch'].map((event, idx) => (
+                          <div key={idx} className="flex justify-between text-slate-300 py-1 border-t border-slate-600/50">
+                            <span className="truncate flex-1 pr-2">{event.title}</span>
+                            <span className="text-slate-400 text-xs whitespace-nowrap">{formatDate(event.start)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-slate-400 italic">No events found</div>
+                    )}
+                  </div>
+                )}
+              </div>
 
               {/* Newsletter */}
-              <label className="flex items-center gap-3 p-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 cursor-pointer transition-colors border border-transparent hover:border-purple-500/50">
-                <input
-                  type="checkbox"
-                  checked={filters.newsletter}
-                  onChange={() => toggleFilter('newsletter')}
-                  className="w-5 h-5 rounded border-slate-500 text-purple-600 focus:ring-purple-500 focus:ring-offset-slate-800"
-                />
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-purple-600"></div>
-                  <span className="text-slate-200 font-medium">Newsletter Events</span>
-                </div>
-              </label>
+              <div className="rounded-lg bg-slate-700/50 border border-transparent hover:border-purple-500/50 transition-colors">
+                <label className="flex items-center gap-3 p-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={filters.newsletter}
+                    onChange={() => toggleFilter('newsletter')}
+                    className="w-5 h-5 rounded border-slate-500 text-purple-600 focus:ring-purple-500 focus:ring-offset-slate-800"
+                  />
+                  <div className="flex items-center gap-2 flex-1">
+                    <div className="w-3 h-3 rounded-full bg-purple-600"></div>
+                    <span className="text-slate-200 font-medium">Newsletter Events</span>
+                  </div>
+                  <button
+                    onClick={(e) => { e.preventDefault(); toggleSection('newsletter', 'newsletter'); }}
+                    className="text-slate-400 hover:text-slate-200 transition-colors"
+                    aria-label="Toggle event preview"
+                  >
+                    <svg className={`w-5 h-5 transition-transform ${expandedSections['newsletter'] ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </label>
+                {expandedSections['newsletter'] && (
+                  <div className="px-3 pb-3 text-sm">
+                    {loadingPreviews['newsletter'] ? (
+                      <div className="text-slate-400 italic">Loading events...</div>
+                    ) : eventPreviews['newsletter']?.length > 0 ? (
+                      <div className="space-y-1 max-h-40 overflow-y-auto">
+                        {eventPreviews['newsletter'].map((event, idx) => (
+                          <div key={idx} className="flex justify-between text-slate-300 py-1 border-t border-slate-600/50">
+                            <span className="truncate flex-1 pr-2">{event.title}</span>
+                            <span className="text-slate-400 text-xs whitespace-nowrap">{formatDate(event.start)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-slate-400 italic">No events found</div>
+                    )}
+                  </div>
+                )}
+              </div>
 
               {/* Campus Groups */}
-              <label className="flex items-center gap-3 p-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 cursor-pointer transition-colors border border-transparent hover:border-blue-400/50">
-                <input
-                  type="checkbox"
-                  checked={filters.campusGroups}
-                  onChange={() => toggleFilter('campusGroups')}
-                  className="w-5 h-5 rounded border-slate-500 text-blue-500 focus:ring-blue-400 focus:ring-offset-slate-800"
-                />
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                  <span className="text-slate-200 font-medium">Campus Groups</span>
-                </div>
-              </label>
+              <div className="rounded-lg bg-slate-700/50 border border-transparent hover:border-blue-400/50 transition-colors">
+                <label className="flex items-center gap-3 p-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={filters.campusGroups}
+                    onChange={() => toggleFilter('campusGroups')}
+                    className="w-5 h-5 rounded border-slate-500 text-blue-500 focus:ring-blue-400 focus:ring-offset-slate-800"
+                  />
+                  <div className="flex items-center gap-2 flex-1">
+                    <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                    <span className="text-slate-200 font-medium">Campus Groups</span>
+                  </div>
+                  <button
+                    onClick={(e) => { e.preventDefault(); toggleSection('campusgroups', 'campusGroups'); }}
+                    className="text-slate-400 hover:text-slate-200 transition-colors"
+                    aria-label="Toggle event preview"
+                  >
+                    <svg className={`w-5 h-5 transition-transform ${expandedSections['campusgroups'] ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </label>
+                {expandedSections['campusgroups'] && (
+                  <div className="px-3 pb-3 text-sm">
+                    {loadingPreviews['campusgroups'] ? (
+                      <div className="text-slate-400 italic">Loading events...</div>
+                    ) : eventPreviews['campusgroups']?.length > 0 ? (
+                      <div className="space-y-1 max-h-40 overflow-y-auto">
+                        {eventPreviews['campusgroups'].map((event, idx) => (
+                          <div key={idx} className="flex justify-between text-slate-300 py-1 border-t border-slate-600/50">
+                            <span className="truncate flex-1 pr-2">{event.title}</span>
+                            <span className="text-slate-400 text-xs whitespace-nowrap">{formatDate(event.start)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-slate-400 italic">No events found</div>
+                    )}
+                  </div>
+                )}
+              </div>
 
               {/* Greek Theater */}
-              <label className="flex items-center gap-3 p-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 cursor-pointer transition-colors border border-transparent hover:border-pink-500/50">
-                <input
-                  type="checkbox"
-                  checked={filters.greekTheater}
-                  onChange={() => toggleFilter('greekTheater')}
-                  className="w-5 h-5 rounded border-slate-500 text-pink-600 focus:ring-pink-500 focus:ring-offset-slate-800"
-                />
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-pink-600"></div>
-                  <span className="text-slate-200 font-medium">Greek Theater Concerts</span>
-                </div>
-              </label>
+              <div className="rounded-lg bg-slate-700/50 border border-transparent hover:border-pink-500/50 transition-colors">
+                <label className="flex items-center gap-3 p-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={filters.greekTheater}
+                    onChange={() => toggleFilter('greekTheater')}
+                    className="w-5 h-5 rounded border-slate-500 text-pink-600 focus:ring-pink-500 focus:ring-offset-slate-800"
+                  />
+                  <div className="flex items-center gap-2 flex-1">
+                    <div className="w-3 h-3 rounded-full bg-pink-600"></div>
+                    <span className="text-slate-200 font-medium">Greek Theater Concerts</span>
+                  </div>
+                  <button
+                    onClick={(e) => { e.preventDefault(); toggleSection('greektheater', 'greekTheater'); }}
+                    className="text-slate-400 hover:text-slate-200 transition-colors"
+                    aria-label="Toggle event preview"
+                  >
+                    <svg className={`w-5 h-5 transition-transform ${expandedSections['greektheater'] ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </label>
+                {expandedSections['greektheater'] && (
+                  <div className="px-3 pb-3 text-sm">
+                    {loadingPreviews['greektheater'] ? (
+                      <div className="text-slate-400 italic">Loading events...</div>
+                    ) : eventPreviews['greektheater']?.length > 0 ? (
+                      <div className="space-y-1 max-h-40 overflow-y-auto">
+                        {eventPreviews['greektheater'].map((event, idx) => (
+                          <div key={idx} className="flex justify-between text-slate-300 py-1 border-t border-slate-600/50">
+                            <span className="truncate flex-1 pr-2">{event.title}</span>
+                            <span className="text-slate-400 text-xs whitespace-nowrap">{formatDate(event.start)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-slate-400 italic">No events found</div>
+                    )}
+                  </div>
+                )}
+              </div>
 
               {/* Teams@Haas */}
-              <label className="flex items-center gap-3 p-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 cursor-pointer transition-colors border border-transparent hover:border-violet-500/50">
-                <input
-                  type="checkbox"
-                  checked={filters.teamsAtHaas}
-                  onChange={() => toggleFilter('teamsAtHaas')}
-                  className="w-5 h-5 rounded border-slate-500 text-violet-600 focus:ring-violet-500 focus:ring-offset-slate-800"
-                />
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-violet-600"></div>
-                  <span className="text-slate-200 font-medium">Teams@Haas</span>
-                </div>
-              </label>
+              <div className="rounded-lg bg-slate-700/50 border border-transparent hover:border-violet-500/50 transition-colors">
+                <label className="flex items-center gap-3 p-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={filters.teamsAtHaas}
+                    onChange={() => toggleFilter('teamsAtHaas')}
+                    className="w-5 h-5 rounded border-slate-500 text-violet-600 focus:ring-violet-500 focus:ring-offset-slate-800"
+                  />
+                  <div className="flex items-center gap-2 flex-1">
+                    <div className="w-3 h-3 rounded-full bg-violet-600"></div>
+                    <span className="text-slate-200 font-medium">Teams@Haas</span>
+                  </div>
+                  <button
+                    onClick={(e) => { e.preventDefault(); toggleSection('teamsathaas', 'teamsAtHaas'); }}
+                    className="text-slate-400 hover:text-slate-200 transition-colors"
+                    aria-label="Toggle event preview"
+                  >
+                    <svg className={`w-5 h-5 transition-transform ${expandedSections['teamsathaas'] ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </label>
+                {expandedSections['teamsathaas'] && (
+                  <div className="px-3 pb-3 text-sm">
+                    {loadingPreviews['teamsathaas'] ? (
+                      <div className="text-slate-400 italic">Loading events...</div>
+                    ) : eventPreviews['teamsathaas']?.length > 0 ? (
+                      <div className="space-y-1 max-h-40 overflow-y-auto">
+                        {eventPreviews['teamsathaas'].map((event, idx) => (
+                          <div key={idx} className="flex justify-between text-slate-300 py-1 border-t border-slate-600/50">
+                            <span className="truncate flex-1 pr-2">{event.title}</span>
+                            <span className="text-slate-400 text-xs whitespace-nowrap">{formatDate(event.start)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-slate-400 italic">No events found</div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
