@@ -117,13 +117,14 @@ export async function getLatestNewsletterUrl(): Promise<string> {
   
   const $ = cheerio.load(html);
 
-  // Robust first-link selection:
-  // Prefer mailchi.mp campaign links, else first link inside the archive list area
+  // CRITICAL FIX: Must select from #archive-list to avoid picking up "join mailing list" button
+  // The archive page has the latest newsletter FIRST in the #archive-list <ul>
+  // Structure: <ul id="archive-list"><li class="campaign"><a href="...">...</a></li></ul>
   const href =
-    $('a[href*="mailchi.mp"]').first().attr('href') ||
-    $('#archive-list a[href]').first().attr('href') ||
-    $('.campaigns a[href]').first().attr('href') ||
-    $('a[href]').first().attr('href');
+    $('#archive-list li.campaign a[href*="eepurl.com"]').first().attr('href') ||
+    $('#archive-list a[href*="eepurl.com"]').first().attr('href') ||
+    $('#archive-list a[href*="mailchi.mp"]').first().attr('href') ||
+    $('#archive-list a[href]').first().attr('href');
 
   console.log('🔍 [SCRAPE] Latest newsletter URL found:', href);
   if (!href) {
