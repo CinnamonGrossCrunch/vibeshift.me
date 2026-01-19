@@ -1,14 +1,66 @@
 {
   "newsletterData": {
-    "sourceUrl": "http://eepurl.com/jsno8A",
-    "title": "[EWMBA] Bear Necessities 11-20-2025",
+    "sourceUrl": "http://eepurl.com/jwQIks",
+    "title": "[EWMBA] Bear Necessities 1-15-26",
     "sections": [
       {
         "sectionTitle": "This Week",
         "items": [
           {
-            "title": "Program Office Nov Adjusted Hours",
-            "html": "<h4>Program Office Nov Adjusted Hours</h4><ul><li>All staff working on Wednesday, Nov 26 will be working from home. Please do not come to the office as it will be closed. </li><li>The Program Office staff will be on vacation Thursday, Nov 27 - Sunday, Nov 30 in observance of the University Holiday.</li></ul>"
+            "title": "Class of 2027 - Biz Comm Weekend Logistics",
+            "html": "<h4>Class of 2027 - Biz Comm Weekend Logistics</h4><p>Friday Jan 16 - Sunday Jan 18</p><ul><li>Review the <a href=\"https://docs.google.com/spreadsheets/d/1AssqzeT8w0QKF0nAsztMYTjU-gU_ZDWhPeB6srIAOUA/edit?gid=1003030058#gid=1003030058\" target=\"_blank\" rel=\"noopener noreferrer\">Biz Comm 2026 Event Schedule</a> carefully.<ul><li>Event check in begins at 8am PT</li><li>Plan to be in class for the full day as there will not be an opportunity to take outside meetings.</li></ul></li><li>Please complete the Biz Comm 2026 Event Liability Waiver prior to check-in.</li><li>Important items to bring for Biz Comm 2026 include:<ul><li>UC Berkeley Cal1 Card</li><li>Valid government ID (e.g., driver's license, passport)</li><li>Laptop or iPad with access to campus internet (eduroam or Cal Visitor)</li></ul></li><li>Review the <a href=\"https://haas.berkeley.edu/ewmba/academics/biz_comm-2026/email-archive/\" target=\"_blank\" rel=\"noopener noreferrer\">Biz Comm 2026 Email Archive</a>.</li><li>If you require accommodation for effective communication (ASL interpreting/CART captioning, alternative media formats, etc.) or need information in order to fully participate for the weekend, please contact <a href=\"mailto:robert-cortes@berkeley.edu\" target=\"_blank\" rel=\"noopener noreferrer\">Robby Cortes</a>.</li></ul>"
+          },
+          {
+            "title": "Upcoming Program Office Hours",
+            "html": "<h4>Upcoming Program Office Hours</h4><ul><li>Thursday, Jan 15 - Program Office will be closed at 6PM.<ul><li>Due to preparation for Biz Comm, there will not be late night hours or snacks from 7:30PM to 8PM</li></ul></li><li>Friday, Jan 16: Program Office staff will be at Biz Comm; please expect a delayed response.</li><li>Monday, Jan 19: Closed for MLK Jr. Holiday.</li></ul>"
+          },
+          {
+            "title": "MLK Day of Service",
+            "html": "<h4>MLK Day of Service</h4><p>Monday, January 19th, 9:30AM - 11:30AM, <a href=\"https://www.google.com/maps/place/1605+Ohio+Ave,+Richmond,+CA+94804/@37.9310162,-122.3567564,1002m/data=!3m2!1e3!4b1!4m6!3m5!1s0x80857809911bdf25:0xf9da584f3c23369!8m2!3d37.931012!4d-122.3541761!16s%2Fg%2F11pv802blx?entry=ttu&amp;g_ep=EgoyMDI2MDEwNy4wIKXMDSoASAFQAw%3D%3D\" target=\"_blank\" rel=\"noopener noreferrer\">UNITY Park / Richmond Greenway Trail</a>, Richmond, CA</p><ul><li>In celebration of Dr. Martin Luther King Jr. Day, all members of the Haas community are invited for a day of community service and celebration.<ul><li>Martin Luther King Jr. Day honors Dr. King's life, legacy, and aspiration of a beloved community marked by racial unity, justice for the betterment of all, and going beyond yourself</li></ul><a href=\"https://portal.goldenvolunteer.com/opportunities/SZSHIB179L\" target=\"_blank\" rel=\"noopener noreferrer\">Registration for MLK Day of Service 2026</a> is now open.</li><li>If you have further questions, please contact <a href=\"mailto:katrinakoski@berkeley.edu\" target=\"_blank\" rel=\"noopener noreferrer\">Katrina Koski</a>, Dir of Inclusion & Belonging.</li></ul>",
+            "timeSensitive": {
+              "dates": [
+                "2026-01-19"
+              ],
+              "eventType": "event",
+              "priority": "high"
+            }
+          },
+          {
+            "title": "Class of 2026 & 2027: Spring 2026 Add/Drop Reminders",
+            "html": "<h4>Class of 2026 & 2027: Spring 2026 Add/Drop Reminders</h4><ul><li>Add/Drop Round 3: Tuesday, Jan 20, 12 noon PST - Monday, Jan 26, 12 noon PST.</li><li>Add/Drop Round 4: Monday, Jan 26, 4PM PST - Thursday, Jan 29, 12 noon PST.</li><li>Full-Time Course Sign Up opens Tuesday Jan 20, 12 noon PT and closes Thursday Jan 29, 12 noon PT.<ul><li>Please refer to the <a href=\"https://haas.berkeley.edu/ewmba/academics/registration-enrollment/registration-timeline/\" target=\"_blank\" rel=\"noopener noreferrer\">Registration Timeline</a> as well for Add/Drop Round Dates</li></ul></li></ul>",
+            "timeSensitive": {
+              "dates": [
+                "2026-01-20",
+                "2026-01-26",
+                "2026-01-29"
+              ],
+              "eventType": "reminder",
+              "priority": "medium"
+            }
+          },
+          {
+            "title": "Class of 2028: Combined Cohort Day Jan 20",
+            "html": "<h4>Class of 2028: Combined Cohort Day Jan 20</h4><ul><li>The Blue & Gold Combined Financial Accounting Lecture will be held in N100.</li><li>Nexus and Lux will have a combined cohort for Macroeconomics.</li></ul>",
+            "timeSensitive": {
+              "dates": [
+                "2026-01-20"
+              ],
+              "eventType": "event",
+              "priority": "medium"
+            }
+          },
+          {
+            "title": "Course Start Dates",
+            "html": "<h4>Course Start Dates</h4><ul><li>Flex core courses will start on Jan 20</li><li>Elective courses will begin on Jan 20</li><li>Saturday core courses will start on Jan 24</li><li>Please check the <a href=\"https://docs.google.com/spreadsheets/d/1gifGXNUlxZ0w-Nd1mtMKrv4rrsvDqKxjsYnrjE0b2sk/edit?gid=2115339531#gid=2115339531\" target=\"_blank\" rel=\"noopener noreferrer\">Academic Calendar</a>, as well as your course descriptions for more details</li></ul>",
+            "timeSensitive": {
+              "dates": [
+                "2026-01-20",
+                "2026-01-20",
+                "2026-01-24"
+              ],
+              "eventType": "event",
+              "priority": "medium"
+            }
           }
         ]
       },
@@ -16,74 +68,29 @@
         "sectionTitle": "Announcements",
         "items": [
           {
-            "title": "Program Office Hours - Winter Adjustments",
-            "html": "<h4>Program Office Hours - Winter Adjustments</h4><p></p><ul><li>Monday, Dec 15 - Thursday, Dec 18: Office will close at 6PM</li><li>Saturday, Dec 20 - Thursday, Jan 1: Closed for University Curtailment, Staff on Winter Break/holiday</li><li>Monday, Jan 5: Office will reopen at 9AM</li></ul>",
-            "timeSensitive": {
-              "dates": [
-                "2025-12-01"
-              ],
-              "eventType": "deadline",
-              "priority": "high"
-            }
+            "title": "Dean’s Speaker Series: Cynt Marshall, BS' 81",
+            "html": "<h4>Dean’s Speaker Series: Cynt Marshall, BS' 81</h4><p>Thursday, Feb 5, 12:30PM PST, Spieker Forum</p><ul><li>Please join Berkeley Haas for a <a href=\"https://haas.berkeley.edu/about/speaker-series/deans-speaker-series/\" target=\"_blank\" rel=\"noopener noreferrer\">Dean’s Speaker Series</a> with Cynt Marshall.<ul><li>Cynt is the President & CEO of Marshalling Resources, and is the Former CEO, Dallas Mavericks</li></ul></li><li>Be on the lookout for future communications regarding registration for this Dean's Speaker Series Event.</li></ul>"
           },
           {
-            "title": "Jacobs Institute SP26 Innovation Catalysts Applications Now Open",
-            "html": "<h4>Jacobs Institute SP26 Innovation Catalysts Applications Now Open</h4><br />Application Closes: Wednesday, Dec 10, 9AM PST<ul><li>The <a href=\"https://jacobsinstitute.berkeley.edu/the-jacobs-institute-innovation-catalysts/\" target=\"_blank\" rel=\"noopener noreferrer\">Jacobs Institute Innovation Catalysts</a> is a student grant program that supports student innovators to unlock further potential in their projects.<ul><li>Students are invited to propose projects that they aim to develop over the course of a semester</li></ul></li><li>Selected grantees will work on their projects with the support of resources from the Jacobs Institute.</li><li>To <a href=\"https://docs.google.com/forms/d/e/1FAIpQLScvlhTi8Xivwen7dRb-6Rc6eWnzBsvk2nyO_A9jOsOlQcIWaA/viewform\" target=\"_blank\" rel=\"noopener noreferrer\">apply for the SP26 Jacobs Institute Innovation Catalysts</a>, please view the Google Form.<ul><li>If you have further questions, please email <a href=\"mailto:janreyjavier@berkeley.edu\" target=\"_blank\" rel=\"noopener noreferrer\">Janrey Javier</a></li></ul></li></ul>",
+            "title": "Berkeley StEP Spring 2026 Application Now Open",
+            "html": "<h4>Berkeley StEP Spring 2026 Application Now Open</h4><p>Deadline to apply is Feb 7, 2026 at 11:50PM PST</p><ul><li>StEP was developed by former students to create the next generation of UC Berkeley startups.</li><li>During this 10-week experiential program, you will:<ul><li>Connect with PhDs in engineering and computer science, MBAs, designers, law students</li><li>Network with top-notch experts that will help you in bringing your ideas to life</li><li>Access to 5k in in-kind perks & up to 1k in prizes</li><li>Opportunities to pitch to VCs and Industry leaders</li></ul></li><li>The application for <a href=\"https://docs.google.com/forms/d/e/1FAIpQLScIz3YzWQu6Cyc5K2fdu4kaZskeXK8P-UGciH7BvCzimZQsCg/closedform\" target=\"_blank\" rel=\"noopener noreferrer\">Berkeley StEP Spring 2026</a> is now available.</li></ul>",
             "timeSensitive": {
               "dates": [
-                "2025-12-10"
+                "2026-02-07"
               ],
               "eventType": "deadline",
               "priority": "medium"
             }
           },
           {
-            "title": "Spring 2026 First Day of Class Dates",
-            "html": "<h4>Spring 2026 First Day of Class Dates</h4><p></p><ul><li>Before you head out for winter break, please keep in mind these important dates for Spring 2026!<ul><li>Core:<ul><li>Evening = Jan 5</li><li>Nexus &amp; Lux = Jan 20</li><li>Saturday = Jan 24</li></ul></li><li>Electives: Week of Jan 20</li></ul></li></ul><br /><strong>Add/Drop for Spring 2026 Courses</strong><ul><li>Review the <a href=\"https://haas.berkeley.edu/ewmba/academics/registration-enrollment/add-drop/\" target=\"_blank\" rel=\"noopener noreferrer\">Add/Drop</a> page and <a href=\"https://drive.google.com/file/d/19ysD3_8KsAzQe_Isvf3lTCZSylBMyQyZ/view\" target=\"_blank\" rel=\"noopener noreferrer\">Top Things to Know About Add/Drop</a> before Jan 5.</li><li>Please refer to the <a href=\"https://haas.berkeley.edu/ewmba/academics/registration-enrollment/registration-timeline/\" target=\"_blank\" rel=\"noopener noreferrer\">Registration Timeline</a> as well for Add/Drop Round Dates:<ul><li>Add/Drop Round 1: Monday, Jan 5, 12 noon PST - Friday, Jan 9, 12 noon PST</li><li>Add/Drop Round 2: Friday, Jan 9, 4PM PST - Monday, Jan 12, 12 noon PST</li><li>Add/Drop Round 3: Tuesday, Jan 20, 12PM PST - Monday, Jan 26, 12 noon PST</li><li>Add/Drop Round 4: Monday, Jan 26, 4PM PST - Thursday, Jan 29, 12 noon PST</li><li>Drop Only Round: Thursday, Jan 29, 4PM PST - Monday Feb 2, 11:59PM PST</li></ul></li></ul>"
-          },
-          {
-            "title": "Student Opportunity Fund 2025-2026 Application Now Open",
-            "html": "<h4>Student Opportunity Fund 2025-2026 Application Now Open</h4><br />Application due Monday, Dec 1 at 9AM PST<ul><li>The Student Opportunity Fund provides funding for professional development opportunities for students.</li><li>Individual students or RSOs can apply to receive up to $2,000 for opportunities outside of the classroom such as:<ul><li>Visiting speakers</li><li>Forums on topics of general interest</li><li>Conferences</li></ul></li><li>The deadline for Fall 2025 applications is for any opportunity taking place between Jul 1, 2025 and Dec 31, 2025.<ul><li>The application will open again in Spring for opportunities taking place between Jan 1, 2026 and Jun 30, 2026</li></ul></li><li><a href=\"https://docs.google.com/forms/d/e/1FAIpQLSeDTvr4Me-Zue5gah5A7q20NuwTW6SzP9-oaRPrSM08dcuohw/viewform\" target=\"_blank\" rel=\"noopener noreferrer\">Apply for the Student Opportunity Fund</a> via Google Form.<ul><li>To <a href=\"https://docs.google.com/document/d/1M3KSX5GGeHodb-TbF7kZNdXE6y5nIvLig76oJNli7cE/edit?tab=t.0\" target=\"_blank\" rel=\"noopener noreferrer\">learn more about SOF's criteria, eligibility, and FAQs</a>, please review the Student Opportunity Funds Guide</li></ul></li></ul>"
-          },
-          {
-            "title": "FTMBA Electives for Spring 2026",
-            "html": "<h4>FTMBA Electives for Spring 2026</h4><p></p><ul><li>The list of FTMBA Electives for Spring 2026 are now available.</li><li><a href=\"https://haas.berkeley.edu/ewmba/academics/full-time-mba-courses/\" target=\"_blank\" rel=\"noopener noreferrer\">Learn how FTMBA course registration works</a> and review the list of electives.</li></ul>"
-          }
-        ]
-      },
-      {
-        "sectionTitle": "Saturday Scoop",
-        "items": [
-          {
-            "title": "Program Office Staff",
-            "html": "<h4>Program Office Staff</h4><p></p><ul><li>This week's Program Office staff is Robby Cortes and Sophia Ardon, our Student Assistant. Drop by S440 and say hello!</li></ul>"
-          }
-        ]
-      },
-      {
-        "sectionTitle": "Events",
-        "items": [
-          {
-            "title": "Climate Solutions Fund Pitch Day",
-            "html": "<h4>Climate Solutions Fund Pitch Day</h4><br />Friday, Nov 21, 9AM - 1PM PST, Spieker Forum, Haas School of Business<ul><li>The Sustainable and Impact Finance Initiative will host the second Pitch Day for the Berkeley Haas Climate Solutions Fund.</li><li>Teams of student investment manager role will have the opportunity to present their investment opportunities to complete for a $300K investment from the Climate Solutions Fund.</li><li>To <a href=\"https://www.eventbrite.com/e/climate-solutions-fund-pitch-day-2025-tickets-1849698390679\" target=\"_blank\" rel=\"noopener noreferrer\">register for the Climate Solutions Fund Pitch Day</a>, please visit the Eventbrite page.<ul><li>Sensitive info around companies and investments may be shared during the event</li><li>If you attend, the event organizers ask that you please respect the confidentiality of the information shared during the Climate Solutions Fund Pitch Day</li></ul></li></ul>"
-          },
-          {
-            "title": "UC LAUNCH Demo Day",
-            "html": "<h4>UC LAUNCH Demo Day</h4><br />Tuesday, Dec 2, 10AM - 1:30PM PST, Spieker Forum, Haas School of Business<ul><li>Watch top teams from <a href=\"https://www.uclaunch.com/\" target=\"_blank\" rel=\"noopener noreferrer\">UC LAUNCH</a> pitch their ideas to judges to compete for up to $60K in prizes.</li><li>Attendees will also have the chance to network with founders, investors, and potential mentors.</li><li><a href=\"https://luma.com/n1jgz41a\" target=\"_blank\" rel=\"noopener noreferrer\">Registration for UC Launch Demo Day</a> is now available via Luma.</li><li>Please note that as of Nov 20, tickets are officially sold out. However, a waitlist is available.<ul><li>Waitlisted attendees will not have guaranteed seating in main room during the live pitches</li><li>Waitlisted attendees will still be able to join the networking portion</li></ul></li><li>Waitlisted attendees should receive an email on Dec 1 with further updates.</li></ul>",
+            "title": "Berkeley StEP Spring 2026 Virtual Info Sessions",
+            "html": "<h4>Berkeley StEP Spring 2026 Virtual Info Sessions</h4><ul><li>Sign up for a virtual info session to learn more about StEP program and application process.</li><li>The dates and respective signup links are as follows:<ul><li><a href=\"https://luma.com/6je5a2d3\" target=\"_blank\" rel=\"noopener noreferrer\">StEP Spring 2026 Virtual Info Session on Monday, Jan 19, 2PM - 3PM PST</a></li><li><a href=\"https://luma.com/yvn8vyzr\" target=\"_blank\" rel=\"noopener noreferrer\">StEP Spring 2026 Virtual Info Session on Wednesday, Jan 21, 2PM - 3PM PST</a></li><li><a href=\"https://luma.com/36heumvj\" target=\"_blank\" rel=\"noopener noreferrer\">StEP Spring 2026 Virtual Info Session on Monday, Jan 26, 12PM - 1PM PST</a></li><li><a href=\"https://luma.com/x25ga7hv\" target=\"_blank\" rel=\"noopener noreferrer\">StEP Spring 2026 Virtual Info Session on Thursday, Jan 29, 4PM - 5PM PST</a></li></ul></li></ul>",
             "timeSensitive": {
               "dates": [
-                "2025-12-02"
-              ],
-              "eventType": "event",
-              "priority": "medium"
-            }
-          },
-          {
-            "title": "Berkeley StEP Demo Day",
-            "html": "<h4>Berkeley StEP Demo Day</h4><br />Tuesday, Dec 2, 6PM - 9PM PST, Spieker Forum, Haas School of Business<ul><li>Berkeley’s top emerging founders will be pitching their startups to a panel of investors, mentors, and industry leaders.</li><li>Showcase Day is also an opportunity to:<ul><li>Hear insightful feedback from judges and mentors</li><li>Networking with the Berkeley founder and investor community</li></ul></li><li><a href=\"https://luma.com/7k1iszqv\" target=\"_blank\" rel=\"noopener noreferrer\">Registration for Berkeley StEP Demo Day</a> is now available via Luma.</li></ul>",
-            "timeSensitive": {
-              "dates": [
-                "2025-12-02"
+                "2026-01-19",
+                "2026-01-21",
+                "2026-01-26",
+                "2026-01-29"
               ],
               "eventType": "event",
               "priority": "medium"
@@ -92,30 +99,11 @@
         ]
       },
       {
-        "sectionTitle": "Career Corner",
+        "sectionTitle": "Important Reminders",
         "items": [
           {
-            "title": "Pathways Forward: Building Your Job Search Strategy Post-Layoff",
-            "html": "<h4>Pathways Forward: Building Your Job Search Strategy Post-Layoff</h4><br />Tuesdays Dec 2 &amp; 9; 12-1:15PM PST, <a href=\"https://mba-haas-berkeley.12twenty.com/events/30006101316402\" target=\"_blank\" rel=\"noopener noreferrer\">CMG Bears</a><ul><li>Have you recently been impacted by layoffs and are wondering how to get started on finding your next role? Are you looking for guidance and support from career professionals and your peers? This workshop series is for you!</li><li>Focusing on those aiming to stay within their current function or industry, these workshops offer a structured, action-oriented approach to jump-starting your job search. This series is not for those who are looking to make big changes and pivots, but to help you find a role aligned with your skills or industry.</li><li>During the sessions you will:<ul><li>retouch your resume</li><li>develop a list of target companies</li><li>set up a networking outreach tracker to keep your efforts organized and effective</li></ul></li><li>Attendance in Part 1 (Dec 2 from 12:00-1:15 PM) is a prerequisite for Part 2 (Dec 9 from 12:00-1:15 PM)</li><li>These are highly interactive workshops with small group breakouts; please only sign up if your schedule allows you to actively participate with your camera on.</li></ul>",
-            "timeSensitive": {
-              "dates": [
-                "2025-12-02",
-                "2025-12-09"
-              ],
-              "eventType": "event",
-              "priority": "medium"
-            }
-          },
-          {
-            "title": "Transferable Skills",
-            "html": "<h4>Transferable Skills</h4><br />Wednesday, Dec 3, 12PM - 1PM PST, <a href=\"https://mba-haas-berkeley.12twenty.com/events/30006101310514\" target=\"_blank\" rel=\"noopener noreferrer\">CMG Bears</a><ul><li>This workshop will help you describe your accomplishments in a way that your new audience can easily understand.<ul><li>Reframe your experience such that people in different industries/roles/organizations understand its value</li></ul></li><li>Through lectures, individual and small group activities, and Q&amp;A, you will learn to:<ul><li>Explicitly talk about your transferable skills</li><li>Elevate your skills-based stories by making them applicable to another role, organization, or industry</li></ul></li></ul>",
-            "timeSensitive": {
-              "dates": [
-                "2025-12-03"
-              ],
-              "eventType": "event",
-              "priority": "medium"
-            }
+            "title": "Haas SHARE@Haas Food Recovery Program: Join the Community Listserv",
+            "html": "<h4>Haas SHARE@Haas Food Recovery Program: Join the Community Listserv</h4><ul><li>Haas has launched the <a href=\"https://docs.google.com/presentation/d/1MAPvXcDuin0oPGQgUTrVmDxHA10UcPUlSPJK1Hp4aEU/edit?slide=id.g36f81e24ed9_0_0#slide=id.g36f81e24ed9_0_0\" target=\"_blank\" rel=\"noopener noreferrer\">SHARE@Haas</a> (Sustainable, Holistic, Accessible, Recoverable & Equitable) program, an initiative deeply committed to sustainability, zero waste, and addressing food insecurity within our community.<ul><li>Due to the many events that Haas hosts, it is common to have excess food that is yummy and nutritious</li></ul></li><li>In addition to our regular food donations to the <a href=\"https://berkeley.us7.list-manage.com/track/click?u=af08d0494e1eb953ae69deb12&amp;id=3555e1a726&amp;e=c7870003a9\" rel=\"noopener nofollow noreferrer\" target=\"_blank\">Dorothy Day House</a>, we have created an <a href=\"mailto:haasfoodrecovery@lists.berkeley.edu\" target=\"_blank\" rel=\"noopener noreferrer\">anonymous mailing list</a> that is open to all members of the Haas community.<ul><li>By opting into the list, emails will be sent to you whenever there is excess food available and where to access it free of charge for as long as supplies last</li><li>To be added to the mailing list, please sign up for the for listserv via the <a href=\"https://berkeley.us7.list-manage.com/track/click?u=af08d0494e1eb953ae69deb12&amp;id=4557840e14&amp;e=c7870003a9\" rel=\"noopener nofollow noreferrer\" target=\"_blank\">Haas Food Recovery Listserv Opt-in Google Form</a>.</li></ul></li><li>The SHARE@Haas Space is located in Cheit C128.<ul><li>Please bring your CAL ID Card to access the room</li><li>There is also a <a href=\"https://drive.google.com/file/d/1P4vm6fxyNX9YFRBMIxMuxQ-pPb0j-4-v/view?usp=sharing\" target=\"_blank\" rel=\"noopener noreferrer\">Wonderfil Station</a>; please check out the video for more information</li></ul></li><li>Please reach out to <a href=\"mailto:dannerdm@haas.berkeley.edu\" target=\"_blank\" rel=\"noopener noreferrer\">Danner Doud Martin</a> should any questions or suggestions arise</li><li>For more comprehensive food and other basic needs resources, please contact the <a href=\"https://basicneeds.berkeley.edu/home\" target=\"_blank\" rel=\"noopener noreferrer\">Basic Needs Center</a></li></ul>"
           }
         ]
       },
@@ -123,441 +111,180 @@
         "sectionTitle": "PO Tips and Tidbits",
         "items": [
           {
-            "title": "Planning Ahead for Spring 2026 fees",
-            "html": "<h4>Planning Ahead for Spring 2026 fees</h4><br /><br /><br /><strong>How to Calculate the Spring 2026 Fees</strong><ul><li>The all inclusive per unit fee for 2025-2026 is $3,972. Multiply that by the number of units you will be taking.</li><li>Spring 2026 tuition will be due in Jan. Enrollment in the Fee Payment Plan is per semester, not per year. Students must enroll in the plan again for Spring 2026.</li></ul><strong>Setting up your Direct Deposit Account</strong><ul><li>A Direct Deposit Electronic Funds Transfer Account is the easiest way to get refunds or other payments.</li><li>Go to CalCentral &gt; My Finances &gt; Financial Resources &gt; Billing &amp; Payments &gt; Direct Deposit. Complete the steps to set up your account.</li></ul><strong>1098-T Form</strong><ul><li>Students will receive notification that their 1098-T form is read by the end of Jan 2026. More information here on the <a href=\"https://studentbilling.berkeley.edu/irs-form-1098-t-tax-form-information/accessing-your-1098-t-form-online\" target=\"_blank\" rel=\"noopener noreferrer\">Student Billing website</a>.</li></ul>"
+            "title": "Planning Ahead for Spring 2026 Fees",
+            "html": "<h4>Planning Ahead for Spring 2026 Fees</h4><p>How to Calculate the Spring 2026 Fees</p><ul><li>The all inclusive per unit fee for 2025-2026 is $3,972. Multiply that by the number of units you will be taking to calculate your total tuition.</li><li>Spring 2026 tuition will be due Friday, Jan 16. At least 20% is due at that time to avoid late fees.</li><li>Enrollment in the Fee Payment Plan is per semester, not per year. Students must enroll in the plan again for Spring 2026.</li></ul><p>Setting up your Direct Deposit Account</p><ul><li>A Direct Deposit Electronic Funds Transfer Account is the easiest way to get refunds or other payments.</li><li>Go to CalCentral > My Finances > Financial Resources > Billing & Payments > Direct Deposit. Complete the steps to set up your account.</li></ul><p>1098-T Form</p><ul><li>Students will receive notification that their 1098-T form is read by the end of Jan 2026. More information here on the <a href=\"https://studentbilling.berkeley.edu/irs-form-1098-t-tax-form-information/accessing-your-1098-t-form-online\" target=\"_blank\" rel=\"noopener noreferrer\">Student Billing website</a>.</li></ul>"
           }
         ]
       }
     ],
     "aiDebugInfo": {
-      "reasoning": "The newsletter was transformed into structured JSON format while preserving all content, hyperlinks, and formatting as specified.",
+      "reasoning": "The JSON structure preserves all content from the newsletter while adhering to the specified formatting rules.",
       "sectionDecisions": [],
       "edgeCasesHandled": [],
-      "totalSections": 6,
-      "processingTime": 56641
+      "totalSections": 4,
+      "processingTime": 57252
     },
     "aiMeta": {}
   },
   "myWeekData": {
-    "weekStart": "2025-11-23",
-    "weekEnd": "2025-12-01",
+    "weekStart": "2026-01-18",
+    "weekEnd": "2026-01-26",
     "blueEvents": [
       {
-        "date": "2025-11-23",
-        "time": "12:00 AM",
-        "title": "Data & Decisions (Blue) — Quiz 6 DUE",
-        "type": "assignment",
+        "date": "2026-01-19",
+        "time": "9:30 AM",
+        "title": "MLK Day of Service",
+        "type": "social",
         "priority": "high",
-        "description": "QUIZ DUE!: Quiz 6 (covers Chapter 23). Due at midnight Sunday before class.",
-        "location": "No location",
-        "url": "https://www.gradescope.com/courses/1164266",
-        "sourceType": "calendar"
-      },
-      {
-        "date": "2025-11-24",
-        "time": "6:10 PM",
-        "title": "Data & Decisions (Blue) — Building Regression Models",
-        "type": "class",
-        "priority": "medium",
-        "description": "Topic 7: Building Regression Models. Bring your laptop for in-class exercise.",
-        "location": "Chou Hall N370, Berkeley Haas",
-        "url": "",
-        "sourceType": "calendar"
-      },
-      {
-        "date": "2025-11-25",
-        "time": "6:00 PM",
-        "title": "Marketing (Blue) — Performance Loyalty",
-        "type": "class",
-        "priority": "medium",
-        "description": "Prepare readings on performance marketing tools and AI search.",
-        "location": "370 Chou Hall, Berkeley Haas",
-        "url": "",
-        "sourceType": "calendar"
-      },
-      {
-        "date": "2025-11-30",
-        "time": "12:00 AM",
-        "title": "Data & Decisions (Blue) — Quiz 7 DUE",
-        "type": "assignment",
-        "priority": "high",
-        "description": "QUIZ DUE!: Quiz 7 (covers Chapter 24). Due at midnight Sunday before class.",
-        "location": "No location",
-        "url": "https://www.gradescope.com/courses/1164266",
-        "sourceType": "calendar"
-      },
-      {
-        "date": "2025-11-26",
-        "time": "All Day",
-        "title": "Program Office Nov Adjusted Hours",
-        "type": "newsletter",
-        "priority": "low",
-        "description": "Program Office closed; staff working from home.",
-        "location": "No location",
-        "url": "",
+        "description": "Join the Haas community for a day of service and celebration honoring Dr. Martin Luther King Jr.",
+        "location": "UNITY Park / Richmond Greenway Trail, Richmond, CA",
+        "url": "Registration link not provided",
         "sourceType": "newsletter",
         "newsletterSource": {
           "sectionTitle": "This Week",
           "sectionIndex": 0,
-          "itemTitle": "Program Office Nov Adjusted Hours",
-          "itemIndex": 0
+          "itemTitle": "MLK Day of Service",
+          "itemIndex": 2
         }
       },
       {
-        "date": "2025-11-27",
-        "time": "All Day",
-        "title": "Program Office Nov Adjusted Hours",
-        "type": "newsletter",
-        "priority": "low",
-        "description": "Program Office closed for University Holiday.",
-        "location": "No location",
-        "url": "",
+        "date": "2026-01-20",
+        "time": "12:00 PM",
+        "title": "Spring 2026 Add/Drop Round 3",
+        "type": "administrative",
+        "priority": "medium",
+        "description": "Add/Drop Round 3 opens. Make sure to adjust your schedule as needed.",
+        "location": "Online",
+        "url": "Registration Timeline not provided",
+        "sourceType": "calendar"
+      },
+      {
+        "date": "2026-01-20",
+        "time": "N/A",
+        "title": "Course Start Dates",
+        "type": "class",
+        "priority": "medium",
+        "description": "Flex core and elective courses start today. Check your course descriptions for details.",
+        "location": "Online",
+        "url": "Academic Calendar not provided",
         "sourceType": "newsletter",
         "newsletterSource": {
           "sectionTitle": "This Week",
           "sectionIndex": 0,
-          "itemTitle": "Program Office Nov Adjusted Hours",
-          "itemIndex": 0
+          "itemTitle": "Course Start Dates",
+          "itemIndex": 5
         }
       },
       {
-        "date": "2025-11-30",
-        "time": "9:00 AM",
-        "title": "Student Opportunity Fund 2025-2026 Application Due",
+        "date": "2026-01-26",
+        "time": "12:00 PM",
+        "title": "Spring 2026 Add/Drop Round 3 Closes",
         "type": "administrative",
         "priority": "high",
-        "description": "Application due for funding opportunities. Don't miss out!",
-        "location": "No location",
-        "url": "",
+        "description": "Last chance to make changes to your schedule for Round 3.",
+        "location": "Online",
+        "url": "Registration Timeline not provided",
         "sourceType": "calendar"
+      },
+      {
+        "date": "2026-01-26",
+        "time": "12:00 PM",
+        "title": "StEP Spring 2026 Virtual Info Session",
+        "type": "other",
+        "priority": "medium",
+        "description": "Learn about the StEP program and application process.",
+        "location": "Online",
+        "url": "Signup link not provided",
+        "sourceType": "newsletter",
+        "newsletterSource": {
+          "sectionTitle": "Announcements",
+          "sectionIndex": 1,
+          "itemTitle": "Berkeley StEP Spring 2026 Virtual Info Sessions",
+          "itemIndex": 2
+        }
       }
     ],
     "goldEvents": [
       {
-        "date": "2025-11-23",
-        "time": "12:00 AM",
-        "title": "Data & Decisions (Gold) — Quiz 6 DUE",
-        "type": "exam",
+        "date": "2026-01-19",
+        "time": "9:30 AM",
+        "title": "MLK Day of Service",
+        "type": "social",
         "priority": "high",
-        "description": "QUIZ: Quiz 6 (covers Chapter 23) due at midnight. Find it on Gradescope.",
-        "location": "No location",
-        "url": "https://www.gradescope.com/courses/1164266",
-        "sourceType": "calendar"
-      },
-      {
-        "date": "2025-11-24",
-        "time": "6:10 PM",
-        "title": "Data & Decisions (Gold) — Building Regression Models",
-        "type": "class",
-        "priority": "medium",
-        "description": "Topic 7: Building Regression Models. Bring your laptop for Exercise 4.",
-        "location": "Chou Hall N370, Berkeley Haas",
-        "url": "",
-        "sourceType": "calendar"
-      },
-      {
-        "date": "2025-11-25",
-        "time": "6:00 PM",
-        "title": "Marketing (Gold) — Performance Loyalty",
-        "type": "class",
-        "priority": "medium",
-        "description": "Prepare readings on performance marketing tools and AI search.",
-        "location": "370 Chou Hall, Berkeley Haas",
-        "url": "https://bcourses.berkeley.edu/courses/1545360/external_tools/79374",
-        "sourceType": "calendar"
-      },
-      {
-        "date": "2025-11-30",
-        "time": "12:00 AM",
-        "title": "Data & Decisions (Gold) — Quiz 7 DUE",
-        "type": "exam",
-        "priority": "high",
-        "description": "QUIZ: Quiz 7 (covers Chapter 24) due at midnight. Find it on Gradescope.",
-        "location": "No location",
-        "url": "https://www.gradescope.com/courses/1164266",
-        "sourceType": "calendar"
-      },
-      {
-        "date": "2025-11-26",
-        "time": "All Day",
-        "title": "Program Office Nov Adjusted Hours",
-        "type": "newsletter",
-        "priority": "low",
-        "description": "Program Office closed; staff working from home.",
-        "location": "No location",
+        "description": "Join the Haas community for a day of service and celebration honoring Dr. Martin Luther King Jr.",
+        "location": "UNITY Park / Richmond Greenway Trail, Richmond, CA",
         "url": "",
         "sourceType": "newsletter",
         "newsletterSource": {
           "sectionTitle": "This Week",
           "sectionIndex": 0,
-          "itemTitle": "Program Office Nov Adjusted Hours",
-          "itemIndex": 0
+          "itemTitle": "MLK Day of Service",
+          "itemIndex": 2
         }
       },
       {
-        "date": "2025-11-27",
-        "time": "All Day",
-        "title": "Thanksgiving Holiday",
-        "type": "other",
-        "priority": "low",
-        "description": "University Holiday; enjoy your break!",
-        "location": "No location",
+        "date": "2026-01-20",
+        "time": "12:00 PM",
+        "title": "Spring 2026 Add/Drop Round 3",
+        "type": "administrative",
+        "priority": "medium",
+        "description": "Add/Drop Round 3 opens. Make sure to adjust your courses before the deadline!",
+        "location": "",
         "url": "",
         "sourceType": "calendar"
       },
       {
-        "date": "2025-11-30",
-        "time": "9:00 AM",
-        "title": "Student Opportunity Fund Application Due",
+        "date": "2026-01-20",
+        "time": "12:00 PM",
+        "title": "Course Start Dates",
+        "type": "class",
+        "priority": "medium",
+        "description": "Flex core and elective courses start today. Get ready for a new semester!",
+        "location": "",
+        "url": "",
+        "sourceType": "newsletter",
+        "newsletterSource": {
+          "sectionTitle": "This Week",
+          "sectionIndex": 0,
+          "itemTitle": "Course Start Dates",
+          "itemIndex": 5
+        }
+      },
+      {
+        "date": "2026-01-26",
+        "time": "12:00 PM",
+        "title": "Spring 2026 Add/Drop Round 3 Closes",
         "type": "administrative",
         "priority": "high",
-        "description": "Application due for funding opportunities. Don't miss out!",
-        "location": "No location",
+        "description": "Last chance to finalize your course schedule for Spring 2026!",
+        "location": "",
         "url": "",
         "sourceType": "calendar"
+      },
+      {
+        "date": "2026-01-26",
+        "time": "12:00 PM",
+        "title": "Berkeley StEP Spring 2026 Virtual Info Session",
+        "type": "other",
+        "priority": "medium",
+        "description": "Learn about the StEP program and application process.",
+        "location": "",
+        "url": "",
+        "sourceType": "newsletter",
+        "newsletterSource": {
+          "sectionTitle": "Announcements",
+          "sectionIndex": 1,
+          "itemTitle": "Berkeley StEP Spring 2026 Virtual Info Sessions",
+          "itemIndex": 2
+        }
       }
     ],
-    "blueSummary": "Get ready for a quiz marathon this week! Quiz 6's due Sunday, then Quiz 7's right after. Plus, don’t forget to prep for classes and the Student Opportunity Fund application. You've got this!",
-    "goldSummary": "Get ready for a quiz marathon this week! Quiz 6 is due Sunday, then Quiz 7 next Sunday. Don't forget to prep for classes and enjoy the Thanksgiving break. You've got this!",
-    "processingTime": 33334
+    "blueSummary": "This week’s all about service and scheduling! Get ready for MLK Day of Service, and don’t forget to tweak your classes before the drop deadline sneaks up on you!",
+    "goldSummary": "This week’s all about service and course adjustments! Don’t miss MLK Day of Service and make sure to finalize your Spring schedule before it’s too late. Let’s get to it!",
+    "processingTime": 22632
   },
   "cohortEvents": {
     "blue": [
-      {
-        "uid": "6bd80244-6a8b-4cc3-91cf-e78c88a18ac2@vibeshift.me",
-        "title": "Microeconomics – Week 2: Demand Analysis I",
-        "start": "2025-08-05T01:00:00.000Z",
-        "end": "2025-08-05T04:30:00.000Z",
-        "description": "EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba201a_micro_blue_fall2025.ics"
-      },
-      {
-        "uid": "0f2dc5c7-a81a-44ac-8879-30cbe314c009@vibeshift.me",
-        "title": "Leading People – Class 1 – Introduction: The Science and Practice of Managing People (Blue)",
-        "start": "2025-08-07T01:00:00.000Z",
-        "end": "2025-08-07T04:30:00.000Z",
-        "location": "Chou Hall Room N470",
-        "description": "Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba205_blue_fallA2025_v2.ics"
-      },
-      {
-        "uid": "event-assignment-override-324595",
-        "title": "Teams@Haas Collaborative Plan Submission (EWMBA Blue) [Teams@Haas 2025]",
-        "start": "2025-08-08T07:00:00.000Z",
-        "end": "2025-08-09T07:00:00.000Z",
-        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1546457&month=08&year=2025#assignment_8930027",
-        "description": "The Collaborative Plans are designed to support your team in developing a shared understanding of how you will work together and how you will cultivate a collaborative team climate that will support each other's development.\n\nMilestones:\n\n* Access & Copy: [Collaborative Planning Template] (https://docs.google.com/document/d/1O6p6HoxX-hpzLsnWoEdzwqCkDLmpDABlh2IbXewHXvs/edit?usp=sharing)\n\n* Share: Collaborative Plan with all team members\n\n* Organize Team Meeting: Identify a time after your first set of classes to meet with your team to align on all of your agreements. \n\n* Complete Collaborative Plan: fill in all three sections (Goal Alignment (A&B), Knowledge Coordination, Collaborative Climate) based on your agreements from the WE | Launch workshops & follow-up meeting.\n\n* Upload: Collaborative Plan to bCourse by the deadline for your cohort\n\nNote: you can copy and paste the photo from the Value Map with your agreed-upon norms and practices from WE | Launch\n\nUpload Instructions\n\n* Upload Plan Under the Assignment Tab\n\n* 1 Plan Per Team\n\n* File Name Convention = Team Number_Collaborative Plan (i.e. 405_Collaborative Plan)\n\nNOTE:  The Team Collaborative Plan is for your reference. During the Teams@Haas Check-In Workshop #1, your team will have time to update and pivot on your plan based on what you learn about the nature of your work and each other as you work together. More to follow on this in the weeks to come.",
-        "allDay": true,
-        "cohort": "blue",
-        "source": "teams@Haas.ics"
-      },
-      {
-        "uid": "58cab76b-990f-4c6b-88ce-668cf29e96c6@vibeshift.me",
-        "title": "Team Assignment check-in #1 — DUE",
-        "start": "2025-08-11T06:59:00.000Z",
-        "end": "2025-08-11T07:04:00.000Z",
-        "location": "bCourses",
-        "description": "Time not specified; set to 11:59 PM per course norms.",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba201a_micro_blue_fall2025.ics"
-      },
-      {
-        "uid": "eafd8e0d-8587-4c5b-af30-3f520f7c6788@vibeshift.me",
-        "title": "Microeconomics – Week 3: Demand Analysis II",
-        "start": "2025-08-12T01:00:00.000Z",
-        "end": "2025-08-12T04:30:00.000Z",
-        "description": "EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba201a_micro_blue_fall2025.ics"
-      },
-      {
-        "uid": "6736467b-201e-4001-a3ea-5aa682da267a@vibeshift.me",
-        "title": "Leading People – Class 2 – Motivation + Meaning in the Workplace (Blue)",
-        "start": "2025-08-14T01:00:00.000Z",
-        "end": "2025-08-14T04:30:00.000Z",
-        "location": "Chou Hall Room N470",
-        "description": "Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba205_blue_fallA2025_v2.ics"
-      },
-      {
-        "uid": "abc21f85-774c-423f-842e-db6bcce9612f@vibeshift.me",
-        "title": "Problem Set #1 — DUE",
-        "start": "2025-08-18T06:59:00.000Z",
-        "end": "2025-08-18T07:04:00.000Z",
-        "location": "bCourses",
-        "description": "Per syllabus, problem sets are due at 11:59 PM on the due date",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba201a_micro_blue_fall2025.ics"
-      },
-      {
-        "uid": "d3233092-6eb6-466d-8b37-d54e29e40984@vibeshift.me",
-        "title": "Microeconomics – Week 4: Complex Pricing & Auctions",
-        "start": "2025-08-19T01:00:00.000Z",
-        "end": "2025-08-19T04:30:00.000Z",
-        "description": "EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba201a_micro_blue_fall2025.ics"
-      },
-      {
-        "uid": "99bc0c45-ddb6-4dca-a420-8565f7741ea9@vibeshift.me",
-        "title": "Leading People – Class 3 – How to be an Inclusive Leader (Blue)",
-        "start": "2025-08-21T01:00:00.000Z",
-        "end": "2025-08-21T04:30:00.000Z",
-        "location": "Chou Hall Room N470",
-        "description": "Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba205_blue_fallA2025_v2.ics"
-      },
-      {
-        "uid": "35fd6724-95cd-485d-a1b8-09e61c834a52@vibeshift.me",
-        "title": "Consulting Project: Proposal Form – DUE",
-        "start": "2025-08-23T05:00:00.000Z",
-        "end": "2025-08-23T05:05:00.000Z",
-        "location": "bCourses",
-        "description": "Submit proposal form on bCourses.",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba205_blue_fallA2025_v2.ics"
-      },
-      {
-        "uid": "7060152a-8a3b-4f12-9c81-cf9e59a555d1@vibeshift.me",
-        "title": "Team Assignment check-in #2 — DUE",
-        "start": "2025-08-25T06:59:00.000Z",
-        "end": "2025-08-25T07:04:00.000Z",
-        "location": "bCourses",
-        "description": "Time not specified; set to 11:59 PM.",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba201a_micro_blue_fall2025.ics"
-      },
-      {
-        "uid": "c176da0c-0493-4479-aad5-44adddfbdb01@vibeshift.me",
-        "title": "Microeconomics – Week 5: Production & Costs",
-        "start": "2025-08-26T01:00:00.000Z",
-        "end": "2025-08-26T04:30:00.000Z",
-        "description": "EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba201a_micro_blue_fall2025.ics"
-      },
-      {
-        "uid": "695b570d-dccb-411c-98eb-8302ec35981e@vibeshift.me",
-        "title": "Leading People – Class 4 – Improving Performance (Part 1) (Blue)",
-        "start": "2025-08-28T01:00:00.000Z",
-        "end": "2025-08-28T04:30:00.000Z",
-        "location": "Chou Hall Room N470",
-        "description": "Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba205_blue_fallA2025_v2.ics"
-      },
-      {
-        "uid": "b2fff1e5-999c-4566-9c66-42ec6412f712@vibeshift.me",
-        "title": "Microeconomics – Week 6 (combined): Competitive Markets & Regulation",
-        "start": "2025-09-03T01:00:00.000Z",
-        "end": "2025-09-03T04:30:00.000Z",
-        "description": "EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba201a_micro_blue_fall2025.ics"
-      },
-      {
-        "uid": "f826808d-0e18-426f-8b1c-73d504969db1@vibeshift.me",
-        "title": "Leading People – Class 5 – Improving Performance (Part 2) (Blue)",
-        "start": "2025-09-04T01:00:00.000Z",
-        "end": "2025-09-04T04:30:00.000Z",
-        "location": "Chou Hall Room N470",
-        "description": "Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba205_blue_fallA2025_v2.ics"
-      },
-      {
-        "uid": "a96dd868-1b35-4971-9a76-c31f37af0ed9@vibeshift.me",
-        "title": "Consulting Project: Part 1 – Interview Report – DUE",
-        "start": "2025-09-05T05:00:00.000Z",
-        "end": "2025-09-05T05:05:00.000Z",
-        "location": "bCourses",
-        "description": "Submit Part 1 (Interview Report) on bCourses.",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba205_blue_fallA2025_v2.ics"
-      },
-      {
-        "uid": "208e36bd-6fb2-4bc2-a9fc-dbd231a391f3@vibeshift.me",
-        "title": "Midterm Quiz Window (online)",
-        "start": "2025-09-05T07:01:00.000Z",
-        "end": "2025-09-09T06:59:00.000Z",
-        "location": "Online",
-        "description": "Open-book online midterm. Window opens 12:01am Fri 9/5 and clos",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba205_blue_fallA2025_v2.ics"
-      },
-      {
-        "uid": "02b9b7bf-6eff-4f37-abcd-9444ee67ac89@vibeshift.me",
-        "title": "Problem Set #2 — DUE",
-        "start": "2025-09-08T06:59:00.000Z",
-        "end": "2025-09-08T07:04:00.000Z",
-        "location": "bCourses",
-        "description": "Per syllabus, problem sets are due at 11:59 PM on the due date",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba201a_micro_blue_fall2025.ics"
-      },
-      {
-        "uid": "5c9feca6-0ba9-4794-9d43-bda7ec274661@vibeshift.me",
-        "title": "Microeconomics – Week 7: Markets with Price Searchers",
-        "start": "2025-09-09T01:00:00.000Z",
-        "end": "2025-09-09T04:30:00.000Z",
-        "description": "EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba201a_micro_blue_fall2025.ics"
-      },
-      {
-        "uid": "1df2ecb5-6d9d-47cd-a34f-8b19d062113b@vibeshift.me",
-        "title": "Leading People – Class 6 – Leading High‑Impact Teams (Blue)",
-        "start": "2025-09-11T01:00:00.000Z",
-        "end": "2025-09-11T04:30:00.000Z",
-        "location": "Chou Hall Room N470",
-        "description": "Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba205_blue_fallA2025_v2.ics"
-      },
-      {
-        "uid": "0d524371-3a36-459d-8499-aa541d55b9b0@vibeshift.me",
-        "title": "Microeconomics – Week 8: Oligopoly & Game Theory",
-        "start": "2025-09-16T01:00:00.000Z",
-        "end": "2025-09-16T04:30:00.000Z",
-        "description": "EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba201a_micro_blue_fall2025.ics"
-      },
-      {
-        "uid": "5a30ea14-f2c8-4b01-8a22-ed5d3f5e0acf@vibeshift.me",
-        "title": "Leading People – Class 7 – “Culture Eats Strategy for Breakfast” (Blue)",
-        "start": "2025-09-18T01:00:00.000Z",
-        "end": "2025-09-18T04:30:00.000Z",
-        "location": "Chou Hall Room N470",
-        "description": "Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "ewmba205_blue_fallA2025_v2.ics"
-      },
       {
         "uid": "cf4e0ee7-840d-4272-9b3f-c3306827f239@vibeshift.me",
         "title": "Problem Set #3 — DUE",
@@ -956,241 +683,6 @@
     ],
     "gold": [
       {
-        "uid": "f3355e47-04de-4f8e-943c-415fb7f50419@vibeshift.me",
-        "title": "Microeconomics – Week 2: Demand Analysis I",
-        "start": "2025-08-06T01:00:00.000Z",
-        "end": "2025-08-06T04:30:00.000Z",
-        "description": "EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba201a_micro_gold_fall2025.ics"
-      },
-      {
-        "uid": "23e1ee26-64ca-483f-9e13-d93f6acf7373@vibeshift.me",
-        "title": "Leading People – Class 1 – Introduction: The Science and Practice of Managing People (Gold)",
-        "start": "2025-08-08T01:00:00.000Z",
-        "end": "2025-08-08T04:30:00.000Z",
-        "location": "Chou Hall Room N470",
-        "description": "Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba205_gold_fallA2025_v2.ics"
-      },
-      {
-        "uid": "event-assignment-override-324595",
-        "title": "Teams@Haas Collaborative Plan Submission (EWMBA Blue) [Teams@Haas 2025]",
-        "start": "2025-08-08T07:00:00.000Z",
-        "end": "2025-08-09T07:00:00.000Z",
-        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1546457&month=08&year=2025#assignment_8930027",
-        "description": "The Collaborative Plans are designed to support your team in developing a shared understanding of how you will work together and how you will cultivate a collaborative team climate that will support each other's development.\n\nMilestones:\n\n* Access & Copy: [Collaborative Planning Template] (https://docs.google.com/document/d/1O6p6HoxX-hpzLsnWoEdzwqCkDLmpDABlh2IbXewHXvs/edit?usp=sharing)\n\n* Share: Collaborative Plan with all team members\n\n* Organize Team Meeting: Identify a time after your first set of classes to meet with your team to align on all of your agreements. \n\n* Complete Collaborative Plan: fill in all three sections (Goal Alignment (A&B), Knowledge Coordination, Collaborative Climate) based on your agreements from the WE | Launch workshops & follow-up meeting.\n\n* Upload: Collaborative Plan to bCourse by the deadline for your cohort\n\nNote: you can copy and paste the photo from the Value Map with your agreed-upon norms and practices from WE | Launch\n\nUpload Instructions\n\n* Upload Plan Under the Assignment Tab\n\n* 1 Plan Per Team\n\n* File Name Convention = Team Number_Collaborative Plan (i.e. 405_Collaborative Plan)\n\nNOTE:  The Team Collaborative Plan is for your reference. During the Teams@Haas Check-In Workshop #1, your team will have time to update and pivot on your plan based on what you learn about the nature of your work and each other as you work together. More to follow on this in the weeks to come.",
-        "allDay": true,
-        "cohort": "gold",
-        "source": "teams@Haas.ics"
-      },
-      {
-        "uid": "1133b0d1-23f7-4cd5-a4eb-f48009ab1aca@vibeshift.me",
-        "title": "Team Assignment check-in #1 — DUE",
-        "start": "2025-08-11T06:59:00.000Z",
-        "end": "2025-08-11T07:04:00.000Z",
-        "location": "bCourses",
-        "description": "Time not specified; set to 11:59 PM per course norms.",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba201a_micro_gold_fall2025.ics"
-      },
-      {
-        "uid": "7286adc3-838d-4f95-974b-68f5c68de32b@vibeshift.me",
-        "title": "Microeconomics – Week 3: Demand Analysis II",
-        "start": "2025-08-13T01:00:00.000Z",
-        "end": "2025-08-13T04:30:00.000Z",
-        "description": "EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba201a_micro_gold_fall2025.ics"
-      },
-      {
-        "uid": "42e494b3-c5bc-46a1-89e3-1ec604ab8b58@vibeshift.me",
-        "title": "Leading People – Class 2 – Motivation + Meaning in the Workplace (Gold)",
-        "start": "2025-08-15T01:00:00.000Z",
-        "end": "2025-08-15T04:30:00.000Z",
-        "location": "Chou Hall Room N470",
-        "description": "Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba205_gold_fallA2025_v2.ics"
-      },
-      {
-        "uid": "c10c173b-50ff-4f8e-a203-621d4e7e05b8@vibeshift.me",
-        "title": "Problem Set #1 — DUE",
-        "start": "2025-08-18T06:59:00.000Z",
-        "end": "2025-08-18T07:04:00.000Z",
-        "location": "bCourses",
-        "description": "Per syllabus, problem sets are due at 11:59 PM on the due date",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba201a_micro_gold_fall2025.ics"
-      },
-      {
-        "uid": "5b6f8a02-cdd0-4a2e-a999-657ebc9f52c3@vibeshift.me",
-        "title": "Microeconomics – Week 4: Complex Pricing & Auctions",
-        "start": "2025-08-20T01:00:00.000Z",
-        "end": "2025-08-20T04:30:00.000Z",
-        "description": "EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba201a_micro_gold_fall2025.ics"
-      },
-      {
-        "uid": "3fbfe9c7-4ac9-47ac-bc75-72200074cd06@vibeshift.me",
-        "title": "Leading People – Class 3 – How to be an Inclusive Leader (Gold)",
-        "start": "2025-08-22T01:00:00.000Z",
-        "end": "2025-08-22T04:30:00.000Z",
-        "location": "Chou Hall Room N470",
-        "description": "Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba205_gold_fallA2025_v2.ics"
-      },
-      {
-        "uid": "7631d22e-d571-4770-a981-478859d15906@vibeshift.me",
-        "title": "Consulting Project: Proposal Form – DUE",
-        "start": "2025-08-23T05:00:00.000Z",
-        "end": "2025-08-23T05:05:00.000Z",
-        "location": "bCourses",
-        "description": "Submit proposal form on bCourses.",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba205_gold_fallA2025_v2.ics"
-      },
-      {
-        "uid": "bf8cd0c2-42ed-4e30-a985-4642192f0a2e@vibeshift.me",
-        "title": "Team Assignment check-in #2 — DUE",
-        "start": "2025-08-25T06:59:00.000Z",
-        "end": "2025-08-25T07:04:00.000Z",
-        "location": "bCourses",
-        "description": "Time not specified; set to 11:59 PM.",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba201a_micro_gold_fall2025.ics"
-      },
-      {
-        "uid": "5b1d6b16-99fd-4ca9-a661-ab262f00ba75@vibeshift.me",
-        "title": "Microeconomics – Week 5: Production & Costs",
-        "start": "2025-08-27T01:00:00.000Z",
-        "end": "2025-08-27T04:30:00.000Z",
-        "description": "EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba201a_micro_gold_fall2025.ics"
-      },
-      {
-        "uid": "2b6fc82e-1949-46d3-9004-da1f517b0221@vibeshift.me",
-        "title": "Leading People – Class 4 – Improving Performance (Part 1) (Gold)",
-        "start": "2025-08-29T01:00:00.000Z",
-        "end": "2025-08-29T04:30:00.000Z",
-        "location": "Chou Hall Room N470",
-        "description": "Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba205_gold_fallA2025_v2.ics"
-      },
-      {
-        "uid": "4bbfcc9a-93e3-4c53-b92c-5aa1210bd274@vibeshift.me",
-        "title": "Microeconomics – Week 6 (combined): Competitive Markets & Regulation",
-        "start": "2025-09-03T01:00:00.000Z",
-        "end": "2025-09-03T04:30:00.000Z",
-        "description": "EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba201a_micro_gold_fall2025.ics"
-      },
-      {
-        "uid": "aca58390-f9e1-4996-ab84-efe3498efcf5@vibeshift.me",
-        "title": "Leading People – Class 5 – Improving Performance (Part 2) (Gold)",
-        "start": "2025-09-05T01:00:00.000Z",
-        "end": "2025-09-05T04:30:00.000Z",
-        "location": "Chou Hall Room N470",
-        "description": "Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba205_gold_fallA2025_v2.ics"
-      },
-      {
-        "uid": "a8cd5330-46e2-4ea6-9df9-558f324b14a3@vibeshift.me",
-        "title": "Consulting Project: Part 1 – Interview Report – DUE",
-        "start": "2025-09-05T05:00:00.000Z",
-        "end": "2025-09-05T05:05:00.000Z",
-        "location": "bCourses",
-        "description": "Submit Part 1 (Interview Report) on bCourses.",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba205_gold_fallA2025_v2.ics"
-      },
-      {
-        "uid": "a792439b-db0a-403f-8d00-4d1649bbc43d@vibeshift.me",
-        "title": "Midterm Quiz Window (online)",
-        "start": "2025-09-05T07:01:00.000Z",
-        "end": "2025-09-09T06:59:00.000Z",
-        "location": "Online",
-        "description": "Open-book online midterm. Window opens 12:01am Fri 9/5 and clos",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba205_gold_fallA2025_v2.ics"
-      },
-      {
-        "uid": "b60f3472-cf43-42f4-b73c-b87dfab70200@vibeshift.me",
-        "title": "Problem Set #2 — DUE",
-        "start": "2025-09-08T06:59:00.000Z",
-        "end": "2025-09-08T07:04:00.000Z",
-        "location": "bCourses",
-        "description": "Per syllabus, problem sets are due at 11:59 PM on the due date",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba201a_micro_gold_fall2025.ics"
-      },
-      {
-        "uid": "6d530daf-61f9-4470-b3b3-abb65ca2ca97@vibeshift.me",
-        "title": "Microeconomics – Week 7: Markets with Price Searchers",
-        "start": "2025-09-10T01:00:00.000Z",
-        "end": "2025-09-10T04:30:00.000Z",
-        "description": "EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba201a_micro_gold_fall2025.ics"
-      },
-      {
-        "uid": "b3f7e83b-e75b-4ab3-8b95-704fa4fc6527@vibeshift.me",
-        "title": "Leading People – Class 6 – Leading High‑Impact Teams (Gold)",
-        "start": "2025-09-12T01:00:00.000Z",
-        "end": "2025-09-12T04:30:00.000Z",
-        "location": "Chou Hall Room N470",
-        "description": "Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba205_gold_fallA2025_v2.ics"
-      },
-      {
-        "uid": "94e05607-0e39-48bc-a9d2-0c7aff0732aa@vibeshift.me",
-        "title": "Microeconomics – Week 8: Oligopoly & Game Theory",
-        "start": "2025-09-17T01:00:00.000Z",
-        "end": "2025-09-17T04:30:00.000Z",
-        "description": "EWMBA 201A Microeconomics — Synchronous lecture (6:00–9:30 PM P",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba201a_micro_gold_fall2025.ics"
-      },
-      {
-        "uid": "9004edc0-6317-4969-9ea8-092694084c45@vibeshift.me",
-        "title": "Leading People – Class 7 – “Culture Eats Strategy for Breakfast” (Gold)",
-        "start": "2025-09-19T01:00:00.000Z",
-        "end": "2025-09-19T04:30:00.000Z",
-        "location": "Chou Hall Room N470",
-        "description": "Course: EWMBA 205 – Leading People\nInstructor: Rebecca Portnoy",
-        "allDay": false,
-        "cohort": "gold",
-        "source": "ewmba205_gold_fallA2025_v2.ics"
-      },
-      {
         "uid": "8e6e0dc3-5ecf-436e-a97f-490be9f17b46@vibeshift.me",
         "title": "Problem Set #3 — DUE",
         "start": "2025-09-22T06:59:00.000Z",
@@ -1588,148 +1080,6 @@
     ],
     "original": [
       {
-        "uid": "event-assignment-override-324379",
-        "title": "Pre-course Survey (EWMBA 205 LEC 01A (In Person)) [EWMBA 205-LEC-01A & 02A FA25]",
-        "start": "2025-08-06T01:00:00.000Z",
-        "end": "2025-08-06T01:00:00.000Z",
-        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1545386&month=08&year=2025#assignment_8916937",
-        "description": "Please complete this brief [survey] (https://berkeley.qualtrics.com/jfe/form/SV_56nz7y3HmczpklU)[ (Links to an external site.) (Links to an external site.)] (https://berkeley.qualtrics.com/jfe/form/SV_0xlfSWD5zPtkjaJ) by 6pm on August 5th (Blue) and August 6th (Gold)\n\nThanks for answering these questions with care.  Exactly how and why they are important, you will learn in class.  For now, please read carefully and respond to each question.  \n\nOnce you complete the survey, please come back to this screen and type the word \"completed\" into the assignment box and Submit.",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "calendar.ics"
-      },
-      {
-        "uid": "event-assignment-override-324381",
-        "title": "Class 1 - Group Facilitators Johnsonville Case Memo (EWMBA 205 LEC 01A (In Person)) [EWMBA 205-LEC-01A & 02A FA25]",
-        "start": "2025-08-07T01:00:00.000Z",
-        "end": "2025-08-07T01:00:00.000Z",
-        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1545386&month=08&year=2025#assignment_8916929",
-        "description": "Case: Johnsonville Sausage Co.\nYou have been consulted by Ralph Stayer to make recommendations on what to do about the Palmer request. Your recommendation (including the three points below) should be in the form of a memo to Ralph. It should be one page maximum (single-spaced, 12-point font, Times New Roman, and 1-inch margins).\n\nAs a facilitator, you’ll use the preparation of this memo to help kick off and guide your group’s discussion. You won’t need to present your memo in full, but it should give you a clear point of view and framing to engage your teammates. Please remember: if you haven’t done the readings or submitted your memo, you won’t be equipped to lead your group and you’ll be letting your team down.\n\nRalph wants to see the following in your memo:\n\n1. A clear and succinct understanding of the key challenge(s) he faces in the situation, supported by case facts/observations.\n\n2. The pros/cons of various alternatives available and guidance on how the decision should be made.\n\n3. A strong rationale for your recommended action, based upon (1) and (2) above. \n\nTo support your thinking, you should also reflect on the following questions as you prepare:\n\n*\n\nHas Ralph made the transition from entrepreneurial to professional management?\n\n*\n\nWhat forces led to that transition?\n\n*\n\nWhat options does he have now?\n\n*\n\nHow does a leader know when it’s time to make this kind of shift?\n\n \n\nSubmission Details:\n\n*\n\nDue: On bCourses by 6:00 PM on the day of class\n\n*\n\nFormat: Type directly into the submission box\n\n*\n\nGrading: You will receive a grade out of 5 points based on the quality and effort demonstrated in your memo. See rubric posted below.\n\nGood luck and have fun!",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "calendar.ics"
-      },
-      {
-        "uid": "event-assignment-8909110",
-        "title": "Team Assignment: Corporate Memo (Part 1)  [EWMBA 201A-LEC-01A & 02A FA25]",
-        "start": "2025-08-10T07:00:00.000Z",
-        "end": "2025-08-11T07:00:00.000Z",
-        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1544880&month=08&year=2025#assignment_8909110",
-        "description": "Much of the work of business takes place in teams. To enhance your experience with teams and with your classmates, you will be asked to write a short memo analyzing a company’s cost structure and pricing policies. The details about this team assignment can be found below. You have to work on this assignment with the study group you have been assigned to.\n\nOnly one member per study group has to upload the PDF with the team's pricing project to bCourses. For more detailed instructions, read the following page:\n\n[Pricing Project Directions] (https://bcourses.berkeley.edu/courses/1544880/pages/team-assignment-corporate-memo-instructions)\n\nAs the first checkpoint, your team will need to submit the name of the company and one introductory paragraph about what the company does. You should seek for approval on the name of the company in advance -- I want to make sure that there is no more than one team working on each company.\n\nNote that this assignment (i.e., the first checkpoint) is not graded. However, you are expected to submit the assignment on time. Failing to deliver will result in a 10-point deduction from the final assignment grade.",
-        "allDay": true,
-        "cohort": "blue",
-        "source": "calendar.ics"
-      },
-      {
-        "uid": "event-assignment-override-324383",
-        "title": "Class 2 - Group Facilitators Cirque Case Memo (EWMBA 205 LEC 01A (In Person)) [EWMBA 205-LEC-01A & 02A FA25]",
-        "start": "2025-08-14T01:00:00.000Z",
-        "end": "2025-08-14T01:00:00.000Z",
-        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1545386&month=08&year=2025#assignment_8916930",
-        "description": "Case: Cirque du Soleil\n\nGuy Laliberte, Cirque's CEO, has consulted you to advise him on how to navigate the company’s future growth. Your recommendation (including points 1-3 from below) should be in the form of a memo to Guy. It should be one page maximum (single-spaced, 12-point font, Times New Roman, and 1-inch margins).\n\nAs a facilitator, you’ll use the preparation of this memo to help kick off and guide your group’s discussion. You won’t need to present your memo in full, but it should give you a clear point of view and framing to engage your teammates. Please remember: if you haven’t done the readings or submitted your memo, you won’t be equipped to lead your group and you’ll be letting your team down.\n\nGuy wants to see the following in your memo:\n\n1. A clear and succinct understanding of the key challenge(s) he faces in the situation. Your support of the challenges should include case facts/observations.\n\n2. The pros/cons of various alternatives available for planning for the future. \n\n3. A strong rationale for your recommended action, based upon (1) and (2) above. \n\nTo support your thinking, consider the following questions as you prepare:\n\n*\n\nWhat are the artists’ greatest sources of motivation for their work?\n\n*\n\nHow does Cirque keep staff motivated when the spotlight is on the performers?\n\n*\n\nReflect on your own experiences working in organizations where you were either “staff” or “star.”\n\n*\n\nWhat lessons might Cirque learn from an investment bank? A tech company like Nvidia? A research laboratory?\n\nSubmission Details:\n\n*\n\n* Due: On bCourses by 6:00 PM on the day of class\n\n*\n\nFormat: Type directly into the submission box\n\n*\n\nGrading: You will receive a grade out of 5 points based on the quality and effort demonstrated in your memo. See rubric posted below.\n\nGood luck and have fun!",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "calendar.ics"
-      },
-      {
-        "uid": "event-assignment-8909106",
-        "title": "Problem Set 1 [EWMBA 201A-LEC-01A & 02A FA25]",
-        "start": "2025-08-17T07:00:00.000Z",
-        "end": "2025-08-18T07:00:00.000Z",
-        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1544880&month=08&year=2025#assignment_8909106",
-        "description": "Please submit the problem set below. Upload a PDF file with your responses inside the red boxes into Gradescope below.\n\nIf you find that the Gradescope integration is not showing up, please try opening this page in the Chrome web browser.\n\n[Problem Set 1.pdf] (https://bcourses.berkeley.edu/courses/1544880/files/91794952/download?wrap=1)",
-        "allDay": true,
-        "cohort": "blue",
-        "source": "calendar.ics"
-      },
-      {
-        "uid": "event-assignment-override-324389",
-        "title": "Class 3 - Group Facilitators Yelp Case Memo (EWMBA 205 LEC 01A (In Person)) [EWMBA 205-LEC-01A & 02A FA25]",
-        "start": "2025-08-21T01:00:00.000Z",
-        "end": "2025-08-21T01:00:00.000Z",
-        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1545386&month=08&year=2025#assignment_8929081",
-        "description": "Case: Managing Diversity and Inclusion at Yelp\n\nYou have been consulted by Rachel Williams, Head of Diversity and Inclusion at Yelp, to provide a recommendation on how she should move forward in designing Yelp’s first company-wide DEI strategy. Your recommendation (including the three points below) should be in the form of a memo to Rachel. It should be one page maximum (single-spaced, 12-point font, Times New Roman, and 1-inch margins).\n\nAs a facilitator, you’ll use this memo to help kick off and guide your group’s discussion. You don’t need to present the full memo, but it should help you frame the central challenge and open up conversation. Please remember: if you haven’t done the readings or submitted your memo, you won’t be equipped to lead your group and you’ll be letting your team down.\n\nRachel wants to see the following in your memo:\n\n*\n\nA clear and succinct understanding of the core challenge(s) facing Yelp when it comes to building a more diverse and inclusive workforce.\n\n*\n\nThe pros and cons of various strategies Rachel could propose to Yelp leadership.\n\n*\n\nA strong rationale for your recommendation, based on (1) and (2), as well as insights from the case and readings.\n\nTo support your thinking, consider the following guiding questions:\n\n*\n\nWhy isn’t there more diversity among engineers at Yelp and in tech companies more broadly?\n\n*\n\nWhere in the hiring funnel might bias be showing up (e.g., sourcing, selection, socialization)?\n\n*\n\nHow should Yelp evaluate whether its inclusion strategies are working over time?\n\n*\n\nHow would you advise Yelp to communicate its DEI goals in the current political climate?\n\nSubmission Details:\n\n*\n\n* Due: On bCourses by 6:00 PM on the day of class\n\n*\n\nFormat: Type directly into the submission box\n\n*\n\nGrading: You will receive a grade out of 5 points based on the quality and effort demonstrated in your memo. See rubric posted below.\n\nGood luck and have fun!",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "calendar.ics"
-      },
-      {
-        "uid": "event-assignment-8932705",
-        "title": "Topic Proposal Form  [EWMBA 205-LEC-01A & 02A FA25]",
-        "start": "2025-08-23T05:00:00.000Z",
-        "end": "2025-08-23T05:00:00.000Z",
-        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1545386&month=08&year=2025#assignment_8932705",
-        "description": "Please answer the questions in this [form] (https://bcourses.berkeley.edu/courses/1545386/files/91874239?wrap=1) in the space below.\n\nThis form is meant to provide a high-level overview of your proposed project. At this stage, it’s fine to keep things broad, the goal is simply to get your team started.\n\nI especially encourage you to reach out to me (by email or in office hours) later in the project for example, when you are:\n\n*\n\nStrategizing how to approach and structure your leader interview\n\n*\n\nMaking sense of the insights from that interview\n\n*\n\nPlanning or analyzing the additional data you collect in Part 2\n\nThat’s when our conversations will be most useful to your team.",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "calendar.ics"
-      },
-      {
-        "uid": "event-assignment-8909111",
-        "title": "Team Assignment: Corporate Memo (Part 2) [EWMBA 201A-LEC-01A & 02A FA25]",
-        "start": "2025-08-24T07:00:00.000Z",
-        "end": "2025-08-25T07:00:00.000Z",
-        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1544880&month=08&year=2025#assignment_8909111",
-        "description": "Much of the work of business takes place in teams. To enhance your experience with teams and with your classmates, you will be asked to write a short memo analyzing a company’s cost structure and pricing policies. The details about this team assignment can be found below. You have to work on this assignment with the study group you have been assigned to.\n\nOnly one member per study group has to upload the PDF with the team's pricing project to bCourses. For more detailed instructions, read the following page:\n\n[Pricing Project Directions] (https://bcourses.berkeley.edu/courses/1544880/pages/team-assignment-corporate-memo-instructions)\n\nAs the second checkpoint, your team should expand on what you have so far, adding the qualitative assessments about demand and cost structure.\n\nNote that this assignment (i.e., second checkpoint) is not graded. However, you are expected to submit the assignment on time. Failing to deliver will result in a 10-point deduction from the final assignment grade.",
-        "allDay": true,
-        "cohort": "blue",
-        "source": "calendar.ics"
-      },
-      {
-        "uid": "event-assignment-8916935",
-        "title": "Part 1 - Interview Report  [EWMBA 205-LEC-01A & 02A FA25]",
-        "start": "2025-09-05T05:00:00.000Z",
-        "end": "2025-09-05T05:00:00.000Z",
-        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1545386&month=09&year=2025#assignment_8916935",
-        "description": "Your team's task is to create a profile of a leader, analyzing their strengths and weaknesses. Conduct an interview with your team’s choice of a leader (any level, any type) and at least one person who reports to that leader, and to use as many other methods as you can, to learn about that person. Your final product will be a maximum of 1800 words (adhering to 1.5 spacing, 12-point Times New Roman font, and 1-inch margins). \n\n \n\nThe report should cover three key aspects: 1)What makes your chosen interviewee a leader, 2) an assessment of their strengths and weaknesses, and 3) constructive advice to help improve their situation. \n\n \n\nThe goal of this assignment is to deepen your understanding of course concepts by exploring leadership in practical settings. It also offers an opportunity to practice delivering honest and constructive feedback. Integrate relevant course concepts from lectures and readings, and feel free to supplement your analysis with high-quality external research. Creativity is encouraged in the style and presentation of your report, including the use of pictures and engaging headings. When selecting a leader to interview, be prepared to justify what makes this person a leader (i.e., Are they a leader through position and/or hierarchy? Are they a beloved and respected member of their community?).\n\n \n\nAs MBA students, I challenge you to rethink your perceptions of leadership. While you all possess leadership qualities worthy of being interviewed, you must all be willing to grow and change as leaders, especially as your rank, positions, or managerial responsibilities continue to evolve. One significant way to achieve this growth is by learning from and critically analyzing other leaders' experiences.\n\n \n\nPlease read the [full assignment details] (https://docs.google.com/document/d/1FZloXH8r04sYvPSFiwXLmO8KW8nLCyWbfuOUU69kakQ/edit) and review the [rubric] (https://bcourses.berkeley.edu/courses/1545386/files/92116296?wrap=1).",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "calendar.ics"
-      },
-      {
-        "uid": "event-assignment-8909107",
-        "title": "Problem Set 2 [EWMBA 201A-LEC-01A & 02A FA25]",
-        "start": "2025-09-07T07:00:00.000Z",
-        "end": "2025-09-08T07:00:00.000Z",
-        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1544880&month=09&year=2025#assignment_8909107",
-        "description": "Please submit the problem set below. Upload a PDF file with your responses inside the red boxes. Excel file for one of the problems is [here] (https://bcourses.berkeley.edu/courses/1544880/files/91794905/download?wrap=1).\n\n[Problem Set 2.pdf] (https://bcourses.berkeley.edu/courses/1544880/files/91794923/download?wrap=1)",
-        "allDay": true,
-        "cohort": "blue",
-        "source": "calendar.ics"
-      },
-      {
-        "uid": "event-assignment-8916927",
-        "title": "Midterm [EWMBA 205-LEC-01A & 02A FA25]",
-        "start": "2025-09-08T07:00:00.000Z",
-        "end": "2025-09-09T07:00:00.000Z",
-        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1545386&month=09&year=2025#assignment_8916927",
-        "allDay": true,
-        "cohort": "blue",
-        "source": "calendar.ics"
-      },
-      {
-        "uid": "event-assignment-override-324385",
-        "title": "Class 6 - Group Facilitators MediSys Case Memo (EWMBA 205 LEC 01A (In Person)) [EWMBA 205-LEC-01A & 02A FA25]",
-        "start": "2025-09-11T01:00:00.000Z",
-        "end": "2025-09-11T01:00:00.000Z",
-        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1545386&month=09&year=2025#assignment_8916931",
-        "description": "Case: MediSys Corp.: The IntensCare Product Development Team\n\nYou have been consulted by Valerie Merz, the marketing manager responsible for the success of the IntensCare product, to help her overcome the problems facing the team. Consider an action plan that Merz can follow, one that thoughtfully considers the costs and benefits of your proposed approach.Your recommendation (including points 1-3 from below) should be in the form of a memo to Merz.  It should be one page maximum (single-spaced, 12-point font, Times New Roman, and 1-inch margins).\n\nAs a facilitator, you’ll use the preparation of this memo to help kick off and guide your group’s discussion. You won’t need to present your memo in full, but it should give you a clear point of view and framing to engage your teammates. Please remember: if you haven’t done the readings or submitted your memo, you won’t be equipped to lead your group and you’ll be letting your team down.\n\nValerie wants to see the following in your memo:\n\n1. A clear and succinct understanding of the key challenge(s) he faces in the situation. Your support of the challenges should include case facts/observations.\n\n2. The pros/cons of various alternatives available for addressing the challenge.\n\n3. A strong rationale for your recommended action, based upon (1) and (2) above.\n\nTo support your thinking, consider the following questions:\n\n*\n\nWhat factors are contributing to the tensions and dysfunctions on the IntensCare team?\n\n*\n\nHow do organizational design choices (functional roles, reporting lines, evaluation systems) shape team dynamics?\n\n*\n\nHow could Valerie influence others without formal authority?\n\n*\n\nHave you ever been on a team like this—where power and responsibility were unclear? What worked or didn’t?\n\nSubmission Details:\n\n* Due: On bCourses by 6:00 PM on the day of class\n\n*\n\nFormat: Type directly into the submission box\n\n*\n\nGrading: You will receive a grade out of 5 points based on the quality and effort demonstrated in your memo. See rubric posted below.\n\nGood luck and have fun!",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "calendar.ics"
-      },
-      {
-        "uid": "event-assignment-8909108",
-        "title": "Problem Set 3 [EWMBA 201A-LEC-01A & 02A FA25]",
-        "start": "2025-09-21T07:00:00.000Z",
-        "end": "2025-09-22T07:00:00.000Z",
-        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1544880&month=09&year=2025#assignment_8909108",
-        "description": "Please submit the problem set below. Upload a PDF file with your responses inside the red boxes. [Problem Set 3.pdf] (https://bcourses.berkeley.edu/courses/1544880/files/91794949?wrap=1) and [Excel Dataset for Q1] (https://bcourses.berkeley.edu/courses/1544880/files?preview=89578249)",
-        "allDay": true,
-        "cohort": "blue",
-        "source": "calendar.ics"
-      },
-      {
         "uid": "event-assignment-override-324387",
         "title": "Class 8 - Group Facilitators Iggy's Case Memo (EWMBA 205 LEC 01A (In Person)) [EWMBA 205-LEC-01A & 02A FA25]",
         "start": "2025-09-25T01:00:00.000Z",
@@ -1776,52 +1126,6 @@
     ],
     "launch": [
       {
-        "uid": "81b9c24a-6d92-4ed9-aea5-2584171566e5@vibeshift.me",
-        "title": "Information Session — UC LAUNCH (On Campus)",
-        "start": "2025-08-26T07:00:00.000Z",
-        "end": "2025-08-27T07:00:00.000Z",
-        "location": "Berkeley Haas (On campus)",
-        "url": "https://forms.gle/u6T4jvpUdimtDWYn6",
-        "description": "Join us on campus at Berkeley Haas for an Information Session to learn more about our Startup Accelerator and the application criteria.\\\n\\\nWe look forward to meeting you!\\\n\\\nRegister: https://forms.gle/u6T4jvpUdimtDWYn6",
-        "allDay": true,
-        "cohort": "blue",
-        "source": "uc_launch_events_fall2025.ics"
-      },
-      {
-        "uid": "1518f135-25a0-4dda-bc83-bd9e9bf79e35@vibeshift.me",
-        "title": "Executive Committee — Application Deadline",
-        "start": "2025-08-27T07:00:00.000Z",
-        "end": "2025-08-28T07:00:00.000Z",
-        "url": "https://forms.gle/pbP7UBYzwaGNhDJ88",
-        "description": "UC LAUNCH is looking for passionate and dynamic individuals to join our team in the following roles:\\\n• Co-Chair\\\n• SVP Community\\\n• SVP Accelerator\\\n\\\nApply here: https://forms.gle/pbP7UBYzwaGNhDJ88",
-        "allDay": true,
-        "cohort": "blue",
-        "source": "uc_launch_events_fall2025.ics"
-      },
-      {
-        "uid": "39aa0979-b8ac-4897-9d1a-6f6f89668faa@vibeshift.me",
-        "title": "Information Session — UC LAUNCH (Zoom)",
-        "start": "2025-09-03T07:00:00.000Z",
-        "end": "2025-09-04T07:00:00.000Z",
-        "location": "Zoom",
-        "url": "https://forms.gle/u6T4jvpUdimtDWYn6",
-        "description": "Join us via Zoom for an Information Session to learn more about our Startup Accelerator and the application criteria.\\\n\\\nWe look forward to meeting you!\\\n\\\nRegister: https://forms.gle/u6T4jvpUdimtDWYn6",
-        "allDay": true,
-        "cohort": "blue",
-        "source": "uc_launch_events_fall2025.ics"
-      },
-      {
-        "uid": "05303ba9-9c3e-45ad-93fc-0169d3fc49bf@vibeshift.me",
-        "title": "Startup Accelerator — Application Deadline",
-        "start": "2025-09-05T07:00:00.000Z",
-        "end": "2025-09-06T07:00:00.000Z",
-        "url": "https://forms.gle/qBfc6wuNXFKmE28R8",
-        "description": "Fall 2025 Applications are now open! Apply now to build your company using lean methodology from world-class faculty, get paired with an expert mentor, build your network, and win up to $60K in prizes on Demo Day!\\\n\\\nApply here: https://forms.gle/qBfc6wuNXFKmE28R8",
-        "allDay": true,
-        "cohort": "blue",
-        "source": "uc_launch_events_fall2025.ics"
-      },
-      {
         "uid": "39dc3fc4-9a02-4b54-97e1-7a4ce58b9dd6@vibeshift.me",
         "title": "Launchathon Weekend — UC LAUNCH",
         "start": "2025-10-18T07:00:00.000Z",
@@ -1843,40 +1147,6 @@
       }
     ],
     "calBears": [
-      {
-        "uid": "0aaf65da-8e84-40dc-8422-20fb608206bd@vibeshift",
-        "title": "Texas Southern Tigers at California Golden Bears Football",
-        "start": "2025-09-06T22:00:00.000Z",
-        "end": "2025-09-07T01:00:00.000Z",
-        "location": "California Memorial Stadium, Berkeley, CA",
-        "url": "https://calbears.evenue.net/events/FBS",
-        "description": "Texas Southern Tigers at California Golden Bears Football\n\nLocation: California Memorial Stadium, Berkeley, CA\nKickoff: 15:00 PT (~3 hrs)\nTickets: https://calbears.evenue.net/events/FBS",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "cal_bears_home_2025_original.ics",
-        "categories": [
-          "Sports",
-          "Football",
-          "California Golden Bears"
-        ]
-      },
-      {
-        "uid": "2846c0de-ac4f-4f62-b33d-f84ceb144854@vibeshift",
-        "title": "Minnesota Golden Gophers at California Golden Bears Football",
-        "start": "2025-09-14T02:30:00.000Z",
-        "end": "2025-09-14T05:30:00.000Z",
-        "location": "California Memorial Stadium, Berkeley, CA",
-        "url": "https://calbears.evenue.net/events/FBS",
-        "description": "Minnesota Golden Gophers at California Golden Bears Football\n\nLocation: California Memorial Stadium, Berkeley, CA\nKickoff: 19:30 PT (~3 hrs)\nTickets: https://calbears.evenue.net/events/FBS",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "cal_bears_home_2025_original.ics",
-        "categories": [
-          "Sports",
-          "Football",
-          "California Golden Bears"
-        ]
-      },
       {
         "uid": "7aa7bb8b-6618-4a7f-841b-6d1924287dd7@vibeshift",
         "title": "Duke Blue Devils at California Golden Bears Football",
@@ -2168,131 +1438,6 @@
     ],
     "campusGroups": [
       {
-        "uid": "5c151334de21464456b98429acb3dad15302025_3:25:07_PM@campusgroups.com",
-        "title": "One Day. Two Fairs: Haas GRSO Club Fair & Centers & Institute Fair!",
-        "start": "2025-09-02T23:00:00.000Z",
-        "end": "2025-09-03T01:00:00.000Z",
-        "location": "Spieker Forum and Haas Courtyard, 2220 Piedmont Ave, S420, Berkeley, CA 94720, United States",
-        "url": "https://haas.campusgroups.com/rsvp?id=2250690",
-        "description": "Mark your calendars for a jam-packed opportunity of exploration and networking - TWO FAIRS, ONE DAY!\n\nDouble your opportunity to enhance leadership development and networking experiences.\n\nThe Fairs will allow you to explore the professional groups and communities you can join to further your career search. Through their Club and Centers affiliations, your peers have discovered alumni connections, internship leads, case competitions, and research projects\n\nThere's something for everyone, from industry and professional clubs to fun and recreational groups.  \n\n\nJoin us on September 2 from 4-6pm for:\n\nHaas MBA Club Fair in Spieker Forum (4-6pm): Discover over 50 student organizations at Berkeley Haas, offering opportunities for professional growth, community engagement, and socializing. Find your niche and get involved with clubs aligned with your interests!\nHaas Centers & Institutes Fair in the Haas Courtyard (4-6pm): Explore innovative hubs for cutting-edge research, collaboration, and impact. Get a sneak peek into the work of our centers and institutes.\nMeet us at the following designated times to explore both fairs:\n\nOski & Gold:\n4:00 PM - Club Fair in Spieker Forum\n5:00 PM - Centers & Institutes in the Haas Courtyard\nAxe & Blue:\n4:00 PM - Centers & Institutes in the Haas Courtyard\n5:00 PM - Club Fair in Spieker Forum\n\nFind your place! Take some time to learn about the various clubs and organizations that you have the opportunity to join through Haas. We look forward to seeing you there!\n---\nEvent Details: https://haas.campusgroups.com/rsvp?id=2250690",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "campus_groups.ics",
-        "organizer": "https://haas.campusgroups.com/FTMBA/",
-        "categories": [
-          "FTMBA",
-          "Leadership",
-          "FTMBA",
-          "Community",
-          "EWMBA"
-        ]
-      },
-      {
-        "uid": "48cf5c2ad0816fd127d6da5fe64768e48132025_3:59:15_PM@campusgroups.com",
-        "title": "EWMBA Football Tailgate (Cal vs Minnesota)",
-        "start": "2025-09-14T00:30:00.000Z",
-        "end": "2025-09-14T02:30:00.000Z",
-        "location": "Sign in to download the location",
-        "url": "https://haas.campusgroups.com/rsvp?id=2250713",
-        "description": "Tailgate party at the Haas Courtyard before the home game against Minnesota.\nDress Code: Casual (jeans ok)\n---\nEvent Details: https://haas.campusgroups.com/rsvp?id=2250713",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "campus_groups.ics",
-        "organizer": "https://haas.campusgroups.com/EWMBAA/",
-        "categories": [
-          "EWMBAA",
-          "Athletic/Sports",
-          "EWMBA",
-          "All-Haas"
-        ]
-      },
-      {
-        "uid": "951e037d1d45b0e90f2e92be4117a7b29122025_8:02:11_PM@campusgroups.com",
-        "title": "Berkeley Botanical Gardens Tour",
-        "start": "2025-09-14T16:30:00.000Z",
-        "end": "2025-09-14T20:30:00.000Z",
-        "location": "Berkeley Botanical Gardens",
-        "url": "https://haas.campusgroups.com/rsvp?id=2250823",
-        "description": "A family friendly, fun morning activity of touring the Berkeley Botanical Gardens, followed by a lunch. The schedule is:\n\n9:30AM Meet in the parking lot. Haas Students get free admission; bring your Cal ID.\n10AM - 11:30AM Walk the gardens\n12PM - 1:30PM Lunch, location TBD\nDress Code: Casual (jeans ok)\n---\nEvent Details: https://haas.campusgroups.com/rsvp?id=2250823",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "campus_groups.ics",
-        "organizer": "https://haas.campusgroups.com/EWMBAA/",
-        "categories": [
-          "EWMBAA",
-          "Social",
-          "EWMBA",
-          "Environmental",
-          "Hike",
-          "Lunch"
-        ]
-      },
-      {
-        "uid": "cee9dfbed0ebb5e1f14d7afc8ba662849232025_2:27:07_PM@campusgroups.com",
-        "title": "EW Homecoming Football Game - Group Tickets!",
-        "start": "2025-10-05T02:30:00.000Z",
-        "end": "2025-10-05T05:30:00.000Z",
-        "location": "California Memorial Stadium, 2220 Piedmont Avenue, S430, Berkeley, CA 94720, United States",
-        "url": "https://haas.campusgroups.com/rsvp?id=2250859",
-        "description": "Hello Haasies! We have reserved a block of tickets to the Cal Homecoming game against Duke, available here: https://calbears.evenue.net/promotions/HMBA\n\nTo buy, make sure you select the “seat purchase” option. The system will not let you buy stranded tickets, so make sure to buy 2 or more, or choose one next to an already-taken seat. One the actual day, it’ll be easy to move around, so don’t worry about being next to your friends!\n\nIf you have any troubles ordering tickets, please reach out to danielhomans@berkeley.edu\n\nWe will also be gathering for a pregame tailgate at Freehouse at 6pm, just down the street from the Stadium.\n\nGo Bears!!!\n---\nEvent Details: https://haas.campusgroups.com/rsvp?id=2250859",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "campus_groups.ics",
-        "organizer": "https://haas.campusgroups.com/EWMBAA/",
-        "categories": [
-          "EWMBAA",
-          "Athletic/Sports"
-        ]
-      },
-      {
-        "uid": "1f5b6da818b96f446272a2047855d4f49282025_9:47:27_PM@campusgroups.com",
-        "title": "2025 Virtual Club Fair",
-        "start": "2025-10-11T22:00:00.000Z",
-        "end": "2025-10-11T23:30:00.000Z",
-        "location": "Sign in to download the location",
-        "url": "https://haas.campusgroups.com/rsvp?id=2250880",
-        "description": "Unable to make it to the in-person club fair? Dont despair! EWMBAA presents our first ever Virtual Club fair for geo restricted students to engage with current club leadership and know more about clubs at Haas\n---\nEvent Details: https://haas.campusgroups.com/rsvp?id=2250880",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "campus_groups.ics",
-        "organizer": "https://haas.campusgroups.com/EWMBAA/",
-        "categories": [
-          "EWMBAA",
-          "Online Webinar",
-          "EWMBA",
-          "All-Haas",
-          "Technology",
-          "Product Management",
-          "Finance",
-          "FinTech",
-          "Community",
-          "Entrepreneurship",
-          "Entrepreneurship through Acquisition",
-          "Healthcare",
-          "Haas Christian Fellowship",
-          "Net Impact",
-          "Real Estate",
-          "RedWoods"
-        ]
-      },
-      {
-        "uid": "17af9d6dec5327fb0ee40d27cfd555da10122025_9:03:27_PM@campusgroups.com",
-        "title": "EWMBA Spring Electives Webinar",
-        "start": "2025-10-17T23:00:00.000Z",
-        "end": "2025-10-18T00:00:00.000Z",
-        "location": "Online Event",
-        "url": "https://haas.campusgroups.com/rsvp?id=2250917",
-        "description": "Curious to learn about some of the elective offerings available in the spring semester? Sign up and join the webinar to hear from our faculty about the courses they'll be offering in Spring 2026! \n\nThis session will highlight some courses you may not know about and could help you decide which ones are right for you. \nThe session will be available via Zoom \n---\nEvent Details: https://haas.campusgroups.com/rsvp?id=2250917",
-        "allDay": false,
-        "cohort": "blue",
-        "source": "campus_groups.ics",
-        "organizer": "https://haas.campusgroups.com/EWMBAA/",
-        "categories": [
-          "EWMBAA",
-          "Online Webinar"
-        ]
-      },
-      {
         "uid": "82a5eeb1525f06be2fcee22383cee2e110132025_7:11:43_PM@campusgroups.com",
         "title": "StartupFest",
         "start": "2025-11-16T17:00:00.000Z",
@@ -2336,14 +1481,34 @@
           "EWMBAA",
           "Athletic/Sports"
         ]
+      },
+      {
+        "uid": "df7a013c145d61b0fc4f18bc73a4fecd12232025_5:52:19_PM@campusgroups.com",
+        "title": "Winter Alumni Mixer 2026",
+        "start": "2026-02-01T01:30:00.000Z",
+        "end": "2026-02-01T04:00:00.000Z",
+        "location": "Wells Fargo Room, Cheit Hall, Berkeley, CA, United States",
+        "url": "https://haas.campusgroups.com/rsvp?id=2251031",
+        "description": "A lively, community-driven meetup uniting students and alumni to trade stories, swap advice, explore diverse career paths and share real-world insights.\nDress Code: Business Casual\n---\nEvent Details: https://haas.campusgroups.com/rsvp?id=2251031",
+        "allDay": false,
+        "cohort": "blue",
+        "source": "campus_groups.ics",
+        "organizer": "https://haas.campusgroups.com/EWMBAA/",
+        "categories": [
+          "EWMBAA",
+          "Social",
+          "Alumni",
+          "EWMBA",
+          "MBAA"
+        ]
       }
     ]
   },
   "processingInfo": {
-    "totalTime": 98487,
-    "newsletterTime": 65151,
-    "calendarTime": 446,
-    "myWeekTime": 33336,
-    "timestamp": "2025-11-30T05:43:21.839Z"
+    "totalTime": 88309,
+    "newsletterTime": 65676,
+    "calendarTime": 488,
+    "myWeekTime": 22632,
+    "timestamp": "2026-01-19T12:08:30.260Z"
   }
 }
