@@ -39,6 +39,7 @@ jobs:
           fi
       
       - name: Warm cache by triggering newsletter refresh
+        id: warm
         run: |
           echo "🔥 Warming cache for deployment: ${{ steps.url.outputs.target_url }}"
           
@@ -51,15 +52,32 @@ jobs:
           http_code=$(echo "$response" | grep "HTTP_CODE:" | cut -d':' -f2)
           
           echo "Response code: $http_code"
+          echo "http_code=$http_code" >> $GITHUB_OUTPUT
           
           if [ "$http_code" -eq 200 ]; then
             echo "✅ Cache warmed successfully!"
             echo "📊 Newsletter data, calendar events, and AI summaries are now cached"
             echo "⚡ Users will experience instant loads (~100-300ms)"
+            echo "success=true" >> $GITHUB_OUTPUT
           else
             echo "⚠️ Cache warming returned HTTP $http_code"
             echo "Cache will warm on first user visit (8-20s)"
+            echo "success=false" >> $GITHUB_OUTPUT
           fi
+      
+      - name: Send deployment notification email
+        if: always()
+        run: |
+          # Send deployment notification via API
+          curl -s -X POST "${{ steps.url.outputs.target_url }}/api/notify/deployment" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "environment": "production",
+              "success": ${{ steps.warm.outputs.success == 'true' }},
+              "commitMessage": "${{ github.event.head_commit.message || 'Manual deployment' }}",
+              "deploymentUrl": "${{ steps.url.outputs.target_url }}"
+            }' || echo "⚠️ Email notification failed (non-critical)"
       
       - name: Notify completion
         run: |

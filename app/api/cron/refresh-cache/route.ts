@@ -7,6 +7,7 @@ import { NextResponse } from 'next/server';
 import { analyzeCohortMyWeekWithAI } from '@/lib/my-week-analyzer';
 import { getCohortEvents } from '@/lib/icsUtils';
 import { setCachedData, CACHE_KEYS } from '@/lib/cache';
+import { sendCronNotification } from '@/lib/notifications';
 
 export async function GET(request: Request) {
   // Verify this is a cron job request from Vercel
@@ -14,6 +15,8 @@ export async function GET(request: Request) {
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+
+  const startTime = Date.now();
 
   try {
     console.log('🌙 Cron: Midnight cache refresh started...');
@@ -32,12 +35,25 @@ export async function GET(request: Request) {
     await setCachedData(CACHE_KEYS.COHORT_EVENTS, cohortEvents, { writeStatic: true });
     await setCachedData(CACHE_KEYS.MY_WEEK_DATA, myWeekData, { writeStatic: true });
     
+    const duration = Date.now() - startTime;
     console.log('✅ Cron: Midnight cache refresh completed (data written to KV + static)');
+    
+    // 📧 Send success notification email
+    await sendCronNotification({
+      jobName: 'Midnight Cache Refresh',
+      success: true,
+      durationMs: duration,
+      timestamp: new Date().toISOString(),
+      details: {
+        sectionsProcessed: (cohortEvents.blue?.length || 0) + (cohortEvents.gold?.length || 0),
+      }
+    });
     
     return NextResponse.json({
       success: true,
       message: 'Cache refreshed at midnight',
       timestamp: new Date().toISOString(),
+      durationMs: duration,
       cached: {
         cohortEvents: true,
         myWeekData: true
@@ -45,6 +61,18 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error('❌ Cron error:', error);
+    
+    // 📧 Send failure notification email
+    await sendCronNotification({
+      jobName: 'Midnight Cache Refresh',
+      success: false,
+      durationMs: Date.now() - startTime,
+      timestamp: new Date().toISOString(),
+      details: {
+        error: String(error),
+      }
+    });
+    
     return NextResponse.json(
       { error: 'Cache refresh failed', details: String(error) },
       { status: 500 }

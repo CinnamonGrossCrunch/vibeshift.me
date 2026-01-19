@@ -9,6 +9,10 @@ import { organizeNewsletterWithAI } from '@/lib/openai-organizer';
 import { analyzeCohortMyWeekWithAI } from '@/lib/my-week-analyzer';
 import { getCohortEvents } from '@/lib/icsUtils';
 import { setCachedData, CACHE_KEYS } from '@/lib/cache';
+import { sendCronNotification } from '@/lib/notifications';
+
+// Track warnings during execution for email notification
+const warnings: string[] = [];
 
 export async function GET(request: Request) {
   // Verify this is a cron job request from Vercel
@@ -46,6 +50,7 @@ export async function GET(request: Request) {
     if (!hasExpectedPattern) {
       console.error('⚠️ Cron FAILSAFE: Newsletter title does not match expected patterns!');
       console.error('⚠️ Cron FAILSAFE: Title received:', title);
+      warnings.push(`Title doesn't match expected patterns: "${title}"`);
       // Don't throw - just log warning. Title might vary but content could still be valid.
     }
     
@@ -82,10 +87,12 @@ export async function GET(request: Request) {
       if (daysSinceNewsletter > 14) {
         console.error(`⚠️ Cron FAILSAFE WARNING: Newsletter is ${daysSinceNewsletter} days old!`);
         console.error('⚠️ This may indicate the scraper is picking up an old newsletter.');
+        warnings.push(`Newsletter is ${daysSinceNewsletter} days old - may be stale`);
         // Still proceed but log prominent warning
       }
     } else {
       console.warn('⚠️ Cron: Could not extract date from newsletter title:', organizedNewsletter.title);
+      warnings.push(`Could not extract date from title: "${organizedNewsletter.title}"`);
     }
     
     // 🚀 WRITE TO CACHE (KV + static fallback) - This is the KEY to instant loads!
@@ -107,6 +114,20 @@ export async function GET(request: Request) {
     console.log(`✅ Cron: 8:10 AM newsletter refresh completed in ${duration}ms`);
     console.log('💾 Cron: All data cached (KV + static) - users will experience INSTANT loads (~50-200ms)!');
     
+    // 📧 Send success notification email
+    await sendCronNotification({
+      jobName: 'Newsletter Refresh (8:10 AM)',
+      success: true,
+      durationMs: duration,
+      timestamp: new Date().toISOString(),
+      details: {
+        newsletterTitle: organizedNewsletter.title,
+        newsletterUrl: latestUrl,
+        sectionsProcessed: organizedNewsletter.sections.length,
+        warnings: warnings.length > 0 ? warnings : undefined,
+      }
+    });
+    
     return NextResponse.json({
       success: true,
       message: 'Newsletter and cache refreshed at 8:10 AM',
@@ -123,6 +144,19 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error('❌ Cron error:', error);
+    
+    // 📧 Send failure notification email
+    await sendCronNotification({
+      jobName: 'Newsletter Refresh (8:10 AM)',
+      success: false,
+      durationMs: Date.now() - (Date.now()), // Will be 0, but that's okay for errors
+      timestamp: new Date().toISOString(),
+      details: {
+        error: String(error),
+        warnings: warnings.length > 0 ? warnings : undefined,
+      }
+    });
+    
     return NextResponse.json(
       { error: 'Newsletter refresh failed', details: String(error) },
       { status: 500 }
