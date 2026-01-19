@@ -131,6 +131,24 @@ export async function getLatestNewsletterUrl(): Promise<string> {
     console.error('❌ [SCRAPE] No campaign link found on archive page!');
     throw new Error('No campaign link found on archive page.');
   }
+  
+  // 🛡️ FAILSAFE: Validate URL is a real newsletter link, not a "join" or navigation link
+  const lowerHref = href.toLowerCase();
+  if (lowerHref.includes('subscribe') || lowerHref.includes('join') || lowerHref.includes('signup')) {
+    console.error('❌ [SCRAPE] FAILSAFE TRIGGERED: URL appears to be a subscription link, not a newsletter!');
+    console.error('❌ [SCRAPE] Suspicious URL:', href);
+    throw new Error(`Invalid newsletter URL detected (subscription link): ${href}`);
+  }
+  
+  // 🛡️ FAILSAFE: URL must contain expected newsletter domains
+  const validDomains = ['eepurl.com', 'mailchi.mp', 'campaign-archive.com'];
+  const hasValidDomain = validDomains.some(domain => lowerHref.includes(domain));
+  if (!hasValidDomain) {
+    console.error('❌ [SCRAPE] FAILSAFE TRIGGERED: URL does not match known newsletter domains!');
+    console.error('❌ [SCRAPE] Suspicious URL:', href);
+    throw new Error(`Invalid newsletter URL detected (unknown domain): ${href}`);
+  }
+  
   const finalUrl = toAbsoluteUrl(href, archiveUrl);
   console.log('✅ [SCRAPE] Final newsletter URL:', finalUrl);
   return finalUrl;
