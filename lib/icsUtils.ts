@@ -50,20 +50,24 @@ export type CohortEvents = {
 // File mappings for each cohort
 const COHORT_FILES = {
   blue: [
+    // Spring 2026 courses
+    'ewmba202_accounting_blue_spring2026.ics',
+    // Fall 2025 courses (archive)
     'ewmba201a_micro_blue_fall2025.ics',
     'ewmba_leadingpeople_blue_fall2025.ics',
     'DataDecisions-Blue.ics',
     'Marketing-Blue-Final.ics',
     'teams@Haas.ics'
-    // Removed Marketing-Blue-bCourses.ics - external feed causing event override
   ],
   gold: [
+    // Spring 2026 courses
+    'ewmba202_accounting_gold_spring2026.ics',
+    // Fall 2025 courses (archive)
     'ewmba201a_micro_gold_fall2025.ics',
     'ewmba_leadingpeople_gold_fall2025.ics',
     'DataDecisions-Gold.ics',
     'Marketing-Gold-Final.ics',
     'teams@Haas.ics'
-    // Removed Marketing-Gold-bCourses.ics - external feed causing event override
   ]
 };/**
  * Fetch ICS data from either external URL or local file

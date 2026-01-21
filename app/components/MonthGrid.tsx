@@ -204,11 +204,12 @@ export default function MonthGrid({
               const courseNum = courseMatch[1];
               const courseMappings: { [key: string]: string } = {
                 '201': 'Microeconomics',
-                '202': 'Data & Decisions',
-                '203': 'Financial Accounting',
+                '201A': 'Microeconomics',
+                '201B': 'Macroeconomics',
+                '202': 'Financial Accounting',
                 '204': 'Organizational Behavior',
                 '205': 'Leading People',
-                '206': 'Operations',
+                '206': 'Data & Decisions',
                 '207': 'Corporate Finance',
                 '208': 'Marketing',
                 '209': 'Strategy',
@@ -270,7 +271,12 @@ export default function MonthGrid({
               return `${glassBase} bg-green-800/35 border-green-700/40 text-white ${hoverGold}`;
             }
 
-            // EWMBA 202 (Data & Decisions) - Dark Blue
+            // EWMBA 202 (Financial Accounting) - Teal/Cyan
+            if (event.source.includes('202_accounting') || event.source.includes('ewmba202_accounting')) {
+              return `${glassBase} bg-teal-700/50 border-teal-600/50 text-white ${hoverGold}`;
+            }
+
+            // EWMBA 206 (Data & Decisions) - Dark Blue
             if (event.source.includes('DataDecisions')) {
               return `${glassBase} bg-blue-800/35 border-blue-700/40 text-white ${hoverGold}`;
             }

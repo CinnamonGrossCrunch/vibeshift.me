@@ -66,12 +66,11 @@ export default function ClientDashboard({ initialData }: ClientDashboardProps) {
           setLoading(false);
         })
         .catch(error => {
+          // Ignore AbortError - this is expected when component unmounts during fetch
+          if (error.name === 'AbortError') {
+            return;
+          }
           console.error('❌ Error fetching dashboard data:', error);
-          console.error('Error details:', {
-            message: error.message,
-            name: error.name,
-            isAbortError: error.name === 'AbortError'
-          });
           setLoading(false);
           // Don't set dashboardData to null - leave it as is so components can handle undefined
         });

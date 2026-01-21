@@ -26,39 +26,15 @@
             }
           },
           {
-            "title": "Class of 2026 & 2027: Spring 2026 Add/Drop Reminders",
-            "html": "<h4>Class of 2026 & 2027: Spring 2026 Add/Drop Reminders</h4><ul><li>Add/Drop Round 3: Tuesday, Jan 20, 12 noon PST - Monday, Jan 26, 12 noon PST.</li><li>Add/Drop Round 4: Monday, Jan 26, 4PM PST - Thursday, Jan 29, 12 noon PST.</li><li>Full-Time Course Sign Up opens Tuesday Jan 20, 12 noon PT and closes Thursday Jan 29, 12 noon PT.<ul><li>Please refer to the <a href=\"https://haas.berkeley.edu/ewmba/academics/registration-enrollment/registration-timeline/\" target=\"_blank\" rel=\"noopener noreferrer\">Registration Timeline</a> as well for Add/Drop Round Dates</li></ul></li></ul>",
+            "title": "Class of 2026 & 2027",
+            "html": "<h4>Class of 2026 & 2027</h4><p>Spring 2026 Add/Drop Reminders</p><ul><li>Add/Drop Round 3: Tuesday, Jan 20, 12 noon PST - Monday, Jan 26, 12 noon PST.</li><li>Add/Drop Round 4: Monday, Jan 26, 4PM PST - Thursday, Jan 29, 12 noon PST.</li><li>Full-Time Course Sign Up opens Tuesday Jan 20, 12 noon PT and closes Thursday Jan 29, 12 noon PT.<ul><li>Please refer to the <a href=\"https://haas.berkeley.edu/ewmba/academics/registration-enrollment/registration-timeline/\" target=\"_blank\" rel=\"noopener noreferrer\">Registration Timeline</a> as well for Add/Drop Round Dates</li></ul></li></ul><p>Class of 2028:</p><p>Combined Cohort Day Jan 20</p><ul><li>The Blue & Gold Combined Financial Accounting Lecture will be held in N100.</li><li>Nexus and Lux will have a combined cohort for Macroeconomics.</li></ul><p>Course Start Dates:</p><ul><li>Flex core courses will start on Jan 20</li><li>Elective courses will begin on Jan 20</li><li>Saturday core courses will start on Jan 24</li><li>Please check the <a href=\"https://docs.google.com/spreadsheets/d/1gifGXNUlxZ0w-Nd1mtMKrv4rrsvDqKxjsYnrjE0b2sk/edit?gid=2115339531#gid=2115339531\" target=\"_blank\" rel=\"noopener noreferrer\">Academic Calendar</a>, as well as your course descriptions for more details</li></ul>",
             "timeSensitive": {
               "dates": [
                 "2026-01-20",
                 "2026-01-26",
                 "2026-01-29"
               ],
-              "eventType": "reminder",
-              "priority": "medium"
-            }
-          },
-          {
-            "title": "Class of 2028: Combined Cohort Day Jan 20",
-            "html": "<h4>Class of 2028: Combined Cohort Day Jan 20</h4><ul><li>The Blue & Gold Combined Financial Accounting Lecture will be held in N100.</li><li>Nexus and Lux will have a combined cohort for Macroeconomics.</li></ul>",
-            "timeSensitive": {
-              "dates": [
-                "2026-01-20"
-              ],
-              "eventType": "event",
-              "priority": "medium"
-            }
-          },
-          {
-            "title": "Course Start Dates",
-            "html": "<h4>Course Start Dates</h4><ul><li>Flex core courses will start on Jan 20</li><li>Elective courses will begin on Jan 20</li><li>Saturday core courses will start on Jan 24</li><li>Please check the <a href=\"https://docs.google.com/spreadsheets/d/1gifGXNUlxZ0w-Nd1mtMKrv4rrsvDqKxjsYnrjE0b2sk/edit?gid=2115339531#gid=2115339531\" target=\"_blank\" rel=\"noopener noreferrer\">Academic Calendar</a>, as well as your course descriptions for more details</li></ul>",
-            "timeSensitive": {
-              "dates": [
-                "2026-01-20",
-                "2026-01-20",
-                "2026-01-24"
-              ],
-              "eventType": "event",
+              "eventType": "deadline",
               "priority": "medium"
             }
           }
@@ -69,7 +45,14 @@
         "items": [
           {
             "title": "Dean’s Speaker Series: Cynt Marshall, BS' 81",
-            "html": "<h4>Dean’s Speaker Series: Cynt Marshall, BS' 81</h4><p>Thursday, Feb 5, 12:30PM PST, Spieker Forum</p><ul><li>Please join Berkeley Haas for a <a href=\"https://haas.berkeley.edu/about/speaker-series/deans-speaker-series/\" target=\"_blank\" rel=\"noopener noreferrer\">Dean’s Speaker Series</a> with Cynt Marshall.<ul><li>Cynt is the President & CEO of Marshalling Resources, and is the Former CEO, Dallas Mavericks</li></ul></li><li>Be on the lookout for future communications regarding registration for this Dean's Speaker Series Event.</li></ul>"
+            "html": "<h4>Dean’s Speaker Series: Cynt Marshall, BS' 81</h4><p>Thursday, Feb 5, 12:30PM PST, Spieker Forum</p><ul><li>Please join Berkeley Haas for a <a href=\"https://haas.berkeley.edu/about/speaker-series/deans-speaker-series/\" target=\"_blank\" rel=\"noopener noreferrer\">Dean’s Speaker Series</a> with Cynt Marshall.<ul><li>Cynt is the President & CEO of Marshalling Resources, and is the Former CEO, Dallas Mavericks</li></ul></li><li>Be on the lookout for future communications regarding registration for this Dean's Speaker Series Event.</li></ul>",
+            "timeSensitive": {
+              "dates": [
+                "2026-02-05"
+              ],
+              "eventType": "event",
+              "priority": "medium"
+            }
           },
           {
             "title": "Berkeley StEP Spring 2026 Application Now Open",
@@ -122,7 +105,7 @@
       "sectionDecisions": [],
       "edgeCasesHandled": [],
       "totalSections": 4,
-      "processingTime": 57252
+      "processingTime": 85781
     },
     "aiMeta": {}
   },
@@ -131,157 +114,99 @@
     "weekEnd": "2026-01-26",
     "blueEvents": [
       {
-        "date": "2026-01-19",
-        "time": "9:30 AM",
-        "title": "MLK Day of Service",
-        "type": "social",
-        "priority": "high",
-        "description": "Join the Haas community for a day of service and celebration honoring Dr. Martin Luther King Jr.",
-        "location": "UNITY Park / Richmond Greenway Trail, Richmond, CA",
-        "url": "Registration link not provided",
-        "sourceType": "newsletter",
-        "newsletterSource": {
-          "sectionTitle": "This Week",
-          "sectionIndex": 0,
-          "itemTitle": "MLK Day of Service",
-          "itemIndex": 2
-        }
-      },
-      {
         "date": "2026-01-20",
-        "time": "12:00 PM",
-        "title": "Spring 2026 Add/Drop Round 3",
-        "type": "administrative",
-        "priority": "medium",
-        "description": "Add/Drop Round 3 opens. Make sure to adjust your schedule as needed.",
-        "location": "Online",
-        "url": "Registration Timeline not provided",
-        "sourceType": "calendar"
-      },
-      {
-        "date": "2026-01-20",
-        "time": "N/A",
-        "title": "Course Start Dates",
+        "time": "6:00 PM",
+        "title": "Class 3: Statement of Cash Flow (JOINT CLASS)",
         "type": "class",
         "priority": "medium",
-        "description": "Flex core and elective courses start today. Check your course descriptions for details.",
-        "location": "Online",
-        "url": "Academic Calendar not provided",
-        "sourceType": "newsletter",
-        "newsletterSource": {
-          "sectionTitle": "This Week",
-          "sectionIndex": 0,
-          "itemTitle": "Course Start Dates",
-          "itemIndex": 5
-        }
-      },
-      {
-        "date": "2026-01-26",
-        "time": "12:00 PM",
-        "title": "Spring 2026 Add/Drop Round 3 Closes",
-        "type": "administrative",
-        "priority": "high",
-        "description": "Last chance to make changes to your schedule for Round 3.",
-        "location": "Online",
-        "url": "Registration Timeline not provided",
+        "description": "Joint class on working capital and cash conversion cycle. Readings: 11.1 – 11.8.",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-3",
         "sourceType": "calendar"
       },
       {
-        "date": "2026-01-26",
+        "date": "2026-01-20",
+        "time": "6:29 PM",
+        "title": "EWMBA 202: Homework 1 Due",
+        "type": "assignment",
+        "priority": "high",
+        "description": "Homework 1 is due.",
+        "location": "No location",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/files/93576354",
+        "sourceType": "calendar"
+      },
+      {
+        "date": "2026-01-25",
+        "time": "12:00 AM",
+        "title": "EWMBA 202: Quiz 1",
+        "type": "exam",
+        "priority": "high",
+        "description": "Quiz 1 - Online.",
+        "location": "No location",
+        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1549713&month=01&year=2026#assignment_9024625",
+        "sourceType": "calendar"
+      },
+      {
+        "date": "2026-01-20",
         "time": "12:00 PM",
-        "title": "StEP Spring 2026 Virtual Info Session",
-        "type": "other",
-        "priority": "medium",
-        "description": "Learn about the StEP program and application process.",
-        "location": "Online",
-        "url": "Signup link not provided",
-        "sourceType": "newsletter",
-        "newsletterSource": {
-          "sectionTitle": "Announcements",
-          "sectionIndex": 1,
-          "itemTitle": "Berkeley StEP Spring 2026 Virtual Info Sessions",
-          "itemIndex": 2
-        }
+        "title": "Add/Drop Round 3 Deadline",
+        "type": "administrative",
+        "priority": "high",
+        "description": "Add/Drop Round 3 ends at 12 noon PST.",
+        "location": "No location",
+        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1549713&month=01&year=2026#assignment_9024625",
+        "sourceType": "calendar"
       }
     ],
     "goldEvents": [
       {
-        "date": "2026-01-19",
-        "time": "9:30 AM",
-        "title": "MLK Day of Service",
-        "type": "social",
-        "priority": "high",
-        "description": "Join the Haas community for a day of service and celebration honoring Dr. Martin Luther King Jr.",
-        "location": "UNITY Park / Richmond Greenway Trail, Richmond, CA",
-        "url": "",
-        "sourceType": "newsletter",
-        "newsletterSource": {
-          "sectionTitle": "This Week",
-          "sectionIndex": 0,
-          "itemTitle": "MLK Day of Service",
-          "itemIndex": 2
-        }
-      },
-      {
         "date": "2026-01-20",
-        "time": "12:00 PM",
-        "title": "Spring 2026 Add/Drop Round 3",
-        "type": "administrative",
-        "priority": "medium",
-        "description": "Add/Drop Round 3 opens. Make sure to adjust your courses before the deadline!",
-        "location": "",
-        "url": "",
-        "sourceType": "calendar"
-      },
-      {
-        "date": "2026-01-20",
-        "time": "12:00 PM",
-        "title": "Course Start Dates",
+        "time": "6:00 PM",
+        "title": "Class 3: Statement of Cash Flow (JOINT CLASS)",
         "type": "class",
         "priority": "medium",
-        "description": "Flex core and elective courses start today. Get ready for a new semester!",
-        "location": "",
-        "url": "",
-        "sourceType": "newsletter",
-        "newsletterSource": {
-          "sectionTitle": "This Week",
-          "sectionIndex": 0,
-          "itemTitle": "Course Start Dates",
-          "itemIndex": 5
-        }
-      },
-      {
-        "date": "2026-01-26",
-        "time": "12:00 PM",
-        "title": "Spring 2026 Add/Drop Round 3 Closes",
-        "type": "administrative",
-        "priority": "high",
-        "description": "Last chance to finalize your course schedule for Spring 2026!",
-        "location": "",
-        "url": "",
+        "description": "Joint class on working capital and cash conversion cycle. Readings: 11.1 – 11.8.",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-3",
         "sourceType": "calendar"
       },
       {
-        "date": "2026-01-26",
+        "date": "2026-01-20",
+        "time": "6:29 PM",
+        "title": "EWMBA 202: Homework 1 Due",
+        "type": "assignment",
+        "priority": "high",
+        "description": "Homework 1 is due.",
+        "location": "No location",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/files/93576354",
+        "sourceType": "calendar"
+      },
+      {
+        "date": "2026-01-25",
+        "time": "12:00 AM",
+        "title": "EWMBA 202: Quiz 1",
+        "type": "exam",
+        "priority": "high",
+        "description": "Quiz 1 - Online.",
+        "location": "No location",
+        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1549713&month=01&year=2026#assignment_9024625",
+        "sourceType": "calendar"
+      },
+      {
+        "date": "2026-01-20",
         "time": "12:00 PM",
-        "title": "Berkeley StEP Spring 2026 Virtual Info Session",
-        "type": "other",
-        "priority": "medium",
-        "description": "Learn about the StEP program and application process.",
-        "location": "",
-        "url": "",
-        "sourceType": "newsletter",
-        "newsletterSource": {
-          "sectionTitle": "Announcements",
-          "sectionIndex": 1,
-          "itemTitle": "Berkeley StEP Spring 2026 Virtual Info Sessions",
-          "itemIndex": 2
-        }
+        "title": "Add/Drop Round 3 Deadline",
+        "type": "administrative",
+        "priority": "high",
+        "description": "Add/Drop Round 3 ends at 12 noon PST.",
+        "location": "No location",
+        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1549713&month=01&year=2026#assignment_9024625",
+        "sourceType": "calendar"
       }
     ],
-    "blueSummary": "This week’s all about service and scheduling! Get ready for MLK Day of Service, and don’t forget to tweak your classes before the drop deadline sneaks up on you!",
-    "goldSummary": "This week’s all about service and course adjustments! Don’t miss MLK Day of Service and make sure to finalize your Spring schedule before it’s too late. Let’s get to it!",
-    "processingTime": 22632
+    "blueSummary": "Heads up, Blue cohort! This week’s packed: class on cash flow, homework due, and a quiz lurking. Don’t forget the add/drop deadline—let’s ace this week together!",
+    "goldSummary": "Heads up, Gold cohort! This week’s all about cash flows, homework, and quizzes. Don’t forget to drop/add classes by noon on the 20th. Let’s crush it together!",
+    "processingTime": 27074
   },
   "cohortEvents": {
     "blue": [
@@ -670,6 +595,121 @@
         "source": "Marketing-Blue-Final.ics"
       },
       {
+        "uid": "ewmba202-sp26-blue-week1",
+        "title": "Class 1: Introduction to Financial Statements",
+        "start": "2026-01-06T02:00:00.000Z",
+        "end": "2026-01-06T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-1",
+        "description": "Instructor: Sunil Dutta\nTopic: Balance sheet and income statement\nReadings: 1.1 – 1.17, 2.1 – 2.15\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-1",
+        "allDay": false,
+        "cohort": "blue",
+        "source": "ewmba202_accounting_blue_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-blue-week2",
+        "title": "Class 2: Balance Sheet & Income Statement (Contd)",
+        "start": "2026-01-13T02:00:00.000Z",
+        "end": "2026-01-13T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-2",
+        "description": "Instructor: Sunil Dutta\nTopic: Balance sheet and income statement continued\nReadings: 3.1 – 3.15\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-2",
+        "allDay": false,
+        "cohort": "blue",
+        "source": "ewmba202_accounting_blue_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-blue-week3",
+        "title": "Class 3: Statement of Cash Flow (JOINT CLASS)",
+        "start": "2026-01-21T02:00:00.000Z",
+        "end": "2026-01-21T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-3",
+        "description": "Note: Joint class on Tuesday due to MLK Holiday.\nInstructor: Sunil Dutta\nTopic: Working capital and cash conversion cycle\nReadings: 11.1 – 11.8\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-3",
+        "allDay": false,
+        "cohort": "blue",
+        "source": "ewmba202_accounting_blue_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-hw1",
+        "title": "EWMBA 202: Homework 1 Due",
+        "start": "2026-01-21T02:29:59.000Z",
+        "end": "2026-01-21T02:30:00.000Z",
+        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1549713&month=01&year=2026#assignment_9017380",
+        "description": "Homework 1 Due\n\nSubmission: https://bcourses.berkeley.edu/courses/1549713/files/93576354",
+        "allDay": false,
+        "cohort": "blue",
+        "source": "ewmba202_accounting_blue_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-quiz1",
+        "title": "EWMBA 202: Quiz 1",
+        "start": "2026-01-25T08:00:00.000Z",
+        "end": "2026-01-26T08:00:00.000Z",
+        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1549713&month=01&year=2026#assignment_9024625",
+        "description": "Quiz 1 - Online\n\nCourse: EWMBA 202 Financial Accounting",
+        "allDay": true,
+        "cohort": "blue",
+        "source": "ewmba202_accounting_blue_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-blue-week4",
+        "title": "Class 4: Financial Statement Analysis",
+        "start": "2026-01-27T02:00:00.000Z",
+        "end": "2026-01-27T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-4",
+        "description": "Instructor: Sunil Dutta\nTopic: Non-GAAP reporting\nReadings: 4.1 – 4.14, 5.3 – 5.6, 5.22 – 5.33\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-4",
+        "allDay": false,
+        "cohort": "blue",
+        "source": "ewmba202_accounting_blue_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-hw2",
+        "title": "EWMBA 202: Homework 2 Due",
+        "start": "2026-01-28T02:29:59.000Z",
+        "end": "2026-01-28T02:30:00.000Z",
+        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1549713&month=01&year=2026#assignment_9029319",
+        "description": "Homework 2 Due\nIncludes Nordstrom Data analysis\n\nSubmission: https://bcourses.berkeley.edu/courses/1549713/files/93623153",
+        "allDay": false,
+        "cohort": "blue",
+        "source": "ewmba202_accounting_blue_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-blue-week5",
+        "title": "Class 5: ESG Reporting & Assets",
+        "start": "2026-02-03T02:00:00.000Z",
+        "end": "2026-02-03T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-5",
+        "description": "Instructor: Sunil Dutta\nTopic: ESG, Accounts receivables, Inventories\nReadings: 5.17 – 5.21, 6.1 – 6.11\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-5",
+        "allDay": false,
+        "cohort": "blue",
+        "source": "ewmba202_accounting_blue_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-jprep-case",
+        "title": "EWMBA 202: J Prep Case Due",
+        "start": "2026-02-04T02:29:59.000Z",
+        "end": "2026-02-04T02:30:00.000Z",
+        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1549713&month=02&year=2026#assignment_9029316",
+        "description": "Team Project - Submit one report per team.\nInclude team number and member names on title page.\nCase available in Study.Net folder.\nMust answer six questions from the linked document.\n\nQuestions: https://bcourses.berkeley.edu/courses/1549713/files/93609990",
+        "allDay": false,
+        "cohort": "blue",
+        "source": "ewmba202_accounting_blue_spring2026.ics"
+      },
+      {
+        "uid": "teams-haas-debrief-blue",
+        "title": "Teams@Haas: Team Debrief Due (Blue)",
+        "start": "2026-02-06T08:00:00.000Z",
+        "end": "2026-02-07T08:00:00.000Z",
+        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1546457&month=02&year=2026#assignment_8930028",
+        "description": "Self-facilitated Team Debrief Workshop.\n\nSubmit: Photo of Team Journey Map + reflection paragraph.\n\nPrompt options:\n1. How did your team develop and what actions supported this?\n2. What led to a team low point and how did you pivot?\n3. Benefits/challenges of diverse team and leadership development?\n\nDebrief Kit:\n- Video overview\n- Deck for process\n- Supplies in MBA lounge or use Zoom whiteboard",
+        "allDay": true,
+        "cohort": "blue",
+        "source": "ewmba202_accounting_blue_spring2026.ics"
+      },
+      {
         "uid": "event-assignment-override-324614",
         "title": "Teams@Haas Team Debrief (Self-Faciltiated) (EWMBA Blue) [Teams@Haas 2025]",
         "start": "2026-02-06T08:00:00.000Z",
@@ -679,6 +719,77 @@
         "allDay": true,
         "cohort": "blue",
         "source": "teams@Haas.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-blue-week6",
+        "title": "Class 6: PPE and Intangible Assets",
+        "start": "2026-02-10T02:00:00.000Z",
+        "end": "2026-02-10T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-6",
+        "description": "Instructor: Sunil Dutta\nTopic: Property, plant, and equipment\nReadings: 6.17 – 6.32\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-6",
+        "allDay": false,
+        "cohort": "blue",
+        "source": "ewmba202_accounting_blue_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-blue-week7",
+        "title": "Class 7: Liabilities (JOINT CLASS)",
+        "start": "2026-02-18T02:00:00.000Z",
+        "end": "2026-02-18T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-7",
+        "description": "Note: Joint class on Tuesday due to Presidents Day Holiday.\nInstructor: Sunil Dutta\nTopic: Current and long-term liabilities\nReadings: 7.1 – 7.24\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-7",
+        "allDay": false,
+        "cohort": "blue",
+        "source": "ewmba202_accounting_blue_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-blue-week8",
+        "title": "Class 8: Shareholders' Equity",
+        "start": "2026-02-24T02:00:00.000Z",
+        "end": "2026-02-24T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-8",
+        "description": "Instructor: Sunil Dutta\nTopic: Intercorporate investments\nReadings: 8.1 – 8.12, 8.17 – 8.18, 9.1 – 9.12\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-8",
+        "allDay": false,
+        "cohort": "blue",
+        "source": "ewmba202_accounting_blue_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-blue-week9",
+        "title": "Class 9: Review and Presentations",
+        "start": "2026-03-03T02:00:00.000Z",
+        "end": "2026-03-03T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-9",
+        "description": "Instructor: Sunil Dutta\nTopic: Group Presentations and Review\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-9",
+        "allDay": false,
+        "cohort": "blue",
+        "source": "ewmba202_accounting_blue_spring2026.ics"
+      },
+      {
+        "uid": "ewmba201b-sp26-group-report",
+        "title": "EWMBA 201B: Group Report Due",
+        "start": "2026-03-08T02:00:00.000Z",
+        "end": "2026-03-08T02:01:00.000Z",
+        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1549648&month=03&year=2026#assignment_9013181",
+        "description": "Group Report submission for EWMBA 201B.\nSubmit after groups are formed and topic is assigned.",
+        "allDay": false,
+        "cohort": "blue",
+        "source": "ewmba202_accounting_blue_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-blue-week10-final",
+        "title": "EWMBA 202: Final Exam",
+        "start": "2026-03-10T01:00:00.000Z",
+        "end": "2026-03-10T04:00:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-10",
+        "description": "Final Exam (In-class, Closed book with 1 note sheet).\nTime: 6:00pm - 9:00pm\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-10",
+        "allDay": false,
+        "cohort": "blue",
+        "source": "ewmba202_accounting_blue_spring2026.ics"
       }
     ],
     "gold": [
@@ -1067,6 +1178,121 @@
         "source": "Marketing-Gold-Final.ics"
       },
       {
+        "uid": "ewmba202-sp26-gold-week1",
+        "title": "Class 1: Introduction to Financial Statements",
+        "start": "2026-01-07T02:00:00.000Z",
+        "end": "2026-01-07T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-1",
+        "description": "Instructor: Sunil Dutta\nTopic: Balance sheet and income statement\nReadings: 1.1 – 1.17, 2.1 – 2.15\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-1",
+        "allDay": false,
+        "cohort": "gold",
+        "source": "ewmba202_accounting_gold_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-gold-week2",
+        "title": "Class 2: Balance Sheet & Income Statement (Contd)",
+        "start": "2026-01-14T02:00:00.000Z",
+        "end": "2026-01-14T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-2",
+        "description": "Instructor: Sunil Dutta\nTopic: Balance sheet and income statement continued\nReadings: 3.1 – 3.15\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-2",
+        "allDay": false,
+        "cohort": "gold",
+        "source": "ewmba202_accounting_gold_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-gold-week3",
+        "title": "Class 3: Statement of Cash Flow (JOINT CLASS)",
+        "start": "2026-01-21T02:00:00.000Z",
+        "end": "2026-01-21T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-3",
+        "description": "Note: Joint class on Tuesday due to MLK Holiday.\nInstructor: Sunil Dutta\nTopic: Working capital and cash conversion cycle\nReadings: 11.1 – 11.8\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-3",
+        "allDay": false,
+        "cohort": "gold",
+        "source": "ewmba202_accounting_gold_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-gold-hw1",
+        "title": "EWMBA 202: Homework 1 Due",
+        "start": "2026-01-21T02:29:59.000Z",
+        "end": "2026-01-21T02:30:00.000Z",
+        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1549713&month=01&year=2026#assignment_9017380",
+        "description": "Homework 1 Due\n\nSubmission: https://bcourses.berkeley.edu/courses/1549713/files/93576354",
+        "allDay": false,
+        "cohort": "gold",
+        "source": "ewmba202_accounting_gold_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-gold-quiz1",
+        "title": "EWMBA 202: Quiz 1",
+        "start": "2026-01-25T08:00:00.000Z",
+        "end": "2026-01-26T08:00:00.000Z",
+        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1549713&month=01&year=2026#assignment_9024625",
+        "description": "Quiz 1 - Online\n\nCourse: EWMBA 202 Financial Accounting",
+        "allDay": true,
+        "cohort": "gold",
+        "source": "ewmba202_accounting_gold_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-gold-week4",
+        "title": "Class 4: Financial Statement Analysis",
+        "start": "2026-01-28T02:00:00.000Z",
+        "end": "2026-01-28T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-4",
+        "description": "Instructor: Sunil Dutta\nTopic: Non-GAAP reporting\nReadings: 4.1 – 4.14, 5.3 – 5.6, 5.22 – 5.33\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-4",
+        "allDay": false,
+        "cohort": "gold",
+        "source": "ewmba202_accounting_gold_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-gold-hw2",
+        "title": "EWMBA 202: Homework 2 Due",
+        "start": "2026-01-28T02:29:59.000Z",
+        "end": "2026-01-28T02:30:00.000Z",
+        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1549713&month=01&year=2026#assignment_9029319",
+        "description": "Homework 2 Due\nIncludes Nordstrom Data analysis\n\nSubmission: https://bcourses.berkeley.edu/courses/1549713/files/93623153",
+        "allDay": false,
+        "cohort": "gold",
+        "source": "ewmba202_accounting_gold_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-gold-week5",
+        "title": "Class 5: ESG Reporting & Assets",
+        "start": "2026-02-04T02:00:00.000Z",
+        "end": "2026-02-04T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-5",
+        "description": "Instructor: Sunil Dutta\nTopic: ESG, Accounts receivables, Inventories\nReadings: 5.17 – 5.21, 6.1 – 6.11\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-5",
+        "allDay": false,
+        "cohort": "gold",
+        "source": "ewmba202_accounting_gold_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-gold-jprep-case",
+        "title": "EWMBA 202: J Prep Case Due",
+        "start": "2026-02-04T02:29:59.000Z",
+        "end": "2026-02-04T02:30:00.000Z",
+        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1549713&month=02&year=2026#assignment_9029316",
+        "description": "Team Project - Submit one report per team.\nInclude team number and member names on title page.\nCase available in Study.Net folder.\nMust answer six questions from the linked document.\n\nQuestions: https://bcourses.berkeley.edu/courses/1549713/files/93609990",
+        "allDay": false,
+        "cohort": "gold",
+        "source": "ewmba202_accounting_gold_spring2026.ics"
+      },
+      {
+        "uid": "teams-haas-debrief-gold",
+        "title": "Teams@Haas: Team Debrief Due (Gold)",
+        "start": "2026-02-06T08:00:00.000Z",
+        "end": "2026-02-07T08:00:00.000Z",
+        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1546457&month=02&year=2026#assignment_8930028",
+        "description": "Self-facilitated Team Debrief Workshop.\n\nSubmit: Photo of Team Journey Map + reflection paragraph.\n\nPrompt options:\n1. How did your team develop and what actions supported this?\n2. What led to a team low point and how did you pivot?\n3. Benefits/challenges of diverse team and leadership development?\n\nDebrief Kit:\n- Video overview\n- Deck for process\n- Supplies in MBA lounge or use Zoom whiteboard",
+        "allDay": true,
+        "cohort": "gold",
+        "source": "ewmba202_accounting_gold_spring2026.ics"
+      },
+      {
         "uid": "event-assignment-override-324614",
         "title": "Teams@Haas Team Debrief (Self-Faciltiated) (EWMBA Blue) [Teams@Haas 2025]",
         "start": "2026-02-06T08:00:00.000Z",
@@ -1076,6 +1302,77 @@
         "allDay": true,
         "cohort": "gold",
         "source": "teams@Haas.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-gold-week6",
+        "title": "Class 6: PPE and Intangible Assets",
+        "start": "2026-02-11T02:00:00.000Z",
+        "end": "2026-02-11T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-6",
+        "description": "Instructor: Sunil Dutta\nTopic: Property, plant, and equipment\nReadings: 6.17 – 6.32\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-6",
+        "allDay": false,
+        "cohort": "gold",
+        "source": "ewmba202_accounting_gold_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-gold-week7",
+        "title": "Class 7: Liabilities (JOINT CLASS)",
+        "start": "2026-02-18T02:00:00.000Z",
+        "end": "2026-02-18T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-7",
+        "description": "Note: Joint class on Tuesday due to Presidents Day Holiday.\nInstructor: Sunil Dutta\nTopic: Current and long-term liabilities\nReadings: 7.1 – 7.24\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-7",
+        "allDay": false,
+        "cohort": "gold",
+        "source": "ewmba202_accounting_gold_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-gold-week8",
+        "title": "Class 8: Shareholders' Equity",
+        "start": "2026-02-25T02:00:00.000Z",
+        "end": "2026-02-25T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-8",
+        "description": "Instructor: Sunil Dutta\nTopic: Intercorporate investments\nReadings: 8.1 – 8.12, 8.17 – 8.18, 9.1 – 9.12\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-8",
+        "allDay": false,
+        "cohort": "gold",
+        "source": "ewmba202_accounting_gold_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-gold-week9",
+        "title": "Class 9: Review and Presentations",
+        "start": "2026-03-04T02:00:00.000Z",
+        "end": "2026-03-04T05:30:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-9",
+        "description": "Instructor: Sunil Dutta\nTopic: Group Presentations and Review\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-9",
+        "allDay": false,
+        "cohort": "gold",
+        "source": "ewmba202_accounting_gold_spring2026.ics"
+      },
+      {
+        "uid": "ewmba201b-sp26-gold-group-report",
+        "title": "EWMBA 201B: Group Report Due",
+        "start": "2026-03-08T02:00:00.000Z",
+        "end": "2026-03-08T02:01:00.000Z",
+        "url": "https://bcourses.berkeley.edu/calendar?include_contexts=course_1549648&month=03&year=2026#assignment_9013181",
+        "description": "Group Report submission for EWMBA 201B.\nSubmit after groups are formed and topic is assigned.",
+        "allDay": false,
+        "cohort": "gold",
+        "source": "ewmba202_accounting_gold_spring2026.ics"
+      },
+      {
+        "uid": "ewmba202-sp26-gold-week10-final",
+        "title": "EWMBA 202: Final Exam",
+        "start": "2026-03-11T01:00:00.000Z",
+        "end": "2026-03-11T04:00:00.000Z",
+        "location": "Chou Hall N370",
+        "url": "https://bcourses.berkeley.edu/courses/1549713/pages/week-10",
+        "description": "Final Exam (In-class, Closed book with 1 note sheet).\nTime: 6:00pm - 9:00pm\n\nCourse Page: https://bcourses.berkeley.edu/courses/1549713/pages/week-10",
+        "allDay": false,
+        "cohort": "gold",
+        "source": "ewmba202_accounting_gold_spring2026.ics"
       }
     ],
     "original": [
@@ -1505,10 +1802,10 @@
     ]
   },
   "processingInfo": {
-    "totalTime": 88309,
-    "newsletterTime": 65676,
-    "calendarTime": 488,
-    "myWeekTime": 22632,
-    "timestamp": "2026-01-19T12:08:30.260Z"
+    "totalTime": 120773,
+    "newsletterTime": 93699,
+    "calendarTime": 447,
+    "myWeekTime": 27074,
+    "timestamp": "2026-01-19T14:22:17.456Z"
   }
 }
