@@ -19,10 +19,10 @@ export default function Hero() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Ambient gradient orbs */}
       <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-violet-600/20 rounded-full blur-[128px] animate-pulse-slow" />
-        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[128px] animate-pulse-slow [animation-delay:2s]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-violet-500/10 rounded-full blur-[100px] animate-pulse-slow [animation-delay:4s]" />
-        <div className="absolute bottom-1/4 left-1/3 w-[300px] h-[300px] bg-fuchsia-500/[0.07] rounded-full blur-[96px] animate-pulse-slow [animation-delay:3s]" />
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full blur-[160px] animate-pulse-slow will-change-transform" style={{ background: 'oklch(0.55 0.2 285 / 0.18)' }} />
+        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] rounded-full blur-[160px] animate-pulse-slow [animation-delay:2s] will-change-transform" style={{ background: 'oklch(0.65 0.15 195 / 0.1)' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full blur-[140px] animate-pulse-slow [animation-delay:4s] will-change-transform" style={{ background: 'oklch(0.55 0.18 285 / 0.1)' }} />
+        <div className="absolute bottom-1/4 left-1/3 w-[300px] h-[300px] rounded-full blur-[120px] animate-pulse-slow [animation-delay:3s] will-change-transform" style={{ background: 'oklch(0.6 0.2 330 / 0.06)' }} />
       </div>
 
       {/* Neural canvas */}

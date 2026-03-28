@@ -7,8 +7,8 @@ export default function Vision() {
     <section id="vision" className="relative py-28 md:py-40 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-1/3 left-0 w-[600px] h-[400px] bg-violet-600/[0.04] rounded-full blur-[160px]" />
-        <div className="absolute bottom-1/3 right-0 w-[500px] h-[400px] bg-cyan-500/[0.03] rounded-full blur-[140px]" />
+        <div className="absolute top-1/3 left-0 w-[600px] h-[400px] rounded-full blur-[160px] will-change-transform" style={{ background: 'oklch(0.55 0.2 285 / 0.04)' }} />
+        <div className="absolute bottom-1/3 right-0 w-[500px] h-[400px] rounded-full blur-[140px] will-change-transform" style={{ background: 'oklch(0.65 0.15 195 / 0.03)' }} />
       </div>
 
       <div className="relative max-w-4xl mx-auto px-6">

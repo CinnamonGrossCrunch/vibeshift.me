@@ -75,7 +75,7 @@ export default function Problem() {
   return (
     <section className="relative py-28 md:py-36">
       {/* Background accent */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-violet-600/[0.04] rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full blur-[160px] pointer-events-none will-change-transform" style={{ background: 'oklch(0.55 0.2 285 / 0.04)' }} />
 
       <div className="relative max-w-7xl mx-auto px-6">
         <SectionReveal>

@@ -47,8 +47,8 @@ export default function Waitlist() {
     >
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-violet-600/[0.06] rounded-full blur-[180px]" />
-        <div className="absolute bottom-0 left-1/4 w-[400px] h-[300px] bg-cyan-500/[0.04] rounded-full blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full blur-[180px] will-change-transform" style={{ background: 'oklch(0.55 0.2 285 / 0.06)' }} />
+        <div className="absolute bottom-0 left-1/4 w-[400px] h-[300px] rounded-full blur-[120px] will-change-transform" style={{ background: 'oklch(0.65 0.15 195 / 0.04)' }} />
       </div>
 
       <div className="relative max-w-3xl mx-auto px-6 text-center">

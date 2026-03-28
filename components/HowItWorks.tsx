@@ -47,8 +47,8 @@ export default function HowItWorks() {
   return (
     <section id="how-it-works" className="relative py-28 md:py-36 overflow-hidden">
       {/* Background accents */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-cyan-500/[0.03] rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-violet-500/[0.03] rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[160px] pointer-events-none will-change-transform" style={{ background: 'oklch(0.65 0.15 195 / 0.03)' }} />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full blur-[160px] pointer-events-none will-change-transform" style={{ background: 'oklch(0.55 0.2 285 / 0.03)' }} />
 
       <div className="relative max-w-7xl mx-auto px-6">
         <SectionReveal>
