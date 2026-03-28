@@ -416,31 +416,30 @@ export default function ProductMockups() {
         </SectionReveal>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {/* Focus Dashboard - spans 1 col, 2 rows on lg */}
-          <SectionReveal delay={0}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {/* Focus Dashboard - col 1, rows 1-2 */}
+          <SectionReveal delay={0} className="lg:col-start-1 lg:row-start-1 lg:row-span-2">
             <motion.div
               whileHover={{ y: -4 }}
               transition={{ duration: 0.3 }}
-              className="lg:row-span-2"
+              className="h-full"
             >
               <FocusDashboard />
             </motion.div>
           </SectionReveal>
 
-          {/* Cognitive Rhythm */}
-          <SectionReveal delay={0.1}>
+          {/* Cognitive Rhythm - cols 2-3, row 1 */}
+          <SectionReveal delay={0.1} className="lg:col-start-2 lg:col-span-2 lg:row-start-1">
             <motion.div
               whileHover={{ y: -4 }}
               transition={{ duration: 0.3 }}
-              className="lg:col-span-2"
             >
               <CognitiveRhythm />
             </motion.div>
           </SectionReveal>
 
-          {/* Active Session */}
-          <SectionReveal delay={0.15}>
+          {/* Active Session - cols 2-3, row 2 */}
+          <SectionReveal delay={0.15} className="lg:col-start-2 lg:col-span-2 lg:row-start-2">
             <motion.div
               whileHover={{ y: -4 }}
               transition={{ duration: 0.3 }}
@@ -449,8 +448,8 @@ export default function ProductMockups() {
             </motion.div>
           </SectionReveal>
 
-          {/* Environment Control */}
-          <SectionReveal delay={0.2}>
+          {/* Environment Control - col 1, row 3 */}
+          <SectionReveal delay={0.2} className="lg:col-start-1 lg:row-start-3">
             <motion.div
               whileHover={{ y: -4 }}
               transition={{ duration: 0.3 }}
@@ -458,19 +457,17 @@ export default function ProductMockups() {
               <EnvironmentControl />
             </motion.div>
           </SectionReveal>
-        </div>
 
-        {/* Intervention timeline - full width below */}
-        <SectionReveal delay={0.25}>
-          <div className="mt-5">
+          {/* Intervention Timeline - cols 2-3, row 3 (beneath Cognitive Rhythm, right of Environment) */}
+          <SectionReveal delay={0.25} className="lg:col-start-2 lg:col-span-2 lg:row-start-3">
             <motion.div
               whileHover={{ y: -4 }}
               transition={{ duration: 0.3 }}
             >
               <InterventionTimeline />
             </motion.div>
-          </div>
-        </SectionReveal>
+          </SectionReveal>
+        </div>
       </div>
     </section>
   );
