@@ -1,7 +1,11 @@
 import { Redis } from "@upstash/redis";
 import { NextResponse } from "next/server";
 
-const redis = Redis.fromEnv();
+// Support both Vercel KV naming (KV_REST_API_*) and Upstash naming (UPSTASH_REDIS_REST_*)
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || "",
+  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || "",
+});
 
 export async function POST(req: Request) {
   try {
