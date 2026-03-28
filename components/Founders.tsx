@@ -24,7 +24,7 @@ const founders = [
 
 export default function Founders() {
   return (
-    <section id="founders" className="relative py-28 md:py-36 overflow-hidden">
+    <section id="founders" className="relative pt-8 md:pt-12 pb-28 md:pb-36 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div
