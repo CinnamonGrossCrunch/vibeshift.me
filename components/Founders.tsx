@@ -9,15 +9,15 @@ const founders = [
     role: "Co-Founder",
     image: "/headshots/Neha Headshot.jpg",
     linkedin: "https://www.linkedin.com/in/menehadinesh/",
-    bio: "Computer Science student at the University of Illinois Urbana-Champaign with a focus on AI/ML and human-computer interaction. Previously worked across product strategy and software engineering, bringing a rare blend of technical depth and user-centric thinking to VibeShift's cognitive adaptation engine.",
+    bio: "Mechanical engineer from UC Berkeley who designed actuators for Figure's humanoid robots and production systems for Rivian's R2 EV. After three years engineering suspension dynamics on Berkeley Formula Racing — where milliseconds of response time define performance — Neha became obsessed with the gap between human capability and the systems designed to support it. Her first startup was admitted to SkyDeck Pad-13 and acquired. Now she's applying that same precision to the most complex system of all: human cognition.",
     grayscale: true,
   },
   {
-    name: "Matt",
+    name: "Matt Gross",
     role: "Co-Founder",
     image: "/headshots/MAtt Head Shot .jpeg",
     linkedin: "https://www.linkedin.com/in/menehadinesh/",
-    bio: "Engineer and systems thinker with experience building data-driven platforms at scale. Combines deep technical expertise in full-stack development with a passion for performance optimization — now channeled into engineering the adaptive infrastructure behind VibeShift.",
+    bio: "Product design engineer who spent a decade building adaptive physical systems — from pneumatic medical devices and GitHub's HQ infrastructure to AI-powered platforms. After years of designing products that respond to real-world constraints in real time, Matt recognized the same adaptive loop was missing from how people work. Currently completing his MBA at UC Berkeley Haas, he's channeling that cross-disciplinary lens into building software that finally treats human performance as a design variable, not a constant.",
     grayscale: false,
   },
 ];
