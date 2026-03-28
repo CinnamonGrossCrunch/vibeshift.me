@@ -1,5 +1,7 @@
-import { kv } from "@vercel/kv";
+import { Redis } from "@upstash/redis";
 import { NextResponse } from "next/server";
+
+const redis = Redis.fromEnv();
 
 export async function POST(req: Request) {
   try {
@@ -20,19 +22,19 @@ export async function POST(req: Request) {
       );
     }
 
-    // Store email with timestamp. Using a sorted set so we can list in order.
+    // Store email in a sorted set (score = timestamp for chronological order)
     const timestamp = Date.now();
-    await kv.zadd("waitlist:emails", { score: timestamp, member: trimmed });
+    await redis.zadd("waitlist:emails", { score: timestamp, member: trimmed });
 
-    // Also store signup metadata
-    await kv.hset(`waitlist:meta:${trimmed}`, {
+    // Store signup metadata in a hash
+    await redis.hset(`waitlist:meta:${trimmed}`, {
       email: trimmed,
       signedUpAt: new Date(timestamp).toISOString(),
       source: "landing-page",
     });
 
-    // Get current count for the response
-    const count = await kv.zcard("waitlist:emails");
+    // Return waitlist position
+    const count = await redis.zcard("waitlist:emails");
 
     return NextResponse.json({ success: true, position: count });
   } catch (error) {
@@ -46,7 +48,7 @@ export async function POST(req: Request) {
 
 export async function GET() {
   try {
-    const count = await kv.zcard("waitlist:emails");
+    const count = await redis.zcard("waitlist:emails");
     return NextResponse.json({ count });
   } catch {
     return NextResponse.json({ count: 0 });
