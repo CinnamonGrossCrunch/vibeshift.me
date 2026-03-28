@@ -9,14 +9,16 @@ const founders = [
     role: "Co-Founder",
     image: "/headshots/Neha Headshot.jpg",
     linkedin: "https://www.linkedin.com/in/menehadinesh/",
-    bio: "Passionate about the intersection of neuroscience and technology, Neha is building the cognitive layer that adapts to how humans actually think and perform.",
+    bio: "Computer Science student at the University of Illinois Urbana-Champaign with a focus on AI/ML and human-computer interaction. Previously worked across product strategy and software engineering, bringing a rare blend of technical depth and user-centric thinking to VibeShift's cognitive adaptation engine.",
+    grayscale: true,
   },
   {
     name: "Matt",
     role: "Co-Founder",
     image: "/headshots/MAtt Head Shot .jpeg",
     linkedin: "https://www.linkedin.com/in/menehadinesh/",
-    bio: "Obsessed with peak performance systems, Matt brings deep expertise in engineering adaptive platforms that respond to real-world human variability.",
+    bio: "Engineer and systems thinker with experience building data-driven platforms at scale. Combines deep technical expertise in full-stack development with a passion for performance optimization — now channeled into engineering the adaptive infrastructure behind VibeShift.",
+    grayscale: false,
   },
 ];
 
@@ -63,15 +65,15 @@ export default function Founders() {
                 href={founder.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm p-8 transition-all duration-300 hover:border-violet-500/20 hover:bg-white/[0.04]"
+                className="group block p-8 transition-all duration-300"
               >
-                <div className="flex items-center gap-5 mb-5">
-                  <div className="relative w-20 h-20 rounded-full overflow-hidden ring-2 ring-white/[0.08] group-hover:ring-violet-500/30 transition-all duration-300 flex-shrink-0">
+                <div className="flex flex-col items-center text-center gap-5 mb-5">
+                  <div className="relative w-60 h-60 rounded-full overflow-hidden ring-2 ring-white/[0.08] group-hover:ring-violet-500/30 transition-all duration-300 flex-shrink-0">
                     <Image
                       src={founder.image}
                       alt={founder.name}
                       fill
-                      className="object-cover"
+                      className={`object-cover ${founder.grayscale ? 'grayscale' : ''}`}
                     />
                   </div>
                   <div>
@@ -83,10 +85,10 @@ export default function Founders() {
                     </p>
                   </div>
                 </div>
-                <p className="text-slate-400 text-sm leading-relaxed">
+                <p className="text-slate-400 text-sm leading-relaxed text-center">
                   {founder.bio}
                 </p>
-                <div className="mt-4 flex items-center gap-2 text-xs text-slate-600 group-hover:text-violet-400/60 transition-colors">
+                <div className="mt-4 flex items-center justify-center gap-2 text-xs text-slate-600 group-hover:text-violet-400/60 transition-colors">
                   <svg
                     className="w-4 h-4"
                     fill="currentColor"
