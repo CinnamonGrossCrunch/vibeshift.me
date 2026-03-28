@@ -7,6 +7,7 @@ import HowItWorks from "@/components/HowItWorks";
 import Features from "@/components/Features";
 import ProductMockups from "@/components/ProductMockups";
 import Vision from "@/components/Vision";
+import Founders from "@/components/Founders";
 import Waitlist from "@/components/Waitlist";
 import Footer from "@/components/Footer";
 
@@ -22,6 +23,7 @@ export default function Home() {
       <Features />
       <ProductMockups />
       <Vision />
+      <Founders />
       <Waitlist />
       <Footer />
     </main>
