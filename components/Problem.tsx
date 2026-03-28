@@ -20,7 +20,7 @@ const painPoints: {
         The average knowledge worker context-switches every 3 minutes. Each
         interruption costs up to 23 minutes of recovery time.
         <a
-          href="https://www.fastcompany.com/944128/worker-interrupted-cost-task-switching"
+          href="https://dl.acm.org/doi/10.1145/1357054.1357072"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-baseline"
